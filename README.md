@@ -7,7 +7,7 @@
 
 ### 公式サイト
 
-https://skyway.ntt.com/ja/docs/document/android-sdk/
+https://skyway.ntt.com/ja/docs/user-guide/android-sdk/
 
 ### API リファレンス
 

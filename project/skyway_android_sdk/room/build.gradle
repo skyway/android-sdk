@@ -1,0 +1,105 @@
+plugins {
+    id 'com.android.library'
+    id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.dokka'
+    id 'maven-publish'
+}
+
+android {
+    compileSdk 33
+
+    defaultConfig {
+        minSdk 23
+        targetSdk 33
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    publishing {
+        singleVariant('release') {
+            withSourcesJar()
+        }
+    }
+}
+
+dependencies {
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+
+    //coroutines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+
+    //  gson
+    implementation 'com.google.code.gson:gson:2.9.1'
+
+    // skyway-core
+    api 'com.ntt.skyway:core:1.0.0'
+//    implementation project(":core")
+
+    // sfu-bot
+    api 'com.ntt.skyway:sfubot:1.0.0'
+//    implementation project(":sfubot")
+}
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(file("../../../docs/room"))
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = 'https://maven.pkg.github.com/skyway/android-sdk'
+
+            credentials {
+                def localProperties = new Properties()
+                localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
+                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
+            }
+        }
+    }
+
+    publications {
+        GitHubPackages(MavenPublication) {
+            groupId "com.ntt.skyway"
+            artifactId "room"
+            version "1.0.0"
+
+            afterEvaluate {
+                from components.release
+            }
+
+            pom {
+                url = 'https://github.com/skyway/android-sdk'
+
+                licenses {
+                    license {
+                        name = 'MIT'
+                    }
+                }
+            }
+        }
+    }
+}

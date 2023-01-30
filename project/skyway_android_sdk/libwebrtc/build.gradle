@@ -1,0 +1,43 @@
+plugins {
+    id 'maven-publish'
+}
+
+//configurations.maybeCreate("default")
+//artifacts.add("default", file("libwebrtc.aar"))
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = 'https://maven.pkg.github.com/skyway/android-sdk'
+
+            credentials {
+                def localProperties = new Properties()
+                localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
+                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
+            }
+        }
+    }
+
+    publications {
+        GitHubPackages(MavenPublication) {
+            groupId "com.ntt.skyway"
+            artifactId "libwebrtc"
+            version "1.0.0"
+
+            artifact("libwebrtc.aar")
+
+            pom {
+                url = 'https://github.com/skyway/android-sdk'
+
+                licenses {
+                    license {
+                        name = 'MIT'
+                    }
+                }
+            }
+        }
+    }
+}
