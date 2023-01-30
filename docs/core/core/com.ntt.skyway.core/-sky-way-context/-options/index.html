@@ -1,0 +1,200 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>Options</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
+const savedDarkMode = storage ? JSON.parse(storage) : false
+if(savedDarkMode === true){
+    document.getElementsByTagName("html")[0].classList.add("theme-dark")
+}</script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../../styles/style.css" rel="Stylesheet"><link href="../../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../../styles/main.css" rel="Stylesheet"><link href="../../../../styles/prism.css" rel="Stylesheet"><link href="../../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../../scripts/prism.js" async="async"></script>  </head>
+  <body>
+    <div class="navigation-wrapper" id="navigation-wrapper">
+      <div id="leftToggler"><span class="icon-toggler"></span></div>
+      <div class="library-name"><a href="../../../../index.html">core</a></div>
+      <div></div>
+      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
+        <div id="searchBar"></div>
+      </div>
+    </div>
+    <div id="container">
+      <div id="leftColumn">
+        <div id="sideMenu"></div>
+      </div>
+      <div id="main">
+        <div class="main-content" id="content" pageIds="core::com.ntt.skyway.core/SkyWayContext.Options///PointingToDeclaration//197447377">
+          <div class="breadcrumbs"><a href="../../../../index.html">core</a>/<a href="../../index.html">com.ntt.skyway.core</a>/<a href="../index.html">SkyWayContext</a>/<a href="index.html">Options</a></div>
+          <div class="cover ">
+            <h1 class="cover"><span><span>Options</span></span></h1>
+            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">Options</a><span class="token punctuation">(</span>authToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>logLevel<span class="token operator">: </span><a href="../../../com.ntt.skyway.core.util/-logger/-log-level/index.html">Logger.LogLevel</a><span class="token punctuation">, </span>webRTCLog<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span>enableHardwareCodec<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token punctuation">, </span>rtcApi<span class="token operator">: </span><a href="../-rtc-api/index.html">SkyWayContext.RtcApi</a><span class="token operator">?</span><span class="token punctuation">, </span>iceParams<span class="token operator">: </span><a href="../-ice-params/index.html">SkyWayContext.IceParams</a><span class="token operator">?</span><span class="token punctuation">, </span>signaling<span class="token operator">: </span><a href="../-signaling/index.html">SkyWayContext.Signaling</a><span class="token operator">?</span><span class="token punctuation">, </span>rtcConfig<span class="token operator">: </span><a href="../-rtc-config/index.html">SkyWayContext.RtcConfig</a><span class="token operator">?</span><span class="token punctuation">, </span>sfu<span class="token operator">: </span><a href="../-sfu/index.html">SkyWayContext.Sfu</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">SkyWayの利用に関する設定。</p></div></div>
+          </div>
+          <div class="tabbedcontent">
+            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Constructors">Constructors</button><button class="section-tab" data-togglable="Properties">Properties</button><button class="section-tab" data-togglable="Parameters">Parameters</button></div>
+            <div class="tabs-section-body">
+              <h2 class="">Parameters</h2>
+              <div data-togglable="Parameters">
+                <div class="platform-hinted WithExtraAttributes" data-platform-hinted="data-platform-hinted" data-togglable="Parameters"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><div data-togglable="Parameters"><div class="table" data-togglable="Parameters"><div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>auth</span><wbr></wbr><span><span>Token</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">認証トークン。</p></div></div></div></div></div><div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>log</span><wbr></wbr><span><span>Level</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">SkyWayのログレベル。</p></div></div></div></div></div><div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release"><div class="main-subrow keyValue WithExtraAttributes"><div class=""><span class="inline-flex"><div><span>web</span><wbr></wbr><span><span>RTCLog</span></span></div></span></div><div><div class="title"><div data-togglable="Parameters"><p class="paragraph">SkyWayのログの内、特にWebRTCに関するログを出力するか。</p></div></div></div></div></div></div></div></div></div>
+              </div>
+              <h2 class="tabbedcontent">Constructors</h2>
+              <div class="table" data-togglable="Constructors"><a data-name="897024917%2FConstructors%2F197447377" anchor-label="Options" id="897024917%2FConstructors%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue TabbedContent">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="-options.html"><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="897024917%2FConstructors%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">fun </span><a href="-options.html"><span class="token function">Options</span></a><span class="token punctuation">(</span>authToken<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>logLevel<span class="token operator">: </span><a href="../../../com.ntt.skyway.core.util/-logger/-log-level/index.html">Logger.LogLevel</a><span class="token operator"> = </span>Logger.LogLevel.NONE<span class="token punctuation">, </span>webRTCLog<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span>enableHardwareCodec<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span>rtcApi<span class="token operator">: </span><a href="../-rtc-api/index.html">SkyWayContext.RtcApi</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>iceParams<span class="token operator">: </span><a href="../-ice-params/index.html">SkyWayContext.IceParams</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>signaling<span class="token operator">: </span><a href="../-signaling/index.html">SkyWayContext.Signaling</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>rtcConfig<span class="token operator">: </span><a href="../-rtc-config/index.html">SkyWayContext.RtcConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">, </span>sfu<span class="token operator">: </span><a href="../-sfu/index.html">SkyWayContext.Sfu</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <h2 class="">Properties</h2>
+              <div class="table" data-togglable="Properties"><a data-name="1328201287%2FProperties%2F197447377" anchor-label="authToken" id="1328201287%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="auth-token.html">authToken</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1328201287%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="1328201287%2FProperties%2F197447377" anchor-label="authToken" id="1328201287%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="auth-token.html">authToken</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-1688683347%2FProperties%2F197447377" anchor-label="enableHardwareCodec" id="-1688683347%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="enable-hardware-codec.html">enableHardwareCodec</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1688683347%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="-1688683347%2FProperties%2F197447377" anchor-label="enableHardwareCodec" id="-1688683347%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="enable-hardware-codec.html">enableHardwareCodec</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1588093831%2FProperties%2F197447377" anchor-label="iceParams" id="1588093831%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="ice-params.html">iceParams</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1588093831%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="1588093831%2FProperties%2F197447377" anchor-label="iceParams" id="1588093831%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="ice-params.html">iceParams</a><span class="token operator">: </span><a href="../-ice-params/index.html">SkyWayContext.IceParams</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="76537634%2FProperties%2F197447377" anchor-label="logLevel" id="76537634%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="log-level.html">logLevel</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="76537634%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="76537634%2FProperties%2F197447377" anchor-label="logLevel" id="76537634%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="log-level.html">logLevel</a><span class="token operator">: </span><a href="../../../com.ntt.skyway.core.util/-logger/-log-level/index.html">Logger.LogLevel</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1091990825%2FProperties%2F197447377" anchor-label="rtcApi" id="1091990825%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="rtc-api.html">rtcApi</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1091990825%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="1091990825%2FProperties%2F197447377" anchor-label="rtcApi" id="1091990825%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="rtc-api.html">rtcApi</a><span class="token operator">: </span><a href="../-rtc-api/index.html">SkyWayContext.RtcApi</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-591796555%2FProperties%2F197447377" anchor-label="rtcConfig" id="-591796555%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="rtc-config.html">rtcConfig</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-591796555%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="-591796555%2FProperties%2F197447377" anchor-label="rtcConfig" id="-591796555%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="rtc-config.html">rtcConfig</a><span class="token operator">: </span><a href="../-rtc-config/index.html">SkyWayContext.RtcConfig</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1936471126%2FProperties%2F197447377" anchor-label="sfu" id="1936471126%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="sfu.html">sfu</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1936471126%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="1936471126%2FProperties%2F197447377" anchor-label="sfu" id="1936471126%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="sfu.html">sfu</a><span class="token operator">: </span><a href="../-sfu/index.html">SkyWayContext.Sfu</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="-362383522%2FProperties%2F197447377" anchor-label="signaling" id="-362383522%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="signaling.html">signaling</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-362383522%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="-362383522%2FProperties%2F197447377" anchor-label="signaling" id="-362383522%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="signaling.html">signaling</a><span class="token operator">: </span><a href="../-signaling/index.html">SkyWayContext.Signaling</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+<a data-name="1077042337%2FProperties%2F197447377" anchor-label="webRTCLog" id="1077042337%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a>
+                <div class="table-row" data-filterable-current=":core:dokkaHtml/release" data-filterable-set=":core:dokkaHtml/release">
+                  <div class="main-subrow keyValue ">
+                    <div class=""><span class="inline-flex">
+                        <div><a href="web-r-t-c-log.html">webRTCLog</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1077042337%2FProperties%2F197447377"></span>
+                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                        </span></span></div>
+                    <div>
+                      <div class="title">
+                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":core:dokkaHtml/release"><a data-name="1077042337%2FProperties%2F197447377" anchor-label="webRTCLog" id="1077042337%2FProperties%2F197447377" data-filterable-set=":core:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="web-r-t-c-log.html">webRTCLog</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2023 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+    </div>
+  </body>
+</html>
+

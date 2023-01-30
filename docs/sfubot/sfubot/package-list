@@ -1,0 +1,26 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+$dokka.location:com.ntt.skyway.plugin.sfuBot////PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/index.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding.Configure///PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/-configure/index.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding.Configure/Configure/#kotlin.Int/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/-configure/-configure.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding.Configure/maxSubscribers/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/-configure/max-subscribers.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding///PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/index.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding/channel/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/channel.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding/configure/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/configure.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding/id/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/id.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding/originPublication/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/origin-publication.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/Forwarding/relayingPublication/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-forwarding/relaying-publication.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot.Companion///PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/-companion/index.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot.Companion/createBot/#com.ntt.skyway.core.channel.Channel/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/-companion/create-bot.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot///PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/index.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot/forwardings/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/forwardings.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot/startForwarding/#com.ntt.skyway.core.channel.Publication#com.ntt.skyway.plugin.sfuBot.Forwarding.Configure?/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/start-forwarding.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot/stopForwarding/#com.ntt.skyway.plugin.sfuBot.Forwarding/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/stop-forwarding.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot/subType/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/sub-type.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBot/type/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot/type.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBotPlugin///PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot-plugin/index.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBotPlugin/SFUBotPlugin/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot-plugin/-s-f-u-bot-plugin.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBotPlugin/createRemoteMember/#com.ntt.skyway.core.channel.member.Member.Dto/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot-plugin/create-remote-member.html
+$dokka.location:com.ntt.skyway.plugin.sfuBot/SFUBotPlugin/name/#/PointingToDeclaration/sfubot/com.ntt.skyway.plugin.sfuBot/-s-f-u-bot-plugin/name.html
+com.ntt.skyway.plugin.sfuBot
+
