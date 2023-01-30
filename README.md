@@ -20,7 +20,7 @@ Android 6.0+
 
 ## License
 
-- [LICENCE](LICENCE)
+- [LICENSE](LICENSE)
 - [THIRD_PARTY_LICENSE](THIRD_PARTY_LICENSE.txt)
 
 ## 公開リポジトリの運用方針について
