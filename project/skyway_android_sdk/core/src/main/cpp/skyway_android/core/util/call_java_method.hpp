@@ -39,4 +39,19 @@ void CallJavaMethod(JNIEnv* env, jobject obj, const std::string& method_name, co
     env->CallVoidMethod(obj, j_method_id, std::forward<Args>(args)...);
 }
 
+
+template <typename... Args>
+void CallJavaStaticMethod(JNIEnv* env, jobject obj, const std::string& method_name, const std::string& signature, Args&&... args) {
+    if (obj == nullptr) {
+        SKW_WARN("obj is null when calling %s", method_name);
+        return;
+    }
+    auto j_class = env->GetObjectClass(obj);
+    auto j_method_id = env->GetStaticMethodID(j_class, method_name.c_str(), signature.c_str());
+    if (!j_method_id) {
+        return;
+    }
+    env->CallStaticVoidMethod(j_class, j_method_id, std::forward<Args>(args)...);
+}
+
 #endif /* SKYWAY_ANDROID_UTIL_CALL_JAVA_METHOD_HPP */

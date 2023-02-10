@@ -35,6 +35,11 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
                     SkyWayContext.registerPlugin(SFUBotPlugin())
                 }
                 val channel = Channel.find(name, id)
+                if (channel != null) {
+                    if (channel.bots.isEmpty()) {
+                        SFUBot.createBot(channel)
+                    }
+                }
                 return@withContext channel?.let { SFURoom(it) }
             }
 
@@ -75,10 +80,10 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
 
     override val type: Type = Type.SFU
     internal val bot: SFUBot
+        get() = channel.bots.first { it.subType == "sfu" } as SFUBot
 
     init {
         initEventHandler()
-        bot = channel.bots.toMutableList().first() as SFUBot
     }
 
     /**

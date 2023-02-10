@@ -14,17 +14,17 @@ namespace skyway_android {
 namespace network {
 
 WebSocketClientFactory::WebSocketClientFactory(jobject j_ws_factory) {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     _j_ws_factory = env->NewGlobalRef(j_ws_factory);
 }
 
 WebSocketClientFactory::~WebSocketClientFactory() {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_ws_factory);
 }
 
 std::shared_ptr<skyway::network::interface::WebSocketClient> WebSocketClientFactory::Create() {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     auto j_class = env->GetObjectClass(this->_j_ws_factory);
     auto j_method_id = env->GetStaticMethodID(j_class, "create", "()Lcom/ntt/skyway/core/network/WebSocketClient;");
     if (!j_method_id) {

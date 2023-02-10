@@ -23,7 +23,7 @@ class MemberBridge {
 public:
     static bool RegisterMethods(JNIEnv* env);
 
-    static void AddEventListener(JNIEnv* env, jobject j_this, jlong member);
+    static void AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong member);
     static jstring Metadata(JNIEnv* env, jobject j_this, jlong member);
     static jstring State(JNIEnv* env, jobject j_this, jlong member);
     static bool UpdateMetadata(JNIEnv* env, jobject j_this, jlong member, jstring j_metadata);

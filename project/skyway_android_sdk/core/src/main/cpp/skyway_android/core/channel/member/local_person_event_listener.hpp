@@ -11,6 +11,8 @@
 #include <skyway/core/interface/subscription.hpp>
 #include <skyway/core/channel/member/local_person.hpp>
 
+#include "core/event_listener.hpp"
+
 #ifndef SKYWAY_ANDROID_CORE_MEMBER_LOCAL_PERSON_EVENT_LISTENER_HPP
 #define SKYWAY_ANDROID_CORE_MEMBER_LOCAL_PERSON_EVENT_LISTENER_HPP
 
@@ -21,7 +23,7 @@ namespace member {
 using Publication = skyway::core::interface::Publication;
 using Subscription = skyway::core::interface::Subscription;
 
-class LocalPersonEventListener : public skyway::core::channel::member::LocalPerson::EventListener {
+class LocalPersonEventListener : public skyway::core::channel::member::LocalPerson::EventListener, public EventListener {
 
 public:
     LocalPersonEventListener(jobject j_local_person);

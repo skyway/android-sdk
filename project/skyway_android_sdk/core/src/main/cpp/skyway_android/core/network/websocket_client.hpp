@@ -53,6 +53,7 @@ private:
     std::promise<bool> _connect_promise;
     std::mutex _connect_mtx;
     bool _is_closing;
+    bool _is_closed;
     std::promise<bool> _close_promise;
     std::mutex _close_mtx;
     std::vector<std::unique_ptr<std::thread>> _workers;

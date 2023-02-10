@@ -9,13 +9,15 @@
 
 #include <skyway/core/interface/subscription.hpp>
 
+#include "core/event_listener.hpp"
+
 #ifndef SKYWAY_ANDROID_CORE_SUBSCRIPTION_SUBSCRIPTION_EVENT_LISTENER_HPP
 #define SKYWAY_ANDROID_CORE_SUBSCRIPTION_SUBSCRIPTION_EVENT_LISTENER_HPP
 
 namespace skyway_android {
 namespace core {
 
-class SubscriptionEventListener : public skyway::core::interface::Subscription::EventListener {
+class SubscriptionEventListener : public skyway::core::interface::Subscription::EventListener, public EventListener {
 public:
     SubscriptionEventListener(jobject j_subscription);
     ~SubscriptionEventListener();

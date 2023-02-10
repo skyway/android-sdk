@@ -12,29 +12,47 @@
 namespace skyway_android {
 namespace core {
 
-SubscriptionEventListener::SubscriptionEventListener(jobject j_subscription) {
-    auto env = ContextBridge::GetEnv();
+SubscriptionEventListener::SubscriptionEventListener(jobject j_subscription) : core::EventListener() {
+    auto env = ContextBridge::AttachCurrentThread();
     _j_subscription = env->NewGlobalRef(j_subscription);
 }
 
 SubscriptionEventListener::~SubscriptionEventListener() {
-    auto env = ContextBridge::GetEnv();
+    auto env = ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_subscription);
 }
 
 void SubscriptionEventListener::OnCanceled() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_subscription, "onCanceled", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_subscription, "onCanceled", "()V");
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void SubscriptionEventListener::OnEnabled() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_subscription, "onEnabled", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_subscription, "onEnabled", "()V");
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void SubscriptionEventListener::OnDisabled() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_subscription, "onDisabled", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_subscription, "onDisabled", "()V");
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 }  // namespace core

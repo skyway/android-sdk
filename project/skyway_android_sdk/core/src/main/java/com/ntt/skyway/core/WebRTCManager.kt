@@ -24,9 +24,9 @@ internal object WebRTCManager {
             }
         }
 
-        override fun onLogMessage(message: String, severity: Logging.Severity, className: String) {
+        override fun onLogMessage(message: String, severity: Logging.Severity, tag: String) {
             if (!Logger.webRTCLog) return
-            Logger.log(webRTCSeverityToLogLevel(severity), message)
+            Logger.log(webRTCSeverityToLogLevel(severity), message, tag)
         }
     }
 

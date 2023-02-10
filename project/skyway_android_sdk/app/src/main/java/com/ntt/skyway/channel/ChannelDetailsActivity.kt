@@ -4,8 +4,12 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.media.projection.MediaProjectionManager
 import android.os.Bundle
+import android.os.Handler
 import android.os.IBinder
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -18,11 +22,13 @@ import com.ntt.skyway.adapter.RecyclerViewAdapterMember
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalDataStream
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.content.local.source.CameraSource
+import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.core.content.local.source.DataSource
 import com.ntt.skyway.core.content.remote.RemoteAudioStream
 import com.ntt.skyway.core.content.remote.RemoteDataStream
@@ -65,6 +71,11 @@ class ChannelDetailsActivity : AppCompatActivity() {
 
     private var isSubEncodingHigh: Boolean = true
 
+    private val bitmap: Bitmap = Bitmap.createBitmap(800, 800, Bitmap.Config.ARGB_8888)
+    private val canvas = Canvas(bitmap)
+    private val paint = Paint()
+    private val back = Paint()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.binding = ActivityChanelDetailsBinding.inflate(layoutInflater)
@@ -72,6 +83,9 @@ class ChannelDetailsActivity : AppCompatActivity() {
 
         initUI()
         initSurfaceViews()
+
+        paint.color = android.graphics.Color.CYAN
+        back.color = android.graphics.Color.BLACK
     }
 
     private fun initUI() {
@@ -218,6 +232,10 @@ class ChannelDetailsActivity : AppCompatActivity() {
                 publishDataStream()
             }
 
+            btnCustomVideo.setOnClickListener {
+                publishCustomVideoStream()
+            }
+
             btnToggleSubEncoding.setOnClickListener {
                 if (isSubEncodingHigh) {
                     subscription?.changePreferredEncoding("low")
@@ -317,11 +335,12 @@ class ChannelDetailsActivity : AppCompatActivity() {
         Log.d(tag, "publishCameraVideoStream()")
 //        val encoding1 = Encoding("high", 200_000, 4.0)
 //        val encoding2 = Encoding("low", 2_000, 6.0)
+        // val encoding1 = Encoding("high", maxFramerate = 1.0)
         // val codec = Codec(Codec.MimeType.AV1)
         val options = Publication.Options(
             metadata = "",
             // codecCapabilities = mutableListOf(codec),
-//            encodings = mutableListOf(encoding1, encoding2),
+            // encodings = mutableListOf(encoding1)
 //            isEnabled = false
         )
         scope.launch(Dispatchers.Main) {
@@ -366,6 +385,42 @@ class ChannelDetailsActivity : AppCompatActivity() {
         scope.launch(Dispatchers.Main) {
             publication = ChannelManager.localPerson?.publish(localDataStream!!, options)
         }
+    }
+
+    private fun publishCustomVideoStream() {
+        val localVideoSource = CustomVideoFrameSource(800, 800)
+        val handler = Handler()
+        val r: Runnable = object : Runnable {
+            private var r = 0f
+            override fun run() {
+                r += 10
+                canvas.drawRect(200F, 200F, 600F, 600F, paint)
+                updateBitmap(r)
+                scope.launch {
+                    localVideoSource.updateFrame(bitmap, 0)
+                }
+                handler.postDelayed(this, 16)
+            }
+        }
+        handler.post(r)
+
+        val localVideoStream = localVideoSource.createStream()
+//        localVideoStream.addRenderer(binding.localRenderer)
+        scope.launch {
+            publication = ChannelManager.localPerson?.publish(localVideoStream, Publication.Options(isEnabled = true))
+
+            publication?.stream?.let {
+                (it as LocalVideoStream).addRenderer(binding.localRenderer)
+            }
+            canvas.drawRect(200F, 200F, 600F, 600F, paint)
+            localVideoSource.updateFrame(bitmap, 0)
+        }
+    }
+
+    fun updateBitmap(r: Float) {
+        canvas.drawRect(0F, 0F, 800F, 800F, back)
+        canvas.rotate(10F, 400F, 400F)
+        canvas.drawRect(200F, 200F, 600F, 600F, paint)
     }
 
     private val serviceConnection = object : ServiceConnection {

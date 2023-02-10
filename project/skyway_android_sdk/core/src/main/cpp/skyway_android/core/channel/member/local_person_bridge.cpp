@@ -17,6 +17,7 @@
 #include "local_person_event_listener.hpp"
 #include "core/util/register_methods_helper.hpp"
 #include "core/util/jstring_to_string.hpp"
+#include "core/channel/channel/channel_bridge.hpp"
 #include "core/channel/channel_util.hpp"
 #include "core/context/context_bridge.hpp"
 
@@ -31,7 +32,7 @@ bool LocalPersonBridge::RegisterMethods(JNIEnv* env) {
     JNINativeMethod native_methods[] = {
         {
             "nativeAddEventListener",
-            "(J)V",
+            "(Ljava/lang/String;J)V",
             (void*) LocalPersonBridge::AddEventListener
         },
         {
@@ -64,9 +65,11 @@ bool LocalPersonBridge::RegisterMethods(JNIEnv* env) {
     );
 }
 
-void LocalPersonBridge::AddEventListener(JNIEnv* env, jobject j_this, jlong local_person) {
+void LocalPersonBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong local_person) {
     auto local_person_event_listener = new LocalPersonEventListener(j_this);
     ((LocalPerson*)local_person)->AddEventListener(local_person_event_listener);
+    auto channel_id = JStringToStdString(env, j_channel_id);
+    channel::ChannelBridge::AddInternalEventListener(channel_id, local_person_event_listener);
 }
 
 jstring

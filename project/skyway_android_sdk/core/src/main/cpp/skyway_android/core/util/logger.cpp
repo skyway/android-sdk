@@ -15,12 +15,12 @@ namespace skyway_android {
 namespace logger_util {
 
 Logger::Logger(jobject j_logger) {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     _j_logger = env->NewGlobalRef(j_logger);
 }
 
 Logger::~Logger() {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_logger);
 }
 
@@ -45,7 +45,7 @@ void Logger::Error(const std::string& msg, const std::string& filename, const st
 }
 
 void Logger::Log(int logLevel, const std::string& msg, const std::string& filename, const std::string& function, int line) {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     auto j_msg = env->NewStringUTF(msg.c_str());
     auto j_filename = env->NewStringUTF(filename.c_str());
     auto j_function = env->NewStringUTF(function.c_str());

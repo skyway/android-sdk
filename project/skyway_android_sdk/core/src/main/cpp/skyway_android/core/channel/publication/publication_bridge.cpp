@@ -13,6 +13,7 @@
 #include "core/util/register_methods_helper.hpp"
 #include "core/channel/publication/publication_event_listener.hpp"
 #include "core/context/context_bridge.hpp"
+#include "core/channel/channel/channel_bridge.hpp"
 
 namespace skyway_android {
 namespace core {
@@ -29,7 +30,7 @@ bool PublicationBridge::RegisterMethods(JNIEnv* env) {
         },
         {
             "nativeAddEventListener",
-            "(J)V",
+            "(Ljava/lang/String;J)V",
             (void*) PublicationBridge::AddEventListener
         },
         {
@@ -77,9 +78,12 @@ bool PublicationBridge::RegisterMethods(JNIEnv* env) {
     );
 }
 
-void PublicationBridge::AddEventListener(JNIEnv* env, jobject j_this, jlong publication) {
+void PublicationBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong publication) {
     auto publication_event_listener = new PublicationEventListener(j_this);
-    ((Publication*)publication)->AddEventListener(publication_event_listener);
+    auto publication_ptr = ((Publication*)publication);
+    publication_ptr->AddEventListener(publication_event_listener);
+    auto channel_id = JStringToStdString(env, j_channel_id);
+    channel::ChannelBridge::AddInternalEventListener(channel_id, publication_event_listener);
 }
 
 jstring PublicationBridge::Metadata(JNIEnv* env, jobject j_this, jlong publication) {

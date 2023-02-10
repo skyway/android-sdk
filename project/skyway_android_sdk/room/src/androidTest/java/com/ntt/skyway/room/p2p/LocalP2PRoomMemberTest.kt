@@ -10,7 +10,7 @@ import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 import org.junit.*
 import java.util.*
 
@@ -111,6 +111,7 @@ class LocalP2PRoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
     }
@@ -121,6 +122,7 @@ class LocalP2PRoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription1 = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription1?.id)
         val subscription2 = publication?.id?.let { bob?.subscribe(it) }
@@ -139,6 +141,7 @@ class LocalP2PRoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = alice?.subscribe(publication!!.id)
         Assert.assertNull(subscription)
     }
@@ -181,6 +184,7 @@ class LocalP2PRoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))
@@ -192,6 +196,7 @@ class LocalP2PRoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))

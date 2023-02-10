@@ -40,6 +40,7 @@ object SkyWayContext {
         val signaling: Signaling? = null,
         val rtcConfig: RtcConfig? = null,
         val sfu: Sfu? = null,
+        val token: Token? = null,
     ) {
         internal fun toJson(): String {
             return Gson().toJson(this)
@@ -90,6 +91,12 @@ object SkyWayContext {
         }
     }
 
+    data class Token(val tokenReminderTimeSec: Int? = null) {
+        internal fun toJson(): String {
+            return Gson().toJson(this)
+        }
+    }
+
     data class Sfu(val domain: String?) {
         internal fun toJson(): String {
             return Gson().toJson(this)
@@ -103,10 +110,30 @@ object SkyWayContext {
         private set
 
     /**
+     *  SkyWayの利用中にネットワークの瞬断などが原因で再接続処理が開始した時に発火するハンドラ。
+     */
+    var onReconnectStartHandler: (() -> Unit)? = null
+
+    /**
+     *  SkyWayの再接続処理が完了した時に発火するハンドラ。
+     */
+    var onReconnectSuccessHandler: (() -> Unit)? = null
+
+    /**
      *  SkyWayの利用中に致命的なエラーが起きた場合に発火するハンドラ。
      *  初期化時の認証の失敗や、ネットワークが切断され回復不能となった場合などに発火します。
      */
     var onErrorHandler: ((error: Error) -> Unit)? = null
+
+    /**
+     *  SkyWayのトークンの更新が必要な時に発火するハンドラ。
+     */
+    var onTokenRefreshingNeededHandler: (() -> Unit)? = null
+
+    /**
+     *  SkyWayのトークンの有効期限が切れた時に発火するハンドラ。
+     */
+    var onTokenExpiredHandler: (() -> Unit)? = null
 
     /**
      *  登録されている[Plugin]の一覧。
@@ -164,8 +191,8 @@ object SkyWayContext {
      *  @param authToken 今後利用するトークン。
      */
     @JvmStatic
-    fun updateAuthToken(authToken: String) {
-        nativeUpdateAuthToken(authToken)
+    fun updateAuthToken(authToken: String): Boolean {
+        return nativeUpdateAuthToken(authToken)
     }
 
     /**
@@ -202,8 +229,30 @@ object SkyWayContext {
         isSetup = false
     }
 
-    internal fun onFatalError(message: String) {
+    @JvmStatic
+    fun onReconnectStart() {
+        Logger.logE("onReconnectStart")
+    }
+
+    @JvmStatic
+    fun onReconnectSuccess() {
+        Logger.logE("onReconnectSuccess")
+    }
+
+    @JvmStatic
+    fun onFatalError(message: String) {
+        isSetup = false
         onErrorHandler?.invoke(Error(message))
+    }
+
+    @JvmStatic
+    fun onTokenRefreshingNeeded() {
+        onTokenRefreshingNeededHandler?.invoke()
+    }
+
+    @JvmStatic
+    fun onTokenExpired() {
+        onTokenExpiredHandler?.invoke()
     }
 
     private external fun nativeSetup(

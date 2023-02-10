@@ -27,7 +27,7 @@ public:
     static jstring State(JNIEnv* env, jobject j_this, jlong publication);
     static jstring Encodings(JNIEnv* env, jobject j_this, jlong publication);
 
-    static void AddEventListener(JNIEnv* env, jobject j_this, jlong publication);
+    static void AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong publication);
     static bool UpdateMetadata(JNIEnv* env, jobject j_this, jlong publication, jstring j_metadata);
     static bool Cancel(JNIEnv* env, jobject j_this, jlong publication);
     static bool Enable(JNIEnv* env, jobject j_this, jlong publication);

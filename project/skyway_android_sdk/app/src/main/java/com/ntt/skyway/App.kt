@@ -23,12 +23,19 @@ class App : Application() {
         val rtcConfig = SkyWayContext.RtcConfig(policy = SkyWayContext.TurnPolicy.TURN_ONLY)
         val option = SkyWayContext.Options(authToken, logLevel, rtcConfig = rtcConfig)
         SkyWayContext.registerPlugin(SFUBotPlugin())
+        SkyWayContext.onReconnectStartHandler = {
+            Log.e("App", "onReconnectStartHandler")
+        }
+        SkyWayContext.onReconnectSuccessHandler = {
+            Log.e("App", "onReconnectSuccessHandler")
+        }
+        SkyWayContext.onErrorHandler = {
+            Log.e("App", "Context ${it.message}")
+        }
 
         setupJob = scope.launch {
             Log.e("App", "setup")
-            val result = SkyWayContext.setup(applicationContext, option) {
-                Log.e("App", "Context ${it.message}")
-            }
+            val result = SkyWayContext.setup(applicationContext, option)
             if (result) {
                 Log.d("App", "Setup succeed")
             }

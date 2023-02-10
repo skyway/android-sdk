@@ -9,13 +9,15 @@
 
 #include <skyway/core/interface/publication.hpp>
 
+#include "core/event_listener.hpp"
+
 #ifndef SKYWAY_ANDROID_CORE_PUBLICATION_PUBLICATION_EVENT_LISTENER_HPP
 #define SKYWAY_ANDROID_CORE_PUBLICATION_PUBLICATION_EVENT_LISTENER_HPP
 
 namespace skyway_android {
 namespace core {
 
-class PublicationEventListener : public skyway::core::interface::Publication::EventListener {
+class PublicationEventListener : public skyway::core::interface::Publication::EventListener, public EventListener {
 public:
     PublicationEventListener(jobject j_publication);
     ~PublicationEventListener();
