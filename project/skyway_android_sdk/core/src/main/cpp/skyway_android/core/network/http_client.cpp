@@ -25,12 +25,12 @@ namespace network {
 std::map<std::string, std::promise<boost::optional<Response>>> HttpClient::_promises;
 
 HttpClient::HttpClient(jobject j_http) {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     _j_http = env->NewGlobalRef(j_http);
 }
 
 HttpClient::~HttpClient() {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_http);
 }
 
@@ -85,7 +85,7 @@ std::future<boost::optional<Response>> HttpClient::Request(const std::string &ur
     auto request_id = boost::lexical_cast<std::string>(uuid);
     _promises[request_id] = std::move(p);
 
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     auto j_url = env->NewStringUTF(url.c_str());
     auto j_method = env->NewStringUTF(method.c_str());
     auto j_header = env->NewStringUTF(header.dump().c_str());

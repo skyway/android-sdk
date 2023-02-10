@@ -27,6 +27,8 @@ using LocalPerson = skyway::core::channel::member::LocalPerson;
 using MemberInit = skyway::model::Member::Init;
 using Member = skyway::core::interface::Member;
 
+std::map<std::string, std::vector<EventListener*>> ChannelBridge::event_listeners;
+
 bool ChannelBridge::RegisterMethods(JNIEnv* env) {
     JNINativeMethod native_methods[] = {
         {
@@ -168,6 +170,12 @@ jstring ChannelBridge::State(JNIEnv* env, jobject j_this, jlong channel) {
 void ChannelBridge::AddEventListener(JNIEnv* env, jobject j_this, jlong channel) {
     auto channel_event_listener = new ChannelEventListener(j_this);
     ((Channel*)channel)->AddEventListener(channel_event_listener);
+    auto channel_id = ((Channel*)channel)->Id();
+    event_listeners[channel_id].emplace_back(channel_event_listener);
+}
+
+void ChannelBridge::AddInternalEventListener(const std::string& channel_id, EventListener* event_listener) {
+    event_listeners[channel_id].emplace_back(event_listener);
 }
 
 bool ChannelBridge::UpdateMetadata(JNIEnv* env, jobject j_this, jlong channel, jstring j_metadata) {
@@ -209,6 +217,10 @@ bool ChannelBridge::Close(JNIEnv* env, jobject j_this, jlong channel) {
 }
 
 void ChannelBridge::Dispose(JNIEnv* env, jobject j_this, jlong channel) {
+    auto channel_id = ((Channel*)channel)->Id();
+    for(const auto event_listener : event_listeners[channel_id]) {
+        event_listener->Dispose();
+    }
     ((Channel*)channel)->Dispose(false);
 }
 

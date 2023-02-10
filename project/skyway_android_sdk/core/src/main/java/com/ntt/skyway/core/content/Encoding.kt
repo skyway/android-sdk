@@ -21,7 +21,11 @@ data class Encoding(
     /**
      *  動画のサイズを縮小する倍率。
      */
-    val scaleResolutionDownBy: Double? = null
+    val scaleResolutionDownBy: Double? = null,
+    /**
+     *  最大フレームレート。
+     */
+    val maxFramerate: Double? = null
 ) {
     companion object {
         fun fromJsonArray(jsonArr: JsonArray): List<Encoding> {
@@ -29,7 +33,8 @@ data class Encoding(
                 Encoding(
                     it.asJsonObject.get("id")?.asString,
                     it.asJsonObject.get("maxBitrate")?.asInt,
-                    it.asJsonObject.get("scaleResolutionDownBy")?.asDouble
+                    it.asJsonObject.get("scaleResolutionDownBy")?.asDouble,
+                    it.asJsonObject.get("maxFramerate")?.asDouble,
                 )
             }
         }

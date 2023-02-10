@@ -58,6 +58,7 @@ class CustomVideoFrameSource(width: Int, height: Int) : VideoSource() {
             val captureTimeNs = TimeUnit.MILLISECONDS.toNanos(SystemClock.elapsedRealtime())
             val videoFrame = VideoFrame(i420Buf, rotation, captureTimeNs)
             observer.onFrameCaptured(videoFrame)
+            videoFrame.release()
         }
     }
 }

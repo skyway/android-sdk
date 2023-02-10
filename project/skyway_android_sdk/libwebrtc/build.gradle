@@ -2,8 +2,8 @@ plugins {
     id 'maven-publish'
 }
 
-//configurations.maybeCreate("default")
-//artifacts.add("default", file("libwebrtc.aar"))
+configurations.maybeCreate("default")
+artifacts.add("default", file("libwebrtc.aar"))
 
 publishing {
     repositories {

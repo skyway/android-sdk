@@ -83,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupSkyWayContext(){
         scope.launch(Dispatchers.Default) {
             val option = SkyWayContext.Options(
-                authToken = "YOUR_TOKEN",
+                authToken = authToken,
                 logLevel = Logger.LogLevel.VERBOSE
             )
             val result =  SkyWayContext.setup(applicationContext, option)

@@ -157,7 +157,7 @@ abstract class Member internal constructor(
     )
 
     internal open fun addEventListener() {
-        nativeAddEventListener(nativePointer)
+        nativeAddEventListener(channel.id, nativePointer)
     }
 
     /**
@@ -191,7 +191,7 @@ abstract class Member internal constructor(
     }
 
 
-    private external fun nativeAddEventListener(ptr: Long)
+    private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativeMetadata(ptr: Long): String
     private external fun nativeState(ptr: Long): String
     private external fun nativeUpdateMetadata(ptr: Long, metadata: String): Boolean

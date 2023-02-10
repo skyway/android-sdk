@@ -156,7 +156,7 @@ class Publication internal constructor(
     var onDisabledHandler: (() -> Unit)? = null
 
     init {
-        nativeAddEventListener(nativePointer)
+        nativeAddEventListener(channel.id, nativePointer)
     }
 
     /**
@@ -231,7 +231,7 @@ class Publication internal constructor(
         onDisabledHandler?.invoke()
     }
 
-    private external fun nativeAddEventListener(ptr: Long)
+    private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativeMetadata(ptr: Long): String
     private external fun nativeState(ptr: Long): String
     private external fun nativeEncodings(ptr: Long): String

@@ -13,6 +13,7 @@
 #include "core/channel/subscription/subscription_event_listener.hpp"
 #include "core/util/jstring_to_string.hpp"
 #include "core/context/context_bridge.hpp"
+#include "core/channel/channel/channel_bridge.hpp"
 
 namespace skyway_android {
 namespace core {
@@ -24,7 +25,7 @@ bool SubscriptionBridge::RegisterMethods(JNIEnv* env) {
     JNINativeMethod native_methods[] = {
         {
             "nativeAddEventListener",
-            "(J)V",
+            "(Ljava/lang/String;J)V",
             (void*) SubscriptionBridge::AddEventListener
         },
         {
@@ -62,9 +63,11 @@ bool SubscriptionBridge::RegisterMethods(JNIEnv* env) {
     );
 }
 
-void SubscriptionBridge::AddEventListener(JNIEnv* env, jobject j_this, jlong subscription) {
+void SubscriptionBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong subscription) {
     auto subscription_event_listener = new SubscriptionEventListener(j_this);
     ((Subscription*)subscription)->AddEventListener(subscription_event_listener);
+    auto channel_id = JStringToStdString(env, j_channel_id);
+    channel::ChannelBridge::AddInternalEventListener(channel_id, subscription_event_listener);
 }
 
 jstring SubscriptionBridge::State(JNIEnv* env, jobject j_this, jlong subscription) {

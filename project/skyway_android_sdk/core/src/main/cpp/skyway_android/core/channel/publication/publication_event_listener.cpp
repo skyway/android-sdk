@@ -12,50 +12,99 @@
 namespace skyway_android {
 namespace core {
 
-PublicationEventListener::PublicationEventListener(jobject j_publication) {
-    auto env = ContextBridge::GetEnv();
+PublicationEventListener::PublicationEventListener(jobject j_publication) : core::EventListener() {
+    auto env = ContextBridge::AttachCurrentThread();
     _j_publication = env->NewGlobalRef(j_publication);
 }
 
 PublicationEventListener::~PublicationEventListener() {
-    auto env = ContextBridge::GetEnv();
+    auto env = ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_publication);
 }
 
 void PublicationEventListener::OnUnpublished() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_publication, "onUnpublished", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_publication, "onUnpublished", "()V");
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void PublicationEventListener::OnSubscribed() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_publication, "onSubscribed", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_publication, "onSubscribed", "()V");
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void PublicationEventListener::OnUnsubscribed() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_publication, "onUnsubscribed", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_publication, "onUnsubscribed", "()V");
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void PublicationEventListener::OnSubscriptionListChanged() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_publication, "onSubscriptionListChanged", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_publication, "onSubscriptionListChanged", "()V");
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void PublicationEventListener::OnMetadataUpdated(const std::string& metadata) {
-    auto env = ContextBridge::GetEnv();
-    auto j_metadata = env->NewStringUTF(metadata.c_str());
-    CallJavaMethod(env, _j_publication, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        auto j_metadata = env->NewStringUTF(metadata.c_str());
+        CallJavaMethod(env, _j_publication, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void PublicationEventListener::OnEnabled() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_publication, "onEnabled", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_publication, "onEnabled", "()V");
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 void PublicationEventListener::OnDisabled() {
-    auto env = ContextBridge::GetEnv();
-    CallJavaMethod(env, _j_publication, "onDisabled", "()V");
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        CallJavaMethod(env, _j_publication, "onDisabled", "()V");
+
+    });
+    _threads.emplace_back(std::move(thread));
 }
 
 }  // namespace core

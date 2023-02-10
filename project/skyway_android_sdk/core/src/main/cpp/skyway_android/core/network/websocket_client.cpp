@@ -71,8 +71,8 @@ void WebSocketClient::OnError(JNIEnv *env, jobject j_this, jlong j_ws, jint code
     ws->_OnError(code);
 }
 
-WebSocketClient::WebSocketClient(jobject j_ws): _listener(nullptr), _is_connecting(false), _is_closing(false) {
-    auto env = core::ContextBridge::GetEnv();
+WebSocketClient::WebSocketClient(jobject j_ws): _listener(nullptr), _is_connecting(false), _is_closed(false), _is_closing(false) {
+    auto env = core::ContextBridge::AttachCurrentThread();
     _j_ws = env->NewGlobalRef(j_ws);
 }
 
@@ -83,7 +83,7 @@ WebSocketClient::~WebSocketClient() {
             w->join();
         }
     }
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_ws);
 }
 
@@ -94,11 +94,12 @@ void WebSocketClient::RegisterListener(Listener* listener) {
 std::future<bool> WebSocketClient::Connect(const std::string& url, const std::string& sub_protocol) {
     std::unique_lock<std::mutex> lk(_connect_mtx);
     _is_connecting = true;
+    _is_closed = false;
 
     std::promise<bool> p;
     _connect_promise = std::move(p);
 
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     auto j_url = env->NewStringUTF(url.c_str());
     auto j_sub_protocol = env->NewStringUTF(sub_protocol.c_str());
     auto signature = "(Ljava/lang/String;Ljava/lang/String;J)V";
@@ -107,7 +108,7 @@ std::future<bool> WebSocketClient::Connect(const std::string& url, const std::st
 }
 
 std::future<bool> WebSocketClient::Send(const std::string& message) {
-    auto env = core::ContextBridge::GetEnv();
+    auto env = core::ContextBridge::AttachCurrentThread();
     auto j_message = env->NewStringUTF(message.c_str());
     CallJavaMethod(env, this->_j_ws, "send", "(Ljava/lang/String;)V", j_message);
 
@@ -123,7 +124,12 @@ std::future<bool> WebSocketClient::Close(const int code, const std::string& reas
     std::promise<bool> p;
     _close_promise = std::move(p);
 
-    auto env = core::ContextBridge::GetEnv();
+    if(_is_closed) {
+        _close_promise.set_value(true);
+        return _close_promise.get_future();
+    }
+
+    auto env = core::ContextBridge::AttachCurrentThread();
     auto j_class = env->GetObjectClass(this->_j_ws);
     auto j_method_id = env->GetMethodID(j_class, "close", "(ILjava/lang/String;)Z");
     auto j_reason = env->NewStringUTF(reason.c_str());
@@ -172,6 +178,7 @@ void WebSocketClient::_OnMessage(const std::string& message ) {
 
 void WebSocketClient::_OnClose(int code) {
     std::unique_lock<std::mutex> lk(_close_mtx);
+    _is_closed = true;
     auto worker = std::make_unique<std::thread>([=]{
         if (!_listener) return;
         _listener->OnClose(code);
@@ -189,6 +196,7 @@ void WebSocketClient::_OnClose(int code) {
 }
 
 void WebSocketClient::_OnError(int code) {
+    _is_closed = true;
     if (_is_connecting) {
         _connect_promise.set_value(false);
         _is_connecting = false;

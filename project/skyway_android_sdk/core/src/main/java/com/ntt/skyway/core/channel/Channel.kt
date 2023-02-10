@@ -414,8 +414,7 @@ class Channel internal constructor(
         onMemberJoinedHandler?.invoke(member)
     }
 
-    private fun onMemberLeft(memberJson: String) {
-        val memberId = Util.getObjectId(memberJson)
+    private fun onMemberLeft(memberId: String) {
         val member = findMember(memberId) ?: run {
             Logger.logW("onMemberLeft: The member is not found")
             return
@@ -423,8 +422,7 @@ class Channel internal constructor(
         onMemberLeftHandler?.invoke(member)
     }
 
-    private fun onMemberMetadataUpdated(memberJson: String, metadata: String) {
-        val memberId = Util.getObjectId(memberJson)
+    private fun onMemberMetadataUpdated(memberId: String, metadata: String) {
         val member = findMember(memberId) ?: run {
             Logger.logW("onMemberMetadataUpdated: The member is not found")
             return
@@ -432,8 +430,7 @@ class Channel internal constructor(
         onMemberMetadataUpdatedHandler?.invoke(member, metadata)
     }
 
-    private fun onPublicationMetadataUpdated(publicationJson: String, metadata: String) {
-        val publicationId = Util.getObjectId(publicationJson)
+    private fun onPublicationMetadataUpdated(publicationId: String, metadata: String) {
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onPublicationMetadataUpdated: The publication is not found")
             return
@@ -461,8 +458,7 @@ class Channel internal constructor(
         }
     }
 
-    private fun onStreamUnpublished(publicationJson: String) {
-        val publicationId = Util.getObjectId(publicationJson)
+    private fun onStreamUnpublished(publicationId: String) {
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onStreamUnpublished: The publication is not found")
             return
@@ -470,8 +466,7 @@ class Channel internal constructor(
         onStreamUnpublishedHandler?.invoke(publication)
     }
 
-    private fun onPublicationEnabled(publicationJson: String) {
-        val publicationId = Util.getObjectId(publicationJson)
+    private fun onPublicationEnabled(publicationId: String) {
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onPublicationEnabled: The publication is not found")
             return
@@ -479,8 +474,7 @@ class Channel internal constructor(
         onPublicationEnabledHandler?.invoke(publication)
     }
 
-    private fun onPublicationDisabled(publicationJson: String) {
-        val publicationId = Util.getObjectId(publicationJson)
+    private fun onPublicationDisabled(publicationId: String) {
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onPublicationDisabled: The publication is not found")
             return
@@ -508,8 +502,7 @@ class Channel internal constructor(
         }
     }
 
-    private fun onPublicationUnsubscribed(subscriptionJson: String) {
-        val subscriptionId = Util.getObjectId(subscriptionJson)
+    private fun onPublicationUnsubscribed(subscriptionId: String) {
         val subscription = findSubscription(subscriptionId) ?: run {
             Logger.logW("onPublicationUnsubscribed: The subscription is not found")
             return
@@ -517,8 +510,7 @@ class Channel internal constructor(
         onPublicationUnsubscribedHandler?.invoke(subscription)
     }
 
-//    private fun onSubscriptionEnabled(subscriptionJson: String) {
-//        val subscriptionId = Util.getObjectId(subscriptionJson)
+//    private fun onSubscriptionEnabled(subscriptionId: String) {
 //        val subscription = findSubscription(subscriptionId) ?: run {
 //            Logger.logW("onSubscriptionEnabled: The subscription is not found")
 //            return
@@ -526,8 +518,7 @@ class Channel internal constructor(
 //        onSubscriptionEnabledHandler?.invoke(subscription)
 //    }
 //
-//    private fun onSubscriptionDisabled(subscriptionJson: String) {
-//        val subscriptionId = Util.getObjectId(subscriptionJson)
+//    private fun onSubscriptionDisabled(subscriptionId: String) {
 //        val subscription = findSubscription(subscriptionId) ?: run {
 //            Logger.logW("onSubscriptionDisabled: The subscription is not found")
 //            return

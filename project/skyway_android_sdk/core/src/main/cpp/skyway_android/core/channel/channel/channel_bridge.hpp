@@ -30,11 +30,15 @@ public:
     static jstring Metadata(JNIEnv* env, jobject j_this, jlong channel);
     static jstring State(JNIEnv* env, jobject j_this, jlong channel);
     static void AddEventListener(JNIEnv* env, jobject j_this, jlong channel);
+    static void AddInternalEventListener(const std::string& channel_id, EventListener* event_listener);
     static bool UpdateMetadata(JNIEnv* env, jobject j_this, jlong channel, jstring j_metadata);
     static jstring Join(JNIEnv* env, jobject j_this, jlong channel, jstring j_name, jstring j_metadata, jstring j_type, jstring j_subtype, jint keepalive_interval_sec);
     static bool Leave(JNIEnv* env, jobject j_this, jlong channel, jlong member);
     static bool Close(JNIEnv* env, jobject j_this, jlong channel);
     static void Dispose(JNIEnv* env, jobject j_this, jlong channel);
+
+private:
+    static std::map<std::string, std::vector<EventListener*>> event_listeners;
 };
 
 }  // namespace channel

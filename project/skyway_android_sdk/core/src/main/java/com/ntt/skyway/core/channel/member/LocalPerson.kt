@@ -8,7 +8,6 @@ import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.util.Logger
-import com.ntt.skyway.core.util.Util
 import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -121,13 +120,12 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
     }
 
     override fun addEventListener() {
-        nativeAddEventListener(nativePointer)
+        nativeAddEventListener(channel.id, nativePointer)
     }
 
-    private fun onStreamPublished(publicationJson: String) {
+    private fun onStreamPublished(publicationId: String) {
         scope.launch {
             publishMutex.withLock {
-                val publicationId = Util.getObjectId(publicationJson)
                 val publication = channel.findPublication(publicationId) ?: run {
                     Logger.logW("onStreamPublished: The publication($publicationId) is not found")
                     return@launch
@@ -137,8 +135,7 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
         }
     }
 
-    private fun onStreamUnpublished(publicationJson: String) {
-        val publicationId = Util.getObjectId(publicationJson)
+    private fun onStreamUnpublished(publicationId: String) {
         val publication = channel.findPublication(publicationId) ?: run {
             Logger.logW("onStreamUnpublished: The publication($publicationId) is not found")
             return
@@ -146,10 +143,9 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
         onStreamUnpublishedHandler?.invoke(publication)
     }
 
-    private fun onPublicationSubscribed(subscriptionJson: String) {
+    private fun onPublicationSubscribed(subscriptionId: String) {
         scope.launch {
             subscribeMutex.withLock {
-                val subscriptionId = Util.getObjectId(subscriptionJson)
                 val subscription = channel.findSubscription(subscriptionId) ?: run {
                     Logger.logW("onPublicationSubscribed: The subscription($subscriptionId) is not found")
                     return@launch
@@ -159,8 +155,7 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
         }
     }
 
-    private fun onPublicationUnsubscribed(subscriptionJson: String) {
-        val subscriptionId = Util.getObjectId(subscriptionJson)
+    private fun onPublicationUnsubscribed(subscriptionId: String) {
         val subscription = channel.findSubscription(subscriptionId) ?: run {
             Logger.logW("onPublicationUnsubscribed: The subscription($subscriptionId) is not found")
             return
@@ -168,7 +163,7 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
         onPublicationUnsubscribedHandler?.invoke(subscription)
     }
 
-    private external fun nativeAddEventListener(ptr: Long)
+    private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativePublish(ptr: Long, localStreamPtr: Long, options: String): String?
     private external fun nativeUnpublish(ptr: Long, publicationId: String): Boolean
     private external fun nativeSubscribe(ptr: Long, publicationId: String, options: String): String?

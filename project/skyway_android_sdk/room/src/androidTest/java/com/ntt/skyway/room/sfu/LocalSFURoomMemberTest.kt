@@ -10,6 +10,7 @@ import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import java.util.*
@@ -110,6 +111,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
     }
@@ -120,6 +122,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription1 = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription1?.id)
         val subscription2 = publication?.id?.let { bob?.subscribe(it) }
@@ -170,6 +173,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))
@@ -181,6 +185,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))

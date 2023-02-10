@@ -22,6 +22,11 @@ object Logger {
         printLog(level, message, frame.methodName, frame.fileName, frame.lineNumber)
     }
 
+    fun log(level: LogLevel, message: String, tag: String) {
+        val frame = Exception().stackTrace[2]
+        printLog(level, "$tag: $message", frame.methodName, frame.fileName, frame.lineNumber)
+    }
+
     fun log(level: Int, message: String, fileName: String, methodName: String, lineNumber: Int) {
         printLog(LogLevel.values()[level], message, methodName, fileName, lineNumber)
     }

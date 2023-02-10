@@ -9,6 +9,8 @@
 
 #include <skyway/core/interface/channel.hpp>
 
+#include "core/event_listener.hpp"
+
 #ifndef SKYWAY_ANDROID_CORE_CHANNEL_CHANNEL_EVENT_LISTENER_HPP
 #define SKYWAY_ANDROID_CORE_CHANNEL_CHANNEL_EVENT_LISTENER_HPP
 
@@ -20,7 +22,7 @@ using Member = skyway::core::interface::Member;
 using Publication = skyway::core::interface::Publication;
 using Subscription = skyway::core::interface::Subscription;
 
-class ChannelEventListener : public skyway::core::interface::Channel::EventListener {
+class ChannelEventListener : public skyway::core::interface::Channel::EventListener, public EventListener {
 public:
     ChannelEventListener(jobject j_channel);
     ~ChannelEventListener();

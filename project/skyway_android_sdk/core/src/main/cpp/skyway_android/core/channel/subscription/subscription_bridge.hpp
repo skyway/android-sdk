@@ -23,7 +23,7 @@ public:
 
     static jstring State(JNIEnv* env, jobject j_this, jlong subscription);
 
-    static void AddEventListener(JNIEnv* env, jobject j_this, jlong subscription);
+    static void AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong subscription);
     static bool Cancel(JNIEnv* env, jobject j_this, jlong subscription);
     static bool Enable(JNIEnv* env, jobject j_this, jlong subscription);
     static bool Disable(JNIEnv* env, jobject j_this, jlong subscription);

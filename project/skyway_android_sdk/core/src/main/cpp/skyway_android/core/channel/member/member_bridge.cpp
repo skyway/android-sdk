@@ -10,6 +10,7 @@
 #include "core/util/register_methods_helper.hpp"
 #include "core/util/jstring_to_string.hpp"
 #include "core/context/context_bridge.hpp"
+#include "core/channel/channel/channel_bridge.hpp"
 
 namespace skyway_android {
 namespace core {
@@ -21,7 +22,7 @@ bool MemberBridge::RegisterMethods(JNIEnv* env) {
     JNINativeMethod native_methods[] = {
         {
             "nativeAddEventListener",
-            "(J)V",
+            "(Ljava/lang/String;J)V",
             (void*) MemberBridge::AddEventListener
         },
         {
@@ -54,9 +55,11 @@ bool MemberBridge::RegisterMethods(JNIEnv* env) {
     );
 }
 
-void MemberBridge::AddEventListener(JNIEnv* env, jobject j_this, jlong member) {
+void MemberBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong member) {
     auto member_event_listener = new MemberEventListener(j_this);
     ((Member*)member)->AddEventListener(member_event_listener);
+    auto channel_id = JStringToStdString(env, j_channel_id);
+    channel::ChannelBridge::AddInternalEventListener(channel_id, member_event_listener);
 }
 
 jstring MemberBridge::Metadata(JNIEnv* env, jobject j_this, jlong member) {

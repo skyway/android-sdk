@@ -48,6 +48,8 @@ class RoomPublication internal constructor(
         val isEnabled: Boolean? = null,
         /**
          *  最大のsubscriber数。
+         *  SFURoomの利用時のみ有効です。
+         *  最大値は99です。
          */
         val maxSubscribers: Int = 10
     ) {
