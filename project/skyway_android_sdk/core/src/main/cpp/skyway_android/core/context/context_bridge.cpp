@@ -43,6 +43,11 @@ bool ContextBridge::RegisterMethods(JNIEnv* env) {
             (void*) ContextBridge::UpdateAuthToken
         },
         {
+            "nativeUpdateRtcConfig",
+            "(Ljava/lang/String;)V",
+            (void*) ContextBridge::_UpdateRtcConfig
+        },
+        {
             "nativeDispose",
             "()V",
             (void*) ContextBridge::Dispose
@@ -112,6 +117,26 @@ jboolean ContextBridge::Setup(JNIEnv* env, jobject j_this, jstring j_auth_token,
 jboolean ContextBridge::UpdateAuthToken(JNIEnv* env, jobject j_this, jstring j_auth_token) {
     auto auth_token = JStringToStdString(env, j_auth_token);
     return Context::UpdateAuthToken(auth_token);
+}
+
+void ContextBridge::_UpdateRtcConfig(JNIEnv* env, jobject j_this, jstring j_rtc_config) {
+    auto rtc_config_string = JStringToStdString(env, j_rtc_config);
+    auto rtc_config_json = nlohmann::json::parse(rtc_config_string);
+
+    ContextOptions::RtcConfig rtc_config;
+    if(rtc_config_json.contains("timeout")) {
+        rtc_config.timeout = rtc_config_json["timeout"];
+    }
+    if(rtc_config_json.contains("policy")) {
+        if(rtc_config_json["policy"] == "ENABLE") {
+            rtc_config.policy = skyway::core::TurnPolicy::kEnable;
+        } else if(rtc_config_json["policy"] == "DISABLE") {
+            rtc_config.policy = skyway::core::TurnPolicy::kDisable;
+        } else if(rtc_config_json["policy"] == "TURN_ONLY") {
+            rtc_config.policy = skyway::core::TurnPolicy::kTurnOnly;
+        }
+    }
+    Context::_UpdateRtcConfig(rtc_config);
 }
 
 void ContextBridge::SetJavaVMFromEnv(JNIEnv* env) {

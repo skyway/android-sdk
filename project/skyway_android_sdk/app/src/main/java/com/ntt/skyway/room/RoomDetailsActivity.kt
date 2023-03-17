@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ntt.skyway.ScreenShareService
 import com.ntt.skyway.adapter.RecyclerViewAdapterRoomMember
 import com.ntt.skyway.adapter.RecyclerViewAdapterRoomPublication
+import com.ntt.skyway.core.content.Codec
+import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalDataStream
 import com.ntt.skyway.core.content.local.LocalVideoStream
@@ -211,6 +213,12 @@ class RoomDetailsActivity : AppCompatActivity() {
             publishDataStream()
         }
 
+        binding.btnUpdateEncoding.setOnClickListener {
+            Log.d(tag, "updateEncoding")
+            val encodings = mutableListOf(Encoding("encode", scaleResolutionDownBy = 8.0))
+            publication?.updateEncodings(encodings)
+        }
+
         binding.btnSendData.setOnClickListener {
             val text = binding.textData.text.toString()
             localDataStream?.write(text)
@@ -244,10 +252,11 @@ class RoomDetailsActivity : AppCompatActivity() {
 
     private fun publishCameraVideoStream() {
         Log.d(tag, "publishCameraVideoStream()")
-//        val encoding = Encoding("low", 200_000, 4.0)
-        // val codec = Codec(Codec.MimeType.AV1)
+        val encoding = Encoding("encode", scaleResolutionDownBy = 1.0)
+        val codec = Codec(Codec.MimeType.VP8)
         val options = RoomPublication.Options(
-            // codecCapabilities = mutableListOf(codec)
+            codecCapabilities = mutableListOf(codec),
+            encodings = mutableListOf(encoding)
         )
         scope.launch(Dispatchers.Main) {
             publication = RoomManager.localPerson?.publish(localVideoStream!!, options)
@@ -268,7 +277,7 @@ class RoomDetailsActivity : AppCompatActivity() {
         AudioSource.start()
         val localAudioStream = AudioSource.createStream()
         val options = RoomPublication.Options(
-            // codecCapabilities = mutableListOf(Codec(Codec.MimeType.RED))
+            codecCapabilities = mutableListOf(Codec(Codec.MimeType.OPUS))
         )
         scope.launch(Dispatchers.Main) {
             publication = RoomManager.localPerson?.publish(localAudioStream, options)

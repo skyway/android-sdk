@@ -9,17 +9,20 @@
 
 #include <json.hpp>
 
+#include <skyway/core/interface/local_stream.hpp>
+
 #include "core/util/jstring_to_string.hpp"
 #include "core/util/register_methods_helper.hpp"
 #include "core/channel/publication/publication_event_listener.hpp"
 #include "core/context/context_bridge.hpp"
 #include "core/channel/channel/channel_bridge.hpp"
+#include "core/channel/channel_util.hpp"
 
 namespace skyway_android {
 namespace core {
 
 using PublicationState = skyway::core::interface::PublicationState;
-
+using LocalStream = skyway::core::interface::LocalStream;
 
 bool PublicationBridge::RegisterMethods(JNIEnv* env) {
     JNINativeMethod native_methods[] = {
@@ -67,6 +70,16 @@ bool PublicationBridge::RegisterMethods(JNIEnv* env) {
             "nativeUpdateEncodings",
             "(JLjava/lang/String;)V",
             (void*) PublicationBridge::UpdateEncodings
+        },
+        {
+            "nativeReplaceStream",
+            "(JJ)Z",
+            (void*) PublicationBridge::ReplaceStream
+        },
+        {
+            "nativeGetStats",
+            "(Ljava/lang/String;J)Ljava/lang/String;",
+            (void*) PublicationBridge::GetStats
         },
     };
 
@@ -143,6 +156,21 @@ void PublicationBridge::UpdateEncodings(JNIEnv* env, jobject j_this, jlong publi
     }
 
     ((Publication*)publication)->UpdateEncodings(encodings);
+}
+
+bool PublicationBridge::ReplaceStream(JNIEnv* env, jobject j_this, jlong publication, jlong local_stream) {
+    std::shared_ptr<LocalStream> local_stream_shared((LocalStream*)local_stream);
+    return ((Publication*)publication)->ReplaceStream(local_stream_shared);
+}
+
+jstring PublicationBridge::GetStats(JNIEnv* env, jobject j_this, jstring j_remote_member_id, jlong publication) {
+    auto remote_member_id = JStringToStdString(env, j_remote_member_id);
+    auto stats = ((Publication*)publication)->GetStats(remote_member_id);
+    if(!stats){
+        return nullptr;
+    }
+    auto stats_json = util::getWebRTCStatsJson(&stats.get());
+    return env->NewStringUTF(stats_json.dump().c_str());
 }
 
 }  // namespace core

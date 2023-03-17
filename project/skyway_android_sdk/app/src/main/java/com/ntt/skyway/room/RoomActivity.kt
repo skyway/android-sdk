@@ -37,70 +37,15 @@ class RoomActivity : AppCompatActivity() {
 
         checkPermission()
 
-        binding.roomName.text = roomName
+        binding.roomName.setText(roomName)
         binding.memberName.setText(memberName)
-
-        scope.launch(Dispatchers.Main) {
-            RoomManager.room = P2PRoom.findOrCreate(roomName)
-            RoomManager.room?.apply {
-
-                onClosedHandler = {
-                    Log.d(tag, "onMetadataUpdated")
-                }
-
-                onMetadataUpdatedHandler = {
-                    Log.d(tag, "onMetadataUpdated")
-                }
-
-                onMemberJoinedHandler =  {
-                    Log.d(tag, "onMemberJoined")
-                }
-
-                onMemberLeftHandler =  {
-                    Log.d(tag, "onMemberLeft")
-                }
-
-                onMemberMetadataUpdatedHandler = { _, _ ->
-                    Log.d(tag, "onMemberMetadataUpdated")
-                }
-
-                onPublicationMetadataUpdatedHandler = { _, _ ->
-                    Log.d(tag, "onPublicationMetadataUpdated")
-                }
-
-                onPublicationListChangedHandler =  {
-                    Log.d(tag, "onPublicationListChanged")
-                }
-
-                onStreamPublishedHandler =  {
-                    Log.d(tag, "onStreamPublished")
-                }
-
-                onStreamUnpublishedHandler =  {
-                    Log.d(tag, "onStreamUnpublished")
-                }
-
-                onSubscriptionListChangedHandler =  {
-                    Log.d(tag, "onSubscriptionListChanged")
-                }
-
-                onPublicationSubscribedHandler =  {
-                    Log.d(tag, "onPublicationSubscribed")
-                }
-
-                onPublicationUnsubscribedHandler =  {
-                    Log.d(tag, "onPublicationUnsubscribed")
-                }
-            }
-
-            initRoomFunctions()
-
-        }
 
         binding.btnJoinRoom.setOnClickListener {
             Log.d(tag, "btnJoinRoom.setOnClickListener: ")
             val memberInit = RoomMember.Init(binding.memberName.text.toString())
             scope.launch(Dispatchers.Main) {
+                RoomManager.room = P2PRoom.findOrCreate(binding.roomName.text.toString())
+                initRoomFunctions()
                 RoomManager.localPerson = RoomManager.room!!.join(memberInit)
                 RoomManager.localPerson?.apply {
                     onStreamPublishedHandler = {

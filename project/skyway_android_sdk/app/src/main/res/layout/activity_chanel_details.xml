@@ -162,6 +162,13 @@
                     android:text="Change sub encoding"
                     android:textSize="12sp" />
 
+                <Button
+                    android:id="@+id/btnReplaceStream"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Replace\nStream" />
+
             </LinearLayout>
 
             <LinearLayout

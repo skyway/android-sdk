@@ -245,6 +245,10 @@ class ChannelDetailsActivity : AppCompatActivity() {
                 isSubEncodingHigh = !isSubEncodingHigh
             }
 
+            btnReplaceStream.setOnClickListener {
+                replaceStream()
+            }
+
             btnSendData.setOnClickListener {
                 val text = binding.textData.text.toString()
                 localDataStream?.write(text)
@@ -388,23 +392,7 @@ class ChannelDetailsActivity : AppCompatActivity() {
     }
 
     private fun publishCustomVideoStream() {
-        val localVideoSource = CustomVideoFrameSource(800, 800)
-        val handler = Handler()
-        val r: Runnable = object : Runnable {
-            private var r = 0f
-            override fun run() {
-                r += 10
-                canvas.drawRect(200F, 200F, 600F, 600F, paint)
-                updateBitmap(r)
-                scope.launch {
-                    localVideoSource.updateFrame(bitmap, 0)
-                }
-                handler.postDelayed(this, 16)
-            }
-        }
-        handler.post(r)
-
-        val localVideoStream = localVideoSource.createStream()
+        val localVideoStream = createCustomVideoStream()
 //        localVideoStream.addRenderer(binding.localRenderer)
         scope.launch {
             publication = ChannelManager.localPerson?.publish(localVideoStream, Publication.Options(isEnabled = true))
@@ -412,15 +400,34 @@ class ChannelDetailsActivity : AppCompatActivity() {
             publication?.stream?.let {
                 (it as LocalVideoStream).addRenderer(binding.localRenderer)
             }
-            canvas.drawRect(200F, 200F, 600F, 600F, paint)
-            localVideoSource.updateFrame(bitmap, 0)
         }
     }
 
-    fun updateBitmap(r: Float) {
+    fun updateBitmap() {
         canvas.drawRect(0F, 0F, 800F, 800F, back)
         canvas.rotate(10F, 400F, 400F)
         canvas.drawRect(200F, 200F, 600F, 600F, paint)
+    }
+
+    private fun replaceStream() {
+        val localVideoStream = createCustomVideoStream()
+        publication?.replaceStream(localVideoStream)
+    }
+
+    private fun createCustomVideoStream(): LocalVideoStream {
+        val localVideoSource = CustomVideoFrameSource(800, 800)
+        val handler = Handler()
+        val r: Runnable = object : Runnable {
+            override fun run() {
+                updateBitmap()
+                scope.launch {
+                    localVideoSource.updateFrame(bitmap, 0)
+                }
+                handler.postDelayed(this, 16)
+            }
+        }
+        handler.post(r)
+        return localVideoSource.createStream()
     }
 
     private val serviceConnection = object : ServiceConnection {

@@ -25,9 +25,9 @@
                 android:layout_height="wrap_content"
                 android:text="Room Name: " />
 
-            <TextView
+            <EditText
                 android:id="@+id/room_name"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>

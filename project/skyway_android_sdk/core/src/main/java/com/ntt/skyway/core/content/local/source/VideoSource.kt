@@ -13,9 +13,16 @@ import org.webrtc.*
  *  映像入力に関する操作を行う抽象クラス。
  */
 abstract class VideoSource {
-    protected val source = WebRTCManager.createRTCVideoSource()
-    protected val textureHelper: SurfaceTextureHelper = WebRTCManager.createSurfaceTextureHelper()
+    protected var source = WebRTCManager.createRTCVideoSource()
+    protected var textureHelper: SurfaceTextureHelper = WebRTCManager.createSurfaceTextureHelper()
     protected val yuvConverter = YuvConverter()
+
+    init {
+        WebRTCManager.onUpdatePcFactoryHandlers.add {
+            source = WebRTCManager.createRTCVideoSource()
+            textureHelper = WebRTCManager.createSurfaceTextureHelper()
+        }
+    }
 
     /**
      *  Publish可能な[com.ntt.skyway.core.content.Stream]を生成します。

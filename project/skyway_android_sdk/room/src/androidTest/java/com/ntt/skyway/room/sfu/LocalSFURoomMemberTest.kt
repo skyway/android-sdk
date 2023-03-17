@@ -8,9 +8,9 @@ import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.room.RoomPublication
+import com.ntt.skyway.room.RoomSubscription
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import java.util.*
@@ -111,7 +111,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
     }
@@ -122,7 +122,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription1 = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription1?.id)
         val subscription2 = publication?.id?.let { bob?.subscribe(it) }
@@ -135,18 +135,20 @@ class LocalSFURoomMemberTest {
         Assert.assertNull(subscription?.id)
     }
 
-//    @Test  //TODO impl on core getPreferredEncodingId
-//    fun subscribe_WithPreferredEncodingId() = runBlocking {
-//        val encoding = Encoding("TEST_ENCODING_ID",200_000, 4.0)
-//        val options = RoomPublication.Options("metadata", null, listOf(encoding), false)
-//        val publication = alice?.publish(aliceLocalVideoStream, options)
-//        Assert.assertNotNull(publication)
-//        Assert.assertEquals(publication?.metadata, options.metadata)
-//        val subOption = RoomSubscription.Options(true, encoding.id)
-//        val subscription = publication?.id?.let { bob?.subscribe(it, subOption) }
-//        Assert.assertNotNull(subscription?.id)
-////        Assert.assertEquals(subscription.get)
-//    }
+    @Test
+    fun subscribe_WithPreferredEncodingId() = runBlocking {
+        val encoding = Encoding("TEST_ENCODING_ID",200_000, 4.0)
+        val options = RoomPublication.Options("metadata", null, listOf(encoding), false)
+        val publication = alice?.publish(aliceLocalVideoStream, options)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
+        val subOption = RoomSubscription.Options(encoding.id)
+        val subscription = publication?.id?.let { bob?.subscribe(it, subOption) }
+        Assert.assertNotNull(subscription?.id)
+        Assert.assertNotNull(subscription?.preferredEncodingId)
+        Assert.assertEquals(subscription?.preferredEncodingId, encoding.id)
+    }
 
     @Test
     fun unpublish() = runBlocking {
@@ -173,7 +175,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))
@@ -185,7 +187,7 @@ class LocalSFURoomMemberTest {
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForBobChannelOnStreamPublishedHandler(bobRoom!!)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))

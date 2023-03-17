@@ -24,6 +24,8 @@ using Publication = skyway::core::interface::Publication;
 using Subscription = skyway::core::interface::Subscription;
 using ContextOptions = skyway::core::ContextOptions;
 
+nlohmann::json getWebRTCStatsJson(skyway::model::WebRTCStats* webRtcStats_ptr);
+
 nlohmann::json ToJson(Member* member_ptr);
 nlohmann::json ToJson(Publication* publication_ptr);
 nlohmann::json ToJson(Subscription* subscription_ptr);

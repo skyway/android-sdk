@@ -40,8 +40,9 @@ class RemoteVideoStream internal constructor(dto: Dto) : RemoteStream(dto) {
      */
     fun removeAllRenderer() {
         for (renderer in renderers) {
-            removeRenderer(renderer)
+            track.removeSink(renderer.sink)
         }
+        renderers.clear()
     }
 
     override fun dispose() {

@@ -14,6 +14,7 @@
 #include "core/util/jstring_to_string.hpp"
 #include "core/context/context_bridge.hpp"
 #include "core/channel/channel/channel_bridge.hpp"
+#include "core/channel/channel_util.hpp"
 
 namespace skyway_android {
 namespace core {
@@ -32,6 +33,10 @@ bool SubscriptionBridge::RegisterMethods(JNIEnv* env) {
             "nativeState",
             "(J)Ljava/lang/String;",
             (void*) SubscriptionBridge::State
+        },{
+                "nativePreferredEncodingId",
+                "(J)Ljava/lang/String;",
+                (void*) SubscriptionBridge::PreferredEncodingId
         },
         {
             "nativeCancel",
@@ -52,6 +57,11 @@ bool SubscriptionBridge::RegisterMethods(JNIEnv* env) {
             "nativeDisable",
             "(J)Z",
             (void*) SubscriptionBridge::Disable
+        },
+        {
+            "nativeGetStats",
+            "(J)Ljava/lang/String;",
+            (void*) SubscriptionBridge::GetStats
         },
     };
 
@@ -82,6 +92,11 @@ jstring SubscriptionBridge::State(JNIEnv* env, jobject j_this, jlong subscriptio
     }
 }
 
+jstring SubscriptionBridge::PreferredEncodingId(JNIEnv* env, jobject j_this, jlong subscription) {
+    auto preferred_encoding_id_ = ((Subscription*)subscription)->PreferredEncodingId();
+    return preferred_encoding_id_ ? env->NewStringUTF(preferred_encoding_id_->c_str()) : env->NewStringUTF("");
+}
+
 bool SubscriptionBridge::Cancel(JNIEnv* env, jobject j_this, jlong subscription) {
     return ((Subscription*)subscription)->Cancel();
 }
@@ -97,6 +112,15 @@ bool SubscriptionBridge::Disable(JNIEnv* env, jobject j_this, jlong subscription
 void SubscriptionBridge::ChangePreferredEncoding(JNIEnv* env, jobject j_this, jlong subscription, jstring j_id) {
     auto id = JStringToStdString(env, j_id);
     ((Subscription*)subscription)->ChangePreferredEncoding(id);
+}
+
+jstring SubscriptionBridge::GetStats(JNIEnv* env, jobject j_this, jlong subscription) {
+    auto stats = ((Subscription*)subscription)->GetStats();
+    if(!stats){
+        return nullptr;
+    }
+    auto stats_json = util::getWebRTCStatsJson(&stats.get());
+    return env->NewStringUTF(stats_json.dump().c_str());
 }
 
 }  // namespace core

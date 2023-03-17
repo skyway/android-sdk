@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.util.Logger
+import com.ntt.skyway.core.channel.Publication
+import com.ntt.skyway.core.channel.member.LocalPerson
 
 object TestUtil {
     val TAG = this.javaClass.simpleName
@@ -23,5 +25,15 @@ object TestUtil {
         if (result) {
             Log.d(TAG, "Setup succeed")
         }
+    }
+
+    suspend fun waitForFindSubscriptions(member:LocalPerson, publication: Publication): Boolean {
+        repeat(10){
+            if(member?.subscriptions?.find { it.id == publication?.id } != null){
+                return true
+            }
+            Thread.sleep(100)
+        }
+        return false
     }
 }

@@ -127,6 +127,9 @@ jstring LocalPersonBridge::Subscribe(JNIEnv* env, jobject j_this, jlong local_pe
     if(subscription_options_json.contains("isEnabled")) {
         subscription_options.is_enabled = subscription_options_json["isEnabled"];
     }
+    if(subscription_options_json.contains("preferredEncodingId")) {
+        subscription_options.preferred_encoding_id = subscription_options_json["preferredEncodingId"];
+    }
 
     auto subscription = ((LocalPerson*)local_person)->Subscribe(publication_id, subscription_options);
     if (!subscription) {

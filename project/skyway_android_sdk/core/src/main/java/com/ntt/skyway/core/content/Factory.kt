@@ -1,6 +1,8 @@
 package com.ntt.skyway.core.content
 
 import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import com.ntt.skyway.core.content.local.LocalAudioStream
 import com.ntt.skyway.core.content.local.LocalDataStream
@@ -45,6 +47,22 @@ internal object Factory {
             Stream.ContentType.VIDEO -> RemoteVideoStream(streamDto)
             Stream.ContentType.DATA -> RemoteDataStream(streamDto)
         }
+    }
+
+    fun createWebRTCStats(statsJson: String): WebRTCStats {
+        var reports = mutableListOf<WebRTCStatsReport>()
+        val jsons = Gson().fromJson(statsJson, JsonArray::class.java)
+        jsons.forEach{
+            val json = it.asJsonObject
+            var id = json.remove("id").asString
+            var type = json.remove("type").asString
+            var params = mutableMapOf<String, JsonElement>();
+            json.entrySet().forEach{
+                params[it.key] = it.value
+            }
+            reports.add(WebRTCStatsReport(id, type, params.toMap()))
+        }
+        return WebRTCStats(reports)
     }
 
     private fun createStreamDto(streamJson: String): Stream.Dto {

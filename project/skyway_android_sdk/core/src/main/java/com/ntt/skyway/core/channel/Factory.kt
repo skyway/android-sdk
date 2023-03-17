@@ -88,7 +88,7 @@ internal class Factory(private val channel: Channel) {
             origin = origin,
             codecCapabilities = Codec.fromJsonArray(dto.get("codecCapabilities").asJsonArray),
             nativePointer = dto.get("nativePointer").asLong,
-            stream = stream
+            internalStream = stream
         )
     }
 

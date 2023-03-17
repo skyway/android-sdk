@@ -109,6 +109,7 @@ $dokka.location:com.ntt.skyway.room/RoomPublication/disable/#/PointingToDeclarat
 $dokka.location:com.ntt.skyway.room/RoomPublication/enable/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/enable.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/encodings/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/encodings.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/equals/#kotlin.Any?/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/equals.html
+$dokka.location:com.ntt.skyway.room/RoomPublication/getStats/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/get-stats.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/hash-code.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/id.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/metadata/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/metadata.html
@@ -120,6 +121,7 @@ $dokka.location:com.ntt.skyway.room/RoomPublication/onSubscriptionListChangedHan
 $dokka.location:com.ntt.skyway.room/RoomPublication/onUnpublishedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/on-unpublished-handler.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/onUnsubscribedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/on-unsubscribed-handler.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/publisher/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/publisher.html
+$dokka.location:com.ntt.skyway.room/RoomPublication/replaceStream/#com.ntt.skyway.core.content.local.LocalStream/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/replace-stream.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/room/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/room.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/state/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/state.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/stream/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/stream.html
@@ -133,9 +135,11 @@ $dokka.location:com.ntt.skyway.room/RoomSubscription/cancel/#/PointingToDeclarat
 $dokka.location:com.ntt.skyway.room/RoomSubscription/changePreferredEncoding/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/change-preferred-encoding.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/contentType/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/content-type.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/equals/#kotlin.Any?/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/equals.html
+$dokka.location:com.ntt.skyway.room/RoomSubscription/getStats/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/get-stats.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/hash-code.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/id.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/onCanceledHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/on-canceled-handler.html
+$dokka.location:com.ntt.skyway.room/RoomSubscription/preferredEncodingId/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/preferred-encoding-id.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/publication/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/publication.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/room/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/room.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/state/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/state.html

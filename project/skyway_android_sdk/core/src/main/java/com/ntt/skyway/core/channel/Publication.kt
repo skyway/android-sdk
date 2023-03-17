@@ -8,7 +8,9 @@ import com.google.gson.Gson
 import com.google.gson.JsonParser
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.*
+import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.Stream.ContentType
+import com.ntt.skyway.core.content.local.LocalStream
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -44,26 +46,27 @@ class Publication internal constructor(
     /**
      * このPublicationのStream。
      */
-    val stream: Stream?
+    private var internalStream: Stream?
 ) {
     /**
      *  Publish時の設定。
      */
     data class Options(
         /**
-         * Metadata。
+         *  Metadata。
          */
         val metadata: String? = null,
         /**
-         * コーデック一覧。
+         *  コーデック一覧。
          */
         val codecCapabilities: List<Codec>? = null,
         /**
-         * エンコーディング設定一覧。
+         *  エンコーディング設定一覧。
+         *  詳しい設定例については開発者ドキュメントの[大規模会議アプリを実装する上での注意点](https://skyway.ntt.com/ja/docs/user-guide/tips/large-scale/)をご覧ください
          */
         val encodings: List<Encoding>? = null,
         /**
-         * publish時にenableかdisableか。
+         *  publish時にenableかdisableか。
          */
         val isEnabled: Boolean? = null
     ) {
@@ -110,12 +113,13 @@ class Publication internal constructor(
         get() = channel.subscriptions.filter { it.publication == this }
 
     /**
-     *  このPublicationのエンコード設定。
+     *  このPublicationのエンコーディング設定一覧。
+     *  詳しい設定例については開発者ドキュメントの[大規模会議アプリを実装する上での注意点](https://skyway.ntt.com/ja/docs/user-guide/tips/large-scale/)をご覧ください
      */
     val encodings:List<Encoding>
         get(){
-            val json_arr = JsonParser.parseString(nativeEncodings(nativePointer)).getAsJsonArray()
-            return Encoding.fromJsonArray(json_arr.getAsJsonArray())
+            val jsonArr = JsonParser.parseString(nativeEncodings(nativePointer)).asJsonArray
+            return Encoding.fromJsonArray(jsonArr.asJsonArray)
         }
 
     /**
@@ -154,6 +158,9 @@ class Publication internal constructor(
      * [Publication.disable]が実行された時に発火します。
      */
     var onDisabledHandler: (() -> Unit)? = null
+
+    val stream: Stream?
+        get() = internalStream
 
     init {
         nativeAddEventListener(channel.id, nativePointer)
@@ -203,6 +210,27 @@ class Publication internal constructor(
         nativeUpdateEncodings(nativePointer, encodingsJson)
     }
 
+    /**
+     *  送信するStreamを変更します。
+     *  @param stream 変更先のStream。既にpublishしているstreamと同じcontentTypeである必要があります。
+     */
+    fun replaceStream(stream: LocalStream) {
+        this.internalStream = stream
+        nativeReplaceStream(nativePointer, stream.nativePointer)
+    }
+
+    /**
+     *  統計情報を取得します。
+     *  experimentalな機能です。
+     *  @param remoteMemberId 対象の[RemoteMember]のID
+     */
+    fun getStats(remoteMemberId:String): WebRTCStats? {
+        nativeGetStats(remoteMemberId,nativePointer)?.let {
+            return Factory.createWebRTCStats(it)
+        }
+        return null;
+    }
+
     private fun onMetadataUpdated(metadata: String) {
         onMetadataUpdatedHandler?.invoke(metadata)
     }
@@ -240,4 +268,6 @@ class Publication internal constructor(
     private external fun nativeEnable(ptr: Long): Boolean
     private external fun nativeDisable(ptr: Long): Boolean
     private external fun nativeUpdateEncodings(ptr: Long, encodings: String)
+    private external fun nativeReplaceStream(ptr: Long, localStreamPtr: Long): Boolean
+    private external fun nativeGetStats(data: String, ptr: Long):String?
 }

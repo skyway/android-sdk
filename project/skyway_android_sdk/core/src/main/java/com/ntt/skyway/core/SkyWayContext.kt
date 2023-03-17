@@ -196,6 +196,18 @@ object SkyWayContext {
     }
 
     /**
+     *  RtcConfigを更新します。
+     *  このAPIは内部向けのものであり、サポート対象外です
+     *
+     *  @param rtcConfig 更新後のRtcConfig。
+     */
+    @JvmStatic
+    @SkyWayOptIn
+    fun _updateRtcConfig(rtcConfig: RtcConfig) {
+        nativeUpdateRtcConfig(rtcConfig.toJson())
+    }
+
+    /**
      *  [Plugin]を登録します。Botの利用に対応します。
      *
      *  @param plugin 利用したいプラグインのインスタンス。
@@ -265,5 +277,6 @@ object SkyWayContext {
     ): Boolean
 
     private external fun nativeUpdateAuthToken(authToken: String): Boolean
+    private external fun nativeUpdateRtcConfig(rtcConfig: String)
     private external fun nativeDispose()
 }

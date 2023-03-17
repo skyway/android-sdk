@@ -5,12 +5,17 @@
 package com.ntt.skyway.room
 
 
+import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.channel.Channel
 import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Subscription
+import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.content.WebRTCStats
+import com.ntt.skyway.core.content.local.LocalStream
+import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.plugin.sfuBot.Forwarding
 import com.ntt.skyway.room.member.RoomMember
 import kotlinx.coroutines.Dispatchers
@@ -39,7 +44,8 @@ class RoomPublication internal constructor(
          */
         val codecCapabilities: List<Codec>? = null,
         /**
-         *  エンコード設定一覧。
+         *  エンコーディング設定一覧。
+         *  詳しい設定例については開発者ドキュメントの[大規模会議アプリを実装する上での注意点](https://skyway.ntt.com/ja/docs/user-guide/tips/large-scale/)をご覧ください
          */
         val encodings: List<Encoding>? = null,
         /**
@@ -94,7 +100,7 @@ class RoomPublication internal constructor(
      *  このRoomPublicationに対する[Subscription]の一覧。
      */
     val subscriptions
-        get() = room.subscriptions.filter { it.publication?.id == this.id }
+        get() = room.subscriptions.filter { it.publication.id == this.id }
 
     /**
      * このRoomPublicationが所属する[Room]。
@@ -103,7 +109,8 @@ class RoomPublication internal constructor(
         get() = publication.codecCapabilities
 
     /**
-     *  このRoomPublicationのエンコード設定。
+     *  このRoomPublicationのエンコーディング設定一覧。
+     *  詳しい設定例については開発者ドキュメントの[大規模会議アプリを実装する上での注意点](https://skyway.ntt.com/ja/docs/user-guide/tips/large-scale/)をご覧ください
      */
     val encodings: List<Encoding>
         get() = publication.encodings
@@ -271,6 +278,35 @@ class RoomPublication internal constructor(
             publication.updateEncodings(encodings)
         }
         publication.origin?.updateEncodings(encodings)
+    }
+
+    /**
+     *  送信するStreamを変更します。
+     *  @param stream 変更先のStream。既にpublishしているstreamと同じcontentTypeである必要があります。
+     */
+    fun replaceStream(stream: LocalStream) {
+        publication.replaceStream(stream)
+    }
+
+    /**
+     *  統計情報を取得します。
+     *  experimentalな機能です。
+     *  @param remoteMemberId 対象の[RemoteMember]のID
+     */
+    @SkyWayOptIn
+    fun getStats(remoteMemberId: String): WebRTCStats? {
+        val origin = publication.origin
+        if (origin == null) {
+            return publication.getStats(remoteMemberId)
+        } else {
+            val botId =
+                origin.subscriptions.find { it.subscriber.type == Member.Type.BOT }?.subscriber?.id
+                    ?: run{
+                        Logger.logE("Bot is not found")
+                        return null
+                    }
+            return origin.getStats(botId)
+        }
     }
 
     override fun hashCode(): Int {

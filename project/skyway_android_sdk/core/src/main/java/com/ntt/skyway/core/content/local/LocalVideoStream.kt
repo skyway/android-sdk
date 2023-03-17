@@ -39,8 +39,9 @@ class LocalVideoStream internal constructor(
      */
     fun removeAllRenderer() {
         for (renderer in renderers) {
-            removeRenderer(renderer)
+            track.removeSink(renderer.sink)
         }
+        renderers.clear()
     }
 
     override fun dispose() {
