@@ -6,6 +6,7 @@
 //
 
 #include "core/content/content_util.hpp"
+#include <skyway/core/interface/local_stream.hpp>
 
 namespace skyway_android {
 namespace content {

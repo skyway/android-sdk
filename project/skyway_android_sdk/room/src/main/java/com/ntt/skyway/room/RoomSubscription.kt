@@ -4,9 +4,11 @@
 
 package com.ntt.skyway.room
 
+import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.core.channel.Subscription
+import com.ntt.skyway.core.content.WebRTCStats
 import com.ntt.skyway.room.member.RoomMember
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -68,6 +70,12 @@ class RoomSubscription internal constructor(
         get() = subscription.state
 
     /**
+     * このRoomSubscriptionの優先エンコーディングID。
+     */
+    val preferredEncodingId: String
+        get() = subscription.preferredEncodingId
+
+    /**
      * このRoomSubscriptionの[Stream]。
      */
     val stream: RemoteStream?
@@ -99,6 +107,15 @@ class RoomSubscription internal constructor(
     }
 
     /**
+     *  統計情報を取得します。
+     *  experimentalな機能です。
+     */
+    @SkyWayOptIn
+    fun getStats(): WebRTCStats? {
+        return subscription.getStats()
+    }
+
+    /**
      *  publishを中止します。
      *  [onUnsubscribedHandler]が発火します。
      */
@@ -113,7 +130,6 @@ class RoomSubscription internal constructor(
 //    suspend fun disable(): Boolean = withContext(Dispatchers.IO) {
 //        return@withContext subscription.disable()
 //    }
-
 
     override fun hashCode(): Int {
         return id.hashCode()

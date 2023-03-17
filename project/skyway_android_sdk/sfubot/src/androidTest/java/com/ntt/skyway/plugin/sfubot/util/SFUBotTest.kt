@@ -72,4 +72,25 @@ class SFUBotTest {
         val result = bot.stopForwarding(forwarding)
         Assert.assertTrue(result)
     }
+
+    @Test
+    fun getStats_WithMediaStream() = runBlocking {
+        val bot = SFUBot.createBot(aliceChannel)
+        val publication = alice?.publish(localStream)
+        val forwarding = bot?.startForwarding(publication!!)
+        Assert.assertNotNull(forwarding)
+
+        TestUtil.waitForFindSubscriptions(alice!!,publication!!)
+
+        val subscription = forwarding?.id?.let { alice?.subscribe(it) }
+        Assert.assertNotNull(subscription?.id)
+
+        val pub_stats = publication.getStats(bot!!.id)
+        Assert.assertNotNull(pub_stats)
+        Assert.assertTrue(pub_stats!!.reports.size > 0)
+
+        val sub_stats = subscription!!.getStats()
+        Assert.assertNotNull(sub_stats)
+        Assert.assertTrue(sub_stats!!.reports.size > 0)
+    }
 }

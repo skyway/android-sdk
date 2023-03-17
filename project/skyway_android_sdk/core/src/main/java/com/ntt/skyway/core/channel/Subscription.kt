@@ -9,6 +9,8 @@ import com.ntt.skyway.core.content.Stream.ContentType
 import com.ntt.skyway.core.content.remote.RemoteDataStream
 import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.content.Factory
+import com.ntt.skyway.core.content.WebRTCStats
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -79,6 +81,12 @@ class Subscription internal constructor(
         get() = State.fromString(nativeState(nativePointer))
 
     /**
+     *  このSubscriptionの優先エンコーディングID。
+     */
+    val preferredEncodingId: String
+        get() = nativePreferredEncodingId(nativePointer)
+
+    /**
      *  subscribeがキャンセルされた際に発火するハンドラ。
      */
     var onCanceledHandler: (() -> Unit)? = null
@@ -87,13 +95,6 @@ class Subscription internal constructor(
 
     init {
         nativeAddEventListener(channel.id, nativePointer)
-    }
-
-    /**
-     *  subscribeを中止します。
-     */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.IO) {
-        return@withContext nativeCancel(nativePointer)
     }
 
 //    suspend fun enable(): Boolean = withContext(Dispatchers.IO) {
@@ -111,6 +112,24 @@ class Subscription internal constructor(
         nativeChangePreferredEncoding(nativePointer, id)
     }
 
+    /**
+     *  統計情報を取得します。
+     *  experimentalな機能です。
+     */
+    fun getStats(): WebRTCStats? {
+        nativeGetStats(nativePointer)?.let {
+            return Factory.createWebRTCStats(it)
+        }
+        return null
+    }
+
+    /**
+     *  subscribeを中止します。
+     */
+    suspend fun cancel(): Boolean = withContext(Dispatchers.IO) {
+        return@withContext nativeCancel(nativePointer)
+    }
+
     private fun onCanceled() {
         onCanceledHandler?.invoke()
     }
@@ -125,8 +144,10 @@ class Subscription internal constructor(
 
     private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativeState(ptr: Long): String
+    private external fun nativePreferredEncodingId(ptr: Long): String
     private external fun nativeCancel(ptr: Long): Boolean
     private external fun nativeEnable(ptr: Long): Boolean
     private external fun nativeDisable(ptr: Long): Boolean
     private external fun nativeChangePreferredEncoding(ptr: Long, id: String)
+    private external fun nativeGetStats(ptr: Long):String?
 }

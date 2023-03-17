@@ -17,18 +17,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
-        maven {
-            url = uri("https://maven.pkg.github.com/skyway/android-sdk")
-
-            credentials {
-                def localProperties = new Properties()
-                localProperties.load(file('local.properties').newDataInputStream())
-
-                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
-                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
-            }
-        }
     }
 }
-rootProject.name = "Skyway Quick Start App"
+rootProject.name = "SkyWay Quick Start App"
 include ':app'

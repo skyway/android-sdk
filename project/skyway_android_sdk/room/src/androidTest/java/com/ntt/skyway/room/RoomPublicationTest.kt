@@ -4,9 +4,11 @@ import android.Manifest
 import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
+import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
+import com.ntt.skyway.core.content.local.source.DataSource
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.p2p.LocalP2PRoomMember
 import com.ntt.skyway.room.p2p.P2PRoom
@@ -39,7 +41,7 @@ class RoomPublicationTest {
     private lateinit var bobLocalVideoStream: LocalVideoStream
 
     @Before
-    fun setup() = runBlocking{
+    fun setup() = runBlocking {
         TestUtil.setupSkyway()
 
         aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
@@ -84,7 +86,7 @@ class RoomPublicationTest {
 
     @Test
     fun publish_Enable() = runBlocking {
-        val options = RoomPublication.Options(isEnabled =  false)
+        val options = RoomPublication.Options(isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.state, Publication.State.DISABLED)

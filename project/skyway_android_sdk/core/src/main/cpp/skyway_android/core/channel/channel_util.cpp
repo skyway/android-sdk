@@ -15,6 +15,22 @@ namespace skyway_android {
 namespace core {
 namespace util {
 
+nlohmann::json getWebRTCStatsJson(skyway::model::WebRTCStats* webRtcStats_ptr) {
+    auto jsonArray = nlohmann::json::array();
+
+    for(auto report : webRtcStats_ptr->reports){
+        auto json = nlohmann::json();
+        json["id"] = report.id;
+        json["type"] = report.type;
+        for(auto param : report.params){
+            json[param.first] = param.second;
+        }
+        jsonArray.emplace_back(json);
+    }
+
+    return jsonArray;
+}
+
 nlohmann::json ToJson(Member* member_ptr) {
     nlohmann::json member_json;
     member_json["nativePointer"] = (long) member_ptr;

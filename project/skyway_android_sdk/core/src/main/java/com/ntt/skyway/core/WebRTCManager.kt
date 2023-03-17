@@ -54,6 +54,8 @@ internal object WebRTCManager {
         get() = egl.eglBaseContext
 
     var isSetup = false
+    internal val onUpdatePcFactoryHandlers: (MutableList<() -> Unit>) = mutableListOf()
+
     private lateinit var egl: EglBase
     private lateinit var audioDeviceModule: JavaAudioDeviceModule
     private lateinit var pcFactory: PeerConnectionFactory
@@ -84,6 +86,9 @@ internal object WebRTCManager {
             .setVideoDecoderFactory(videoDecoderFactory)
             .createPeerConnectionFactory()
         isSetup = true
+        onUpdatePcFactoryHandlers.forEach {
+            it.invoke()
+        }
     }
 
     fun createRTCVideoSource(): VideoSource {

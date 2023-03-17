@@ -4,6 +4,10 @@ import android.Manifest
 import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
+import com.ntt.skyway.core.SkyWayOptIn
+import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
+import com.ntt.skyway.core.content.local.source.DataSource
+import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
 import kotlinx.coroutines.runBlocking
@@ -182,5 +186,67 @@ class P2PRoomTest {
         Assert.assertNotNull(room)
         room?.dispose()
         Assert.assertNotNull(room)
+    }
+
+    @OptIn(SkyWayOptIn::class)
+    @Test
+    fun getStats_WithMediaStream() = runBlocking {
+        val aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
+
+        val aliceRoom = P2PRoom.create()
+        val aliceMemberInit = RoomMember.Init(UUID.randomUUID().toString())
+        val alice = aliceRoom?.join(aliceMemberInit)
+
+        val bobRoom = P2PRoom.find(id = aliceRoom?.id)
+        val bobMemberInit = RoomMember.Init(UUID.randomUUID().toString())
+        val bob = bobRoom?.join(bobMemberInit)
+
+        val options = RoomPublication.Options()
+        val publication = alice?.publish(aliceLocalVideoStream, options)
+        Assert.assertNotNull(publication)
+
+        TestUtil.waitForFindSubscription(bob!!, publication!!)
+
+        val subscription = publication.id.let { bob.subscribe(it) }
+        Assert.assertNotNull(subscription?.id)
+
+        val pubStats = publication.getStats(bob.id)
+        Assert.assertNotNull(pubStats)
+        Assert.assertTrue(pubStats!!.reports.isNotEmpty())
+
+        val subStats = subscription!!.getStats()
+        Assert.assertNotNull(subStats)
+        Assert.assertTrue(subStats!!.reports.isNotEmpty())
+    }
+
+    @OptIn(SkyWayOptIn::class)
+    @Test
+    fun getStats_WithDataStream() = runBlocking {
+        val aliceLocalDataStream = DataSource().createStream()
+
+        val aliceRoom = P2PRoom.create()
+        val aliceMemberInit = RoomMember.Init(UUID.randomUUID().toString())
+        val alice = aliceRoom?.join(aliceMemberInit)
+
+        val bobRoom = P2PRoom.find(id = aliceRoom?.id)
+        val bobMemberInit = RoomMember.Init(UUID.randomUUID().toString())
+        val bob = bobRoom?.join(bobMemberInit)
+
+        val options = RoomPublication.Options()
+        val publication = alice?.publish(aliceLocalDataStream, options)
+        Assert.assertNotNull(publication)
+
+        TestUtil.waitForFindSubscription(bob!!, publication!!)
+
+        val subscription = publication.id.let { bob.subscribe(it) }
+        Assert.assertNotNull(subscription?.id)
+
+        val pubStats = publication.getStats(bob.id)
+        Assert.assertNotNull(pubStats)
+        Assert.assertTrue(pubStats!!.reports.isNotEmpty())
+
+        val subStats = subscription!!.getStats()
+        Assert.assertNotNull(subStats)
+        Assert.assertTrue(subStats!!.reports.isNotEmpty())
     }
 }

@@ -22,12 +22,14 @@ public:
     static bool RegisterMethods(JNIEnv* env);
 
     static jstring State(JNIEnv* env, jobject j_this, jlong subscription);
+    static jstring PreferredEncodingId(JNIEnv* env, jobject j_this, jlong subscription);
 
     static void AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong subscription);
     static bool Cancel(JNIEnv* env, jobject j_this, jlong subscription);
     static bool Enable(JNIEnv* env, jobject j_this, jlong subscription);
     static bool Disable(JNIEnv* env, jobject j_this, jlong subscription);
     static void ChangePreferredEncoding(JNIEnv* env, jobject j_this, jlong subscription, jstring j_id);
+    static jstring GetStats(JNIEnv* env, jobject j_this, jlong subscription);
 };
 
 }  // namespace core

@@ -33,6 +33,8 @@ public:
     static bool Enable(JNIEnv* env, jobject j_this, jlong publication);
     static bool Disable(JNIEnv* env, jobject j_this, jlong publication);
     static void UpdateEncodings(JNIEnv* env, jobject j_this, jlong publication, jstring j_encodings);
+    static bool ReplaceStream(JNIEnv* env, jobject j_this, jlong publication, jlong local_stream);
+    static jstring GetStats(JNIEnv* env, jobject j_this, jstring j_remote_member_id, jlong publication);
 };
 
 }  // namespace core

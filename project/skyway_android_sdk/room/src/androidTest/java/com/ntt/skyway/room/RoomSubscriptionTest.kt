@@ -88,6 +88,8 @@ class RoomSubscriptionTest {
         Assert.assertNotNull(publication)
         Assert.assertEquals(publication?.metadata, options.metadata)
 
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
+
         val subscription = publication?.id?.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         subscription?.cancel()

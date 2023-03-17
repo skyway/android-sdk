@@ -15,11 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ntt.skyway.ScreenShareService
 import com.ntt.skyway.adapter.RecyclerViewAdapterRoomMember
 import com.ntt.skyway.adapter.RecyclerViewAdapterRoomPublication
+import com.ntt.skyway.core.content.Codec
+import com.ntt.skyway.core.content.Encoding
+import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalVideoStream
+import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.content.local.source.CameraSource
+import com.ntt.skyway.core.content.remote.RemoteAudioStream
+import com.ntt.skyway.core.content.remote.RemoteDataStream
 import com.ntt.skyway.core.content.remote.RemoteVideoStream
 import com.ntt.skyway.databinding.ActivitySfuRoomDetailsBinding
 import com.ntt.skyway.listener.RoomPublicationAdapterListener
+import com.ntt.skyway.manager.RoomManager
 import com.ntt.skyway.manager.SFURoomManager
 import com.ntt.skyway.room.member.RoomMember
 import kotlinx.coroutines.*
@@ -94,7 +101,27 @@ class SFURoomDetailsActivity : AppCompatActivity() {
                             publicationId,
                             RoomSubscription.Options("low")
                         )
-                        (subscription?.stream as RemoteVideoStream).addRenderer(binding.remoteRenderer)
+                        when (subscription?.contentType) {
+                            Stream.ContentType.VIDEO -> {
+                                (subscription?.stream as RemoteVideoStream).addRenderer(binding.remoteRenderer)
+                            }
+                            Stream.ContentType.AUDIO -> {
+                                (subscription?.stream as RemoteAudioStream)
+                            }
+                            Stream.ContentType.DATA -> {
+                                (subscription?.stream as RemoteDataStream).onDataHandler = {
+                                    Log.d(tag, "data received: $it")
+                                }
+
+                                (subscription?.stream as RemoteDataStream).onDataBufferHandler = {
+                                    Log.d(tag, "data received byte: ${it.contentToString()}")
+                                    Log.d(tag, "data received string: ${String(it)}")
+                                }
+                            }
+                            null -> {
+
+                            }
+                        }
                     }
 
                 }
@@ -160,9 +187,11 @@ class SFURoomDetailsActivity : AppCompatActivity() {
 
         binding.btnPublish.setOnClickListener {
             scope.launch(Dispatchers.Main) {
-                val options = RoomPublication.Options()
+                val encoding = Encoding("high", scaleResolutionDownBy = 1.0)
+                val encoding2 = Encoding("low", scaleResolutionDownBy = 8.0)
+                val options = RoomPublication.Options(encodings =  mutableListOf(encoding, encoding2))
                 publication = SFURoomManager.localPerson?.publish(localVideoStream!!, options)
-                publication?.let { setRoomPublicationEventHandler(it) }
+                publication!!.let { setRoomPublicationEventHandler(it) }
             }
         }
 
@@ -174,9 +203,23 @@ class SFURoomDetailsActivity : AppCompatActivity() {
             }
         }
 
+        binding.btnAudio.setOnClickListener {
+            publishAudioStream()
+        }
+
+        binding.btnUpdateEncoding.setOnClickListener {
+            Log.d(tag, "updateEncoding")
+            val encoding = Encoding("high", scaleResolutionDownBy = 1.0)
+            val encoding2 = Encoding("low", scaleResolutionDownBy = 1.0)
+            publication!!.updateEncodings(mutableListOf(encoding, encoding2))
+        }
+
         binding.btnChangeEncoding.setOnClickListener {
             scope.launch(Dispatchers.Main) {
                 val sub = SFURoomManager.sfuRoom?.subscriptions?.find { it.id == subscription?.id }
+                sub?.publication?.encodings?.forEach {
+                    Log.e(tag, "encoding: ${it.id}")
+                }
 
                 if (toggleEncodingId) {
                     sub?.changePreferredEncoding("high")
@@ -216,6 +259,15 @@ class SFURoomDetailsActivity : AppCompatActivity() {
             onStreamPublishedHandler = {
                 Log.d(tag, "$tag onStreamPublished")
             }
+        }
+    }
+
+    private fun publishAudioStream() {
+        Log.d(tag, "publishAudioStream()")
+        AudioSource.start()
+        val localAudioStream = AudioSource.createStream()
+        scope.launch(Dispatchers.Main) {
+            publication = SFURoomManager.localPerson?.publish(localAudioStream)
         }
     }
 
