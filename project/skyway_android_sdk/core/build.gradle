@@ -78,8 +78,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"
 
     // libwebrtc
-    implementation "com.ntt.skyway:libwebrtc:1.0.0"
-//    implementation project(':libwebrtc')
+//    implementation "com.ntt.skyway:libwebrtc:1.0.0"
+    implementation project(':libwebrtc')
 }
 
 tasks.dokkaHtml.configure {
