@@ -1,6 +1,7 @@
 package com.ntt.skyway.core.util
 
 import android.util.Log
+import com.ntt.skyway.BuildConfig
 
 object Logger {
     enum class LogLevel {
@@ -9,7 +10,7 @@ object Logger {
 
     var logLevel = LogLevel.INFO
     var webRTCLog = false
-    private const val tag = "skyway"
+    private const val tag = "skyway:${BuildConfig.SkyWayVer}"
 
     fun logE(message: String) = log(LogLevel.ERROR, message)
     fun logW(message: String) = log(LogLevel.WARN, message)

@@ -6,6 +6,7 @@ package com.ntt.skyway.core
 
 import android.content.Context
 import com.google.gson.Gson
+import com.ntt.skyway.BuildConfig
 import com.ntt.skyway.core.network.HttpClient
 import com.ntt.skyway.core.network.WebSocketClientFactory
 import com.ntt.skyway.core.util.Logger
@@ -139,6 +140,8 @@ object SkyWayContext {
      *  登録されている[Plugin]の一覧。
      */
     val plugins: MutableList<Plugin> = mutableListOf()
+
+    const val version:String = BuildConfig.SkyWayVer
 
     init {
         System.loadLibrary("skyway_android")

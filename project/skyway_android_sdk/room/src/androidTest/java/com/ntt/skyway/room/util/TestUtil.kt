@@ -2,6 +2,7 @@ package com.ntt.skyway.room.util
 
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
+import com.ntt.skyway.authtoken.AuthTokenBuilder
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.util.Logger
@@ -13,7 +14,10 @@ import kotlinx.coroutines.withTimeoutOrNull
 
 object TestUtil {
     val TAG = this.javaClass.simpleName
-    val authToken = "YOUR_TOKEN"
+    val authToken = AuthTokenBuilder.CreateToken(
+        com.ntt.skyway.room.BuildConfig.APP_ID,
+        com.ntt.skyway.room.BuildConfig.SECRET_KEY
+    )
 
     suspend fun setupSkyway(token: SkyWayContext.Token? = null) {
         val logLevel = Logger.LogLevel.VERBOSE
