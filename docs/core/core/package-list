@@ -408,6 +408,7 @@ $dokka.location:com.ntt.skyway.core/SkyWayContext/plugins/#/PointingToDeclaratio
 $dokka.location:com.ntt.skyway.core/SkyWayContext/registerPlugin/#com.ntt.skyway.plugin.Plugin/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/register-plugin.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext/setup/#android.content.Context#com.ntt.skyway.core.SkyWayContext.Options#kotlin.Function1[com.ntt.skyway.core.SkyWayContext.Error,kotlin.Unit]?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/setup.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext/updateAuthToken/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/update-auth-token.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext/version/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/version.html
 $dokka.location:com.ntt.skyway.core/SkyWayOptIn///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-opt-in/index.html
 $dokka.location:com.ntt.skyway.core/SkyWayOptIn/SkyWayOptIn/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-opt-in/-sky-way-opt-in.html
 $dokka.location:com.ntt.skyway.plugin.remotePerson////PointingToDeclaration/core/com.ntt.skyway.plugin.remotePerson/index.html

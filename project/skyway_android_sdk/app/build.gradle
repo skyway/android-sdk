@@ -12,6 +12,16 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
+
+        // local.propertiesファイルを指定
+        def properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+        def APP_ID = properties.getProperty("appId")
+        buildConfigField("String", "APP_ID", "\"${APP_ID}\"")
+
+        def SECRET_KEY = properties.getProperty("secretKey")
+        buildConfigField("String", "SECRET_KEY", "\"${SECRET_KEY}\"")
     }
 
     buildTypes {
@@ -48,9 +58,9 @@ dependencies {
     implementation project(":sfubot")
     implementation project(":room")
 
+    implementation project(":authtoken")
+
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
-
-    implementation 'com.google.code.gson:gson:2.9.1'
 }

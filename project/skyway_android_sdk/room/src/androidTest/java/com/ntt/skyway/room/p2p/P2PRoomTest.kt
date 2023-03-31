@@ -2,6 +2,7 @@ package com.ntt.skyway.room.p2p
 
 import android.Manifest
 import android.util.Log
+import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.SkyWayOptIn
@@ -10,6 +11,7 @@ import com.ntt.skyway.core.content.local.source.DataSource
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import java.util.*
@@ -170,6 +172,30 @@ class P2PRoomTest {
     }
 
     @Test
+    fun joinTwenty() = runBlocking {
+        val roomName = UUID.randomUUID().toString()
+        val rooms = mutableListOf<P2PRoom>()
+        val members = mutableListOf<LocalP2PRoomMember>()
+
+        repeat(20) {
+            val room = P2PRoom.findOrCreate(roomName)
+            Assert.assertNotNull(room)
+            room?.let {
+                rooms.add(it)
+            }
+
+            val memberName = UUID.randomUUID().toString()
+            val memberInit = RoomMember.Init(memberName)
+            val member = room?.join(memberInit)
+
+            Assert.assertNotNull(member)
+            member?.let {
+                members.add(it)
+            }
+        }
+    }
+
+    @Test
     fun updateMetadata() = runBlocking {
         val name = UUID.randomUUID().toString()
         val metadata = UUID.randomUUID().toString()
@@ -248,5 +274,14 @@ class P2PRoomTest {
         val subStats = subscription!!.getStats()
         Assert.assertNotNull(subStats)
         Assert.assertTrue(subStats!!.reports.isNotEmpty())
+    }
+
+    @Test
+    fun accessPropsAfterDispose() = runBlocking {
+        val aliceRoom = P2PRoom.create()
+        val aliceMemberInit = RoomMember.Init(UUID.randomUUID().toString())
+        val alice = aliceRoom?.join(aliceMemberInit)
+        aliceRoom?.dispose()
+        Assert.assertTrue(alice?.metadata != "metadata")
     }
 }

@@ -21,6 +21,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+
+        debug {
+            // local.propertiesファイルを指定
+            def properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+            def APP_ID = properties.getProperty("appId")
+            buildConfigField("String", "APP_ID", "\"${APP_ID}\"")
+
+            def SECRET_KEY = properties.getProperty("secretKey")
+            buildConfigField("String", "SECRET_KEY", "\"${SECRET_KEY}\"")
+        }
     }
 
     compileOptions {
@@ -44,6 +56,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    androidTestImplementation project(':authtoken')
 
     //coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
@@ -53,12 +66,12 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.1'
 
     // skyway-core
-//    api 'com.ntt.skyway:core:1.2.0'
-    implementation project(":core")
+    api 'com.ntt.skyway:core:1.2.1'
+//    implementation project(":core")
 
     // sfu-bot
-//    api 'com.ntt.skyway:sfubot:1.2.0'
-    implementation project(":sfubot")
+    api 'com.ntt.skyway:sfubot:1.2.1'
+//    implementation project(":sfubot")
 }
 
 tasks.dokkaHtml.configure {
@@ -85,7 +98,7 @@ publishing {
         GitHubPackages(MavenPublication) {
             groupId "com.ntt.skyway"
             artifactId "room"
-            version "1.2.0"
+            version "1.2.1"
 
             afterEvaluate {
                 from components.release

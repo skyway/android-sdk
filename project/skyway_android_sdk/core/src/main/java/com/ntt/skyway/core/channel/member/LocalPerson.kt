@@ -163,6 +163,30 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
         onPublicationUnsubscribedHandler?.invoke(subscription)
     }
 
+    // Redefined for the following reasons
+    // Member events cannot be called in the bridge layer of lower versions of Android.
+    private fun onLeft() {
+        onLeftHandler?.invoke()
+    }
+
+    // Redefined for the following reasons
+    // Member events cannot be called in the bridge layer of lower versions of Android.
+    private fun onMetadataUpdated(metadata: String) {
+        onMetadataUpdatedHandler?.invoke(metadata)
+    }
+
+    // Redefined for the following reasons
+    // Member events cannot be called in the bridge layer of lower versions of Android.
+    private fun onPublicationListChanged() {
+        onPublicationListChangedHandler?.invoke();
+    }
+
+    // Redefined for the following reasons
+    // Member events cannot be called in the bridge layer of lower versions of Android.
+    private fun onSubscriptionListChanged() {
+        onSubscriptionListChangedHandler?.invoke();
+    }
+
     private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativePublish(ptr: Long, localStreamPtr: Long, options: String): String?
     private external fun nativeUnpublish(ptr: Long, publicationId: String): Boolean

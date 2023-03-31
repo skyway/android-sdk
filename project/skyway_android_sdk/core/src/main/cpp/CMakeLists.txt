@@ -2,11 +2,7 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project("skyway")
 
-set( LIBSKYWAY_DIR "libskyway path" )
-set( LIBWEBRTC_DIR "libwebrtc path" )
-set( LIBMEDIASOUPCLIENT_DIR "libmediasoupclient path" )
-set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_DIR}/src )
-set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_DIR}/src/out/${ANDROID_ABI}/obj )
+include(env.cmake)
 
 # Build libmediasoupclient
 add_subdirectory( ${LIBMEDIASOUPCLIENT_DIR} ${LIBMEDIASOUPCLIENT_DIR}/${ANDROID_ABI} )

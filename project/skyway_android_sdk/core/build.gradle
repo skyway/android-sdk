@@ -5,6 +5,8 @@ plugins {
     id 'maven-publish'
 }
 
+def SkyWayVer = "1.2.1"
+
 android {
     compileSdk 33
     ndkVersion "23.0.7599858"
@@ -12,6 +14,7 @@ android {
     defaultConfig {
         minSdk 23
         targetSdk 33
+        buildConfigField("String", "SkyWayVer", "\"${SkyWayVer}\"")
 
         ndk {
             abiFilters 'x86_64', 'arm64-v8a'
@@ -75,8 +78,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"
 
     // libwebrtc
-//    implementation "com.ntt.skyway:libwebrtc:1.0.0"
-    implementation project(':libwebrtc')
+    implementation "com.ntt.skyway:libwebrtc:1.0.0"
+//    implementation project(':libwebrtc')
 }
 
 tasks.dokkaHtml.configure {
@@ -103,7 +106,7 @@ publishing {
         GitHubPackages(MavenPublication) {
             groupId "com.ntt.skyway"
             artifactId "core"
-            version "1.2.0"
+            version SkyWayVer
 
             afterEvaluate {
                 from components.release

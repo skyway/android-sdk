@@ -2,34 +2,38 @@ package com.ntt.skyway.plugin.sfubot.util
 
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
+import com.ntt.skyway.authtoken.AuthTokenBuilder
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.member.LocalPerson
 
 object TestUtil {
-    val TAG = this.javaClass.simpleName
+    private val tag = this.javaClass.simpleName
 
     suspend fun setupSkyway() {
         val logLevel = Logger.LogLevel.VERBOSE
-        val authToken = "YOUR TOKEN"
+        val authToken = AuthTokenBuilder.CreateToken(
+            com.ntt.skyway.plugin.sfubot.BuildConfig.APP_ID,
+            com.ntt.skyway.plugin.sfubot.BuildConfig.SECRET_KEY
+        )
 
         val rtcConfig = SkyWayContext.RtcConfig(policy = SkyWayContext.TurnPolicy.TURN_ONLY)
         val option = SkyWayContext.Options(authToken, logLevel, rtcConfig = rtcConfig)
 
-        var appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
         val result = SkyWayContext.setup(appContext, option) {
-            Log.e(TAG, "Context ${it.message}")
+            Log.e(tag, "Context ${it.message}")
         }
         if (result) {
-            Log.d(TAG, "Setup succeed")
+            Log.d(tag, "Setup succeed")
         }
     }
 
-    suspend fun waitForFindSubscriptions(member:LocalPerson, publication: Publication): Boolean {
+    fun waitForFindSubscriptions(member:LocalPerson, publication: Publication): Boolean {
         repeat(10){
-            if(member?.subscriptions?.find { it.id == publication?.id } != null){
+            if(member.subscriptions.find { it.id == publication.id } != null){
                 return true
             }
             Thread.sleep(100)
