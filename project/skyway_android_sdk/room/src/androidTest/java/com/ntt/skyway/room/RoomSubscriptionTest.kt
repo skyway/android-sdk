@@ -90,7 +90,7 @@ class RoomSubscriptionTest {
 
         TestUtil.waitForFindSubscription(bob!!,publication!!)
 
-        val subscription = publication?.id?.let { bob?.subscribe(it) }
+        val subscription = publication.id.let { bob?.subscribe(it) }
         Assert.assertNotNull(subscription?.id)
         subscription?.cancel()
         Assert.assertEquals(subscription!!.state, Subscription.State.CANCELED)

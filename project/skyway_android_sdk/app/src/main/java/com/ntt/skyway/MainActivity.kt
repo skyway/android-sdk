@@ -38,10 +38,15 @@ class MainActivity : AppCompatActivity() {
 
         checkPermission()
 
-        scope.launch {
+        val findOrCreateJob = scope.launch {
             setupJob?.join()
-            Log.d("MainActivity", "setup: ${SkyWayContext.isSetup}")
-            ChannelManager.channel = Channel.findOrCreate(channelName)
+            Log.d(tag, "setup: ${SkyWayContext.isSetup}")
+            val channel = Channel.findOrCreate(channelName) ?: run {
+                showMessage("findOrCreate Failed")
+                return@launch
+            }
+            Log.d(tag, "channelId: ${channel.id}")
+            ChannelManager.channel = channel
             initChannelFunctions()
         }
 
@@ -57,12 +62,12 @@ class MainActivity : AppCompatActivity() {
                 val memberName = binding.memberName.text.toString()
                 val memberInit = Member.Init(memberName)
                 scope.launch {
+                    findOrCreateJob.join()
                     ChannelManager.localPerson = ChannelManager.channel?.join(memberInit)
                     if (ChannelManager.localPerson != null) {
                         startActivity(Intent(this@MainActivity, ChannelDetailsActivity::class.java))
                     } else {
-                        Toast.makeText(applicationContext, "Joined Failed", Toast.LENGTH_SHORT)
-                            .show()
+                        showMessage("Joined Failed")
                     }
                 }
             }
@@ -119,6 +124,13 @@ class MainActivity : AppCompatActivity() {
         Log.d(tag, "$tag onMembershipChanged")
         runOnUiThread {
             ChannelManager.update()
+        }
+    }
+
+    private fun showMessage(message: String) {
+        runOnUiThread {
+            Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

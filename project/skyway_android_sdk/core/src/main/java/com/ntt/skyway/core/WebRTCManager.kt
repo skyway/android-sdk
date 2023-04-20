@@ -50,7 +50,7 @@ internal object WebRTCManager {
         }
     val nativePCFactory
         get() = pcFactory.nativePeerConnectionFactory
-    val eglBaseContext
+    val eglBaseContext: EglBase.Context
         get() = egl.eglBaseContext
 
     var isSetup = false
@@ -138,5 +138,6 @@ internal object WebRTCManager {
 
     fun dispose() {
         pcFactory.dispose()
+        egl.release()
     }
 }

@@ -66,7 +66,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.1'
 
     // skyway-core
-//    implementation 'com.ntt.skyway:core:1.2.1'
+//    implementation 'com.ntt.skyway:core:1.2.2'
     implementation project(":core")
 }
 
@@ -94,7 +94,7 @@ publishing {
         GitHubPackages(MavenPublication) {
             groupId "com.ntt.skyway"
             artifactId "sfubot"
-            version "1.2.1"
+            version "1.2.2"
 
             afterEvaluate {
                 from components.release

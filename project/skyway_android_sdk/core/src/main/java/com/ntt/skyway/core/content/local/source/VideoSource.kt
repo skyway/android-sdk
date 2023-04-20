@@ -19,6 +19,8 @@ abstract class VideoSource {
 
     init {
         WebRTCManager.onUpdatePcFactoryHandlers.add {
+            source.dispose()
+            textureHelper.dispose()
             source = WebRTCManager.createRTCVideoSource()
             textureHelper = WebRTCManager.createSurfaceTextureHelper()
         }
