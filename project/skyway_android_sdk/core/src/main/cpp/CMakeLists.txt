@@ -3,6 +3,7 @@ cmake_minimum_required(VERSION 3.10.2)
 project("skyway")
 
 include(env.cmake)
+add_definitions(-Wno-deprecated-declarations)
 
 # Build libmediasoupclient
 add_subdirectory( ${LIBMEDIASOUPCLIENT_DIR} ${LIBMEDIASOUPCLIENT_DIR}/${ANDROID_ABI} )
@@ -30,14 +31,7 @@ target_include_directories( libskyway PRIVATE
     ${LIBSKYWAY_DIR}/deps/spdlog/include
 )
 
-target_compile_options(libskyway PRIVATE -Wno-unknown-attributes)
-
-option(ANDROID_PLATFORM "WEBRTC_ANDROID build for Android" ON)
-
-if (ANDROID_PLATFORM)
- MESSAGE(STATUS "WITH_WEBRTC_ANDROID_PLATFORM")
- add_definitions(-DANDROID_PLATFORM)
-endif()
+target_compile_options(libskyway PRIVATE -Werror)
 
 target_compile_definitions( libskyway PRIVATE
     WEBRTC_LINUX=1
@@ -62,8 +56,6 @@ target_include_directories( skyway_android PRIVATE
     ${LIBSKYWAY_DIR}/deps/boost
     skyway_android
 )
-
-target_compile_options(skyway_android PRIVATE -Wno-unknown-attributes)
 
 # Linking
 target_link_libraries( skyway_android libskyway )

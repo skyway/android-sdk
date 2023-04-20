@@ -33,7 +33,7 @@ object SkyWayContext {
      */
     data class Options(
         val authToken: String,
-        val logLevel: Logger.LogLevel = Logger.LogLevel.NONE,
+        val logLevel: Logger.LogLevel = Logger.LogLevel.INFO,
         val webRTCLog: Boolean = false,
         val enableHardwareCodec: Boolean = true,
         val rtcApi: RtcApi? = null,
@@ -251,7 +251,7 @@ object SkyWayContext {
 
     @JvmStatic
     fun onReconnectSuccess() {
-        Logger.logE("onReconnectSuccess")
+        Logger.logI("onReconnectSuccess")
     }
 
     @JvmStatic
