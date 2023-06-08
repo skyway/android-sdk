@@ -25,7 +25,7 @@ publishing {
         GitHubPackages(MavenPublication) {
             groupId "com.ntt.skyway"
             artifactId "libwebrtc"
-            version "1.0.0"
+            version "1.1.0"
 
             artifact("libwebrtc.aar")
 

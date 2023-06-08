@@ -12,80 +12,11 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-                android:layout_weight="1"
-                android:text="Room Name:" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/roomName"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    android:text="room_name" />
-
-                <Button
-                    android:id="@+id/btnJoinRoom"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:text="join" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/message_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Send Message" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/message"
-                    android:layout_width="300dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:ems="10"
-                    android:inputType="textPersonName"
-                    android:text="Hello from Android!" />
-
-                <Button
-                    android:id="@+id/btnSnedMessage"
-                    android:layout_width="100dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:text="send" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/videos"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_gravity="center">
 
             <!-- ローカルのビデオ -->
             <com.ntt.skyway.core.content.sink.SurfaceViewRenderer
@@ -104,6 +35,35 @@
 
             </com.ntt.skyway.core.content.sink.SurfaceViewRenderer>
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:text=" room: "
+                android:textAlignment="textEnd"
+                android:textColor="#888888"
+                android:textSize="13sp" />
+            <EditText
+                android:id="@+id/roomName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:textAlignment="textStart"
+                android:textColor="#000000"
+                android:textSize="15sp"
+                />
+        </LinearLayout>
+        <Button
+            android:id="@+id/joinButton"
+            android:layout_width="150dp"
+            android:layout_height="70dp"
+            android:layout_gravity="center"
+            android:text="Join"
+            android:textSize="15sp"/>
 
     </LinearLayout>
 

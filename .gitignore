@@ -4,3 +4,5 @@ project/skyway_android_sdk/libwebrtc/libwebrtc.aar
 project/skyway_android_sdk/libwebrtc/build
 examples/*/.idea
 project/skyway_android_sdk/core/src/main/cpp/env.cmake
+project/skyway_android_sdk/outputs-aar
+examples/QuickStart/app/libs/*.aar

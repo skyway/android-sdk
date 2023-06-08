@@ -11,6 +11,9 @@ buildscript {
     }
 }
 
+ext.SkyWayVer = "1.3.0"
+ext.output_aar_dir = "outputs-aar"
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

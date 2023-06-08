@@ -7,6 +7,8 @@ package com.ntt.skyway.core
 import android.content.Context
 import com.google.gson.Gson
 import com.ntt.skyway.BuildConfig
+import com.ntt.skyway.core.content.local.source.AudioSource
+import com.ntt.skyway.core.content.local.source.CameraSource
 import com.ntt.skyway.core.network.HttpClient
 import com.ntt.skyway.core.network.WebSocketClientFactory
 import com.ntt.skyway.core.util.Logger
@@ -98,7 +100,11 @@ object SkyWayContext {
         }
     }
 
-    data class Sfu(val domain: String?) {
+    data class Sfu(
+        val domain: String? = null,
+        val version: Int? = null,
+        val secure: Boolean? = null
+    ) {
         internal fun toJson(): String {
             return Gson().toJson(this)
         }
@@ -155,7 +161,7 @@ object SkyWayContext {
      *
      *  @param context コンテキスト。
      *  @param option SkyWayの認証や通信の設定、ログレベルの設定。
-     *  @param onErrorHandler [SkyWayContext.onErrorHandler]にセットするハンドラ。
+     *  @param onErrorHandler 非推奨:[SkyWayContext.onErrorHandler]にセットするハンドラ。
      */
     @JvmStatic
     suspend fun setup(
@@ -167,7 +173,11 @@ object SkyWayContext {
             Logger.logI("Already setup SkyWayContext")
             return@withContext true
         }
-        SkyWayContext.onErrorHandler = onErrorHandler
+
+        if(onErrorHandler != null) {
+            SkyWayContext.onErrorHandler = onErrorHandler
+        }
+
         Logger.logLevel = option.logLevel
         Logger.webRTCLog = option.webRTCLog
 
@@ -239,6 +249,12 @@ object SkyWayContext {
      */
     @JvmStatic
     fun dispose() {
+        if(!isSetup){
+            Logger.logI("Already disposed SkyWayContext")
+            return
+        }
+        CameraSource.stopCapturing()
+        AudioSource.stop()
         nativeDispose()
         WebRTCManager.dispose()
         isSetup = false
@@ -246,12 +262,12 @@ object SkyWayContext {
 
     @JvmStatic
     fun onReconnectStart() {
-        Logger.logE("onReconnectStart")
+        onReconnectStartHandler?.invoke()
     }
 
     @JvmStatic
     fun onReconnectSuccess() {
-        Logger.logI("onReconnectSuccess")
+        onReconnectSuccessHandler?.invoke()
     }
 
     @JvmStatic

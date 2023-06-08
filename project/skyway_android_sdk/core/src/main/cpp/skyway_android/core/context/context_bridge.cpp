@@ -10,6 +10,7 @@
 #include <skyway/core/context.hpp>
 #include <skyway/plugin/remote_person_plugin/plugin.hpp>
 #include <skyway/plugin/sfu_bot_plugin/plugin.hpp>
+#include <skyway/plugin/sfu_bot_plugin/sfu_options.hpp>
 
 #include "core/network/http_client.hpp"
 #include "core/network/websocket_client_factory.hpp"
@@ -22,6 +23,7 @@ namespace skyway_android {
 namespace core {
 
 using ContextOptions = skyway::core::ContextOptions;
+using SfuOptions = skyway::plugin::sfu_options::SfuOptionsParams;
 using Context = skyway::core::Context;
 using RemotePersonPlugin = skyway::plugin::remote_person::Plugin;
 using SfuBotPlugin = skyway::plugin::sfu_bot::Plugin;
@@ -101,14 +103,21 @@ jboolean ContextBridge::Setup(JNIEnv* env, jobject j_this, jstring j_auth_token,
     Context::RegisterPlugin(std::move(remote_person_plugin));
 
     // Register sfu_bot_plugin
-    boost::optional<std::string> sfu_api_url = boost::none;
+    SfuOptions sfu_options = {};
     if(options_json.contains("sfu")) {
         auto sfu_api = options_json["sfu"];
         if(sfu_api.contains("domain")) {
-            sfu_api_url = sfu_api["domain"];
+            sfu_options.domain = sfu_api["domain"];
         }
+        if(sfu_api.contains("version")) {
+            sfu_options.version = sfu_api["version"];
+        }
+        if(sfu_api.contains("secure")) {
+            sfu_options.secure = sfu_api["secure"];
+        }
+
     }
-    auto sfu_bot_plugin = std::make_unique<SfuBotPlugin>(http_ptr, peer_connection_factory_ptr, sfu_api_url);
+    auto sfu_bot_plugin = std::make_unique<SfuBotPlugin>(http_ptr, peer_connection_factory_ptr, sfu_options);
     Context::RegisterPlugin(std::move(sfu_bot_plugin));
 
     return true;

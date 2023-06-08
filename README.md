@@ -18,14 +18,14 @@ https://skyway.ntt.com/ja/docs/user-guide/android-sdk/
 ## 対応OS
 Android 6.0+
 
-## License
+## Licence
 
-- [LICENSE](LICENSE)
+- [LICENCE](LICENCE)
 - [THIRD_PARTY_LICENSE](THIRD_PARTY_LICENSE.txt)
 
 ## 公開リポジトリの運用方針について
 
-このリポジトリは公開用のミラーリポジトリであり、こちらで開発は行いません。
+[skyway/android-sdk](https://github.com/skyway/android-sdk)は公開用のミラーリポジトリであり、開発は行いません。
 
 ### Issue / Pull Request
 

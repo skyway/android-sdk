@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.ntt.skyway.example.quickstart">
+    xmlns:tools="http://schemas.android.com/tools">
     <!-- ネットワーク接続に必要なパーミッション -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- カメラ映像・マイク音声の取得に必要なパーミッション -->

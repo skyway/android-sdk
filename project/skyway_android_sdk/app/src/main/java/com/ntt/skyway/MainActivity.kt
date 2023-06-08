@@ -21,12 +21,13 @@ import com.ntt.skyway.databinding.ActivityMainBinding
 import com.ntt.skyway.manager.ChannelManager
 import com.ntt.skyway.room.RoomActivity
 import kotlinx.coroutines.launch
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val tag = this.javaClass.simpleName
 
-    private val channelName = "channel_" + (Math.random() * 100).toInt().toString()
-    private val memberName = "member_" + (Math.random() * 100).toInt().toString()
+    private val channelName = UUID.randomUUID().toString()
+    private val memberName = UUID.randomUUID().toString()
     private val recyclerViewAdapterMember: RecyclerViewAdapterMember = RecyclerViewAdapterMember()
 
     private lateinit var binding: ActivityMainBinding

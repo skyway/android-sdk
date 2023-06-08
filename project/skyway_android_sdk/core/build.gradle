@@ -5,7 +5,7 @@ plugins {
     id 'maven-publish'
 }
 
-def SkyWayVer = "1.2.2"
+def SkyWayVer = rootProject.ext.SkyWayVer
 
 android {
     compileSdk 33
@@ -57,7 +57,22 @@ android {
         }
     }
 
+    libraryVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "skyway-${archivesBaseName}.aar"
+        }
+    }
+
     namespace 'com.ntt.skyway'
+}
+
+afterEvaluate {
+    def outputFileName = file("$buildDir/outputs/aar/skyway-${archivesBaseName}.aar")
+    tasks.named("assembleRelease").configure {
+        doLast {
+            outputFileName.renameTo("${project.rootDir.absolutePath}/${rootProject.ext.output_aar_dir}/skyway-${archivesBaseName}.aar")
+        }
+    }
 }
 
 dependencies {
@@ -78,7 +93,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"
 
     // libwebrtc
-//    implementation "com.ntt.skyway:libwebrtc:1.0.0"
+//    implementation "com.ntt.skyway:libwebrtc:1.1.0"
     implementation project(':libwebrtc')
 }
 

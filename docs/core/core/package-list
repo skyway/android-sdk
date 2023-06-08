@@ -376,8 +376,10 @@ $dokka.location:com.ntt.skyway.core/SkyWayContext.RtcConfig/RtcConfig/#kotlin.In
 $dokka.location:com.ntt.skyway.core/SkyWayContext.RtcConfig/policy/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-rtc-config/policy.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.RtcConfig/timeout/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-rtc-config/timeout.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Sfu///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-sfu/index.html
-$dokka.location:com.ntt.skyway.core/SkyWayContext.Sfu/Sfu/#kotlin.String?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-sfu/-sfu.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext.Sfu/Sfu/#kotlin.String?#kotlin.Int?#kotlin.Boolean?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-sfu/-sfu.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Sfu/domain/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-sfu/domain.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext.Sfu/secure/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-sfu/secure.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext.Sfu/version/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-sfu/version.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Signaling///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-signaling/index.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Signaling/Signaling/#kotlin.String?#kotlin.Boolean?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-signaling/-signaling.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Signaling/domain/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-signaling/domain.html

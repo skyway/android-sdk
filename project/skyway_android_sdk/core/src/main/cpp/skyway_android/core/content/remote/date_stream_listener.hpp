@@ -9,6 +9,8 @@
 
 #include <skyway/core/stream/remote/data_stream.hpp>
 
+#include "core/event_listener.hpp"
+
 #ifndef SKYWAY_ANDROID_CONTENT_REMOTE_DATA_STREAM_LISTENER_HPP
 #define SKYWAY_ANDROID_CONTENT_REMOTE_DATA_STREAM_LISTENER_HPP
 
@@ -16,7 +18,7 @@ namespace skyway_android {
 namespace content {
 namespace remote {
 
-class RemoteDataStreamListener : public skyway::core::stream::remote::RemoteDataStream::Listener {
+class RemoteDataStreamListener : public skyway::core::stream::remote::RemoteDataStream::Listener, public core::EventListener {
 public:
     RemoteDataStreamListener(jobject j_remote_data_stream);
     ~RemoteDataStreamListener();
