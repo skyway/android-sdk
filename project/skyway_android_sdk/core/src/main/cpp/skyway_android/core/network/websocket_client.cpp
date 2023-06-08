@@ -167,12 +167,11 @@ void WebSocketClient::_OnConnect() {
 }
 
 void WebSocketClient::_OnMessage(const std::string& message ) {
+    std::lock_guard<std::mutex> lg(_workers_mtx);
     auto worker = std::make_unique<std::thread>([=]{
         if (!_listener) return;
         _listener->OnMessage(message);
     });
-
-    std::lock_guard<std::mutex> lg(_workers_mtx);
     _workers.emplace_back(std::move(worker));
 }
 
@@ -209,12 +208,11 @@ void WebSocketClient::_OnError(int code) {
         return;
     }
 
+    std::lock_guard<std::mutex> lg(_workers_mtx);
     auto worker = std::make_unique<std::thread>([=]{
         if (!_listener) return;
         _listener->OnError(code);
     });
-
-    std::lock_guard<std::mutex> lg(_workers_mtx);
     _workers.emplace_back(std::move(worker));
 }
 

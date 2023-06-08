@@ -18,13 +18,14 @@ import com.ntt.skyway.room.p2p.P2PRoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class RoomActivity : AppCompatActivity() {
     private val tag = this.javaClass.simpleName
     private val scope = CoroutineScope(Dispatchers.IO)
 
-    private val roomName = "room_" + (Math.random() * 100).toInt().toString()
-    private val memberName = "member_" + (Math.random() * 100).toInt().toString()
+    private val roomName = UUID.randomUUID().toString()
+    private val memberName = UUID.randomUUID().toString()
 
     private lateinit var binding: ActivityRoomBinding
 

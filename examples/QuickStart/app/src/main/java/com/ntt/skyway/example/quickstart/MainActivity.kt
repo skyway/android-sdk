@@ -24,11 +24,10 @@ import java.util.*
 import android.Manifest
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
-import com.ntt.skyway.core.content.local.LocalDataStream
-import com.ntt.skyway.core.content.local.source.DataSource
-import com.ntt.skyway.core.content.remote.RemoteDataStream
-import kotlin.math.floor
+import com.ntt.skyway.core.content.local.LocalAudioStream
+import com.ntt.skyway.core.content.local.LocalVideoStream
 
 class MainActivity : AppCompatActivity() {
     private val option = SkyWayContext.Options(
@@ -36,14 +35,19 @@ class MainActivity : AppCompatActivity() {
         logLevel = Logger.LogLevel.VERBOSE
     )
     private val scope = CoroutineScope(Dispatchers.IO)
-    private var localRoomMember: LocalRoomMember? = null
-    private var localDataStream: LocalDataStream? = null
+    private var localRoomMember     : LocalRoomMember?  = null
+    private var room                : P2PRoom?          = null
+    private var localVideoStream    : LocalVideoStream? = null
+    private var localAudioStream    : LocalAudioStream? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        // UIの初期化
         initUI()
 
+        // 権限の要求
         if (ContextCompat.checkSelfPermission(
                 applicationContext,
                 Manifest.permission.CAMERA
@@ -62,30 +66,26 @@ class MainActivity : AppCompatActivity() {
                 0
             )
         }
-    }
 
-    private fun initUI() {
-        val roomName = findViewById<EditText>(R.id.roomName)
-        roomName.setText("room_" + (Math.random() * 10000).toInt().toString())
-
-        val btnJoinRoom = findViewById<Button>(R.id.btnJoinRoom)
+        val btnJoinRoom = findViewById<Button>(R.id.joinButton)
         btnJoinRoom.setOnClickListener {
             joinAndPublish()
         }
-
-        val btnSendMessage = findViewById<Button>(R.id.btnSnedMessage)
-        btnSendMessage.setOnClickListener {
-            sendMessage()
-        }
     }
 
+    private fun initUI() {
+        val roomName = findViewById<TextView>(R.id.roomName)
+        roomName.text = UUID.randomUUID().toString()
+    }
     private fun joinAndPublish() {
-        scope.launch {
+
+        scope.launch() {
             val result = SkyWayContext.setup(applicationContext, option)
             if (result) {
                 Log.d("App", "Setup succeed")
             }
 
+            // cameraリソースの取得
             val device = CameraSource.getFrontCameras(applicationContext).first()
 
             // camera映像のキャプチャを開始します
@@ -93,21 +93,21 @@ class MainActivity : AppCompatActivity() {
             CameraSource.startCapturing(applicationContext, device, cameraOption)
 
             // 描画やpublishが可能なStreamを作成します
-            val localVideoStream = CameraSource.createStream()
+            localVideoStream = CameraSource.createStream()
 
             // SurfaceViewRenderer を取得して描画します。
             runOnUiThread {
                 val localVideoRenderer = findViewById<SurfaceViewRenderer>(R.id.local_renderer)
                 localVideoRenderer.setup()
-                localVideoStream.addRenderer(localVideoRenderer)
+                localVideoStream!!.addRenderer(localVideoRenderer)
             }
 
+            // AudioSourceがオブジェクトであることに注意
             AudioSource.start()
 
             // publishが可能なStreamを作成します
-            val localAudioStream = AudioSource.createStream()
-            val roomName = findViewById<EditText>(R.id.roomName)
-            val room = P2PRoom.findOrCreate(name = roomName.text.toString())
+            localAudioStream = AudioSource.createStream()
+            room = P2PRoom.findOrCreate(name = findViewById<EditText>(R.id.roomName).toString())
             val memberInit = RoomMember.Init(name = "member_" + UUID.randomUUID())
             localRoomMember = room?.join(memberInit)
 
@@ -116,8 +116,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, resultMessage, Toast.LENGTH_SHORT)
                     .show()
             }
-
-            localDataStream = DataSource().createStream()
 
             room?.publications?.forEach {
                 if (it.publisher?.id == localRoomMember?.id) return@forEach
@@ -132,12 +130,10 @@ class MainActivity : AppCompatActivity() {
                 subscribe(it)
             }
 
-            localRoomMember?.publish(localVideoStream)
-            localRoomMember?.publish(localAudioStream)
-            localRoomMember?.publish(localDataStream!!)
+            localRoomMember?.publish(localVideoStream!!)
+            localRoomMember?.publish(localAudioStream!!)
         }
     }
-
     private fun subscribe(publication: RoomPublication) {
         scope.launch {
             // Publicationをsubscribeします
@@ -152,22 +148,9 @@ class MainActivity : AppCompatActivity() {
                     Stream.ContentType.VIDEO -> (remoteStream as RemoteVideoStream).addRenderer(
                         remoteVideoRenderer
                     )
-                    Stream.ContentType.DATA -> (remoteStream as RemoteDataStream).onDataHandler = {
-                        Toast.makeText(applicationContext, "Received message", Toast.LENGTH_SHORT)
-                            .show()
-                    }
                     else -> {}
                 }
             }
-        }
-    }
-
-    private fun sendMessage() {
-        localDataStream?.run {
-            val message = findViewById<EditText>(R.id.message)
-            write(message.text.toString())
-            Toast.makeText(applicationContext, "Message sent", Toast.LENGTH_SHORT)
-                .show()
         }
     }
 }

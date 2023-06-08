@@ -15,6 +15,7 @@ import com.ntt.skyway.room.sfu.SFURoom
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class SFURoomActivity : AppCompatActivity() {
     private val tag = this.javaClass.simpleName
@@ -22,8 +23,8 @@ class SFURoomActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySfuroomBinding
 
-    private val roomName = "sfu_room_" + (Math.random() * 100).toInt().toString()
-    private val memberName = "member_" + (Math.random() * 100).toInt().toString()
+    private val roomName = UUID.randomUUID().toString()
+    private val memberName = UUID.randomUUID().toString()
 
     private var recyclerViewAdapterRoomMember: RecyclerViewAdapterRoomMember? = null
 
@@ -33,7 +34,7 @@ class SFURoomActivity : AppCompatActivity() {
         setContentView(this.binding.root)
 
 
-        binding.roomName.text = roomName
+        binding.roomName.setText(roomName)
         binding.memberName.setText(memberName)
 
         scope.launch(Dispatchers.Main) {

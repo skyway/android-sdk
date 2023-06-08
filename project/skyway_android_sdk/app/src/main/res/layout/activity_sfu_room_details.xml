@@ -42,23 +42,21 @@
             android:layout_marginStart="20dp"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Member Name: " />
-
-            <TextView
-                android:id="@+id/member_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="member1"/>
-
         </LinearLayout>
 
     </LinearLayout>
 
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member Name: " />
 
+        <TextView
+            android:id="@+id/member_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="member1" />
 
         <LinearLayout
             android:layout_width="match_parent"
