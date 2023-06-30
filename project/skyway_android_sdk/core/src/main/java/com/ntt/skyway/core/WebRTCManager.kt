@@ -3,6 +3,8 @@ package com.ntt.skyway.core
 import android.annotation.SuppressLint
 import android.content.Context
 import com.ntt.skyway.core.content.local.source.AudioSource
+import com.ntt.skyway.core.content.local.source.CameraSource
+import com.ntt.skyway.core.content.local.source.ScreenSource
 import com.ntt.skyway.core.content.sink.AudioDestination
 import com.ntt.skyway.core.util.Logger
 import org.webrtc.*
@@ -54,8 +56,8 @@ internal object WebRTCManager {
         get() = egl.eglBaseContext
 
     var isSetup = false
-    internal val onUpdatePcFactoryHandlers: (MutableList<() -> Unit>) = mutableListOf()
 
+    internal val videoSourceList: MutableList<com.ntt.skyway.core.content.local.source.VideoSource> = mutableListOf()
     private lateinit var egl: EglBase
     private lateinit var audioDeviceModule: JavaAudioDeviceModule
     private lateinit var pcFactory: PeerConnectionFactory
@@ -85,34 +87,30 @@ internal object WebRTCManager {
             .setVideoEncoderFactory(videoEncoderFactory)
             .setVideoDecoderFactory(videoDecoderFactory)
             .createPeerConnectionFactory()
+
+        CameraSource.initialize()
+        ScreenSource.initialize()
+
         isSetup = true
-        onUpdatePcFactoryHandlers.forEach {
-            it.invoke()
-        }
     }
 
     fun createRTCVideoSource(): VideoSource {
-        check(isSetup) { "Please setup first" }
         return pcFactory.createVideoSource(false)
     }
 
     fun createRTCVideoTrack(source: VideoSource): VideoTrack {
-        check(isSetup) { "Please setup first" }
         return pcFactory.createVideoTrack(UUID.randomUUID().toString(), source)
     }
 
     fun createRTCAudioSource(): org.webrtc.AudioSource {
-        check(isSetup) { "Please setup first" }
         return pcFactory.createAudioSource(MediaConstraints())
     }
 
     fun createRTCAudioTrack(source: org.webrtc.AudioSource): AudioTrack {
-        check(isSetup) { "Please setup first" }
         return pcFactory.createAudioTrack(UUID.randomUUID().toString(), source)
     }
 
     fun createSurfaceTextureHelper(): SurfaceTextureHelper {
-        check(isSetup) { "Please setup first" }
         return SurfaceTextureHelper.create("CaptureThread", eglBaseContext)
     }
 
@@ -137,6 +135,11 @@ internal object WebRTCManager {
     }
 
     fun dispose() {
+        videoSourceList.forEach {
+            it.dispose()
+        }
+        videoSourceList.clear()
+
         pcFactory.dispose()
         egl.release()
     }
