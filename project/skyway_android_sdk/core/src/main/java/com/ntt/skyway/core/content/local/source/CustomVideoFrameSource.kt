@@ -16,20 +16,23 @@ import java.util.concurrent.TimeUnit
  *  任意のフレームによる映像入力に関する操作を行うクラス。
  */
 class CustomVideoFrameSource(width: Int, height: Int) : VideoSource() {
-    private val observer = source.capturerObserver
+    private val observer: CapturerObserver
     private val textures = IntArray(1)
-    private val buffer = TextureBufferImpl(
-        width,
-        height,
-        RGB,
-        textures[0],
-        Matrix(),
-        textureHelper.handler,
-        yuvConverter,
-        null
-    )
+    private val buffer: TextureBufferImpl
 
     init {
+        initialize()
+        observer = source.capturerObserver
+        buffer = TextureBufferImpl(
+            width,
+            height,
+            RGB,
+            textures[0],
+            Matrix(),
+            textureHelper.handler,
+            yuvConverter,
+            null
+        )
         GLES20.glGenTextures(1, textures, 0)
         GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, textures[0])
     }

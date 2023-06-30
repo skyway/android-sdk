@@ -13,26 +13,29 @@ import org.webrtc.*
  *  映像入力に関する操作を行う抽象クラス。
  */
 abstract class VideoSource {
-    protected var source = WebRTCManager.createRTCVideoSource()
-    protected var textureHelper: SurfaceTextureHelper = WebRTCManager.createSurfaceTextureHelper()
+    protected lateinit var source: org.webrtc.VideoSource
+    protected lateinit var textureHelper: SurfaceTextureHelper
     protected val yuvConverter = YuvConverter()
+    private var videoTrack: VideoTrack? = null
 
-    init {
-        WebRTCManager.onUpdatePcFactoryHandlers.add {
-            source.dispose()
-            textureHelper.dispose()
-            source = WebRTCManager.createRTCVideoSource()
-            textureHelper = WebRTCManager.createSurfaceTextureHelper()
-        }
+    internal fun initialize() {
+        WebRTCManager.videoSourceList.add(this)
+        source = WebRTCManager.createRTCVideoSource()
+        textureHelper = WebRTCManager.createSurfaceTextureHelper()
     }
 
     /**
      *  Publish可能な[com.ntt.skyway.core.content.Stream]を生成します。
      */
     fun createStream(): LocalVideoStream {
-        val track = WebRTCManager.createRTCVideoTrack(source)
-        val streamJson = nativeCreateVideoStream(track)
-        return Factory.createLocalVideoStream(streamJson, this, track)
+        videoTrack = WebRTCManager.createRTCVideoTrack(source)
+        val streamJson = nativeCreateVideoStream(videoTrack!!)
+        return Factory.createLocalVideoStream(streamJson, this, videoTrack!!)
+    }
+
+    internal fun dispose() {
+        source.dispose()
+        textureHelper.dispose()
     }
 
     private external fun nativeCreateVideoStream(track: VideoTrack): String

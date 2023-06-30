@@ -14,7 +14,9 @@ import com.ntt.skyway.core.network.WebSocketClientFactory
 import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.plugin.Plugin
 import com.ntt.skyway.plugin.remotePerson.RemotePersonPlugin
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
@@ -147,7 +149,7 @@ object SkyWayContext {
      */
     val plugins: MutableList<Plugin> = mutableListOf()
 
-    const val version:String = BuildConfig.SkyWayVer
+    const val version: String = BuildConfig.SkyWayVer
 
     init {
         System.loadLibrary("skyway_android")
@@ -174,7 +176,7 @@ object SkyWayContext {
             return@withContext true
         }
 
-        if(onErrorHandler != null) {
+        if (onErrorHandler != null) {
             SkyWayContext.onErrorHandler = onErrorHandler
         }
 
@@ -249,7 +251,7 @@ object SkyWayContext {
      */
     @JvmStatic
     fun dispose() {
-        if(!isSetup){
+        if (!isSetup) {
             Logger.logI("Already disposed SkyWayContext")
             return
         }
@@ -272,8 +274,10 @@ object SkyWayContext {
 
     @JvmStatic
     fun onFatalError(message: String) {
-        isSetup = false
-        onErrorHandler?.invoke(Error(message))
+        CoroutineScope(Dispatchers.IO).launch {
+            onErrorHandler?.invoke(Error(message))
+        }
+
     }
 
     @JvmStatic

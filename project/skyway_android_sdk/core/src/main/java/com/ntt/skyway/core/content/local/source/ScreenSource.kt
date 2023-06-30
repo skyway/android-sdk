@@ -14,7 +14,6 @@ import org.webrtc.ScreenCapturerAndroid
  *  画面共有による映像入力に関する操作を行うクラス。
  */
 object ScreenSource : VideoSource() {
-    private var isSetup = false
     private lateinit var capturer: ScreenCapturerAndroid
 
     private val mediaProjectionCallback = object : MediaProjection.Callback() {
@@ -29,15 +28,10 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun setup(context: Context, mediaProjectionPermissionResultData: Intent) {
-        if (isSetup) {
-            Logger.logI("Already setup ScreenSource")
-            return
-        }
         capturer = ScreenCapturerAndroid(
             mediaProjectionPermissionResultData, mediaProjectionCallback
         )
         capturer.initialize(textureHelper, context, source.capturerObserver)
-        isSetup = true
     }
 
     /**
@@ -46,7 +40,6 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun startCapturing(width: Int, height: Int, frameRate: Int) {
-        check(isSetup) { "Please setup ScreenSource first" }
         capturer.startCapture(width, height, frameRate)
     }
 
@@ -56,7 +49,6 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun stopCapturing() {
-        check(isSetup) { "Please setup ScreenSource first" }
         capturer.stopCapture()
     }
 }

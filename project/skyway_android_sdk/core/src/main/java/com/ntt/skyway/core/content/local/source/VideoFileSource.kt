@@ -20,6 +20,7 @@ class VideoFileSource(context: Context, fileName: String): VideoSource() {
     private val capturer: FileVideoCapturer
 
     init {
+        initialize()
         capturer = FileVideoCapturer(fileName)
         capturer.initialize(textureHelper, context, source.capturerObserver)
     }
