@@ -159,6 +159,11 @@ class Publication internal constructor(
      */
     var onDisabledHandler: (() -> Unit)? = null
 
+    /**
+     *  メディア通信の状態が変化した際に発火するハンドラ。
+     */
+    var onConnectionStateChangedHandler: ((state: String) -> Unit)? = null
+
     val stream: Stream?
         get() = internalStream
 
@@ -257,6 +262,10 @@ class Publication internal constructor(
 
     private fun onDisabled() {
         onDisabledHandler?.invoke()
+    }
+
+    private fun onConnectionStateChanged(state: String) {
+        onConnectionStateChangedHandler?.invoke(state)
     }
 
     private external fun nativeAddEventListener(channelId: String, ptr: Long)

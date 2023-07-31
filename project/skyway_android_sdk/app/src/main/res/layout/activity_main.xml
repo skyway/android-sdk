@@ -14,41 +14,113 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:gravity="bottom"
+            android:text="Context:"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <Button
+                android:id="@+id/btnContextSetup"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Channel Name: " />
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="setup" />
 
-            <TextView
-                android:id="@+id/channel_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+            <Button
+                android:id="@+id/btnContextDispose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Dispose " />
 
         </LinearLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.5"
+            android:text="Channel / Room Name:"
+            android:textStyle="bold" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/channel_room_name"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Member Name: " />
+                android:layout_weight="1"
+                android:singleLine="true" />
+
+            <Button
+                android:id="@+id/btnScanQR"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:text="SCAN QR"
+                android:singleLine="true" />
+
+        </LinearLayout>
+
+        <Switch
+            android:id="@+id/swIDorName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:singleLine="false"
+            android:text="FindBy(off:Name/on:ID)"
+            android:textAlignment="textEnd" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member Name: "
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <EditText
                 android:id="@+id/member_name"
-                android:layout_width="200dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="member1"/>
+                android:layout_marginBottom="20dp"
+                android:singleLine="true" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:gravity="bottom"
+            android:text="RoomType:"
+            android:textStyle="bold" />
+
+        <Spinner
+            android:id="@+id/selector"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,70 +128,71 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnJoinChannel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="join ch"/>
+                android:id="@+id/btnFindOrCreate"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Find Or Create" />
 
             <Button
-                android:id="@+id/btnDisposeChannel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:text="Dispose ch"/>
+                android:id="@+id/btnJoin"
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Join" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnRoom"
+                android:id="@+id/btnFind"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"
-                android:text="Room"/>
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Find" />
+
+            <Button
+                android:id="@+id/btnCreate"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="Create" />
+
+            <Button
+                android:id="@+id/btnClose"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:singleLine="true"
+                android:text="Close" />
+
+            <Button
+                android:id="@+id/btnDispose"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:singleLine="true"
+                android:text="Dispose" />
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="5dp"
-            android:layout_marginEnd="5dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:textSize="16sp"
-                    android:gravity="center"
-                    android:layout_marginBottom="5dp"
-                    android:text="Members"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_user_list"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    tools:listitem="@layout/list_item_user" />
-
-            </LinearLayout>
-
-
-
+            android:orientation="vertical">
 
         </LinearLayout>
 

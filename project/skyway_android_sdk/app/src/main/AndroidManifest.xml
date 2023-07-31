@@ -25,11 +25,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ntt.skyway.channel.ChannelDetailsActivity"/>
-        <activity android:name=".room.RoomActivity"/>
-        <activity android:name=".room.RoomDetailsActivity"/>
-        <activity android:name=".room.SFURoomActivity"/>
-        <activity android:name=".room.SFURoomDetailsActivity"/>
+        <activity android:name=".ChannelDetailsActivity"/>
+        <activity android:name=".P2PRoomDetailsActivity"/>
+        <activity android:name=".SFURoomDetailsActivity"/>
 
         <service
             android:name=".ScreenShareService"

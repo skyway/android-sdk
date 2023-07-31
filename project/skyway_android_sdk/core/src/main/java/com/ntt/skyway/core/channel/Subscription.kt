@@ -93,6 +93,11 @@ class Subscription internal constructor(
 //    var onEnabledHandler: (() -> Unit)? = null
 //    var onDisabledHandler: (() -> Unit)? = null
 
+    /**
+     *  メディア通信の状態が変化した際に発火するハンドラ。
+     */
+    var onConnectionStateChangedHandler: ((state: String) -> Unit)? = null
+
     init {
         nativeAddEventListener(channel.id, nativePointer)
     }
@@ -141,6 +146,10 @@ class Subscription internal constructor(
 //    private fun onDisabled() {
 //        onDisabledHandler?.invoke()
 //    }
+
+    private fun onConnectionStateChanged(state: String) {
+        onConnectionStateChangedHandler?.invoke(state)
+    }
 
     private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativeState(ptr: Long): String

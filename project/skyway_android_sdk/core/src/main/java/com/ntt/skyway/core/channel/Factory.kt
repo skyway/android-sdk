@@ -4,12 +4,13 @@ import com.google.gson.Gson
 import com.google.gson.JsonObject
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.content.Codec
-import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.channel.member.RemoteMember
+import com.ntt.skyway.core.util.Logger
+import com.ntt.skyway.plugin.unknown.UnknownPlugin
 
 internal class Factory(private val channel: Channel) {
     companion object {
@@ -58,10 +59,10 @@ internal class Factory(private val channel: Channel) {
             nativePointer = dto.get("nativePointer").asLong,
         )
         val subtype = dto.get("subtype").asString
-        val plugin = SkyWayContext.findPlugin(subtype)
+        val plugin = SkyWayContext.findPlugin(subtype) ?: UnknownPlugin
 
-        checkNotNull(plugin) {
-            return@checkNotNull "Plugin($subtype) is not found"
+        if (plugin.name == UnknownPlugin.name) {
+            Logger.logI("Plugin($subtype) is not found. Use UnknownPlugin instead.")
         }
 
         return plugin.createRemoteMember(memberDto)

@@ -113,6 +113,7 @@ $dokka.location:com.ntt.skyway.room/RoomPublication/getStats/#kotlin.String/Poin
 $dokka.location:com.ntt.skyway.room/RoomPublication/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/hash-code.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/id.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/metadata/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/metadata.html
+$dokka.location:com.ntt.skyway.room/RoomPublication/onConnectionStateChangedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/on-connection-state-changed-handler.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/onDisabledHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/on-disabled-handler.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/onEnabledHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/on-enabled-handler.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/onMetadataUpdatedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/on-metadata-updated-handler.html
@@ -139,6 +140,7 @@ $dokka.location:com.ntt.skyway.room/RoomSubscription/getStats/#/PointingToDeclar
 $dokka.location:com.ntt.skyway.room/RoomSubscription/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/hash-code.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/id.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/onCanceledHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/on-canceled-handler.html
+$dokka.location:com.ntt.skyway.room/RoomSubscription/onConnectionStateChangedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/on-connection-state-changed-handler.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/preferredEncodingId/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/preferred-encoding-id.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/publication/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/publication.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/room/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/room.html

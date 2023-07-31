@@ -16,6 +16,8 @@ android {
         targetSdk 33
         buildConfigField("String", "SkyWayVer", "\"${SkyWayVer}\"")
 
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
         ndk {
             abiFilters 'x86_64', 'arm64-v8a'
         }
@@ -32,6 +34,18 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            // local.propertiesファイルを指定
+            def properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+            def APP_ID = properties.getProperty("appId")
+            buildConfigField("String", "APP_ID", "\"${APP_ID}\"")
+
+            def SECRET_KEY = properties.getProperty("secretKey")
+            buildConfigField("String", "SECRET_KEY", "\"${SECRET_KEY}\"")
         }
     }
 
@@ -77,8 +91,13 @@ afterEvaluate {
 
 dependencies {
     // test
+    androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
+    //authtoken module
+    androidTestImplementation project(':authtoken')
+
 
     // JSON parser
     implementation 'com.google.code.gson:gson:2.9.1'

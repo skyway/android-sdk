@@ -13,11 +13,8 @@ import com.ntt.skyway.plugin.sfuBot.SFUBot
 import com.ntt.skyway.room.Room
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.plugin.sfuBot.SFUBotPlugin
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import kotlinx.coroutines.sync.withLock
-import kotlinx.coroutines.withContext
 
 /**
  * SFURoomの操作を行うクラス。
@@ -81,6 +78,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
     override val type: Type = Type.SFU
     internal val bot: SFUBot
         get() = channel.bots.first { it.subType == "sfu" } as SFUBot
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     init {
         initEventHandler()
@@ -163,7 +161,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
     }
 
     private fun onStreamPublished(publication: Publication) {
-        GlobalScope.launch(Dispatchers.Default) {
+        scope.launch(Dispatchers.Default) {
             mutex.withLock {
                 if (publication.origin == null) return@launch
                 // Pushing only relayed publications

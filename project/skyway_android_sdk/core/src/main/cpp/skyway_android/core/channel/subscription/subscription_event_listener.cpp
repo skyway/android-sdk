@@ -55,5 +55,18 @@ void SubscriptionEventListener::OnDisabled() {
     _threads.emplace_back(std::move(thread));
 }
 
+void SubscriptionEventListener::OnConnectionStateChanged(const skyway::core::ConnectionState new_state) {
+    std::lock_guard<std::mutex> lg(_thread_mtx);
+    if(_is_disposed) return;
+
+    auto thread = std::make_unique<std::thread>([=] {
+        auto env = ContextBridge::AttachCurrentThread();
+        auto j_new_state = env->NewStringUTF(skyway::core::StringFromConnectionState(new_state).get().c_str());
+        CallJavaMethod(env, _j_subscription, "onConnectionStateChanged", "(Ljava/lang/String;)V", j_new_state);
+
+    });
+    _threads.emplace_back(std::move(thread));
+}
+
 }  // namespace core
 }  // namespace skyway_android
