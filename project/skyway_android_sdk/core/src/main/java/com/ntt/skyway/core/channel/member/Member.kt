@@ -37,7 +37,7 @@ abstract class Member internal constructor(
      * Memberの種別。
      */
     enum class Type {
-        PERSON, BOT
+        PERSON, BOT, UNKNOWN
     }
 
     /**

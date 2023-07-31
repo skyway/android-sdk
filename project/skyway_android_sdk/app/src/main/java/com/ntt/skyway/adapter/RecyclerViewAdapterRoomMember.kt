@@ -11,7 +11,7 @@ import com.ntt.skyway.room.member.RoomMember
 
 class RecyclerViewAdapterRoomMember :
     RecyclerView.Adapter<RecyclerViewAdapterRoomMember.ViewHolder>() {
-    var members = mutableListOf<RoomMember>()
+    private var members = mutableListOf<RoomMember>()
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,8 +25,8 @@ class RecyclerViewAdapterRoomMember :
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ItemsViewModel = members[position]
-        holder.textViewUserId.text = ItemsViewModel.name
+        val itemsViewModel = members[position]
+        holder.textViewUserId.text = itemsViewModel.name
     }
 
     override fun getItemCount(): Int {

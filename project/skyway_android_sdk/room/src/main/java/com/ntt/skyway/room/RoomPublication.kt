@@ -210,6 +210,23 @@ class RoomPublication internal constructor(
             }
         }
 
+    /**
+     *  メディア通信の状態が変化した際に発火するハンドラ。
+     */
+    var onConnectionStateChangedHandler: ((state: String) -> Unit)? = null
+        set(value) {
+            field = value
+            if (publication.origin != null) {
+                publication.origin?.onConnectionStateChangedHandler = {
+                    value?.invoke(it)
+                }
+            } else {
+                publication.onConnectionStateChangedHandler = {
+                    value?.invoke(it)
+                }
+            }
+        }
+
     internal val origin: Publication?
         get() = publication.origin
 
@@ -301,7 +318,7 @@ class RoomPublication internal constructor(
         } else {
             val botId =
                 origin.subscriptions.find { it.subscriber.type == Member.Type.BOT }?.subscriber?.id
-                    ?: run{
+                    ?: run {
                         Logger.logE("Bot is not found")
                         return null
                     }

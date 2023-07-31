@@ -8,6 +8,7 @@
 #include <jni.h>
 
 #include <skyway/core/interface/publication.hpp>
+#include <skyway/core/connection_state.hpp>
 
 #include "core/event_listener.hpp"
 
@@ -29,6 +30,7 @@ public:
     void OnMetadataUpdated(const std::string& metadata) override;
     void OnEnabled() override;
     void OnDisabled() override;
+    void OnConnectionStateChanged(const skyway::core::ConnectionState new_state) override;
 private:
     jobject _j_publication;
 };

@@ -7,9 +7,11 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.RequiresApi
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.ScreenSource
 
+@RequiresApi(Build.VERSION_CODES.S)
 
 class ScreenShareService : Service() {
     // Binder given to clients (notice class declaration below)
@@ -32,7 +34,7 @@ class ScreenShareService : Service() {
         startForeground(1, notification)
         return START_NOT_STICKY
     }
-
+    @Suppress("DEPRECATION")
     private fun createNotification(): Notification {
         val notificationChannelId = "SERVICE CHANNEL"
 
@@ -69,7 +71,6 @@ class ScreenShareService : Service() {
             .setContentTitle("Service")
             .setContentText("service working")
             .setContentIntent(pendingIntent)
-            .setSmallIcon(R.drawable.ic_baseline_notifications_24)
             .setTicker("Ticker text")
             .setPriority(Notification.PRIORITY_HIGH) // for under android 26 compatibility
             .build()
@@ -81,6 +82,7 @@ class ScreenShareService : Service() {
 
     fun getScreenShareStream(data: Intent): LocalVideoStream {
         ScreenSource.setup(applicationContext, data)
+        ScreenSource.stopCapturing()
         ScreenSource.startCapturing(800, 800, 30)
         return ScreenSource.createStream()
     }

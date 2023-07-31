@@ -9,9 +9,9 @@ import com.ntt.skyway.R
 import com.ntt.skyway.core.channel.member.Member
 
 
-class RecyclerViewAdapterMember() : RecyclerView.Adapter<RecyclerViewAdapterMember.ViewHolder>() {
+class RecyclerViewAdapterMember : RecyclerView.Adapter<RecyclerViewAdapterMember.ViewHolder>() {
 
-    var members = mutableListOf<Member>()
+    private var members = mutableListOf<Member>()
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,8 +25,9 @@ class RecyclerViewAdapterMember() : RecyclerView.Adapter<RecyclerViewAdapterMemb
 
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val ItemsViewModel = members[position]
-        holder.textViewUserId.text = if(ItemsViewModel.name != "") ItemsViewModel.name else "SFU bot"
+        val itemsViewModel = members[position]
+        holder.textViewUserId.text =
+            if (itemsViewModel.name != "") itemsViewModel.name else itemsViewModel.subType
     }
 
     override fun getItemCount(): Int {
@@ -40,8 +41,8 @@ class RecyclerViewAdapterMember() : RecyclerView.Adapter<RecyclerViewAdapterMemb
 
 
     fun setData(newData: MutableList<Member>) {
-            members.clear()
-            members.addAll(newData)
-            notifyDataSetChanged()
+        members.clear()
+        members.addAll(newData)
+        notifyDataSetChanged()
     }
 }

@@ -1,14 +1,17 @@
 package com.ntt.skyway
 
 import android.app.Application
-import android.util.Log
 import android.content.Context
-import android.os.Build
+import android.util.Log
 import com.ntt.skyway.authtoken.AuthTokenBuilder
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.util.Logger
+import com.ntt.skyway.manager.ChannelManager
+import com.ntt.skyway.manager.Manager
+import com.ntt.skyway.manager.RoomManager
+import com.ntt.skyway.manager.SFURoomManager
 import com.ntt.skyway.plugin.sfuBot.SFUBotPlugin
-import kotlinx.coroutines.*
+import kotlinx.coroutines.runBlocking
 
 class App : Application() {
     companion object {
@@ -18,31 +21,41 @@ class App : Application() {
             BuildConfig.APP_ID,
             BuildConfig.SECRET_KEY
         )
-        internal val scope = CoroutineScope(Dispatchers.IO)
-        internal var setupJob: Job? = null
+        val option = SkyWayContext.Options(
+            authToken,
+            logLevel,
+            rtcConfig = SkyWayContext.RtcConfig(policy = SkyWayContext.TurnPolicy.ENABLE),
+//            webRTCLog = true
+        )
+        val channelManager = ChannelManager()
+        val roomManager = RoomManager()
+        val sfuManager = SFURoomManager()
+        var currentManager: Manager = channelManager
+
+        fun showMessage(message:String){
+//            Toast.makeText(appContext, message, Toast.LENGTH_SHORT)
+//                .show()
+            Log.d("ReferenceApp",message)
+        }
     }
 
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
-        val rtcConfig = SkyWayContext.RtcConfig(policy = SkyWayContext.TurnPolicy.TURN_ONLY)
-        val option = SkyWayContext.Options(authToken, logLevel, rtcConfig = rtcConfig)
-        SkyWayContext.registerPlugin(SFUBotPlugin())
-        SkyWayContext.onReconnectStartHandler = {
-            Log.e("App", "onReconnectStartHandler")
-        }
-        SkyWayContext.onReconnectSuccessHandler = {
-            Log.e("App", "onReconnectSuccessHandler")
-        }
-        SkyWayContext.onErrorHandler = {
-            Log.e("App", "Context ${it.message}")
-        }
-
-        setupJob = scope.launch {
-            Log.e("App", "setup")
+        runBlocking {
+            SkyWayContext.registerPlugin(SFUBotPlugin())
+            SkyWayContext.onReconnectStartHandler = {
+                showMessage("onReconnectStartHandler")
+            }
+            SkyWayContext.onReconnectSuccessHandler = {
+                showMessage("onReconnectSuccessHandler")
+            }
+            SkyWayContext.onErrorHandler = {
+                showMessage("onErrorHandler : ${it.message}")
+            }
             val result = SkyWayContext.setup(applicationContext, option)
             if (result) {
-                Log.d("App", "Setup succeed")
+                showMessage("setup success")
             }
         }
     }

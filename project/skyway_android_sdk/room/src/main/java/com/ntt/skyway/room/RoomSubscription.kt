@@ -94,6 +94,17 @@ class RoomSubscription internal constructor(
 //    var onEnabledHandler: (() -> Unit)? = null
 //    var onDisabledHandler: (() -> Unit)? = null
 
+    /**
+     *  メディア通信の状態が変化した際に発火するハンドラ。
+     */
+    var onConnectionStateChangedHandler: ((state: String) -> Unit)? = null
+        set(value) {
+            field = value
+            subscription.onConnectionStateChangedHandler = {
+                value?.invoke(it)
+            }
+        }
+
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is RoomSubscription) return false
         return id == other.id
