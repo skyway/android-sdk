@@ -163,9 +163,7 @@ void ContextBridge::DetachCurrentThread() {
 }
 
 void ContextBridge::Dispose(JNIEnv* env, jobject j_this) {
-    for(const auto event_listener : event_listeners) {
-        event_listener->Dispose();
-    }
+    event_listeners.clear();
     Context::Dispose();
 }
 
@@ -220,7 +218,6 @@ void ContextBridge::ApplyContextOptions(ContextOptions& options, nlohmann::json&
         if(token.contains("tokenReminderTimeSec")) {
             options.token.remind_time_sec = token["tokenReminderTimeSec"];
         }
-
     }
 }
 

@@ -132,14 +132,14 @@ abstract class RoomMember internal constructor(
     /**
      *  Metadataを更新します。
      */
-    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext member.updateMetadata(metadata)
     }
 
     /**
      *  Roomから退室します。
      */
-    suspend fun leave(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
         return@withContext member.leave()
     }
 

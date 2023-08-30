@@ -113,7 +113,7 @@ class RoomSubscription internal constructor(
     /**
      *  subscribeを中止します。
      */
-    suspend fun changePreferredEncoding(preferredEncodingId: String) = withContext(Dispatchers.IO) {
+    suspend fun changePreferredEncoding(preferredEncodingId: String) = withContext(Dispatchers.Default) {
         subscription.changePreferredEncoding(preferredEncodingId)
     }
 
@@ -130,15 +130,15 @@ class RoomSubscription internal constructor(
      *  publishを中止します。
      *  [onUnsubscribedHandler]が発火します。
      */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
         return@withContext subscription.cancel()
     }
 
-//    suspend fun enable(): Boolean = withContext(Dispatchers.IO) {
+//    suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
 //        return@withContext subscription.enable()
 //    }
 //
-//    suspend fun disable(): Boolean = withContext(Dispatchers.IO) {
+//    suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
 //        return@withContext subscription.disable()
 //    }
 

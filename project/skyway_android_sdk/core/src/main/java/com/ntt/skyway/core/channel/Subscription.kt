@@ -11,7 +11,10 @@ import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.WebRTCStats
+import com.ntt.skyway.core.util.Logger
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
@@ -26,23 +29,14 @@ class Subscription internal constructor(
      * このSubscriptionのID。
      */
     val id: String,
+    private val subscriberId: String,
+    private val publicationId: String,
     /**
      * このSubscriptionの[ContentType]。
      */
     val contentType: ContentType,
-    /**
-     * このSubscriptionのSubscriber。
-     */
-    val subscriber: Member,
-    /**
-     * このSubscriptionに対するPublication。
-     */
-    val publication: Publication,
     internal val nativePointer: Long,
-    /**
-     * このSubscriptionのStream。
-     */
-    val stream: RemoteStream?
+    stream: RemoteStream?
 ) {
     /**
      * Subscribe時の設定。
@@ -74,6 +68,18 @@ class Subscription internal constructor(
     }
 
     /**
+     * このSubscriptionのSubscriber。
+     */
+    val subscriber: Member
+        get() = channel.findMember(subscriberId)!!
+
+    /**
+     * このSubscriptionに対するPublication。
+     */
+    val publication: Publication
+        get() = channel.findPublication(publicationId)!!
+
+    /**
      * このSubscriptionの状態。
      *
      */
@@ -87,6 +93,12 @@ class Subscription internal constructor(
         get() = nativePreferredEncodingId(nativePointer)
 
     /**
+     * このSubscriptionのStream。
+     */
+    var stream: RemoteStream? = stream
+        internal set
+
+    /**
      *  subscribeがキャンセルされた際に発火するハンドラ。
      */
     var onCanceledHandler: (() -> Unit)? = null
@@ -98,15 +110,17 @@ class Subscription internal constructor(
      */
     var onConnectionStateChangedHandler: ((state: String) -> Unit)? = null
 
+    private val scope = CoroutineScope(Dispatchers.Default)
+
     init {
         nativeAddEventListener(channel.id, nativePointer)
     }
 
-//    suspend fun enable(): Boolean = withContext(Dispatchers.IO) {
+//    suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
 //        return@withContext nativeEnable(nativePointer)
 //    }
 //
-//    suspend fun disable(): Boolean = withContext(Dispatchers.IO) {
+//    suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
 //        return@withContext nativeDisable(nativePointer)
 //    }
 
@@ -131,12 +145,15 @@ class Subscription internal constructor(
     /**
      *  subscribeを中止します。
      */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeCancel(nativePointer)
     }
 
     private fun onCanceled() {
-        onCanceledHandler?.invoke()
+        Logger.logI("🔔onCanceled")
+        scope.launch {
+            onCanceledHandler?.invoke()
+        }
     }
 
 //    private fun onEnabled() {
@@ -148,7 +165,10 @@ class Subscription internal constructor(
 //    }
 
     private fun onConnectionStateChanged(state: String) {
-        onConnectionStateChangedHandler?.invoke(state)
+        Logger.logI("🔔onConnectionStateChanged: $state")
+        scope.launch {
+            onConnectionStateChangedHandler?.invoke(state)
+        }
     }
 
     private external fun nativeAddEventListener(channelId: String, ptr: Long)

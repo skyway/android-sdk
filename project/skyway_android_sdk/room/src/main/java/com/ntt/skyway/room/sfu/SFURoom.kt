@@ -26,7 +26,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
          */
         @JvmStatic
         suspend fun find(name: String? = null, id: String? = null): SFURoom? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
                 if (SkyWayContext.findPlugin("sfu") == null) {
                     SkyWayContext.registerPlugin(SFUBotPlugin())
@@ -45,7 +45,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
          */
         @JvmStatic
         suspend fun create(name: String? = null, metadata: String? = null): SFURoom? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
                 if (SkyWayContext.findPlugin("sfu") == null) {
                     SkyWayContext.registerPlugin(SFUBotPlugin())
@@ -60,7 +60,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
          */
         @JvmStatic
         suspend fun findOrCreate(name: String? = null, metadata: String? = null): SFURoom? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
                 if (SkyWayContext.findPlugin("sfu") == null) {
                     SkyWayContext.registerPlugin(SFUBotPlugin())
@@ -88,7 +88,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
      *  SFURoomに入室します。
      */
     override suspend fun join(memberInit: RoomMember.Init): LocalSFURoomMember? =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             val channelMemberInit = Member.Init(
                 memberInit.name,
                 memberInit.metadata,

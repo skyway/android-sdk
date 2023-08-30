@@ -23,101 +23,49 @@ PublicationEventListener::~PublicationEventListener() {
 }
 
 void PublicationEventListener::OnUnpublished() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_publication, "onUnpublished", "()V");
-
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_publication, "onUnpublished", "()V");
 }
 
-void PublicationEventListener::OnSubscribed() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_publication, "onSubscribed", "()V");
-
-    });
-    _threads.emplace_back(std::move(thread));
+void PublicationEventListener::OnSubscribed(skyway::core::interface::Subscription* subscription) {
+    auto subscription_json = util::ToJson(subscription);
+    auto env = ContextBridge::AttachCurrentThread();
+    auto j_subscription_json = env->NewStringUTF(subscription_json.dump().c_str());
+    CallJavaMethod(env, _j_publication, "onSubscribed", "(Ljava/lang/String;)V", j_subscription_json);
 }
 
-void PublicationEventListener::OnUnsubscribed() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_publication, "onUnsubscribed", "()V");
-
-    });
-    _threads.emplace_back(std::move(thread));
+void PublicationEventListener::OnUnsubscribed(skyway::core::interface::Subscription* subscription) {
+    auto subscription_json = util::ToJson(subscription);
+    auto env = ContextBridge::AttachCurrentThread();
+    auto j_subscription_json = env->NewStringUTF(subscription_json.dump().c_str());
+    CallJavaMethod(env, _j_publication, "onUnsubscribed", "(Ljava/lang/String;)V", j_subscription_json);
 }
 
 void PublicationEventListener::OnSubscriptionListChanged() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_publication, "onSubscriptionListChanged", "()V");
-
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_publication, "onSubscriptionListChanged", "()V");
 }
 
 void PublicationEventListener::OnMetadataUpdated(const std::string& metadata) {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        auto j_metadata = env->NewStringUTF(metadata.c_str());
-        CallJavaMethod(env, _j_publication, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
-
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    auto j_metadata = env->NewStringUTF(metadata.c_str());
+    CallJavaMethod(env, _j_publication, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
 }
 
 void PublicationEventListener::OnEnabled() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_publication, "onEnabled", "()V");
-
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_publication, "onEnabled", "()V");
 }
 
 void PublicationEventListener::OnDisabled() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_publication, "onDisabled", "()V");
-
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_publication, "onDisabled", "()V");
 }
 
 void PublicationEventListener::OnConnectionStateChanged(const skyway::core::ConnectionState new_state) {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        auto j_new_state = env->NewStringUTF(skyway::core::StringFromConnectionState(new_state).get().c_str());
-        CallJavaMethod(env, _j_publication, "onConnectionStateChanged", "(Ljava/lang/String;)V", j_new_state);
-
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    auto j_new_state = env->NewStringUTF(skyway::core::StringFromConnectionState(new_state).get().c_str());
+    CallJavaMethod(env, _j_publication, "onConnectionStateChanged", "(Ljava/lang/String;)V", j_new_state);
 }
 
 }  // namespace core

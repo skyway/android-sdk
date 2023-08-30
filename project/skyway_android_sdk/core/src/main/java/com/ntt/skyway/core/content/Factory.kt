@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonElement
 import com.google.gson.JsonObject
+import com.google.gson.JsonSyntaxException
 import com.ntt.skyway.core.content.local.LocalAudioStream
 import com.ntt.skyway.core.content.local.LocalDataStream
 import com.ntt.skyway.core.content.local.LocalVideoStream
@@ -13,6 +14,7 @@ import com.ntt.skyway.core.content.remote.RemoteAudioStream
 import com.ntt.skyway.core.content.remote.RemoteDataStream
 import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.core.content.remote.RemoteVideoStream
+import com.ntt.skyway.core.util.Logger
 import org.webrtc.AudioTrack
 import org.webrtc.VideoTrack
 
@@ -49,20 +51,25 @@ internal object Factory {
         }
     }
 
-    fun createWebRTCStats(statsJson: String): WebRTCStats {
-        var reports = mutableListOf<WebRTCStatsReport>()
-        val jsons = Gson().fromJson(statsJson, JsonArray::class.java)
-        jsons.forEach{
-            val json = it.asJsonObject
-            var id = json.remove("id").asString
-            var type = json.remove("type").asString
-            var params = mutableMapOf<String, JsonElement>();
-            json.entrySet().forEach{
-                params[it.key] = it.value
+    fun createWebRTCStats(statsJson: String): WebRTCStats? {
+        val reports = mutableListOf<WebRTCStatsReport>()
+        try {
+            val jsonArray = Gson().fromJson(statsJson, JsonArray::class.java)
+            jsonArray.forEach { it ->
+                val json = it.asJsonObject
+                val id = json.remove("id").asString
+                val type = json.remove("type").asString
+                val params = mutableMapOf<String, JsonElement>()
+                json.entrySet().forEach {
+                    params[it.key] = it.value
+                }
+                reports.add(WebRTCStatsReport(id, type, params.toMap()))
             }
-            reports.add(WebRTCStatsReport(id, type, params.toMap()))
+            return WebRTCStats(reports)
+        } catch (ex: JsonSyntaxException) {
+            Logger.logE(ex.message.toString())
+            return null
         }
-        return WebRTCStats(reports)
     }
 
     private fun createStreamDto(streamJson: String): Stream.Dto {

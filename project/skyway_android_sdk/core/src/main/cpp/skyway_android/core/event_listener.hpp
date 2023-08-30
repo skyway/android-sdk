@@ -17,14 +17,8 @@ namespace core {
 class EventListener {
 public:
     EventListener();
-    void Dispose();
 
 protected:
-    void JoinAllThreads();
-
-    bool _is_disposed;
-    std::mutex _thread_mtx;
-    std::vector<std::unique_ptr<std::thread>> _threads;
 };
 
 }  // namespace core

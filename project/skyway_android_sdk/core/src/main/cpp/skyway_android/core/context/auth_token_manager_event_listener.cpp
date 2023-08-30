@@ -24,25 +24,13 @@ AuthTokenManagerEventListener::~AuthTokenManagerEventListener() {
 }
 
 void AuthTokenManagerEventListener::OnTokenRefreshingNeeded() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaStaticMethod(env, _j_context, "onTokenRefreshingNeeded", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaStaticMethod(env, _j_context, "onTokenRefreshingNeeded", "()V");
 }
 
 void AuthTokenManagerEventListener::OnTokenExpired() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaStaticMethod(env, _j_context, "onTokenExpired", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaStaticMethod(env, _j_context, "onTokenExpired", "()V");
 }
 
 }  // namespace core

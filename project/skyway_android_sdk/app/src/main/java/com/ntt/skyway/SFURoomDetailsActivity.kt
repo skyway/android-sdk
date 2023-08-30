@@ -263,14 +263,12 @@ class SFURoomDetailsActivity : DetailsBaseActivity() {
 
         manager.sfuRoom?.onMemberListChangedHandler = {
             runOnUiThread {
-                runBlocking { delay(200) }
                 membersLiveData.value = manager.sfuRoom?.members?.toMutableList()
             }
         }
 
         manager.sfuRoom?.onPublicationListChangedHandler = {
             runOnUiThread {
-                runBlocking { delay(200) }
                 publicationsLiveData.value = manager.sfuRoom?.publications?.toMutableList()
             }
         }

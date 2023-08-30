@@ -25,7 +25,7 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
          */
         @JvmStatic
         suspend fun find(name: String? = null, id: String? = null): P2PRoom? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 val channel = Channel.find(name, id)
                 return@withContext channel?.let { P2PRoom(it) }
             }
@@ -35,7 +35,7 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
          */
         @JvmStatic
         suspend fun create(name: String? = null, metadata: String? = null): P2PRoom? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
                 val channel = Channel.create(name, metadata)
                 return@withContext channel?.let { P2PRoom(it) }
@@ -46,7 +46,7 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
          */
         @JvmStatic
         suspend fun findOrCreate(name: String? = null, metadata: String? = null): P2PRoom? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
                 val channel = Channel.findOrCreate(name, metadata)
                 return@withContext channel?.let { P2PRoom(it) }
@@ -63,7 +63,7 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
      *  Roomへ参加します。
      */
     override suspend fun join(memberInit: RoomMember.Init): LocalP2PRoomMember? =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             val channelMemberInit = Member.Init(
                 memberInit.name,
                 memberInit.metadata,

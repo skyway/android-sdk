@@ -23,7 +23,7 @@ namespace member {
 using Publication = skyway::core::interface::Publication;
 using Subscription = skyway::core::interface::Subscription;
 
-class LocalPersonEventListener : public skyway::core::channel::member::LocalPerson::EventListener, public EventListener {
+class LocalPersonEventListener : public skyway::core::interface::LocalPerson::EventListener, public EventListener {
 
 public:
     LocalPersonEventListener(jobject j_local_person);

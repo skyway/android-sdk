@@ -301,14 +301,12 @@ class ChannelDetailsActivity : DetailsBaseActivity() {
 
         manager.channel?.onMemberListChangedHandler = {
             runOnUiThread {
-                runBlocking { delay(200) }
                 membersLiveData.value = manager.channel?.members?.toMutableList()
             }
         }
 
         manager.channel?.onPublicationListChangedHandler = {
             runOnUiThread {
-                runBlocking { delay(200) }
                 publicationsLiveData.value = manager.channel?.publications?.toMutableList()
             }
         }

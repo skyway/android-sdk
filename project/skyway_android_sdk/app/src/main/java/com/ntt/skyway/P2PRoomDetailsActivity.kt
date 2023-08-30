@@ -285,14 +285,12 @@ class P2PRoomDetailsActivity : DetailsBaseActivity() {
 
         manager.room?.onMemberListChangedHandler = {
             runOnUiThread {
-                runBlocking { delay(200) }
                 membersLiveData.value = manager.room?.members?.toMutableList()
             }
         }
 
         manager.room?.onPublicationListChangedHandler = {
             runOnUiThread {
-                runBlocking { delay(200) }
                 publicationsLiveData.value = manager.room?.publications?.toMutableList()
             }
         }

@@ -11,6 +11,7 @@
 #include <skyway/core/connection_state.hpp>
 
 #include "core/event_listener.hpp"
+#include "core/channel/channel_util.hpp"
 
 #ifndef SKYWAY_ANDROID_CORE_PUBLICATION_PUBLICATION_EVENT_LISTENER_HPP
 #define SKYWAY_ANDROID_CORE_PUBLICATION_PUBLICATION_EVENT_LISTENER_HPP
@@ -24,8 +25,8 @@ public:
     ~PublicationEventListener();
 
     void OnUnpublished() override;
-    void OnSubscribed() override;
-    void OnUnsubscribed() override;
+    void OnSubscribed(skyway::core::interface::Subscription* subscription) override;
+    void OnUnsubscribed(skyway::core::interface::Subscription* subscription) override;
     void OnSubscriptionListChanged() override;
     void OnMetadataUpdated(const std::string& metadata) override;
     void OnEnabled() override;

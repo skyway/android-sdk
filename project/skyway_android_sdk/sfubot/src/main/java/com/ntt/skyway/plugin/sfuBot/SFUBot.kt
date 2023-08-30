@@ -19,7 +19,7 @@ class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
          * SFUBotを作成します。
          */
         @JvmStatic
-        suspend fun createBot(channel: Channel): SFUBot? = withContext(Dispatchers.IO) {
+        suspend fun createBot(channel: Channel): SFUBot? = withContext(Dispatchers.Default) {
             val sfuBotJson = nativeCreateBot(channel.nativePointer) ?: return@withContext null
             val dto = Gson().fromJson(sfuBotJson, JsonObject::class.java)
             val sfuBotDto = Member.Dto(
@@ -58,7 +58,7 @@ class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
      * @param publication forwarding対象のPublication。codecCapabilitiesを指定することはできません。
      */
     suspend fun startForwarding(publication: Publication, configure: Forwarding.Configure? = null): Forwarding? =
-        withContext(Dispatchers.IO) {
+        withContext(Dispatchers.Default) {
             val forwardingJson = nativeStartForwarding(nativePointer, publication.nativePointer, configure?.maxSubscribers)
                 ?: return@withContext null
             val forwarding = Forwarding.create(channel, publication, forwardingJson)
@@ -69,7 +69,7 @@ class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
     /**
      * Forwarding停止します。
      */
-    suspend fun stopForwarding(forwarding: Forwarding): Boolean = withContext(Dispatchers.IO) {
+    suspend fun stopForwarding(forwarding: Forwarding): Boolean = withContext(Dispatchers.Default) {
         _forwardings.remove(forwarding)
         return@withContext nativeStopForwarding(nativePointer, forwarding.nativePointer)
     }
