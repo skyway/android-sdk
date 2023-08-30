@@ -26,37 +26,19 @@ ContextEventListener::~ContextEventListener() {
 }
 
 void ContextEventListener::OnReconnectStart() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaStaticMethod(env, _j_context, "onReconnectStart", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaStaticMethod(env, _j_context, "onReconnectStart", "()V");
 }
 
 void ContextEventListener::OnReconnectSuccess() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaStaticMethod(env, _j_context, "onReconnectSuccess", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaStaticMethod(env, _j_context, "onReconnectSuccess", "()V");
 }
 
 void ContextEventListener::OnFatalError(const skyway::global::Error& error) {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        auto j_message = env->NewStringUTF(error.message.c_str());
-        CallJavaStaticMethod(env, _j_context, "onFatalError", "(Ljava/lang/String;)V", j_message);
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    auto j_message = env->NewStringUTF(error.message.c_str());
+    CallJavaStaticMethod(env, _j_context, "onFatalError", "(Ljava/lang/String;)V", j_message);
 }
 
 }  // namespace core

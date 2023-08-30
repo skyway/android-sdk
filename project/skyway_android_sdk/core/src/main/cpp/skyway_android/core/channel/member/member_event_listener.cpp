@@ -25,49 +25,24 @@ MemberEventListener::~MemberEventListener() {
 }
 
 void MemberEventListener::OnLeft() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_member, "onLeft", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_member, "onLeft", "()V");
 }
 
 void MemberEventListener::OnMetadataUpdated(const std::string &metadata) {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        auto j_metadata = env->NewStringUTF(metadata.c_str());
-        CallJavaMethod(env, _j_member, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
-    });
-    _threads.emplace_back(std::move(thread));
-
+    auto env = ContextBridge::AttachCurrentThread();
+    auto j_metadata = env->NewStringUTF(metadata.c_str());
+    CallJavaMethod(env, _j_member, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
 }
 
 void MemberEventListener::OnPublicationListChanged() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_member, "onPublicationListChanged", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_member, "onPublicationListChanged", "()V");
 }
 
 void MemberEventListener::OnSubscriptionListChanged() {
-    std::lock_guard<std::mutex> lg(_thread_mtx);
-    if(_is_disposed) return;
-
-    auto thread = std::make_unique<std::thread>([=] {
-        auto env = ContextBridge::AttachCurrentThread();
-        CallJavaMethod(env, _j_member, "onSubscriptionListChanged", "()V");
-    });
-    _threads.emplace_back(std::move(thread));
+    auto env = ContextBridge::AttachCurrentThread();
+    CallJavaMethod(env, _j_member, "onSubscriptionListChanged", "()V");
 }
 
 }  // namespace member

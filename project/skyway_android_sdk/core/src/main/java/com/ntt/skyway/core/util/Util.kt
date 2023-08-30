@@ -9,7 +9,9 @@ import com.google.gson.JsonObject
 
 internal class Util {
     companion object {
-        val lock = java.util.concurrent.locks.ReentrantLock()
+        val memberLock = java.util.concurrent.locks.ReentrantLock()
+        val publicationLock = java.util.concurrent.locks.ReentrantLock()
+        val subscriptionLock = java.util.concurrent.locks.ReentrantLock()
 
         fun getObjectId(jsonString: String): String {
             val dto = Gson().fromJson(jsonString, JsonObject::class.java)

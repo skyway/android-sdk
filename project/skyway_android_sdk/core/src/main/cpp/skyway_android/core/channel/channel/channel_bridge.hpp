@@ -39,6 +39,7 @@ public:
 
 private:
     static std::map<std::string, std::vector<EventListener*>> event_listeners;
+    static std::mutex event_listeners_mtx;
 };
 
 }  // namespace channel

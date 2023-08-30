@@ -49,8 +49,8 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
         const val SUBSCRIBE_TIMEOUT_SEC = 10000L
     }
 
-    internal val publishMutex = Mutex()
-    internal val subscribeMutex = Mutex()
+    private val publishMutex = Mutex()
+    private val subscribeMutex = Mutex()
     private val scope = CoroutineScope(Dispatchers.Default)
 
     init {
@@ -61,23 +61,21 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
      *  Streamをpublishします。
      */
     suspend fun publish(
-        localStream: LocalStream,
-        options: Publication.Options? = null
-    ): Publication? =
-        withContext(Dispatchers.IO) {
-            publishMutex.withLock {
-                val optionsJson = options?.toJson() ?: "{}"
-                val publicationJson =
-                    nativePublish(nativePointer, localStream.nativePointer, optionsJson)
-                        ?: return@withContext null
-                return@withContext channel.addLocalPublication(publicationJson, localStream)
-            }
+        localStream: LocalStream, options: Publication.Options? = null
+    ): Publication? = withContext(Dispatchers.Default) {
+        publishMutex.withLock {
+            val optionsJson = options?.toJson() ?: "{}"
+            val publicationJson =
+                nativePublish(nativePointer, localStream.nativePointer, optionsJson)
+                    ?: return@withContext null
+            return@withContext channel.addLocalPublication(publicationJson, localStream)
         }
+    }
 
     /**
      *  Publicationをunpublishします。
      */
-    suspend fun unpublish(publicationId: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun unpublish(publicationId: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeUnpublish(nativePointer, publicationId)
     }
 
@@ -89,9 +87,8 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
      *  Publicationをsubscribeします。
      */
     suspend fun subscribe(
-        publicationId: String,
-        options: Subscription.Options? = null
-    ): Subscription? = withContext(Dispatchers.IO) {
+        publicationId: String, options: Subscription.Options? = null
+    ): Subscription? = withContext(Dispatchers.Default) {
         subscribeMutex.withLock {
             val optionsJson = options?.toJson() ?: "{}"
             val subscriptionJson =
@@ -102,8 +99,7 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
     }
 
     suspend fun subscribe(
-        publication: Publication,
-        options: Subscription.Options? = null
+        publication: Publication, options: Subscription.Options? = null
     ): Subscription? {
         return subscribe(publication.id, options)
     }
@@ -111,7 +107,7 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
     /**
      *  Publicationをunsubscribeします。
      */
-    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeUnsubscribe(nativePointer, subscriptionId)
     }
 
@@ -124,6 +120,7 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
     }
 
     private fun onStreamPublished(publicationId: String) {
+        Logger.logI("🔔onStreamPublished")
         scope.launch {
             publishMutex.withLock {
                 val publication = channel.findPublication(publicationId) ?: run {
@@ -136,14 +133,18 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
     }
 
     private fun onStreamUnpublished(publicationId: String) {
+        Logger.logI("🔔onStreamUnpublished")
         val publication = channel.findPublication(publicationId) ?: run {
             Logger.logW("onStreamUnpublished: The publication($publicationId) is not found")
             return
         }
-        onStreamUnpublishedHandler?.invoke(publication)
+        scope.launch {
+            onStreamUnpublishedHandler?.invoke(publication)
+        }
     }
 
     private fun onPublicationSubscribed(subscriptionId: String) {
+        Logger.logI("🔔onPublicationSubscribed")
         scope.launch {
             subscribeMutex.withLock {
                 val subscription = channel.findSubscription(subscriptionId) ?: run {
@@ -156,35 +157,50 @@ class LocalPerson internal constructor(dto: Dto) : Member(dto) {
     }
 
     private fun onPublicationUnsubscribed(subscriptionId: String) {
+        Logger.logI("🔔onPublicationUnsubscribed")
         val subscription = channel.findSubscription(subscriptionId) ?: run {
             Logger.logW("onPublicationUnsubscribed: The subscription($subscriptionId) is not found")
             return
         }
-        onPublicationUnsubscribedHandler?.invoke(subscription)
+        scope.launch {
+            onPublicationUnsubscribedHandler?.invoke(subscription)
+        }
     }
 
     // Redefined for the following reasons
     // Member events cannot be called in the bridge layer of lower versions of Android.
     private fun onLeft() {
-        onLeftHandler?.invoke()
+        Logger.logI("🔔onLeft")
+        scope.launch {
+            onLeftHandler?.invoke()
+        }
     }
 
     // Redefined for the following reasons
     // Member events cannot be called in the bridge layer of lower versions of Android.
     private fun onMetadataUpdated(metadata: String) {
-        onMetadataUpdatedHandler?.invoke(metadata)
+        Logger.logI("🔔onMetadataUpdated")
+        scope.launch {
+            onMetadataUpdatedHandler?.invoke(metadata)
+        }
     }
 
     // Redefined for the following reasons
     // Member events cannot be called in the bridge layer of lower versions of Android.
     private fun onPublicationListChanged() {
-        onPublicationListChangedHandler?.invoke();
+        Logger.logI("🔔onPublicationListChanged")
+        scope.launch {
+            onPublicationListChangedHandler?.invoke();
+        }
     }
 
     // Redefined for the following reasons
     // Member events cannot be called in the bridge layer of lower versions of Android.
     private fun onSubscriptionListChanged() {
-        onSubscriptionListChangedHandler?.invoke();
+        Logger.logI("🔔onSubscriptionListChanged")
+        scope.launch {
+            onSubscriptionListChangedHandler?.invoke();
+        }
     }
 
     private external fun nativeAddEventListener(channelId: String, ptr: Long)

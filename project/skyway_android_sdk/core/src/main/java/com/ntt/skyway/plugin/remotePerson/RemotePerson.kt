@@ -16,7 +16,7 @@ class RemotePerson internal constructor(dto: Dto) : RemoteMember(dto) {
     /**
      *  subscribeします。
      */
-    suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.IO) {
+    suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.Default) {
         val subscriptionJson =
             nativeSubscribe(nativePointer, publicationId) ?: return@withContext null
         return@withContext channel.addLocalSubscription(subscriptionJson)
@@ -25,7 +25,7 @@ class RemotePerson internal constructor(dto: Dto) : RemoteMember(dto) {
     /**
      *  unsubscribeします。
      */
-    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeUnsubscribe(nativePointer, subscriptionId)
     }
 

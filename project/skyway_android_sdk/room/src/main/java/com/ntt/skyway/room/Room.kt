@@ -193,7 +193,7 @@ abstract class Room internal constructor(private val channel: Channel) {
      *
      *  @param metadata 更新後のMetadata
      */
-    suspend fun updateMetadata(metadata: String):Boolean = withContext(Dispatchers.IO) {
+    suspend fun updateMetadata(metadata: String):Boolean = withContext(Dispatchers.Default) {
         return@withContext channel.updateMetadata(metadata)
     }
 
@@ -211,7 +211,7 @@ abstract class Room internal constructor(private val channel: Channel) {
      *
      *  @param member 退室させる[RoomMember]
      */
-    suspend fun leave(member: RoomMember): Boolean = withContext(Dispatchers.IO) {
+    suspend fun leave(member: RoomMember): Boolean = withContext(Dispatchers.Default) {
         return@withContext channel.leave(member.member)
     }
 
@@ -219,7 +219,7 @@ abstract class Room internal constructor(private val channel: Channel) {
      *  Roomを閉じます。
      *  [onClosedHandler]が発火します。
      */
-    suspend fun close(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun close(): Boolean = withContext(Dispatchers.Default) {
         return@withContext channel.close()
     }
 

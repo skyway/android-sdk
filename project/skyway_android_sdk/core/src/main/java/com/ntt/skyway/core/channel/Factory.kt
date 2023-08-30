@@ -76,16 +76,11 @@ internal class Factory(private val channel: Channel) {
             ).asString
         )
 
-        val publisherId = dto.get("publisherId").asString
-        val publisher =
-            channel.findMember(publisherId)
-                ?: throw IllegalStateException("Publisher(${publisherId}) was not found")
-
         return Publication(
             channel = channel,
             id = dto.get("id").asString,
+            publisherId = dto.get("publisherId").asString,
             contentType = Stream.ContentType.fromString(dto.get("contentType").asString),
-            publisher = publisher,
             origin = origin,
             codecCapabilities = Codec.fromJsonArray(dto.get("codecCapabilities").asJsonArray),
             nativePointer = dto.get("nativePointer").asLong,
@@ -100,20 +95,12 @@ internal class Factory(private val channel: Channel) {
             Factory.createRemoteStream(contentType, dto.get("stream").toString())
         } else null
 
-        val subscriberId = dto.get("subscriberId").asString
-        val subscriber = channel.findMember(subscriberId)
-            ?: throw IllegalStateException("Subscriber(${subscriberId}) was not found")
-
-        val publicationId = dto.get("publicationId").asString
-        val publication = channel.findPublication(publicationId)
-            ?: throw IllegalStateException("Publication(${publicationId}) was not found")
-
         return Subscription(
             channel = channel,
             id = dto.get("id").asString,
+            subscriberId = dto.get("subscriberId").asString,
+            publicationId = dto.get("publicationId").asString,
             contentType = contentType,
-            subscriber = subscriber,
-            publication = publication,
             nativePointer = dto.get("nativePointer").asLong,
             stream = stream
         )

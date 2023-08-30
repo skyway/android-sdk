@@ -156,22 +156,24 @@ class RoomPublication internal constructor(
     /**
      * このRoomPublicationのSubscribeされた時に発火するハンドラ。
      */
-    var onSubscribedHandler: (() -> Unit)? = null
+    var onSubscribedHandler: ((subscription: RoomSubscription) -> Unit)? = null
         set(value) {
             field = value
             publication.onSubscribedHandler = {
-                value?.invoke()
+                val subscription = room.createRoomSubscription(it)
+                value?.invoke(subscription)
             }
         }
 
     /**
      * このRoomPublicationのUnsubscribeされた時に発火するハンドラ。
      */
-    var onUnsubscribedHandler: (() -> Unit)? = null
+    var onUnsubscribedHandler: ((subscription: RoomSubscription) -> Unit)? = null
         set(value) {
             field = value
             publication.onUnsubscribedHandler = {
-                value?.invoke()
+                val subscription = room.createRoomSubscription(it)
+                value?.invoke(subscription)
             }
         }
 
@@ -252,7 +254,7 @@ class RoomPublication internal constructor(
      *  publishを中止します。
      *  [onUnpublishedHandler]が発火します。
      */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
         if (publication.origin == null) {
             return@withContext publication.cancel()
         }
@@ -264,7 +266,7 @@ class RoomPublication internal constructor(
      *  [onEnabledHandler]が発火します。
      *  また、入室している[Channel]に対して[Channel.onPublicationEnabledHandler]が発火します。
      */
-    suspend fun enable(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
         if (publication.origin == null) {
             return@withContext publication.enable()
         }
@@ -276,7 +278,7 @@ class RoomPublication internal constructor(
      *  [onDisabledHandler]が発火します。
      *  また、入室している[Channel]に対して[Channel.onPublicationDisabledHandler]が発火します。
      */
-    suspend fun disable(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
         if (publication.origin == null) {
             return@withContext publication.disable()
         }

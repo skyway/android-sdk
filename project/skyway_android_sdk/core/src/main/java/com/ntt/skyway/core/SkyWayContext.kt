@@ -151,6 +151,8 @@ object SkyWayContext {
 
     const val version: String = BuildConfig.SkyWayVer
 
+    private val scope = CoroutineScope(Dispatchers.Default)
+
     init {
         System.loadLibrary("skyway_android")
         registerPlugin(RemotePersonPlugin())
@@ -170,7 +172,7 @@ object SkyWayContext {
         context: Context,
         option: Options,
         onErrorHandler: ((error: Error) -> Unit)? = null
-    ): Boolean = withContext(Dispatchers.IO) {
+    ): Boolean = withContext(Dispatchers.Default) {
         if (isSetup) {
             Logger.logI("Already setup SkyWayContext")
             return@withContext true
@@ -264,30 +266,37 @@ object SkyWayContext {
 
     @JvmStatic
     fun onReconnectStart() {
-        onReconnectStartHandler?.invoke()
+        scope.launch {
+            onReconnectStartHandler?.invoke()
+        }
     }
 
     @JvmStatic
     fun onReconnectSuccess() {
-        onReconnectSuccessHandler?.invoke()
+        scope.launch {
+            onReconnectSuccessHandler?.invoke()
+        }
     }
 
     @JvmStatic
     fun onFatalError(message: String) {
-        CoroutineScope(Dispatchers.IO).launch {
+        scope.launch {
             onErrorHandler?.invoke(Error(message))
         }
-
     }
 
     @JvmStatic
     fun onTokenRefreshingNeeded() {
-        onTokenRefreshingNeededHandler?.invoke()
+        scope.launch {
+            onTokenRefreshingNeededHandler?.invoke()
+        }
     }
 
     @JvmStatic
     fun onTokenExpired() {
-        onTokenExpiredHandler?.invoke()
+        scope.launch {
+            onTokenExpiredHandler?.invoke()
+        }
     }
 
     private external fun nativeSetup(

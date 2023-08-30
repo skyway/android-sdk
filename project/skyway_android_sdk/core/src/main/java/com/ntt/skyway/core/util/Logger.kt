@@ -3,12 +3,53 @@ package com.ntt.skyway.core.util
 import android.util.Log
 import com.ntt.skyway.BuildConfig
 
+/**
+ * ログの出力を行うクラス。ログの出力機能はSkyWay SDKによって呼び出されます。
+ */
 object Logger {
+    /**
+     * ログのレベル一覧。
+     */
     enum class LogLevel {
-        NONE, ERROR, WARN, INFO, DEBUG, VERBOSE;
+        /**
+         * ログを出力しません。
+         */
+        NONE,
+
+        /**
+         * デフォルト値。異常に関する情報を出力します。このエラーが発生したメソッドからは無効値が返されます。
+         */
+        ERROR,
+
+        /**
+         * SDK内部で発生した一時的なエラーに関する情報を出力します。
+         */
+        WARN,
+
+        /**
+         * SDK が提供しているメソッドの呼び出しに関する情報を出力します。
+         */
+        INFO,
+
+        /**
+         * イベントの発火やリクエスト・レスポンスに関する情報など、デバッグ時に参考となる情報を出力します。
+         */
+        DEBUG,
+
+        /**
+         * メモリの破棄など、最も詳細なログを出力します。
+         */
+        VERBOSE;
     }
 
+    /**
+     * 出力するログのレベル。アプリケーションの開発時には[LogLevel.VERBOSE]にしておくことをお勧めします。
+     */
     var logLevel = LogLevel.INFO
+
+    /**
+     * WebRTCに関するログの出力可否。trueにした場合はメディアや通信に関する詳細な情報を出力することができますが、ログの量が多くなることに注意してください。
+     */
     var webRTCLog = false
     private const val tag = "skyway:${BuildConfig.SkyWayVer}"
 
@@ -32,7 +73,13 @@ object Logger {
         printLog(LogLevel.values()[level], message, methodName, fileName, lineNumber)
     }
 
-    private fun printLog(level: LogLevel, message: String, methodName: String, fileName: String, lineNumber: Int) {
+    private fun printLog(
+        level: LogLevel,
+        message: String,
+        methodName: String,
+        fileName: String,
+        lineNumber: Int
+    ) {
         if (level > logLevel) return
         val text = "$message | $methodName($fileName:$lineNumber)"
         when (level) {

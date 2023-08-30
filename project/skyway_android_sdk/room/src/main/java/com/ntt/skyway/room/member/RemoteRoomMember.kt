@@ -27,7 +27,7 @@ open class RemoteRoomMember internal constructor(room: Room, internal val remote
      *  [com.ntt.skyway.room.RoomPublication]をsubscribeします。
      *  [Room.onPublicationSubscribedHandler]が発火します。
      */
-    suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.IO) {
+    suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.Default) {
         return@withContext remoteMember.subscribe(publicationId)
     }
 
@@ -35,7 +35,7 @@ open class RemoteRoomMember internal constructor(room: Room, internal val remote
      *  [com.ntt.skyway.room.RoomSubscription]をunsubscribeします。
      *  [Room.onPublicationUnsubscribedHandler]が発火します。
      */
-    suspend fun unsubscribe(subscriptionsId: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun unsubscribe(subscriptionsId: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext remoteMember.unsubscribe(subscriptionsId)
     }
 

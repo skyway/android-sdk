@@ -7,14 +7,12 @@ package com.ntt.skyway.core.channel
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.core.util.Util
-import com.ntt.skyway.core.util.Util.Companion.lock
 import kotlinx.coroutines.*
-import kotlinx.coroutines.sync.withLock
 import java.lang.Exception
-import kotlin.concurrent.withLock
 
 /**
  * Channelの操作を行うクラス。
@@ -53,7 +51,7 @@ class Channel internal constructor(
          */
         @JvmStatic
         suspend fun find(name: String? = null, id: String? = null): Channel? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
 
                 val initDto = nativeFind(name, id) ?: return@withContext null
@@ -65,7 +63,7 @@ class Channel internal constructor(
          */
         @JvmStatic
         suspend fun create(name: String? = null, metadata: String? = null): Channel? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
 
                 val initDto = nativeCreate(name, metadata) ?: return@withContext null
@@ -77,7 +75,7 @@ class Channel internal constructor(
          */
         @JvmStatic
         suspend fun findOrCreate(name: String? = null, metadata: String? = null): Channel? =
-            withContext(Dispatchers.IO) {
+            withContext(Dispatchers.Default) {
                 check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
 
                 val initDto = nativeFindOrCreate(name, metadata) ?: return@withContext null
@@ -254,7 +252,7 @@ class Channel internal constructor(
      *  Channelの[metadata]を更新します。
      *  [onMetadataUpdatedHandler]が発火します。
      */
-    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeUpdateMetadata(nativePointer, metadata)
     }
 
@@ -263,26 +261,24 @@ class Channel internal constructor(
      *  [onMemberJoinedHandler]が発火します。
      *  このChannel内に同時に入室できるLocalPersonは1つだけです。
      */
-    suspend fun join(memberInit: Member.Init): LocalPerson? = withContext(Dispatchers.IO) {
-        lock.withLock {
-            resetLocalPerson()
-            val localPersonJson = nativeJoin(
-                nativePointer,
-                memberInit.name,
-                memberInit.metadata ?: "",
-                memberInit.type.toString(),
-                memberInit.subtype,
-                memberInit.keepAliveIntervalSec
-            ) ?: return@withContext null
-            return@withContext addLocalParson(localPersonJson)
-        }
+    suspend fun join(memberInit: Member.Init): LocalPerson? = withContext(Dispatchers.Default) {
+        resetLocalPerson()
+        val localPersonJson = nativeJoin(
+            nativePointer,
+            memberInit.name,
+            memberInit.metadata ?: "",
+            memberInit.type.toString(),
+            memberInit.subtype,
+            memberInit.keepAliveIntervalSec
+        ) ?: return@withContext null
+        return@withContext addLocalParson(localPersonJson)
     }
 
     /**
      *  指定したメンバーをChannelから退室させます。
      *  [onMemberLeftHandler]が発火します。
      */
-    suspend fun leave(member: Member): Boolean = withContext(Dispatchers.IO) {
+    suspend fun leave(member: Member): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeLeave(nativePointer, member.nativePointer)
     }
 
@@ -290,7 +286,7 @@ class Channel internal constructor(
      *  Channelを閉じます。
      *  [onClosedHandler]が発火します。
      */
-    suspend fun close(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun close(): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeClose(nativePointer)
     }
 
@@ -304,83 +300,69 @@ class Channel internal constructor(
     }
 
     internal fun findMember(memberId: String): Member? {
-        lock.withLock {
-            return _members[memberId]
-        }
+        return _members[memberId]
     }
 
     internal fun findPublication(publicationId: String): Publication? {
-        lock.withLock {
-            return _publications[publicationId]
-        }
+        return _publications[publicationId]
     }
 
     internal fun findSubscription(subscriptionId: String): Subscription? {
-        lock.withLock {
-            return _subscriptions[subscriptionId]
-        }
+        return _subscriptions[subscriptionId]
     }
 
     private fun addLocalParson(memberJson: String): LocalPerson {
-        lock.withLock {
-            val member = factory.createLocalPerson(memberJson)
-            _members[member.id] = member
-            return member
-        }
+        val member = factory.createLocalPerson(memberJson)
+        _members[member.id] = member
+        return member
     }
 
     internal fun addRemoteMemberIfNeeded(memberJson: String): Member {
-        lock.withLock {
-            val memberId = Util.getObjectId(memberJson)
-            val exist = _members[memberId]
-            if (exist != null) return exist
+        val memberId = Util.getObjectId(memberJson)
+        val exist = _members[memberId]
+        if (exist != null) return exist
 
-            val member = factory.createRemoteMember(memberJson)
-            _members[memberId] = member
-            return member
-        }
+        val member = factory.createRemoteMember(memberJson)
+        _members[memberId] = member
+        return member
     }
 
     internal fun addLocalPublication(publicationJson: String, stream: LocalStream): Publication {
-        lock.withLock {
-            val publicationId = Util.getObjectId(publicationJson)
-            val publication = factory.createPublication(publicationJson, stream)
-            _publications[publicationId] = publication
-            return publication
-        }
+        val publicationId = Util.getObjectId(publicationJson)
+        val publication = factory.createPublication(publicationJson, stream)
+        _publications[publicationId] = publication
+        return publication
     }
 
     internal fun addRemotePublicationIfNeeded(publicationJson: String): Publication {
-        lock.withLock {
-            val publicationId = Util.getObjectId(publicationJson)
-            val exist = _publications[publicationId]
-            if (exist != null) return exist
+        val publicationId = Util.getObjectId(publicationJson)
+        val exist = _publications[publicationId]
+        if (exist != null) return exist
 
-            val publication = factory.createPublication(publicationJson, null)
-            _publications[publicationId] = publication
-            return publication
-        }
+        val publication = factory.createPublication(publicationJson, null)
+        _publications[publicationId] = publication
+        return publication
     }
 
     internal fun addLocalSubscription(subscriptionJson: String): Subscription {
-        lock.withLock {
-            val subscriptionId = Util.getObjectId(subscriptionJson)
-            val subscription = factory.createSubscription(subscriptionJson)
-            _subscriptions[subscriptionId] = subscription
-            return subscription
-        }
+        val subscriptionId = Util.getObjectId(subscriptionJson)
+        val subscription = factory.createSubscription(subscriptionJson)
+        _subscriptions[subscriptionId] = subscription
+        return subscription
     }
 
     internal fun addRemoteSubscriptionIfNeeded(subscriptionJson: String): Subscription {
-        lock.withLock {
-            val subscriptionId = Util.getObjectId(subscriptionJson)
-            val exist = _subscriptions[subscriptionId]
-            if (exist != null) return exist
-
-            val subscription = factory.createSubscription(subscriptionJson)
-            _subscriptions[subscriptionId] = subscription
-            return subscription
+        val subscription = factory.createSubscription(subscriptionJson)
+        
+        if (_subscriptions[subscription.id] == null){
+            _subscriptions[subscription.id] = subscription
         }
+
+        if(_subscriptions[subscription.id]?.stream == null && subscription.stream != null){
+            _subscriptions[subscription.id]?.stream = subscription.stream
+        }
+
+        return _subscriptions[subscription.id]!!
     }
 
     private fun resetLocalPerson() {
@@ -391,123 +373,139 @@ class Channel internal constructor(
     }
 
     private fun onClosed() {
-        onClosedHandler?.invoke()
+        Logger.logI("🔔onClosed")
+        scope.launch {
+            onClosedHandler?.invoke()
+        }
     }
 
     private fun onMetadataUpdated(metadata: String) {
-        onMetadataUpdatedHandler?.invoke(metadata)
+        Logger.logI("🔔onMetadataUpdated")
+        scope.launch {
+            onMetadataUpdatedHandler?.invoke(metadata)
+        }
     }
 
     private fun onMemberListChanged() {
-        onMemberListChangedHandler?.invoke()
+        Logger.logI("🔔onMemberListChanged")
+        scope.launch {
+            onMemberListChangedHandler?.invoke()
+        }
     }
 
     private fun onMemberJoined(memberJson: String) {
-        val member: Member
-        try {
-            member = addRemoteMemberIfNeeded(memberJson)
-        } catch (e: Exception) {
-            onError("onMemberJoined: ${e.message}", e)
-            return
+        Logger.logI("🔔onMemberJoined")
+        val member = addRemoteMemberIfNeeded(memberJson)
+        scope.launch {
+            onMemberJoinedHandler?.invoke(member)
         }
-
-        onMemberJoinedHandler?.invoke(member)
     }
 
     private fun onMemberLeft(memberId: String) {
+        Logger.logI("🔔onMemberLeft")
         val member = findMember(memberId) ?: run {
             Logger.logW("onMemberLeft: The member is not found")
             return
         }
-        onMemberLeftHandler?.invoke(member)
+        scope.launch {
+            onMemberLeftHandler?.invoke(member)
+        }
     }
 
     private fun onMemberMetadataUpdated(memberId: String, metadata: String) {
+        Logger.logI("🔔onMemberMetadataUpdated")
         val member = findMember(memberId) ?: run {
             Logger.logW("onMemberMetadataUpdated: The member is not found")
             return
         }
-        onMemberMetadataUpdatedHandler?.invoke(member, metadata)
+        scope.launch {
+            onMemberMetadataUpdatedHandler?.invoke(member, metadata)
+        }
     }
 
     private fun onPublicationMetadataUpdated(publicationId: String, metadata: String) {
+        Logger.logI("🔔onPublicationMetadataUpdated")
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onPublicationMetadataUpdated: The publication is not found")
             return
         }
-        onPublicationMetadataUpdatedHandler?.invoke(publication, metadata)
+        scope.launch {
+            onPublicationMetadataUpdatedHandler?.invoke(publication, metadata)
+        }
     }
 
     private fun onPublicationListChanged() {
-        onPublicationListChangedHandler?.invoke()
+        Logger.logI("🔔onPublicationListChanged")
+        scope.launch {
+            onPublicationListChangedHandler?.invoke()
+        }
     }
 
     private fun onStreamPublished(publicationJson: String) {
+        Logger.logI("🔔onStreamPublished")
+        val publication = addRemotePublicationIfNeeded(publicationJson)
         scope.launch {
-            localPerson?.publishMutex?.withLock {
-                val publication: Publication
-
-                try {
-                    publication = addRemotePublicationIfNeeded(publicationJson)
-                } catch (e: Exception) {
-                    onError("onStreamPublished: ${e.message}", e)
-                    return@launch
-                }
-                onStreamPublishedHandler?.invoke(publication)
-            }
+            onStreamPublishedHandler?.invoke(publication)
         }
     }
 
     private fun onStreamUnpublished(publicationId: String) {
+        Logger.logI("🔔onStreamUnpublished")
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onStreamUnpublished: The publication is not found")
             return
         }
-        onStreamUnpublishedHandler?.invoke(publication)
+        scope.launch {
+            onStreamUnpublishedHandler?.invoke(publication)
+        }
     }
 
     private fun onPublicationEnabled(publicationId: String) {
+        Logger.logI("🔔onPublicationEnabled")
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onPublicationEnabled: The publication is not found")
             return
         }
-        onPublicationEnabledHandler?.invoke(publication)
+        scope.launch {
+            onPublicationEnabledHandler?.invoke(publication)
+        }
     }
 
     private fun onPublicationDisabled(publicationId: String) {
+        Logger.logI("🔔onPublicationDisabled")
         val publication = findPublication(publicationId) ?: run {
             Logger.logW("onPublicationDisabled: The publication is not found")
             return
         }
-        onPublicationDisabledHandler?.invoke(publication)
+        scope.launch {
+            onPublicationDisabledHandler?.invoke(publication)
+        }
     }
 
     private fun onSubscriptionListChanged() {
-        onSubscriptionListChangedHandler?.invoke()
+        Logger.logI("🔔onSubscriptionListChanged")
+        scope.launch {
+            onSubscriptionListChangedHandler?.invoke()
+        }
     }
 
     private fun onPublicationSubscribed(subscriptionJson: String) {
+        Logger.logI("🔔onPublicationSubscribed")
+        val subscription = addRemoteSubscriptionIfNeeded(subscriptionJson)
         scope.launch {
-            localPerson?.subscribeMutex?.withLock {
-                val subscription: Subscription
-                try {
-                    subscription = addRemoteSubscriptionIfNeeded(subscriptionJson)
-                } catch (e: Exception) {
-                    onError("onPublicationSubscribed: ${e.message}", e)
-                    return@launch
-                }
-
-                onPublicationSubscribedHandler?.invoke(subscription)
-            }
+            onPublicationSubscribedHandler?.invoke(subscription)
         }
     }
 
     private fun onPublicationUnsubscribed(subscriptionId: String) {
+        Logger.logI("🔔onPublicationUnsubscribed")
         val subscription = findSubscription(subscriptionId) ?: run {
             Logger.logW("onPublicationUnsubscribed: The subscription is not found")
             return
         }
-        onPublicationUnsubscribedHandler?.invoke(subscription)
+        scope.launch {
+            onPublicationUnsubscribedHandler?.invoke(subscription)
+        }
     }
 
 //    private fun onSubscriptionEnabled(subscriptionId: String) {
@@ -528,7 +526,9 @@ class Channel internal constructor(
 
     private fun onError(message: String, e: Exception) {
         Logger.logE(message)
-        onErrorHandler?.invoke(e)
+        scope.launch {
+            onErrorHandler?.invoke(e)
+        }
     }
 
     private external fun nativeState(ptr: Long): String

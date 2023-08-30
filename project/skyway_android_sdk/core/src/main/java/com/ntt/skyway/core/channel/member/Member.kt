@@ -5,7 +5,10 @@
 package com.ntt.skyway.core.channel.member
 
 import com.ntt.skyway.core.channel.Channel
+import com.ntt.skyway.core.util.Logger
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
@@ -149,6 +152,8 @@ abstract class Member internal constructor(
      */
     var onSubscriptionListChangedHandler: (() -> Unit)? = null
 
+    private val scope = CoroutineScope(Dispatchers.Default)
+
     constructor(dto: Dto) : this(
         dto.channel,
         dto.id,
@@ -163,31 +168,43 @@ abstract class Member internal constructor(
     /**
      *  Metadataを更新します。
      */
-    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeUpdateMetadata(nativePointer, metadata)
     }
 
     /**
      *  Channelから退室します。
      */
-    suspend fun leave(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeLeave(nativePointer)
     }
 
     private fun onLeft() {
-        onLeftHandler?.invoke()
+        Logger.logI("🔔onLeft")
+        scope.launch {
+            onLeftHandler?.invoke()
+        }
     }
 
     private fun onMetadataUpdated(metadata: String) {
-        onMetadataUpdatedHandler?.invoke(metadata)
+        Logger.logI("🔔onMetadataUpdated")
+        scope.launch {
+            onMetadataUpdatedHandler?.invoke(metadata)
+        }
     }
 
     private fun onPublicationListChanged() {
-        onPublicationListChangedHandler?.invoke()
+        Logger.logI("🔔onPublicationListChanged")
+        scope.launch {
+            onPublicationListChangedHandler?.invoke()
+        }
     }
 
     private fun onSubscriptionListChanged() {
-        onSubscriptionListChangedHandler?.invoke()
+        Logger.logI("🔔onSubscriptionListChanged")
+        scope.launch {
+            onSubscriptionListChangedHandler?.invoke()
+        }
     }
 
 

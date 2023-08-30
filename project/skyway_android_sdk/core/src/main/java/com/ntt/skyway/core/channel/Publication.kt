@@ -11,7 +11,11 @@ import com.ntt.skyway.core.content.*
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.Stream.ContentType
 import com.ntt.skyway.core.content.local.LocalStream
+import com.ntt.skyway.core.util.Logger
+import kotlinx.coroutines.CoroutineScope
+import com.ntt.skyway.core.util.Util
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 /**
@@ -26,14 +30,11 @@ class Publication internal constructor(
      * このPublicationのID。
      */
     val id: String,
+    private val publisherId: String,
     /**
      * このPublicationの[ContentType]。
      */
     val contentType: ContentType,
-    /**
-     * このPublicationのPublisher。
-     */
-    val publisher: Member,
     /**
      * このPublicationのOrigin。
      */
@@ -95,6 +96,12 @@ class Publication internal constructor(
     }
 
     /**
+     * このPublicationのPublisher。
+     */
+    val publisher: Member
+        get() = channel.findMember(publisherId)!!
+
+    /**
      *  このPublicationのMetadata。
      */
     val metadata: String
@@ -135,12 +142,12 @@ class Publication internal constructor(
     /**
      * このPublicationのSubscribeされた時に発火するハンドラ。
      */
-    var onSubscribedHandler: (() -> Unit)? = null
+    var onSubscribedHandler: ((subscription:Subscription) -> Unit)? = null
 
     /**
      * このPublicationのUnsubscribeされた時に発火するハンドラ。
      */
-    var onUnsubscribedHandler: (() -> Unit)? = null
+    var onUnsubscribedHandler: ((subscription:Subscription) -> Unit)? = null
 
     /**
      * このPublicationに対するSubscriptionの数が変更された時に発火するハンドラ。
@@ -166,6 +173,7 @@ class Publication internal constructor(
 
     val stream: Stream?
         get() = internalStream
+    private val scope = CoroutineScope(Dispatchers.Default)
 
     init {
         nativeAddEventListener(channel.id, nativePointer)
@@ -175,7 +183,7 @@ class Publication internal constructor(
      *  metadataを更新します。
      *  [onMetadataUpdatedHandler]が発火します。
      */
-    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.IO) {
+    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeUpdateMetadata(nativePointer, metadata)
     }
 
@@ -183,7 +191,7 @@ class Publication internal constructor(
      *  publishを中止します。
      *  [onUnpublishedHandler]が発火します。
      */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeCancel(nativePointer)
     }
 
@@ -192,7 +200,7 @@ class Publication internal constructor(
      *  [onEnabledHandler]が発火します。
      *  また、入室している[Channel]に対して[Channel.onPublicationEnabledHandler]が発火します。
      */
-    suspend fun enable(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeEnable(nativePointer)
     }
 
@@ -201,7 +209,7 @@ class Publication internal constructor(
      *  [onDisabledHandler]が発火します。
      *  また、入室している[Channel]に対して[Channel.onPublicationDisabledHandler]が発火します。
      */
-    suspend fun disable(): Boolean = withContext(Dispatchers.IO) {
+    suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
         return@withContext nativeDisable(nativePointer)
     }
 
@@ -233,39 +241,69 @@ class Publication internal constructor(
         nativeGetStats(remoteMemberId,nativePointer)?.let {
             return Factory.createWebRTCStats(it)
         }
-        return null;
+        return null
     }
 
     private fun onMetadataUpdated(metadata: String) {
-        onMetadataUpdatedHandler?.invoke(metadata)
+        Logger.logI("🔔onMetadataUpdated")
+        scope.launch {
+            onMetadataUpdatedHandler?.invoke(metadata)
+        }
     }
 
     private fun onUnpublished() {
-        onUnpublishedHandler?.invoke()
+        Logger.logI("🔔onUnpublished")
+        scope.launch {
+            onUnpublishedHandler?.invoke()
+        }
     }
 
-    private fun onSubscribed() {
-        onSubscribedHandler?.invoke()
+    private fun onSubscribed(subscriptionJson: String) {
+        Logger.logI("🔔onSubscribed")
+        val subscription = channel.addRemoteSubscriptionIfNeeded(subscriptionJson)
+        scope.launch {
+            onSubscribedHandler?.invoke(subscription)
+        }
     }
 
-    private fun onUnsubscribed() {
-        onUnsubscribedHandler?.invoke()
+    private fun onUnsubscribed(subscriptionJson: String) {
+        Logger.logI("🔔onUnsubscribed")
+        val subscriptionId = Util.getObjectId(subscriptionJson)
+        val subscription = channel.findSubscription(subscriptionId)?: run {
+            Logger.logW("onUnsubscribed: The subscription is not found")
+            return
+        }
+        scope.launch {
+            onUnsubscribedHandler?.invoke(subscription)
+        }
     }
 
     private fun onSubscriptionListChanged() {
-        onSubscriptionListChangedHandler?.invoke()
+        Logger.logI("🔔onSubscriptionListChanged")
+        scope.launch {
+            onSubscriptionListChangedHandler?.invoke()
+        }
     }
 
     private fun onEnabled() {
-        onEnabledHandler?.invoke()
+        Logger.logI("🔔onEnabled")
+        scope.launch {
+            onEnabledHandler?.invoke()
+        }
     }
 
     private fun onDisabled() {
-        onDisabledHandler?.invoke()
+        Logger.logI("🔔onDisabled")
+        scope.launch {
+            onDisabledHandler?.invoke()
+        }
     }
 
     private fun onConnectionStateChanged(state: String) {
-        onConnectionStateChangedHandler?.invoke(state)
+        Logger.logI("🔔onConnectionStateChanged: $state")
+        scope.launch {
+            onConnectionStateChangedHandler?.invoke(state)
+        }
     }
 
     private external fun nativeAddEventListener(channelId: String, ptr: Long)
