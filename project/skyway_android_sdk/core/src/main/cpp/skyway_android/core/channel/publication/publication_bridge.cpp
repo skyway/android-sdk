@@ -85,7 +85,7 @@ bool PublicationBridge::RegisterMethods(JNIEnv* env) {
 
     return skyway_android::RegisterMethodsHelper(
         env,
-        "com/ntt/skyway/core/channel/PublicationImpl",
+        "com/ntt/skyway/core/channel/Publication",
         native_methods,
         ARRAY_LENGTH(native_methods)
     );

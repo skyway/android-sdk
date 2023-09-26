@@ -11,22 +11,22 @@ import com.ntt.skyway.room.p2p.P2PRoom
 import com.ntt.skyway.room.util.TestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.*
-import org.junit.Assert.*
 import java.util.*
 
 
 class RemoteRoomMemberTest {
-    private val tag = this.javaClass.simpleName
+    val TAG = this.javaClass.simpleName
 
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.CAMERA,
-        Manifest.permission.INTERNET,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-        Manifest.permission.ACCESS_NETWORK_STATE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    var mRuntimePermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
     private var alice: LocalP2PRoomMember? = null
     private var remoteBob: RemoteRoomMember? = null
@@ -38,7 +38,7 @@ class RemoteRoomMemberTest {
     private lateinit var bobLocalVideoStream: LocalVideoStream
 
     @Before
-    fun setup() = runBlocking {
+    fun setup() = runBlocking{
         TestUtil.setupSkyway()
 
         aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
@@ -59,7 +59,7 @@ class RemoteRoomMemberTest {
 
     @After
     fun tearDown() {
-        Log.d(tag, "SkyWayContext.dispose()")
+        Log.d(TAG, "SkyWayContext.dispose()")
         SkyWayContext.dispose()
     }
 
@@ -68,7 +68,7 @@ class RemoteRoomMemberTest {
 
     @Test
     fun leave() = runBlocking {
-        assertTrue(remoteBob!!.leave())
-        assertFalse(bob!!.leave())
+        Assert.assertTrue(remoteBob!!.leave())
+        Assert.assertFalse(bob!!.leave())
     }
 }

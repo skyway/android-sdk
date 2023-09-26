@@ -1,6 +1,6 @@
 package com.ntt.skyway.core.network
 
-object WebSocketClientFactory {
+internal object WebSocketClientFactory {
     @JvmStatic
     fun create(): WebSocketClient {
         return WebSocketClient()

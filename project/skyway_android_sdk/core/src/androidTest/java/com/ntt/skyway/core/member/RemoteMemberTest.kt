@@ -1,22 +1,22 @@
-package com.ntt.skyway.room
+package com.ntt.skyway.core.member
 
 import android.Manifest
 import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
+import com.ntt.skyway.core.channel.Channel
+import com.ntt.skyway.core.channel.member.LocalPerson
+import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.channel.member.RemoteMember
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
-import com.ntt.skyway.room.member.RemoteRoomMember
-import com.ntt.skyway.room.member.RoomMember
-import com.ntt.skyway.room.p2p.LocalP2PRoomMember
-import com.ntt.skyway.room.p2p.P2PRoom
-import com.ntt.skyway.room.util.TestUtil
+import com.ntt.skyway.core.util.TestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import java.util.*
 
 
-class AuthTokenTest {
+class RemoteMemberTest {
     val TAG = this.javaClass.simpleName
 
     @get:Rule
@@ -30,33 +30,33 @@ class AuthTokenTest {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
 
-    private var alice: LocalP2PRoomMember? = null
-    private var remoteBob: RemoteRoomMember? = null
-    private var bob: LocalP2PRoomMember? = null
-    private var aliceRoom: P2PRoom? = null
-    private var bobRoom: P2PRoom? = null
+    private var alice: LocalPerson? = null
+    private var remoteBob: RemoteMember? = null
+    private var bob: LocalPerson? = null
+    private var aliceChannel: Channel? = null
+    private var bobChannel: Channel? = null
 
     private lateinit var aliceLocalVideoStream: LocalVideoStream
     private lateinit var bobLocalVideoStream: LocalVideoStream
 
     @Before
     fun setup() = runBlocking{
-        TestUtil.setupSkyway(SkyWayContext.Token(tokenReminderTimeSec = 8))
+        TestUtil.setupSkyway()
 
         aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
         bobLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
 
-        aliceRoom = P2PRoom.create(null, null)
+        aliceChannel = Channel.create(null, null)
 
-        bobRoom = P2PRoom.find(null, id = aliceRoom?.id)
-        val bobMemberInit = RoomMember.Init(name = UUID.randomUUID().toString(), metadata = "")
-        bob = bobRoom?.join(bobMemberInit)
+        bobChannel = Channel.find(null, id = aliceChannel?.id)
+        val bobMemberInit = Member.Init(name = UUID.randomUUID().toString(), metadata = "")
+        bob = bobChannel?.join(bobMemberInit)
 
 
-        val aliceMemberInit = RoomMember.Init(name = UUID.randomUUID().toString(), metadata = "")
-        alice = aliceRoom?.join(aliceMemberInit)
+        val aliceMemberInit = Member.Init(name = UUID.randomUUID().toString(), metadata = "")
+        alice = aliceChannel?.join(aliceMemberInit)
 
-        remoteBob = aliceRoom?.members?.first { it.id == bob!!.id } as RemoteRoomMember
+        remoteBob = aliceChannel?.members?.first { it.id == bob!!.id } as RemoteMember
     }
 
     @After
@@ -69,8 +69,8 @@ class AuthTokenTest {
 //    -----------------TEST-----------------
 
     @Test
-    fun updateToken() = runBlocking {
-        val isUpdated = SkyWayContext.updateAuthToken(TestUtil.authToken)
-        Assert.assertTrue(isUpdated)
+    fun leave() = runBlocking {
+        Assert.assertTrue(remoteBob!!.leave())
+        Assert.assertFalse(bob!!.leave())
     }
 }

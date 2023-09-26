@@ -1,9 +1,8 @@
 package com.ntt.skyway.plugin.unknown
 
-import com.ntt.skyway.core.channel.member.Member
-import com.ntt.skyway.core.channel.member.RemoteMemberImpl
+import com.ntt.skyway.core.channel.member.RemoteMember
 
-class Unknown  internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
-    override val type: Member.Type = Member.Type.UNKNOWN
+class Unknown  internal constructor(dto: Dto) : RemoteMember(dto) {
+    override val type: Type = Type.UNKNOWN
     override val subType: String = "unknown"
 }
