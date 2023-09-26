@@ -10,8 +10,7 @@ import com.ntt.skyway.core.channel.member.LocalPerson
 object TestUtil {
     val TAG = this.javaClass.simpleName
     val authToken = AuthTokenBuilder.CreateToken(
-        com.ntt.skyway.BuildConfig.APP_ID,
-        com.ntt.skyway.BuildConfig.SECRET_KEY
+        com.ntt.skyway.BuildConfig.APP_ID, com.ntt.skyway.BuildConfig.SECRET_KEY
     )
 
     suspend fun setupSkyway(token: SkyWayContext.Token? = null) {
@@ -31,8 +30,7 @@ object TestUtil {
     }
 
     suspend fun waitForFindSubscription(
-        member: LocalPerson,
-        publication: Publication
+        member: LocalPerson, publication: Publication
     ): Boolean {
         repeat(10) {
             if (member.subscriptions.find { it.id == publication.id } != null) {

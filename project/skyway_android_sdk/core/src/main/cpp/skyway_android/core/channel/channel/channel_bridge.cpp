@@ -92,7 +92,7 @@ bool ChannelBridge::RegisterMethods(JNIEnv* env) {
 
     return skyway_android::RegisterMethodsHelper(
         env,
-        "com/ntt/skyway/core/channel/Channel",
+        "com/ntt/skyway/core/channel/ChannelImpl",
         native_methods,
         ARRAY_LENGTH(native_methods)
     );
