@@ -25,10 +25,6 @@ public:
     static bool RegisterMethods(JNIEnv* env);
 
     static void AddEventListener(JNIEnv* env, jobject j_this, jstring j_channel_id, jlong local_person);
-    static jstring Metadata(JNIEnv* env, jobject j_this, jlong member);
-    static jstring State(JNIEnv* env, jobject j_this, jlong member);
-    static bool UpdateMetadata(JNIEnv* env, jobject j_this, jlong member, jstring j_metadata);
-    static bool Leave(JNIEnv* env, jobject j_this, jlong member);
     static jstring Publish(JNIEnv* env, jobject j_this, jlong local_person, jlong local_stream, jstring j_publication_options);
     static bool Unpublish(JNIEnv* env, jobject j_this, jlong local_person, jstring publication_id);
     static jstring Subscribe(JNIEnv* env, jobject j_this, jlong local_person, jstring publication_id, jstring j_subscription_options);

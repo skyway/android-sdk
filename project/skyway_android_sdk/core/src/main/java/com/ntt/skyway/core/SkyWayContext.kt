@@ -154,12 +154,8 @@ object SkyWayContext {
     private val scope = CoroutineScope(Dispatchers.Default)
 
     init {
-        try {
-            System.loadLibrary("skyway_android")
-            registerPlugin(RemotePersonPlugin())
-        } catch (e: UnsatisfiedLinkError) {
-            Logger.logE(e.message.toString())
-        }
+        System.loadLibrary("skyway_android")
+        registerPlugin(RemotePersonPlugin())
     }
 
     /**

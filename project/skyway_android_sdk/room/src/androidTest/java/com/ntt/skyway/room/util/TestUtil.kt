@@ -4,14 +4,19 @@ import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import com.ntt.skyway.authtoken.AuthTokenBuilder
 import com.ntt.skyway.core.SkyWayContext
+import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.util.Logger
+import com.ntt.skyway.room.Room
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.LocalRoomMember
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withTimeoutOrNull
 
 object TestUtil {
-    private val tag = this.javaClass.simpleName
+    val TAG = this.javaClass.simpleName
     val authToken = AuthTokenBuilder.CreateToken(
-        com.ntt.skyway.room.BuildConfig.APP_ID, com.ntt.skyway.room.BuildConfig.SECRET_KEY
+        com.ntt.skyway.room.BuildConfig.APP_ID,
+        com.ntt.skyway.room.BuildConfig.SECRET_KEY
     )
 
     suspend fun setupSkyway(token: SkyWayContext.Token? = null) {
@@ -23,15 +28,16 @@ object TestUtil {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
 
         val result = SkyWayContext.setup(appContext, option) {
-            Log.e(tag, "Context ${it.message}")
+            Log.e(TAG, "Context ${it.message}")
         }
         if (result) {
-            Log.d(tag, "Setup succeed")
+            Log.d(TAG, "Setup succeed")
         }
     }
 
     suspend fun waitForFindSubscription(
-        member: LocalRoomMember, publication: RoomPublication
+        member: LocalRoomMember,
+        publication: RoomPublication
     ): Boolean {
         repeat(10) {
             if (member.subscriptions.find { it.id == publication.id } != null) {

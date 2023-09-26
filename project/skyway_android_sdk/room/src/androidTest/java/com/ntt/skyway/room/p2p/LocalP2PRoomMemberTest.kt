@@ -12,22 +12,22 @@ import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
 import kotlinx.coroutines.*
 import org.junit.*
-import org.junit.Assert.*
 import java.util.*
 
 
 class LocalP2PRoomMemberTest {
-    private val tag = this.javaClass.simpleName
+    val TAG = this.javaClass.simpleName
 
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
-        Manifest.permission.CAMERA,
-        Manifest.permission.INTERNET,
-        Manifest.permission.RECORD_AUDIO,
-        Manifest.permission.MODIFY_AUDIO_SETTINGS,
-        Manifest.permission.ACCESS_NETWORK_STATE,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
+    var mRuntimePermissionRule: GrantPermissionRule =
+        GrantPermissionRule.grant(
+            Manifest.permission.CAMERA,
+            Manifest.permission.INTERNET,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.MODIFY_AUDIO_SETTINGS,
+            Manifest.permission.ACCESS_NETWORK_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
 
     private var alice: LocalP2PRoomMember? = null
     private var bob: LocalP2PRoomMember? = null
@@ -39,7 +39,7 @@ class LocalP2PRoomMemberTest {
 
 
     @Before
-    fun setup() = runBlocking {
+    fun setup() = runBlocking{
         TestUtil.setupSkyway()
 
         aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
@@ -57,7 +57,7 @@ class LocalP2PRoomMemberTest {
 
     @After
     fun tearDown() {
-        Log.d(tag, "SkyWayContext.dispose()")
+        Log.d(TAG, "SkyWayContext.dispose()")
         aliceRoom?.dispose()
         bobRoom?.dispose()
         SkyWayContext.dispose()
@@ -70,81 +70,80 @@ class LocalP2PRoomMemberTest {
     fun publish() = runBlocking {
         val options = RoomPublication.Options(isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
+        Assert.assertNotNull(publication)
     }
 
     @Test
     fun publishWithMetadata() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
     }
 
     @Test
     fun publishTwice() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication1 = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication1)
-        assertEquals(publication1?.metadata, options.metadata)
+        Assert.assertNotNull(publication1)
+        Assert.assertEquals(publication1?.metadata, options.metadata)
 
         val publication2 = alice?.publish(bobLocalVideoStream, options)
-        assertNotNull(publication2)
-        assertEquals(publication2?.metadata, options.metadata)
+        Assert.assertNotNull(publication2)
+        Assert.assertEquals(publication2?.metadata, options.metadata)
     }
 
     @Test
     fun publish_WithEncodingId() = runBlocking {
-        val encoding = Encoding("TEST_ENCODING_ID", 200_000, 4.0)
-        val options =
-            RoomPublication.Options("metadata", encodings = listOf(encoding), isEnabled = false)
+        val encoding = Encoding("TEST_ENCODING_ID",200_000, 4.0)
+        val options = RoomPublication.Options("metadata", encodings = listOf(encoding), isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
         val pubEncoding = publication?.encodings?.get(0)
-        assertNotNull(pubEncoding)
-        assertEquals(encoding.id, pubEncoding?.id)
+        Assert.assertNotNull(pubEncoding)
+        Assert.assertEquals(encoding.id, pubEncoding?.id)
     }
 
     @Test
     fun subscribe() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForFindSubscription(bob!!, publication!!)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = publication.id.let { bob?.subscribe(it) }
-        assertNotNull(subscription?.id)
+        Assert.assertNotNull(subscription?.id)
     }
 
     @Test
     fun subscribe_ShouldReturnNullWithAlreadySubscribed() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForFindSubscription(bob!!, publication!!)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription1 = publication.id.let { bob?.subscribe(it) }
-        assertNotNull(subscription1?.id)
+        Assert.assertNotNull(subscription1?.id)
         val subscription2 = publication.id.let { bob?.subscribe(it) }
-        assertNull(subscription2?.id)
+        Assert.assertNull(subscription2?.id)
     }
 
     @Test
     fun subscribe_ShouldReturnNullWithNotExistPublication() = runBlocking {
-        val subscription = bob?.subscribe("notexist!!")
-        assertNull(subscription?.id)
+        val subscription =  bob?.subscribe("notexist!!")
+        Assert.assertNull(subscription?.id)
     }
 
     @Test
     fun subscribe_ShouldReturnNullWithSubscribedByPublisher() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForFindSubscription(bob!!, publication!!)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = alice?.subscribe(publication.id)
-        assertNull(subscription)
+        Assert.assertNull(subscription)
     }
 
 //    @Test  //TODO impl on core getPreferredEncodingId
@@ -164,59 +163,59 @@ class LocalP2PRoomMemberTest {
     fun unpublish() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        assertTrue(alice!!.unpublish(publication!!))
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        Assert.assertTrue(alice!!.unpublish(publication!!))
     }
 
     @Test
     fun unpublish_ShouldReturnFalseWithAlreadyUnpublished() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        assertTrue(alice!!.unpublish(publication!!))
-        assertFalse(alice!!.unpublish(publication))
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        Assert.assertTrue(alice!!.unpublish(publication!!))
+        Assert.assertFalse(alice!!.unpublish(publication))
     }
 
     @Test
     fun unsubscribe() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForFindSubscription(bob!!, publication!!)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = publication.id.let { bob?.subscribe(it) }
-        assertNotNull(subscription?.id)
-        assertTrue(bob!!.unsubscribe(subscription!!.id))
+        Assert.assertNotNull(subscription?.id)
+        Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))
     }
 
     @Test
     fun unsubscribe_ShouldReturnFalseWithAlreadyUnsubscribed() = runBlocking {
         val options = RoomPublication.Options("metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        assertNotNull(publication)
-        assertEquals(publication?.metadata, options.metadata)
-        TestUtil.waitForFindSubscription(bob!!, publication!!)
+        Assert.assertNotNull(publication)
+        Assert.assertEquals(publication?.metadata, options.metadata)
+        TestUtil.waitForFindSubscription(bob!!,publication!!)
         val subscription = publication.id.let { bob?.subscribe(it) }
-        assertNotNull(subscription?.id)
-        assertTrue(bob!!.unsubscribe(subscription!!.id))
-        assertFalse(bob!!.unsubscribe(subscription.id))
+        Assert.assertNotNull(subscription?.id)
+        Assert.assertTrue(bob!!.unsubscribe(subscription!!.id))
+        Assert.assertFalse(bob!!.unsubscribe(subscription.id))
     }
 
     @Test
     fun updateMetadata() = runBlocking {
-        assertTrue(alice?.updateMetadata("updateMetadata")!!)
+        Assert.assertTrue(alice?.updateMetadata("updateMetadata")!!)
     }
 
     @Test
     fun leave() = runBlocking {
-        assertTrue(alice?.leave()!!)
+        Assert.assertTrue(alice?.leave()!!)
     }
 
     @Test
     fun leave_ShouldReturnFalseWithAlreadyLeft() = runBlocking {
-        assertTrue(alice?.leave()!!)
-        assertFalse(alice?.leave()!!)
+        Assert.assertTrue(alice?.leave()!!)
+        Assert.assertFalse(alice?.leave()!!)
     }
 }

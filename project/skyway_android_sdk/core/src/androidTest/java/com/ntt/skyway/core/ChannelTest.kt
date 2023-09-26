@@ -1,23 +1,21 @@
-package com.ntt.skyway.room.p2p
+package com.ntt.skyway.core
 
 import android.Manifest
 import android.util.Log
-import androidx.test.internal.runner.junit4.statement.UiThreadStatement.runOnUiThread
 import androidx.test.rule.GrantPermissionRule
-import com.ntt.skyway.core.SkyWayContext
-import com.ntt.skyway.core.SkyWayOptIn
+import com.ntt.skyway.core.channel.Channel
+import com.ntt.skyway.core.channel.Publication
+import com.ntt.skyway.core.channel.member.LocalPerson
+import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.core.content.local.source.DataSource
-import com.ntt.skyway.room.RoomPublication
-import com.ntt.skyway.room.member.RoomMember
-import com.ntt.skyway.room.util.TestUtil
-import kotlinx.coroutines.delay
+import com.ntt.skyway.core.util.TestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.*
 import java.util.*
 
 
-class P2PRoomTest {
+class ChannelTest {
     val TAG = this.javaClass.simpleName
 
     @get:Rule
@@ -47,97 +45,97 @@ class P2PRoomTest {
 
     @Test
     fun create() = runBlocking {
-        val room = P2PRoom.create()
-        Assert.assertNotNull(room)
+        val channel = Channel.create()
+        Assert.assertNotNull(channel)
     }
 
     @Test
     fun createWithOptions() = runBlocking {
         val name = UUID.randomUUID().toString()
         val metadata = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name, metadata)
-        Assert.assertNotNull(room)
-        Assert.assertEquals(room?.name, name)
-        Assert.assertEquals(room?.metadata, metadata)
+        val channel = Channel.create(name, metadata)
+        Assert.assertNotNull(channel)
+        Assert.assertEquals(channel?.name, name)
+        Assert.assertEquals(channel?.metadata, metadata)
     }
 
     @Test
     fun create_ShouldReturnNullWithDuplicatedName() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room1 = P2PRoom.create(name)
-        Assert.assertNotNull(room1)
-        val room2 = P2PRoom.create(name)
-        Assert.assertNull(room2)
+        val channel1 = Channel.create(name)
+        Assert.assertNotNull(channel1)
+        val channel2 = Channel.create(name)
+        Assert.assertNull(channel2)
     }
 
     @Test
     fun findOrCreate() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room = P2PRoom.findOrCreate(name)
-        Assert.assertNotNull(room)
+        val channel = Channel.findOrCreate(name)
+        Assert.assertNotNull(channel)
     }
 
     @Test
     fun findOrCreate_WithAlreadyCreated() = runBlocking {
         val name = UUID.randomUUID().toString()
-        P2PRoom.create(name)
-        val room2 = P2PRoom.findOrCreate(name)
-        Assert.assertNotNull(room2)
+        Channel.create(name)
+        val channel = Channel.findOrCreate(name)
+        Assert.assertNotNull(channel)
     }
 
     @Test
     fun find() = runBlocking {
-        val room1 = P2PRoom.create()
-        Assert.assertNotNull(room1)
+        val channel1 = Channel.create()
+        Assert.assertNotNull(channel1)
 
-        val room2 = P2PRoom.find(id = room1?.id)
-        Assert.assertNotNull(room2)
+        val channel2 = Channel.find(id = channel1?.id)
+        Assert.assertNotNull(channel2)
     }
 
     @Test
-    fun find_ShouldReturnNullWithNotExistRoom() = runBlocking {
+    fun find_ShouldReturnNullWithNotExistChannel() = runBlocking {
         val id = UUID.randomUUID().toString()
-        val room2 = P2PRoom.find(id = id)
-        Assert.assertNull(room2)
+        val channel = Channel.find(id = id)
+        Assert.assertNull(channel)
     }
 
     @Test
     fun findByName() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room1 = P2PRoom.create(name)
-        Assert.assertNotNull(room1)
+        val channel1 = Channel.create(name)
+        Assert.assertNotNull(channel1)
 
-        val room2 = P2PRoom.find(room1?.name)
-        Assert.assertNotNull(room2)
+        val channel2 = Channel.find(channel1?.name)
+        Assert.assertNotNull(channel2)
     }
 
     @Test
-    fun findByName_ShouldReturnNullWithNotExistRoom() = runBlocking {
+    fun findByName_ShouldReturnNullWithNotExistChannel() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room2 = P2PRoom.find(name)
-        Assert.assertNull(room2)
+        val channel = Channel.find(name)
+        Assert.assertNull(channel)
     }
 
     @Test
     fun join() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name)
-        Assert.assertNotNull(room)
+        val channel = Channel.create(name)
+        Assert.assertNotNull(channel)
         val aliceName = UUID.randomUUID().toString()
-        val aliceMemberInit = RoomMember.Init(aliceName)
-        val alice = room?.join(aliceMemberInit)
+        val aliceMemberInit = Member.Init(aliceName)
+        val alice = channel?.join(aliceMemberInit)
         Assert.assertNotNull(alice)
     }
 
     @Test
     fun joinWithOptions() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name)
-        Assert.assertNotNull(room)
+        val channel = Channel.create(name)
+        Assert.assertNotNull(channel)
         val aliceName = UUID.randomUUID().toString()
         val aliceMetadata = UUID.randomUUID().toString()
-        val aliceMemberInit = RoomMember.Init(aliceName, aliceMetadata)
-        val alice = room?.join(aliceMemberInit)
+        val aliceMemberInit = Member.Init(aliceName, aliceMetadata)
+        val alice = channel?.join(aliceMemberInit)
         Assert.assertNotNull(alice)
         Assert.assertEquals(alice?.name, aliceName)
         Assert.assertEquals(alice?.metadata, aliceMetadata)
@@ -146,47 +144,47 @@ class P2PRoomTest {
     @Test
     fun join_ShouldReturnNullWithDuplicatedName() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name)
-        Assert.assertNotNull(room)
+        val channel = Channel.create(name)
+        Assert.assertNotNull(channel)
         val aliceName = UUID.randomUUID().toString()
-        val aliceMemberInit = RoomMember.Init(aliceName)
-        val alice = room?.join(aliceMemberInit)
+        val aliceMemberInit = Member.Init(aliceName)
+        val alice = channel?.join(aliceMemberInit)
         Assert.assertNotNull(alice)
-        val aliceDuplicate = room?.join(aliceMemberInit)
+        val aliceDuplicate = channel?.join(aliceMemberInit)
         Assert.assertNull(aliceDuplicate)
     }
 
     @Test
     fun joinTwice() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name)
-        Assert.assertNotNull(room)
+        val channel = Channel.create(name)
+        Assert.assertNotNull(channel)
         val aliceName = UUID.randomUUID().toString()
-        val aliceMemberInit = RoomMember.Init(aliceName)
-        val alice = room?.join(aliceMemberInit)
+        val aliceMemberInit = Member.Init(aliceName)
+        val alice = channel?.join(aliceMemberInit)
         Assert.assertNotNull(alice)
         Assert.assertTrue(alice!!.leave())
-        val alice2 = room.join(aliceMemberInit)
+        val alice2 = channel.join(aliceMemberInit)
         Assert.assertNotNull(alice2)
         Assert.assertTrue(alice2!!.leave())
     }
 
     @Test
     fun joinTwenty() = runBlocking {
-        val roomName = UUID.randomUUID().toString()
-        val rooms = mutableListOf<P2PRoom>()
-        val members = mutableListOf<LocalP2PRoomMember>()
+        val channelName = UUID.randomUUID().toString()
+        val channels = mutableListOf<Channel>()
+        val members = mutableListOf<LocalPerson>()
 
         repeat(20) {
-            val room = P2PRoom.findOrCreate(roomName)
-            Assert.assertNotNull(room)
-            room?.let {
-                rooms.add(it)
+            val channel = Channel.findOrCreate(channelName)
+            Assert.assertNotNull(channel)
+            channel?.let {
+                channels.add(it)
             }
 
             val memberName = UUID.randomUUID().toString()
-            val memberInit = RoomMember.Init(memberName)
-            val member = room?.join(memberInit)
+            val memberInit = Member.Init(memberName)
+            val member = channel?.join(memberInit)
 
             Assert.assertNotNull(member)
             member?.let {
@@ -199,19 +197,19 @@ class P2PRoomTest {
     fun updateMetadata() = runBlocking {
         val name = UUID.randomUUID().toString()
         val metadata = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name)
-        Assert.assertNotNull(room)
-        room?.updateMetadata(metadata)
-        Assert.assertEquals(room?.metadata, metadata)
+        val channel = Channel.create(name)
+        Assert.assertNotNull(channel)
+        channel?.updateMetadata(metadata)
+        Assert.assertEquals(channel?.metadata, metadata)
     }
 
     @Test
     fun dispose() = runBlocking {
         val name = UUID.randomUUID().toString()
-        val room = P2PRoom.create(name)
-        Assert.assertNotNull(room)
-        room?.dispose()
-        Assert.assertNotNull(room)
+        val channel = Channel.create(name)
+        Assert.assertNotNull(channel)
+        channel?.dispose()
+        Assert.assertNotNull(channel)
     }
 
     @OptIn(SkyWayOptIn::class)
@@ -219,15 +217,15 @@ class P2PRoomTest {
     fun getStats_WithMediaStream() = runBlocking {
         val aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
 
-        val aliceRoom = P2PRoom.create()
-        val aliceMemberInit = RoomMember.Init(UUID.randomUUID().toString())
-        val alice = aliceRoom?.join(aliceMemberInit)
+        val aliceChannel = Channel.create()
+        val aliceMemberInit = Member.Init(UUID.randomUUID().toString())
+        val alice = aliceChannel?.join(aliceMemberInit)
 
-        val bobRoom = P2PRoom.find(id = aliceRoom?.id)
-        val bobMemberInit = RoomMember.Init(UUID.randomUUID().toString())
-        val bob = bobRoom?.join(bobMemberInit)
+        val bobChannel = Channel.find(id = aliceChannel?.id)
+        val bobMemberInit = Member.Init(UUID.randomUUID().toString())
+        val bob = bobChannel?.join(bobMemberInit)
 
-        val options = RoomPublication.Options()
+        val options = Publication.Options()
         val publication = alice?.publish(aliceLocalVideoStream, options)
         Assert.assertNotNull(publication)
 
@@ -250,15 +248,15 @@ class P2PRoomTest {
     fun getStats_WithDataStream() = runBlocking {
         val aliceLocalDataStream = DataSource().createStream()
 
-        val aliceRoom = P2PRoom.create()
-        val aliceMemberInit = RoomMember.Init(UUID.randomUUID().toString())
-        val alice = aliceRoom?.join(aliceMemberInit)
+        val aliceChannel = Channel.create()
+        val aliceMemberInit = Member.Init(UUID.randomUUID().toString())
+        val alice = aliceChannel?.join(aliceMemberInit)
 
-        val bobRoom = P2PRoom.find(id = aliceRoom?.id)
-        val bobMemberInit = RoomMember.Init(UUID.randomUUID().toString())
-        val bob = bobRoom?.join(bobMemberInit)
+        val bobChannel = Channel.find(id = aliceChannel?.id)
+        val bobMemberInit = Member.Init(UUID.randomUUID().toString())
+        val bob = bobChannel?.join(bobMemberInit)
 
-        val options = RoomPublication.Options()
+        val options = Publication.Options()
         val publication = alice?.publish(aliceLocalDataStream, options)
         Assert.assertNotNull(publication)
 
@@ -278,10 +276,10 @@ class P2PRoomTest {
 
     @Test
     fun accessPropsAfterDispose() = runBlocking {
-        val aliceRoom = P2PRoom.create()
-        val aliceMemberInit = RoomMember.Init(UUID.randomUUID().toString())
-        val alice = aliceRoom?.join(aliceMemberInit)
-        aliceRoom?.dispose()
+        val aliceChannel = Channel.create()
+        val aliceMemberInit = Member.Init(UUID.randomUUID().toString())
+        val alice = aliceChannel?.join(aliceMemberInit)
+        aliceChannel?.dispose()
         Assert.assertTrue(alice?.metadata != "metadata")
     }
 }
