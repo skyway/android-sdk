@@ -12,7 +12,7 @@
 #include "core/channel/channel/channel_bridge.hpp"
 #include "core/channel/publication/publication_bridge.hpp"
 #include "core/channel/subscription/subscription_bridge.hpp"
-#include "core/channel/member/member_bridge.hpp"
+#include "core/channel/member/remote_member_bridge.hpp"
 #include "core/channel/member/local_person_bridge.hpp"
 #include "core/content/content_util.hpp"
 #include "core/content/local/source/video_source_bridge.hpp"
@@ -39,7 +39,7 @@ extern "C" JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM* vm, void* /*reserved*/) {
       !core::channel::ChannelBridge::RegisterMethods(env) ||
       !core::PublicationBridge::RegisterMethods(env) ||
       !core::SubscriptionBridge::RegisterMethods(env) ||
-      !core::member::MemberBridge::RegisterMethods(env) ||
+      !core::member::RemoteMemberBridge::RegisterMethods(env) ||
       !core::member::LocalPersonBridge::RegisterMethods(env) ||
       !content::local::source::VideoSource::RegisterMethods(env) ||
       !content::local::source::AudioSource::RegisterMethods(env) ||

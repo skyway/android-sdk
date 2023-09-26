@@ -4,13 +4,16 @@
 
 package com.ntt.skyway.plugin.remotePerson
 
+import com.ntt.skyway.core.channel.Repository
 import com.ntt.skyway.core.channel.Subscription
-import com.ntt.skyway.core.channel.member.RemoteMember
+import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.channel.member.RemoteMemberImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class RemotePerson internal constructor(dto: Dto) : RemoteMember(dto) {
-    override val type: Type = Type.PERSON
+class RemotePerson internal constructor(dto: Member.Dto, private val repository: Repository) :
+    RemoteMemberImpl(dto) {
+    override val type: Member.Type = Member.Type.PERSON
     override val subType: String = "person"
 
     /**
@@ -19,7 +22,7 @@ class RemotePerson internal constructor(dto: Dto) : RemoteMember(dto) {
     suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.Default) {
         val subscriptionJson =
             nativeSubscribe(nativePointer, publicationId) ?: return@withContext null
-        return@withContext channel.addLocalSubscription(subscriptionJson)
+        return@withContext repository.addLocalSubscription(subscriptionJson)
     }
 
     /**

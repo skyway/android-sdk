@@ -1,4 +1,4 @@
-package com.ntt.skyway.plugin.sfubot.util
+package com.ntt.skyway.plugin.sfuBot.util
 
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
@@ -14,8 +14,8 @@ object TestUtil {
     suspend fun setupSkyway() {
         val logLevel = Logger.LogLevel.VERBOSE
         val authToken = AuthTokenBuilder.CreateToken(
-            com.ntt.skyway.plugin.sfubot.BuildConfig.APP_ID,
-            com.ntt.skyway.plugin.sfubot.BuildConfig.SECRET_KEY
+            com.ntt.skyway.plugin.sfuBot.BuildConfig.APP_ID,
+            com.ntt.skyway.plugin.sfuBot.BuildConfig.SECRET_KEY
         )
 
         val rtcConfig = SkyWayContext.RtcConfig(policy = SkyWayContext.TurnPolicy.TURN_ONLY)
@@ -31,9 +31,9 @@ object TestUtil {
         }
     }
 
-    fun waitForFindSubscriptions(member:LocalPerson, publication: Publication): Boolean {
-        repeat(10){
-            if(member.subscriptions.find { it.id == publication.id } != null){
+    fun waitForFindSubscriptions(member: LocalPerson, publication: Publication): Boolean {
+        repeat(10) {
+            if (member.subscriptions.find { it.id == publication.id } != null) {
                 return true
             }
             Thread.sleep(100)

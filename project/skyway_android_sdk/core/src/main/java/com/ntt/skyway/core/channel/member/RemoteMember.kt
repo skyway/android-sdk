@@ -7,13 +7,9 @@ package com.ntt.skyway.core.channel.member
 /**
  * RemoteMemberの操作を行うクラス。
  */
-abstract class RemoteMember constructor(dto: Dto) : Member(dto) {
+abstract class RemoteMember : Member {
     /**
      *  常に[Member.Side.REMOTE]を返します。
      */
-    override val side = Side.REMOTE
-
-    init {
-        super.addEventListener()
-    }
+    override val side = Member.Side.REMOTE
 }
