@@ -4,7 +4,7 @@ import com.ntt.skyway.core.util.Logger
 import okhttp3.*
 
 
-internal class WebSocketClient {
+class WebSocketClient {
     enum class ConnectionState(val string: String) {
         ESTABLISHING("ESTABLISHING"),
         CONNECTING("CONNECTING"),

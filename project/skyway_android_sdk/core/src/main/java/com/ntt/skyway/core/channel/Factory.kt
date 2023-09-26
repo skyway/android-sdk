@@ -7,31 +7,33 @@ import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.channel.member.LocalPerson
+import com.ntt.skyway.core.channel.member.LocalPersonImpl
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.channel.member.RemoteMember
+import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.plugin.unknown.UnknownPlugin
 
-internal class Factory(private val channel: Channel) {
+internal class Factory(private val channel: ChannelImpl) {
     companion object {
         fun createChannel(channelJson: String): Channel {
             val dto = Gson().fromJson(channelJson, JsonObject::class.java)
-            val channel = Channel(
+            val channel = ChannelImpl(
                 id = dto.get("id").asString,
                 name = dto.get("name").asString,
                 nativePointer = dto.get("nativePointer").asLong
             )
 
             dto.get("members").asJsonArray.forEach {
-                channel.addRemoteMemberIfNeeded(it.toString())
+                channel.repository.addRemoteMemberIfNeeded(it.toString())
             }
 
             dto.get("publications").asJsonArray.forEach {
-                channel.addRemotePublicationIfNeeded(it.toString())
+                channel.repository.addRemotePublicationIfNeeded(it.toString())
             }
 
             dto.get("subscriptions").asJsonArray.forEach {
-                channel.addRemoteSubscriptionIfNeeded(it.toString())
+                channel.repository.addRemoteSubscriptionIfNeeded(it.toString())
             }
 
             return channel
@@ -40,13 +42,14 @@ internal class Factory(private val channel: Channel) {
 
     fun createLocalPerson(memberJson: String): LocalPerson {
         val dto = Gson().fromJson(memberJson, JsonObject::class.java)
-        return LocalPerson(
+        return LocalPersonImpl(
             Member.Dto(
                 channel = channel,
                 id = dto.get("id").asString,
                 name = dto.get("name").asString,
-                nativePointer = dto.get("nativePointer").asLong
-            )
+                nativePointer = dto.get("nativePointer").asLong,
+            ),
+            repository = channel.repository
         )
     }
 
@@ -68,23 +71,19 @@ internal class Factory(private val channel: Channel) {
         return plugin.createRemoteMember(memberDto)
     }
 
-    fun createPublication(publicationJson: String, stream: Stream?): Publication {
+    fun createPublication(publicationJson: String, stream: LocalStream?): Publication {
         val dto = Gson().fromJson(publicationJson, JsonObject::class.java)
-        val origin = if (dto.get("originId").asString == "") null else channel.findPublication(
-            dto.get(
-                "originId"
-            ).asString
-        )
 
-        return Publication(
+        return PublicationImpl(
             channel = channel,
             id = dto.get("id").asString,
             publisherId = dto.get("publisherId").asString,
             contentType = Stream.ContentType.fromString(dto.get("contentType").asString),
-            origin = origin,
+            originId = dto.get("originId").asString,
             codecCapabilities = Codec.fromJsonArray(dto.get("codecCapabilities").asJsonArray),
             nativePointer = dto.get("nativePointer").asLong,
-            internalStream = stream
+            internalStream = stream,
+            repository = channel.repository,
         )
     }
 
@@ -95,14 +94,15 @@ internal class Factory(private val channel: Channel) {
             Factory.createRemoteStream(contentType, dto.get("stream").toString())
         } else null
 
-        return Subscription(
+        return SubscriptionImpl(
             channel = channel,
             id = dto.get("id").asString,
             subscriberId = dto.get("subscriberId").asString,
             publicationId = dto.get("publicationId").asString,
             contentType = contentType,
             nativePointer = dto.get("nativePointer").asLong,
-            stream = stream
+            internalStream = stream,
+            repository = channel.repository
         )
     }
 }

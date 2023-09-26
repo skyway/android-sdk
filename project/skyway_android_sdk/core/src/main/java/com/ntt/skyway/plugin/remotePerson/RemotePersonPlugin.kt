@@ -1,5 +1,6 @@
 package com.ntt.skyway.plugin.remotePerson
 
+import com.ntt.skyway.core.channel.ChannelImpl
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.channel.member.RemoteMember
 import com.ntt.skyway.plugin.Plugin
@@ -7,11 +8,11 @@ import com.ntt.skyway.plugin.Plugin
 /**
  *  SkyWayでRemotePersonを扱えるようにするためのクラス。
  */
-class RemotePersonPlugin: Plugin {
+class RemotePersonPlugin : Plugin {
     override val name: String
         get() = "Person"
 
     override fun createRemoteMember(dto: Member.Dto): RemoteMember {
-        return RemotePerson(dto)
+        return RemotePerson(dto, (dto.channel as ChannelImpl).repository)
     }
 }

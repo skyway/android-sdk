@@ -1,4 +1,4 @@
-package com.ntt.skyway.plugin.sfubot
+package com.ntt.skyway.plugin.sfuBot
 
 import android.Manifest
 import android.util.Log
@@ -9,26 +9,24 @@ import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
-import com.ntt.skyway.plugin.sfuBot.SFUBot
-import com.ntt.skyway.plugin.sfuBot.SFUBotPlugin
-import com.ntt.skyway.plugin.sfubot.util.TestUtil
+import com.ntt.skyway.plugin.sfuBot.util.TestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.*
+import org.junit.Assert.*
 import java.util.*
 
 class SFUBotTest {
     val TAG = this.javaClass.simpleName
 
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(
-            Manifest.permission.CAMERA,
-            Manifest.permission.INTERNET,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.CAMERA,
+        Manifest.permission.INTERNET,
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.MODIFY_AUDIO_SETTINGS,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     private var alice: LocalPerson? = null
     private lateinit var aliceChannel: Channel
@@ -53,7 +51,7 @@ class SFUBotTest {
     @Test
     fun createBot() = runBlocking {
         val bot = SFUBot.createBot(aliceChannel)
-        Assert.assertNotNull(bot)
+        assertNotNull(bot)
     }
 
     @Test
@@ -61,7 +59,7 @@ class SFUBotTest {
         val bot = SFUBot.createBot(aliceChannel)
         val publication = alice?.publish(localStream)
         val forwarding = bot?.startForwarding(publication!!)
-        Assert.assertNotNull(forwarding)
+        assertNotNull(forwarding)
     }
 
     @Test
@@ -70,7 +68,7 @@ class SFUBotTest {
         val publication = alice?.publish(localStream)
         val forwarding = bot.startForwarding(publication!!)!!
         val result = bot.stopForwarding(forwarding)
-        Assert.assertTrue(result)
+        assertTrue(result)
     }
 
     @Test
@@ -78,19 +76,19 @@ class SFUBotTest {
         val bot = SFUBot.createBot(aliceChannel)
         val publication = alice?.publish(localStream)
         val forwarding = bot?.startForwarding(publication!!)
-        Assert.assertNotNull(forwarding)
+        assertNotNull(forwarding)
 
-        TestUtil.waitForFindSubscriptions(alice!!,publication!!)
+        TestUtil.waitForFindSubscriptions(alice!!, publication!!)
 
         val subscription = forwarding?.id?.let { alice?.subscribe(it) }
-        Assert.assertNotNull(subscription?.id)
+        assertNotNull(subscription?.id)
 
         val pub_stats = publication.getStats(bot!!.id)
-        Assert.assertNotNull(pub_stats)
-        Assert.assertTrue(pub_stats!!.reports.size > 0)
+        assertNotNull(pub_stats)
+        assertTrue(pub_stats!!.reports.size > 0)
 
         val sub_stats = subscription!!.getStats()
-        Assert.assertNotNull(sub_stats)
-        Assert.assertTrue(sub_stats!!.reports.size > 0)
+        assertNotNull(sub_stats)
+        assertTrue(sub_stats!!.reports.size > 0)
     }
 }

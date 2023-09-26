@@ -71,25 +71,28 @@ afterEvaluate {
 }
 
 dependencies {
+    // test
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.mockito:mockito-core:3.+"
     androidTestImplementation 'androidx.test:rules:1.5.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
     androidTestImplementation project(':authtoken')
 
-    //coroutines
+    // coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
 
-    //  gson
+    // JSON parser
     implementation 'com.google.code.gson:gson:2.9.1'
 
     // skyway-core
-//    api 'com.ntt.skyway:core:1.4.1'
+//    api 'com.ntt.skyway:core:1.4.2'
     implementation project(":core")
 
     // sfu-bot
-//    api 'com.ntt.skyway:sfubot:1.4.1'
+//    api 'com.ntt.skyway:sfubot:1.4.2'
     implementation project(":sfubot")
 }
 
