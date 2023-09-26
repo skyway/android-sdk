@@ -10,7 +10,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import java.io.IOException
 
 
-internal object HttpClient {
+object HttpClient {
     private val JSON = "application/json; charset=utf-8".toMediaType()
     private val logging = HttpLoggingInterceptor { message -> Logger.logD(message) }
     private var client: OkHttpClient

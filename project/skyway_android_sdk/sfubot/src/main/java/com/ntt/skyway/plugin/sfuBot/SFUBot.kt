@@ -6,21 +6,23 @@ package com.ntt.skyway.plugin.sfuBot
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Channel
+import com.ntt.skyway.core.channel.ChannelImpl
+import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.member.Member
-import com.ntt.skyway.core.channel.member.RemoteMember
+import com.ntt.skyway.core.channel.member.RemoteMemberImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
+class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
     companion object {
         /**
          * SFUBotを作成します。
          */
         @JvmStatic
         suspend fun createBot(channel: Channel): SFUBot? = withContext(Dispatchers.Default) {
-            val sfuBotJson = nativeCreateBot(channel.nativePointer) ?: return@withContext null
+            val sfuBotJson =
+                nativeCreateBot((channel as ChannelImpl).nativePointer) ?: return@withContext null
             val dto = Gson().fromJson(sfuBotJson, JsonObject::class.java)
             val sfuBotDto = Member.Dto(
                 channel = channel,
@@ -38,7 +40,7 @@ class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
     /**
      * 常に[Member.Type.BOT]を返します。
      */
-    override val type: Type = Type.BOT
+    override val type: Member.Type = Member.Type.BOT
 
     /**
      * 常に"sfu"を返します。
@@ -57,9 +59,16 @@ class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
      * PublicationをForwardingします。
      * @param publication forwarding対象のPublication。codecCapabilitiesを指定することはできません。
      */
-    suspend fun startForwarding(publication: Publication, configure: Forwarding.Configure? = null): Forwarding? =
+    suspend fun startForwarding(
+        publication: Publication,
+        configure: Forwarding.Configure? = null
+    ): Forwarding? =
         withContext(Dispatchers.Default) {
-            val forwardingJson = nativeStartForwarding(nativePointer, publication.nativePointer, configure?.maxSubscribers)
+            val forwardingJson = nativeStartForwarding(
+                nativePointer,
+                publication.nativePointer,
+                configure?.maxSubscribers
+            )
                 ?: return@withContext null
             val forwarding = Forwarding.create(channel, publication, forwardingJson)
             _forwardings.add(forwarding)
@@ -74,6 +83,11 @@ class SFUBot internal constructor(dto: Dto) : RemoteMember(dto) {
         return@withContext nativeStopForwarding(nativePointer, forwarding.nativePointer)
     }
 
-    private external fun nativeStartForwarding(ptr: Long, publicationPtr: Long, maxSubscribers: Int?): String?
+    private external fun nativeStartForwarding(
+        ptr: Long,
+        publicationPtr: Long,
+        maxSubscribers: Int?
+    ): String?
+
     private external fun nativeStopForwarding(ptr: Long, forwardingPtr: Long): Boolean
 }

@@ -13,22 +13,22 @@ import com.ntt.skyway.room.p2p.P2PRoom
 import com.ntt.skyway.room.util.TestUtil
 import kotlinx.coroutines.runBlocking
 import org.junit.*
+import org.junit.Assert.*
 import java.util.*
 
 
 class RoomSubscriptionTest {
-    val TAG = this.javaClass.simpleName
+    private val tag = this.javaClass.simpleName
 
     @get:Rule
-    var mRuntimePermissionRule: GrantPermissionRule =
-        GrantPermissionRule.grant(
-            Manifest.permission.CAMERA,
-            Manifest.permission.INTERNET,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.MODIFY_AUDIO_SETTINGS,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
+    var mRuntimePermissionRule: GrantPermissionRule = GrantPermissionRule.grant(
+        Manifest.permission.CAMERA,
+        Manifest.permission.INTERNET,
+        Manifest.permission.RECORD_AUDIO,
+        Manifest.permission.MODIFY_AUDIO_SETTINGS,
+        Manifest.permission.ACCESS_NETWORK_STATE,
+        Manifest.permission.WRITE_EXTERNAL_STORAGE
+    )
 
     private var alice: LocalP2PRoomMember? = null
     private var bob: LocalP2PRoomMember? = null
@@ -39,7 +39,7 @@ class RoomSubscriptionTest {
     private lateinit var bobLocalVideoStream: LocalVideoStream
 
     @Before
-    fun setup() = runBlocking{
+    fun setup() = runBlocking {
         TestUtil.setupSkyway()
 
         aliceLocalVideoStream = CustomVideoFrameSource(800, 800).createStream()
@@ -57,7 +57,7 @@ class RoomSubscriptionTest {
 
     @After
     fun tearDown() {
-        Log.d(TAG, "SkyWayContext.dispose()")
+        Log.d(tag, "SkyWayContext.dispose()")
         aliceRoom?.dispose()
         bobRoom?.dispose()
         SkyWayContext.dispose()
@@ -85,15 +85,15 @@ class RoomSubscriptionTest {
     fun cancel() = runBlocking {
         val options = RoomPublication.Options(metadata = "metadata", isEnabled = false)
         val publication = alice?.publish(aliceLocalVideoStream, options)
-        Assert.assertNotNull(publication)
-        Assert.assertEquals(publication?.metadata, options.metadata)
+        assertNotNull(publication)
+        assertEquals(publication?.metadata, options.metadata)
 
-        TestUtil.waitForFindSubscription(bob!!,publication!!)
+        TestUtil.waitForFindSubscription(bob!!, publication!!)
 
         val subscription = publication.id.let { bob?.subscribe(it) }
-        Assert.assertNotNull(subscription?.id)
+        assertNotNull(subscription?.id)
         subscription?.cancel()
-        Assert.assertEquals(subscription!!.state, Subscription.State.CANCELED)
+        assertEquals(subscription!!.state, Subscription.State.CANCELED)
     }
 
 

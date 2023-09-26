@@ -67,7 +67,7 @@ bool SubscriptionBridge::RegisterMethods(JNIEnv* env) {
 
     return skyway_android::RegisterMethodsHelper(
         env,
-        "com/ntt/skyway/core/channel/Subscription",
+        "com/ntt/skyway/core/channel/SubscriptionImpl",
         native_methods,
         ARRAY_LENGTH(native_methods)
     );

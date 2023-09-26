@@ -36,6 +36,26 @@ bool LocalPersonBridge::RegisterMethods(JNIEnv* env) {
             (void*) LocalPersonBridge::AddEventListener
         },
         {
+            "nativeMetadata",
+            "(J)Ljava/lang/String;",
+            (void*) LocalPersonBridge::Metadata
+        },
+        {
+            "nativeState",
+            "(J)Ljava/lang/String;",
+            (void*) LocalPersonBridge::State
+        },
+        {
+            "nativeUpdateMetadata",
+            "(JLjava/lang/String;)Z",
+            (void*) LocalPersonBridge::UpdateMetadata
+        },
+        {
+            "nativeLeave",
+            "(J)Z",
+            (void*) LocalPersonBridge::Leave
+        },
+        {
             "nativePublish",
             "(JJLjava/lang/String;)Ljava/lang/String;",
             (void*) LocalPersonBridge::Publish
@@ -59,7 +79,7 @@ bool LocalPersonBridge::RegisterMethods(JNIEnv* env) {
 
     return skyway_android::RegisterMethodsHelper(
         env,
-        "com/ntt/skyway/core/channel/member/LocalPerson",
+        "com/ntt/skyway/core/channel/member/LocalPersonImpl",
         native_methods,
         ARRAY_LENGTH(native_methods)
     );
@@ -72,8 +92,31 @@ void LocalPersonBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j_
     channel::ChannelBridge::AddInternalEventListener(channel_id, local_person_event_listener);
 }
 
-jstring
-LocalPersonBridge::Publish(JNIEnv* env, jobject j_this, jlong local_person, jlong local_stream, jstring j_publication_options) {
+jstring LocalPersonBridge::Metadata(JNIEnv* env, jobject j_this, jlong member) {
+    auto metadata = ((LocalPerson*)member)->Metadata();
+    return env->NewStringUTF(metadata->c_str());
+}
+
+jstring LocalPersonBridge::State(JNIEnv* env, jobject j_this, jlong member) {
+    auto state = ((LocalPerson*)member)->State();
+    switch (state) {
+        case skyway::core::interface::MemberState::kJoined:
+            return env->NewStringUTF("joined");
+        case skyway::core::interface::MemberState::kLeft:
+            return env->NewStringUTF("left");
+    }
+}
+
+bool LocalPersonBridge::UpdateMetadata(JNIEnv* env, jobject j_this, jlong member, jstring j_metadata) {
+    auto metadata = JStringToStdString(env, j_metadata);
+    return ((LocalPerson*)member)->UpdateMetadata(metadata);
+}
+
+bool LocalPersonBridge::Leave(JNIEnv* env, jobject j_this, jlong member) {
+    return ((LocalPerson*)member)->Leave();
+}
+
+jstring LocalPersonBridge::Publish(JNIEnv* env, jobject j_this, jlong local_person, jlong local_stream, jstring j_publication_options) {
     auto publication_options_str = JStringToStdString(env, j_publication_options);
     auto publication_options_json = nlohmann::json::parse(publication_options_str);
 
