@@ -20,34 +20,13 @@
 #include "wrapper/logger.hpp"
 #include "wrapper/websocket_client_factory.hpp"
 
-bool isOpen = false;
-
-void onOpen() {
-    __android_log_print(ANDROID_LOG_INFO, "skyway_test", "server is opened");
-    isOpen = true;
-}
-
 JavaVM* jvm;
 
 extern "C" jint JNIEXPORT JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
-    __android_log_write(ANDROID_LOG_INFO, "SkyWayTest", "Init");
     jvm = vm;
-
-    char** argv;
-    int argc                     = 0;
-    testing::FLAGS_gmock_verbose = "error";
-    testing::InitGoogleMock(&argc, argv);
-    testing::InitGoogleTest(&argc, argv);
-
-    // select test case
-    // testing::GTEST_FLAG(filter) = "SfuIntegrationTest.*";
-
-    freopen("/data/data/com.ntt.skyway.libskywaytest/out.txt", "w", stdout);
-    freopen("/data/data/com.ntt.skyway.libskywaytest/out.txt", "w", stderr);
-
-    __android_log_write(ANDROID_LOG_INFO, "SkyWayTest", "Finish");
     return JNI_VERSION_1_6;
 }
+
 extern "C" JNIEXPORT int JNICALL
 Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
                                                jobject j_this,
@@ -55,6 +34,7 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
                                                jobject j_http,
                                                jobject j_ws_factory,
                                                jobject j_logger) {
+    __android_log_write(ANDROID_LOG_INFO, "SkyWayTest", "startTest init");
     rtc::LogMessage::LogToDebug(rtc::LS_NONE);
     webrtc::InitAndroid(jvm);
     webrtc::JVM::Initialize(jvm, context);
@@ -69,8 +49,20 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
     skyway::network::WebSocketClientFactory::Setup(j_ws_factory);
     skyway::global::Logger::Setup(j_logger);
 
+    testing::FLAGS_gmock_verbose = "error";
+    testing::InitGoogleMock();
+    testing::InitGoogleTest();
+
+    // select test case
+    // testing::GTEST_FLAG(filter) = "SfuIntegrationTest.*";
+
+    const auto OUTPUT_PATH = "/data/data/com.ntt.skyway.libskywaytest/out.txt";
+    freopen(OUTPUT_PATH, "w", stdout);
+    freopen(OUTPUT_PATH, "w", stderr);
+
+    const int NUMBER_OF_TIMES_TO_TEST = 1;
     int test_result = 0;
-    for (int i = 0; i < 1; i++) {
+    for (int i = 0; i < NUMBER_OF_TIMES_TO_TEST; i++) {
         __android_log_print(ANDROID_LOG_INFO, "skyway_test", "RUN_ALL_TESTS start");
         test_result = RUN_ALL_TESTS();
         if (test_result) break;
@@ -80,7 +72,7 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
     fclose(stdout);
     fclose(stderr);
 
-    std::ifstream ifs("/data/data/com.ntt.skyway.libskywaytest/out.txt");
+    std::ifstream ifs(OUTPUT_PATH);
     std::string str = "output...\n";
 
     if (ifs.fail()) {

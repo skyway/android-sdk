@@ -11,6 +11,7 @@ import com.ntt.skyway.adapter.RecyclerViewAdapterMember
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalDataStream
@@ -22,7 +23,10 @@ import com.ntt.skyway.databinding.ActivityDetailsBinding
 import com.ntt.skyway.listener.ChannelPublicationAdapterListener
 import com.ntt.skyway.manager.ChannelManager
 import com.ntt.skyway.plugin.sfuBot.SFUBot
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class ChannelDetailsActivity : DetailsBaseActivity() {
@@ -211,10 +215,12 @@ class ChannelDetailsActivity : DetailsBaseActivity() {
                         (subscription.stream as RemoteVideoStream).addRenderer(binding.remoteRenderer)
                         App.showMessage("subscribe success(Video) : ${subscription.id}")
                     }
+
                     Stream.ContentType.AUDIO -> {
                         (subscription.stream as RemoteAudioStream)
                         App.showMessage("subscribe success(Audio) : ${subscription.id}")
                     }
+
                     Stream.ContentType.DATA -> {
                         (subscription.stream as RemoteDataStream).onDataHandler = {
                             App.showMessage("data received: $it")
@@ -226,6 +232,7 @@ class ChannelDetailsActivity : DetailsBaseActivity() {
                         }
                         App.showMessage("subscribe success(Data) : ${subscription.id}")
                     }
+
                     else -> {}
                 }
                 return true
@@ -346,6 +353,12 @@ class ChannelDetailsActivity : DetailsBaseActivity() {
                         encodings = mutableListOf(
                             Encoding("high", scaleResolutionDownBy = 2.0),
                             Encoding("low", scaleResolutionDownBy = 1.0)
+                        )
+                    )
+                } else if (stream.contentType == Stream.ContentType.AUDIO) {
+                    options = Publication.Options(
+                        codecCapabilities = mutableListOf(
+                            Codec(Codec.MimeType.OPUS, Codec.Parameters(useDtx = true))
                         )
                     )
                 }

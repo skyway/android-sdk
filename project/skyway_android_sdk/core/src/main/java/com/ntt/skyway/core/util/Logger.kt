@@ -51,6 +51,12 @@ object Logger {
      * WebRTCに関するログの出力可否。trueにした場合はメディアや通信に関する詳細な情報を出力することができますが、ログの量が多くなることに注意してください。
      */
     var webRTCLog = false
+
+    /**
+     * ログが出力される際に発火するハンドラ。
+     */
+    var onLogHandler: ((level: LogLevel, message: String) -> Unit)? = null
+
     private const val tag = "skyway:${BuildConfig.SkyWayVer}"
 
     fun logE(message: String) = log(LogLevel.ERROR, message)
@@ -81,14 +87,28 @@ object Logger {
         lineNumber: Int
     ) {
         if (level > logLevel) return
-        val text = "$message | $methodName($fileName:$lineNumber)"
+        val text = "${getIcon(level)} $message | $methodName($fileName:$lineNumber)"
+
+        onLogHandler?.invoke(level, text)
+
         when (level) {
             LogLevel.NONE -> return
-            LogLevel.ERROR -> Log.e(tag, "\uD83D\uDCD5 $text")
-            LogLevel.WARN -> Log.w(tag, "\uD83D\uDCD9 $text")
-            LogLevel.INFO -> Log.i(tag, "\uD83D\uDCD8 $text")
-            LogLevel.DEBUG -> Log.d(tag, "\uD83D\uDCD3 $text")
-            LogLevel.VERBOSE -> Log.v(tag, "\uD83D\uDCD7 $text")
+            LogLevel.ERROR -> Log.e(tag, text)
+            LogLevel.WARN -> Log.w(tag, text)
+            LogLevel.INFO -> Log.i(tag, text)
+            LogLevel.DEBUG -> Log.d(tag, text)
+            LogLevel.VERBOSE -> Log.v(tag, text)
+        }
+    }
+
+    private fun getIcon(level: LogLevel): String {
+        return when (level) {
+            LogLevel.NONE -> ""
+            LogLevel.ERROR -> "\uD83D\uDCD5"
+            LogLevel.WARN -> "\uD83D\uDCD9"
+            LogLevel.INFO -> "\uD83D\uDCD8"
+            LogLevel.DEBUG -> "\uD83D\uDCD3"
+            LogLevel.VERBOSE -> "\uD83D\uDCD7"
         }
     }
 }

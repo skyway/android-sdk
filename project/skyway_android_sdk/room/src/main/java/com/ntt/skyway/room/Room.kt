@@ -12,13 +12,9 @@ import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.plugin.remotePerson.RemotePerson
 import com.ntt.skyway.room.member.LocalRoomMember
 import com.ntt.skyway.room.member.RoomMember
-import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import java.lang.Exception
-import com.ntt.skyway.room.util.Util.Companion.lock
 import kotlinx.coroutines.sync.Mutex
-import kotlin.concurrent.withLock
+import kotlinx.coroutines.withContext
 
 /**
  * Roomの操作を行うクラス。
@@ -265,7 +261,7 @@ abstract class Room internal constructor(private val channel: Channel) {
                 factory.createRemoteRoomMember(channelMember)
             }
             is LocalPerson -> {
-                factory.createLocalRoomMember(this, channelMember)
+                factory.createLocalRoomMember(channelMember)
             }
             else -> null
         }

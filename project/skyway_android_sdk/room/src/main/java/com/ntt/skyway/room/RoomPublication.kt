@@ -303,8 +303,9 @@ class RoomPublication internal constructor(
      *  送信するStreamを変更します。
      *  @param stream 変更先のStream。既にpublishしているstreamと同じcontentTypeである必要があります。
      */
-    fun replaceStream(stream: LocalStream) {
-        publication.replaceStream(stream)
+    fun replaceStream(stream: LocalStream): Boolean {
+        val origin = publication.origin
+        return origin?.replaceStream(stream) ?: publication.replaceStream(stream)
     }
 
     /**

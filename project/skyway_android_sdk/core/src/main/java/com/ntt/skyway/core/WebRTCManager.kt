@@ -2,10 +2,8 @@ package com.ntt.skyway.core
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.content.local.source.CameraSource
 import com.ntt.skyway.core.content.local.source.ScreenSource
-import com.ntt.skyway.core.content.sink.AudioDestination
 import com.ntt.skyway.core.util.Logger
 import org.webrtc.*
 import org.webrtc.audio.JavaAudioDeviceModule
@@ -32,24 +30,6 @@ internal object WebRTCManager {
         }
     }
 
-    var audioTrack
-        get() = run {
-            check(isSetup) { "Please setup first" }
-            audioDeviceModule.audioOutput.audioTrack
-        }
-        set(value) {
-            check(isSetup) { "Please setup first" }
-            audioDeviceModule.audioOutput.audioTrack = value
-        }
-    var audioRecord
-        get() = run {
-            check(isSetup) { "Please setup first" }
-            audioDeviceModule.audioInput.audioRecord
-        }
-        set(value) {
-            check(isSetup) { "Please setup first" }
-            audioDeviceModule.audioInput.audioRecord = value
-        }
     val nativePCFactory
         get() = pcFactory.nativePeerConnectionFactory
     val eglBaseContext: EglBase.Context
@@ -79,8 +59,6 @@ internal object WebRTCManager {
 
         val audioDeviceModuleBuilder = JavaAudioDeviceModule.builder(context)
         audioDeviceModule = audioDeviceModuleBuilder.createAudioDeviceModule()
-        audioDeviceModule.audioInput.onAudioBufferListener = AudioSource.onAudioBufferListener
-        audioDeviceModule.audioOutput.onAudioBufferListener = AudioDestination.onAudioBufferListener
 
         pcFactory = PeerConnectionFactory.builder()
             .setAudioDeviceModule(audioDeviceModule)
@@ -122,16 +100,6 @@ internal object WebRTCManager {
     fun stopRecording() {
         check(isSetup) { "Please setup first" }
         audioDeviceModule.audioInput.audioRecord?.stop()
-    }
-
-    fun startPlayout() {
-        check(isSetup) { "Please setup first" }
-        audioDeviceModule.audioOutput.startPlayout()
-    }
-
-    fun stopPlayout() {
-        check(isSetup) { "Please setup first" }
-        audioDeviceModule.audioOutput.stopPlayout()
     }
 
     fun dispose() {

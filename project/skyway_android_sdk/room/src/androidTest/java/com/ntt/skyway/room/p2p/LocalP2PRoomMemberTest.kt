@@ -4,16 +4,26 @@ import android.Manifest
 import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
+import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Encoding
+import com.ntt.skyway.core.content.local.LocalAudioStream
 import com.ntt.skyway.core.content.local.LocalVideoStream
+import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
-import kotlinx.coroutines.*
-import org.junit.*
-import org.junit.Assert.*
-import java.util.*
+import kotlinx.coroutines.runBlocking
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import java.util.UUID
 
 
 class LocalP2PRoomMemberTest {
@@ -35,6 +45,7 @@ class LocalP2PRoomMemberTest {
     private var bobRoom: P2PRoom? = null
 
     private lateinit var aliceLocalVideoStream: LocalVideoStream
+    private lateinit var aliceLocalAudioStream: LocalAudioStream
     private lateinit var bobLocalVideoStream: LocalVideoStream
 
 
@@ -104,6 +115,28 @@ class LocalP2PRoomMemberTest {
         val pubEncoding = publication?.encodings?.get(0)
         assertNotNull(pubEncoding)
         assertEquals(encoding.id, pubEncoding?.id)
+    }
+
+    @Test
+    fun publish_WithDtxOption() = runBlocking {
+        val codec = Codec(Codec.MimeType.OPUS, Codec.Parameters(useDtx = true))
+        val options =
+            RoomPublication.Options(codecCapabilities = mutableListOf(codec))
+        aliceLocalAudioStream = AudioSource.createStream()
+        val publication = alice?.publish(aliceLocalAudioStream, options)
+        assertNotNull(publication)
+        assertEquals(publication!!.codecCapabilities[0].parameters.useDtx, true)
+    }
+
+    @Test
+    fun publish_WithDtxOptionFalse() = runBlocking {
+        val codec = Codec(Codec.MimeType.OPUS, Codec.Parameters(useDtx = false))
+        val options =
+            RoomPublication.Options(codecCapabilities = mutableListOf(codec))
+        aliceLocalAudioStream = AudioSource.createStream()
+        val publication = alice?.publish(aliceLocalAudioStream, options)
+        assertNotNull(publication)
+        assertEquals(publication!!.codecCapabilities[0].parameters.useDtx, false)
     }
 
     @Test
