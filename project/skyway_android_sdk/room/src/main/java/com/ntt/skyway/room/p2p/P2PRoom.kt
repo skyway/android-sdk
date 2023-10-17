@@ -11,7 +11,6 @@ import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.room.Room
 import com.ntt.skyway.room.member.RoomMember
-import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -108,12 +107,6 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
         channel.onPublicationUnsubscribedHandler = {
             onPublicationUnsubscribed(it)
         }
-//        channel.onSubscriptionEnabledHandler = {
-//            onSubscriptionEnabled(it)
-//        }
-//        channel.onSubscriptionDisabledHandler = {
-//            onSubscriptionDisabled(it)
-//        }
     }
 
     private fun onMemberJoined(member: Member) {
@@ -168,20 +161,4 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
         onPublicationUnsubscribedHandler?.invoke(createRoomSubscription(subscription))
         onSubscriptionListChangedHandler?.invoke()
     }
-
-//    private fun onSubscriptionEnabled(subscription: Subscription) {
-//        val roomSubscription = findSubscription(subscription.id) ?: run {
-//            Logger.logW("onSubscriptionEnabled: The subscription is not found")
-//            return
-//        }
-//        onSubscriptionEnabledHandler?.invoke(roomSubscription)
-//    }
-//
-//    private fun onSubscriptionDisabled(subscription: Subscription) {
-//        val roomSubscription = findSubscription(subscription.id) ?: run {
-//            Logger.logW("onSubscriptionDisabled: The subscription is not found")
-//            return
-//        }
-//        onSubscriptionDisabledHandler?.invoke(roomSubscription)
-//    }
 }

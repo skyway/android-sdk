@@ -21,26 +21,12 @@ object AudioSource {
     val isStarted
         get() = _isStarted
 
-    /**
-     *  音声デバイスからデータを取得した際に発火するハンドラ。
-     *  このハンドラ内での処理後、bufferが対向に送信されます。
-     */
-    @SkyWayOptIn
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     var onAudioBufferHandler: ((buffer: ByteBuffer) -> Unit)? = null
 
-    /**
-     *  音声入力デバイス。
-     *  新たに[AudioRecord]を作成する際に、このプロパティの設定を参照をすることができます。
-     */
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     val audioRecord
-        get() = WebRTCManager.audioRecord
-
-
-    @OptIn(SkyWayOptIn::class)
-    internal val onAudioBufferListener =
-        WebRtcAudioRecord.OnAudioBufferListener { buffer ->
-            onAudioBufferHandler?.invoke(buffer)
-        }
+        get() = null
 
     private var source: AudioSource? = null
     private var _isStarted = true
@@ -64,16 +50,8 @@ object AudioSource {
         _isStarted = false
     }
 
-    /**
-     *  音声入力デバイスを切り替えます。切り替え前のデバイスからの取得は停止します。
-     *
-     *  @param audioRecord 切り替え先のオーディオデバイス。
-     */
-    @SkyWayOptIn
-    @JvmStatic
-    fun changeRecord(audioRecord: AudioRecord) {
-        WebRTCManager.audioRecord = audioRecord
-    }
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
+    fun changeRecord(audioRecord: AudioRecord) { }
 
     /**
      *  Publish可能な[com.ntt.skyway.core.content.Stream]を生成します。

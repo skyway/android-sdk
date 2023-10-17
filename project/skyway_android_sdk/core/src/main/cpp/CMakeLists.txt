@@ -5,6 +5,9 @@ project("skyway")
 include(env.cmake)
 add_definitions(-Wno-deprecated-declarations)
 
+set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_DIR}/src CACHE STRING "libwebrtc include path" FORCE)
+set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_DIR}/src/out/${ANDROID_ABI}/obj CACHE STRING "libwebrtc binary path" FORCE)
+
 # Build libmediasoupclient
 add_subdirectory( ${LIBMEDIASOUPCLIENT_DIR} ${LIBMEDIASOUPCLIENT_DIR}/${ANDROID_ABI} )
 
@@ -17,7 +20,7 @@ set_target_properties( libwebrtc
 )
 
 # libskyway
-FILE( GLOB_RECURSE LIBSKYWAY ${LIBSKYWAY_DIR}/src/*.cpp )
+FILE( GLOB_RECURSE LIBSKYWAY ${LIBSKYWAY_DIR}/include/skyway/*.cpp )
 add_library( libskyway SHARED ${LIBSKYWAY} )
 
 target_include_directories( libskyway PRIVATE

@@ -4,7 +4,6 @@
 
 package com.ntt.skyway.room.member
 
-
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member

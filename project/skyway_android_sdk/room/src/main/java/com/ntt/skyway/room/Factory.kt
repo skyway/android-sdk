@@ -11,7 +11,7 @@ import com.ntt.skyway.room.sfu.LocalSFURoomMember
 import com.ntt.skyway.room.sfu.SFURoom
 
 internal class Factory(private val room: Room) {
-    fun createLocalRoomMember(room: Room, localPerson: LocalPerson): LocalRoomMember {
+    fun createLocalRoomMember(localPerson: LocalPerson): LocalRoomMember {
         return when (room.type) {
             Room.Type.P2P -> LocalP2PRoomMember(room, localPerson)
             Room.Type.SFU -> LocalSFURoomMember(room as SFURoom, localPerson)

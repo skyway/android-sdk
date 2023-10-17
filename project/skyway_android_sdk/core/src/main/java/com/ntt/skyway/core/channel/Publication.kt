@@ -205,7 +205,7 @@ interface Publication {
      *  送信するStreamを変更します。
      *  @param stream 変更先のStream。既にpublishしているstreamと同じcontentTypeである必要があります。
      */
-    fun replaceStream(stream: LocalStream)
+    fun replaceStream(stream: LocalStream): Boolean
 
     /**
      *  統計情報を取得します。

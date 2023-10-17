@@ -11,11 +11,7 @@ import org.webrtc.AudioTrack
 class LocalAudioStream internal constructor(private val source: AudioSource, val track: AudioTrack, dto: Dto) : LocalStream(dto) {
     override val contentType = ContentType.AUDIO
 
-    /**
-     *  音量を変更します。
-     *
-     *  @param volume 音量（0 ~ 10）。
-     */
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     fun setVolume(volume: Double) {
         track.setVolume(volume)
     }

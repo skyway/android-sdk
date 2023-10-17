@@ -99,9 +99,9 @@ class PublicationImpl internal constructor(
         nativeUpdateEncodings(nativePointer, encodingsJson)
     }
 
-    override fun replaceStream(stream: LocalStream) {
+    override fun replaceStream(stream: LocalStream): Boolean {
         this.internalStream = stream
-        nativeReplaceStream(nativePointer, stream.nativePointer)
+        return nativeReplaceStream(nativePointer, stream.nativePointer)
     }
 
     override fun getStats(remoteMemberId: String): WebRTCStats? {

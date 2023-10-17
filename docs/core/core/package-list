@@ -431,10 +431,14 @@ $dokka.location:com.ntt.skyway.core.content/Codec.MimeType.VP8///PointingToDecla
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType.VP9///PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/-v-p9/index.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType///PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/index.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType/literal/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/literal.html
+$dokka.location:com.ntt.skyway.core.content/Codec.Parameters///PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-parameters/index.html
+$dokka.location:com.ntt.skyway.core.content/Codec.Parameters/Parameters/#kotlin.Boolean?/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-parameters/-parameters.html
+$dokka.location:com.ntt.skyway.core.content/Codec.Parameters/useDtx/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-parameters/use-dtx.html
 $dokka.location:com.ntt.skyway.core.content/Codec///PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/index.html
-$dokka.location:com.ntt.skyway.core.content/Codec/Codec/#com.ntt.skyway.core.content.Codec.MimeType/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-codec.html
-$dokka.location:com.ntt.skyway.core.content/Codec/Codec/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-codec.html
+$dokka.location:com.ntt.skyway.core.content/Codec/Codec/#com.ntt.skyway.core.content.Codec.MimeType#com.ntt.skyway.core.content.Codec.Parameters/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-codec.html
+$dokka.location:com.ntt.skyway.core.content/Codec/Codec/#kotlin.String#com.ntt.skyway.core.content.Codec.Parameters/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-codec.html
 $dokka.location:com.ntt.skyway.core.content/Codec/mimeType/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/mime-type.html
+$dokka.location:com.ntt.skyway.core.content/Codec/parameters/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/parameters.html
 $dokka.location:com.ntt.skyway.core.content/Encoding.Companion///PointingToDeclaration/core/com.ntt.skyway.core.content/-encoding/-companion/index.html
 $dokka.location:com.ntt.skyway.core.content/Encoding.Companion/fromJsonArray/#com.google.gson.JsonArray/PointingToDeclaration/core/com.ntt.skyway.core.content/-encoding/-companion/from-json-array.html
 $dokka.location:com.ntt.skyway.core.content/Encoding///PointingToDeclaration/core/com.ntt.skyway.core.content/-encoding/index.html
@@ -495,6 +499,7 @@ $dokka.location:com.ntt.skyway.core.util/Logger/logI/#kotlin.String/PointingToDe
 $dokka.location:com.ntt.skyway.core.util/Logger/logLevel/#/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/log-level.html
 $dokka.location:com.ntt.skyway.core.util/Logger/logV/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/log-v.html
 $dokka.location:com.ntt.skyway.core.util/Logger/logW/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/log-w.html
+$dokka.location:com.ntt.skyway.core.util/Logger/onLogHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/on-log-handler.html
 $dokka.location:com.ntt.skyway.core.util/Logger/webRTCLog/#/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/web-r-t-c-log.html
 $dokka.location:com.ntt.skyway.core////PointingToDeclaration/core/com.ntt.skyway.core/index.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Error///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-error/index.html

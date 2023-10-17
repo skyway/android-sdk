@@ -13,8 +13,19 @@ data class Codec(
     /**
      *  メディアタイプ。
      */
-    val mimeType: String
+    val mimeType: String,
+    /**
+     *  コーデックのパラメータ
+     */
+    val parameters: Parameters
 ) {
+    data class Parameters(
+        /**
+         *  dtxオプション。指定しない場合は有効になります。
+         */
+        val useDtx: Boolean? = null
+    )
+
     /**
      *  メディアタイプの一覧。
      */
@@ -34,13 +45,24 @@ data class Codec(
         }
     }
 
-    constructor(mimeType: MimeType) : this(mimeType.literal)
+    constructor(mimeType: MimeType, parameters: Parameters = Parameters()) : this(
+        mimeType.literal,
+        parameters
+    )
 
     companion object {
         fun fromJsonArray(jsonArr: JsonArray): List<Codec> {
             return jsonArr.map {
-                val mimeType = MimeType.fromString(it.asJsonObject.get("mimeType").asString)
-                Codec(mimeType)
+                val jsonObject = it.asJsonObject
+                val mimeType = MimeType.fromString(jsonObject.get("mimeType").asString)
+                val parametersJson = jsonObject.get("parameters").asJsonObject
+                val useDtx = if (parametersJson.has("useDtx")) {
+                    parametersJson.get("useDtx").asBoolean
+                } else {
+                    null
+                }
+                val parameters = Parameters(useDtx = useDtx)
+                Codec(mimeType, parameters)
             }
         }
     }

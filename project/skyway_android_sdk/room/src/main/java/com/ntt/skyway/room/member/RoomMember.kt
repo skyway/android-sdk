@@ -35,7 +35,7 @@ abstract class RoomMember internal constructor(
         /**
          * 生存確認の間隔。
          */
-        val keepAliveIntervalSec: Int = 1000
+        val keepAliveIntervalSec: Int = 30
     )
 
     /**

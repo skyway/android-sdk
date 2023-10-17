@@ -53,6 +53,9 @@ class App : Application() {
             SkyWayContext.onErrorHandler = {
                 showMessage("onErrorHandler : ${it.message}")
             }
+            Logger.onLogHandler = { logLevel: Logger.LogLevel, s: String ->
+//                Log.e("onLogHandler", "$logLevel $s")
+            }
             val result = SkyWayContext.setup(applicationContext, option)
             if (result) {
                 showMessage("setup success")

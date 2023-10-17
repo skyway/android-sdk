@@ -6,7 +6,6 @@ package com.ntt.skyway.room.member
 
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
-import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.plugin.remotePerson.RemotePerson
 import com.ntt.skyway.room.Room
 import kotlinx.coroutines.Dispatchers
