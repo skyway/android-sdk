@@ -11,9 +11,12 @@ import android.media.projection.MediaProjectionManager
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
+import android.provider.MediaStore.Audio
+import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.content.local.LocalVideoStream
 import com.ntt.skyway.core.content.local.source.AudioSource
@@ -78,8 +81,12 @@ open class DetailsBaseActivity : AppCompatActivity() {
     }
     class AudioStream : SelectableStream() {
         override fun select(){}
+        @OptIn(SkyWayOptIn::class)
         override fun getStream() : LocalStream {
             AudioSource.start()
+            AudioSource.onAudioBufferHandler = {
+//                Log.d("onAudioBufferHandler", it.get().toString())
+            }
             return AudioSource.createStream()
         }
         override fun toString(): String {

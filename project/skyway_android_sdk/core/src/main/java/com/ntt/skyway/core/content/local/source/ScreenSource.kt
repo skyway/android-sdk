@@ -28,6 +28,9 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun setup(context: Context, mediaProjectionPermissionResultData: Intent) {
+        if (!this.isInitialized) {
+            this.initialize()
+        }
         capturer = ScreenCapturerAndroid(
             mediaProjectionPermissionResultData, mediaProjectionCallback
         )

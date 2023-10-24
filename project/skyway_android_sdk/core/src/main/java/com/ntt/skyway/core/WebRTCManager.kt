@@ -2,8 +2,7 @@ package com.ntt.skyway.core
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.ntt.skyway.core.content.local.source.CameraSource
-import com.ntt.skyway.core.content.local.source.ScreenSource
+import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.util.Logger
 import org.webrtc.*
 import org.webrtc.audio.JavaAudioDeviceModule
@@ -59,15 +58,13 @@ internal object WebRTCManager {
 
         val audioDeviceModuleBuilder = JavaAudioDeviceModule.builder(context)
         audioDeviceModule = audioDeviceModuleBuilder.createAudioDeviceModule()
+        audioDeviceModule.audioInput.onAudioBufferListener = AudioSource.onAudioBufferListener
 
         pcFactory = PeerConnectionFactory.builder()
             .setAudioDeviceModule(audioDeviceModule)
             .setVideoEncoderFactory(videoEncoderFactory)
             .setVideoDecoderFactory(videoDecoderFactory)
             .createPeerConnectionFactory()
-
-        CameraSource.initialize()
-        ScreenSource.initialize()
 
         isSetup = true
     }
