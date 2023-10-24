@@ -108,6 +108,9 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun startCapturing(context: Context, deviceName: String, options: CapturingOptions) {
+        if (!this.isInitialized) {
+            this.initialize()
+        }
         capturer?.apply {
             stopCapture()
             dispose()

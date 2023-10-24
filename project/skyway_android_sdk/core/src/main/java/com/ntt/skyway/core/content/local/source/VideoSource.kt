@@ -7,6 +7,7 @@ package com.ntt.skyway.core.content.local.source
 import com.ntt.skyway.core.WebRTCManager
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.local.LocalVideoStream
+import com.ntt.skyway.core.util.Logger
 import org.webrtc.*
 
 /**
@@ -17,6 +18,7 @@ abstract class VideoSource {
     protected lateinit var textureHelper: SurfaceTextureHelper
     protected val yuvConverter = YuvConverter()
     private var videoTrack: VideoTrack? = null
+    protected var isInitialized = false
 
     internal fun initialize() {
         WebRTCManager.videoSourceList.add(this)
@@ -34,7 +36,12 @@ abstract class VideoSource {
     }
 
     internal fun dispose() {
-        source.dispose()
+        this.isInitialized = false
+        try {
+            source.dispose()
+        } catch(e: IllegalStateException) {
+            Logger.logI("Source is already disposed")
+        }
         textureHelper.dispose()
     }
 
