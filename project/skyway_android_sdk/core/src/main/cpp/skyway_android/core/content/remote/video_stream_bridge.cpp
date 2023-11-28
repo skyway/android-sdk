@@ -8,6 +8,7 @@
 #include "video_stream_bridge.hpp"
 
 #include "core/util/register_methods_helper.hpp"
+#include "core/util/native_to_jlong.hpp"
 
 namespace skyway_android {
 namespace content {
@@ -31,7 +32,8 @@ bool RemoteVideoStreamBridge::RegisterMethods(JNIEnv* env) {
 }
 
 long RemoteVideoStreamBridge::GetTrack(JNIEnv* env, jobject j_this, jlong remote_video_stream) {
-    return (long) (((RemoteVideoStream*)remote_video_stream)->GetTrack().get());
+    auto remote_video_stream_ptr = reinterpret_cast<RemoteVideoStream*>(remote_video_stream);
+    return NativeToJlong((remote_video_stream_ptr)->GetTrack().get());
 }
 
 }  // namespace remote

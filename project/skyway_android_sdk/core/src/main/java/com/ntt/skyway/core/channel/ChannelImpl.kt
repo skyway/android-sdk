@@ -142,7 +142,7 @@ class ChannelImpl internal constructor(
                 memberInit.subtype,
                 memberInit.keepAliveIntervalSec
             ) ?: return@withContext null
-            return@withContext repository.addLocalParson(localPersonJson)
+            return@withContext repository.addMemberIfNeeded(localPersonJson) as LocalPerson
         }
 
 
@@ -181,7 +181,7 @@ class ChannelImpl internal constructor(
 
     private fun onMemberJoined(memberJson: String) {
         Logger.logI("🔔onMemberJoined")
-        val member = repository.addRemoteMemberIfNeeded(memberJson)
+        val member = repository.addMemberIfNeeded(memberJson)
         scope.launch {
             onMemberJoinedHandler?.invoke(member)
         }
@@ -229,7 +229,7 @@ class ChannelImpl internal constructor(
 
     private fun onStreamPublished(publicationJson: String) {
         Logger.logI("🔔onStreamPublished")
-        val publication = repository.addRemotePublicationIfNeeded(publicationJson)
+        val publication = repository.addPublicationIfNeeded(publicationJson, null)
         scope.launch {
             onStreamPublishedHandler?.invoke(publication)
         }
@@ -277,7 +277,7 @@ class ChannelImpl internal constructor(
 
     private fun onPublicationSubscribed(subscriptionJson: String) {
         Logger.logI("🔔onPublicationSubscribed")
-        val subscription = repository.addRemoteSubscriptionIfNeeded(subscriptionJson)
+        val subscription = repository.addSubscriptionIfNeeded(subscriptionJson)
         scope.launch {
             onPublicationSubscribedHandler?.invoke(subscription)
         }

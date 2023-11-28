@@ -58,6 +58,9 @@ void Logger::Log(int logLevel, const std::string& msg, const std::string& filena
                    j_filename,
                    j_function,
                    line);
+    env->DeleteLocalRef(j_msg);
+    env->DeleteLocalRef(j_filename);
+    env->DeleteLocalRef(j_function);
 }
 
 }  // namespace util

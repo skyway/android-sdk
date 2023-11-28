@@ -14,6 +14,7 @@
 #include "core/util/register_methods_helper.hpp"
 #include "core/util/jstring_to_string.hpp"
 #include "core/util/call_java_method.hpp"
+#include "core/util/native_to_jlong.hpp"
 
 namespace skyway_android {
 namespace network {
@@ -103,7 +104,8 @@ std::future<bool> WebSocketClient::Connect(const std::string& url, const std::st
     auto j_url = env->NewStringUTF(url.c_str());
     auto j_sub_protocol = env->NewStringUTF(sub_protocol.c_str());
     auto signature = "(Ljava/lang/String;Ljava/lang/String;J)V";
-    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocol, (long)this);
+    jlong ptr = NativeToJlong(this);
+    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocol, ptr);
     return _connect_promise.get_future();
 }
 
@@ -111,6 +113,7 @@ std::future<bool> WebSocketClient::Send(const std::string& message) {
     auto env = core::ContextBridge::AttachCurrentThread();
     auto j_message = env->NewStringUTF(message.c_str());
     CallJavaMethod(env, this->_j_ws, "send", "(Ljava/lang/String;)V", j_message);
+    env->DeleteLocalRef(j_message);
 
     std::promise<bool> p;
     p.set_value(true);
@@ -134,6 +137,8 @@ std::future<bool> WebSocketClient::Close(const int code, const std::string& reas
     auto j_method_id = env->GetMethodID(j_class, "close", "(ILjava/lang/String;)Z");
     auto j_reason = env->NewStringUTF(reason.c_str());
     env->CallBooleanMethod(this->_j_ws, j_method_id, code, j_reason);
+    env->DeleteLocalRef(j_class);
+    env->DeleteLocalRef(j_reason);
     return _close_promise.get_future();
 }
 

@@ -18,19 +18,13 @@ import kotlinx.coroutines.withContext
 class SubscriptionImpl internal constructor(
     override val channel: Channel,
     override val id: String,
-    private val subscriberId: String,
-    private val publicationId: String,
+    override val subscriber: Member,
+    override val publication: Publication,
     override val contentType: ContentType,
     override val nativePointer: Long,
     internal var internalStream: RemoteStream?,
     private val repository: Repository
 ) : Subscription {
-    override val subscriber: Member
-        get() = repository.findMember(subscriberId)!!
-
-    override val publication: Publication
-        get() = repository.findPublication(publicationId)!!
-
     override val state: Subscription.State
         get() = Subscription.State.fromString(nativeState(nativePointer))
 

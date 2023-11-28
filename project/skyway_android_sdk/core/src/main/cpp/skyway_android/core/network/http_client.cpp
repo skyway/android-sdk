@@ -100,6 +100,11 @@ std::future<boost::optional<Response>> HttpClient::Request(const std::string &ur
                    j_header,
                    j_body,
                    j_request_id);
+    env->DeleteLocalRef(j_url);
+    env->DeleteLocalRef(j_method);
+    env->DeleteLocalRef(j_header);
+    env->DeleteLocalRef(j_body);
+    env->DeleteLocalRef(j_request_id);
     return f;
 }
 

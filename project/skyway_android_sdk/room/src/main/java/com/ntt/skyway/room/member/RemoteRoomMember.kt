@@ -37,23 +37,4 @@ open class RemoteRoomMember internal constructor(room: Room, internal val remote
     suspend fun unsubscribe(subscriptionsId: String): Boolean = withContext(Dispatchers.Default) {
         return@withContext remoteMember.unsubscribe(subscriptionsId)
     }
-
-//    fun getStats(publication: RoomPublication): String {
-//        var corePublication = publication.channelPublication
-//        return if(corePublication.origin != null) {
-//            // In the case of SFURoom, it's wrong to access remote_person_ because the real statistics
-//            // are retrieved from bot Here is fetching bot or remote person
-//            var remoteMember:RemoteMember  = corePublication.publisher as RemoteMember
-//            remoteMember.getStats(corePublication.origin!!)
-//        } else {
-//            remoteMember.getStats(corePublication)
-//        }
-//    }
-
-//    fun getStats(subscription: RoomSubscription): String {
-//        var coreSubscription = subscription.channelSubscription
-//        var remoteMember: RemoteMember = coreSubscription.publication.publisher as RemoteMember
-//        return remoteMember.getStats(coreSubscription)
-//    }
-
 }

@@ -23,6 +23,7 @@ void CallJavaMethod(JNIEnv* env, jobject obj, const std::string& method_name, co
         return;
     }
     env->CallVoidMethod(obj, j_method_id);
+    env->DeleteLocalRef(j_class);
 }
 
 template <typename... Args>
@@ -37,6 +38,7 @@ void CallJavaMethod(JNIEnv* env, jobject obj, const std::string& method_name, co
         return;
     }
     env->CallVoidMethod(obj, j_method_id, std::forward<Args>(args)...);
+    env->DeleteLocalRef(j_class);
 }
 
 
@@ -52,6 +54,7 @@ void CallJavaStaticMethod(JNIEnv* env, jobject obj, const std::string& method_na
         return;
     }
     env->CallStaticVoidMethod(j_class, j_method_id, std::forward<Args>(args)...);
+    env->DeleteLocalRef(j_class);
 }
 
 #endif /* SKYWAY_ANDROID_UTIL_CALL_JAVA_METHOD_HPP */

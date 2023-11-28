@@ -50,6 +50,7 @@ rtc::scoped_refptr <VideoTrack> VideoSource::GetVideoTrackPointer(JNIEnv* env, j
     auto j_class = env->GetObjectClass(j_track);
     auto method_id = env->GetMethodID(j_class, "getNativeVideoTrack", "()J");
     auto video_track_ptr = reinterpret_cast<VideoTrack*>(env->CallLongMethod(j_track, method_id));
+    env->DeleteLocalRef(j_class);
     return rtc::scoped_refptr<VideoTrack>(video_track_ptr);
 }
 

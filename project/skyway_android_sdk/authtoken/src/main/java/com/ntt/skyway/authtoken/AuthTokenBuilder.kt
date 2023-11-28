@@ -2,10 +2,10 @@ package com.ntt.skyway.authtoken
 
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import java.util.*
+import java.util.Base64
+import java.util.UUID
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
-import java.util.Base64;
 
 object AuthTokenBuilder {
     @JvmStatic
@@ -68,7 +68,11 @@ object AuthTokenBuilder {
 
     @JvmStatic
     private fun EncodeBase64Url(tokenByte: ByteArray):String{
-        return Base64.getUrlEncoder().withoutPadding().encodeToString(tokenByte)
+        return if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            Base64.getUrlEncoder().withoutPadding().encodeToString(tokenByte)
+        } else {
+            android.util.Base64.encodeToString(tokenByte, android.util.Base64.NO_PADDING or android.util.Base64.NO_WRAP)
+        }
     }
 
     @JvmStatic

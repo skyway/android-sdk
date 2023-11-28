@@ -91,7 +91,7 @@ class LocalPersonImpl internal constructor(
             val publicationJson =
                 nativePublish(nativePointer, localStream.nativePointer, optionsJson)
                     ?: return@withContext null
-            return@withContext repository.addLocalPublication(
+            return@withContext repository.addPublicationIfNeeded(
                 publicationJson, localStream
             )
         }
@@ -113,7 +113,7 @@ class LocalPersonImpl internal constructor(
             val optionsJson = options?.toJson() ?: "{}"
             val subscriptionJson = nativeSubscribe(nativePointer, publicationId, optionsJson)
                 ?: return@withContext null
-            return@withContext repository.addLocalSubscription(subscriptionJson)
+            return@withContext repository.addSubscriptionIfNeeded(subscriptionJson)
         }
     }
 
@@ -147,9 +147,9 @@ class LocalPersonImpl internal constructor(
     }
 
     private fun onStreamPublished(publicationId: String) {
-        Logger.logI("🔔onStreamPublished")
         scope.launch {
             publishMutex.withLock {
+                Logger.logI("🔔onStreamPublished")
                 val publication = repository.findPublication(publicationId) ?: run {
                     Logger.logW("onStreamPublished: The publication($publicationId) is not found")
                     return@launch
@@ -178,9 +178,9 @@ class LocalPersonImpl internal constructor(
     }
 
     private fun onPublicationSubscribed(subscriptionId: String) {
-        Logger.logI("🔔onPublicationSubscribed")
         scope.launch {
             subscribeMutex.withLock {
+                Logger.logI("🔔onPublicationSubscribed")
                 val subscription =
                     repository.findSubscription(subscriptionId) ?: run {
                         Logger.logW("onPublicationSubscribed: The subscription($subscriptionId) is not found")

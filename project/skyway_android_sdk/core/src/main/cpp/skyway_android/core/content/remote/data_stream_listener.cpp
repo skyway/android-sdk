@@ -28,6 +28,7 @@ void RemoteDataStreamListener::OnData(const std::string& data) {
     auto env = core::ContextBridge::AttachCurrentThread();
     auto j_data = env->NewStringUTF(data.c_str());
     CallJavaMethod(env, _j_remote_data_stream, "onData", "(Ljava/lang/String;)V", j_data);
+    env->DeleteLocalRef(j_data);
 }
 
 void RemoteDataStreamListener::OnDataBuffer(const uint8_t* data, size_t length) {
@@ -35,6 +36,7 @@ void RemoteDataStreamListener::OnDataBuffer(const uint8_t* data, size_t length) 
     jbyteArray result = env->NewByteArray(length);
     env->SetByteArrayRegion( result, 0, length, (const jbyte*) data );
     CallJavaMethod(env, _j_remote_data_stream, "OnDataBuffer", "([B)V", result);
+    env->DeleteLocalRef(result);
 }
 
 }  // namespace remote

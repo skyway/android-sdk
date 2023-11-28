@@ -33,6 +33,7 @@ void MemberEventListener::OnMetadataUpdated(const std::string &metadata) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_metadata = env->NewStringUTF(metadata.c_str());
     CallJavaMethod(env, _j_member, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
+    env->DeleteLocalRef(j_metadata);
 }
 
 void MemberEventListener::OnPublicationListChanged() {

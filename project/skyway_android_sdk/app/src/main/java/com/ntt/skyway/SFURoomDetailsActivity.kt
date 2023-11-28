@@ -19,7 +19,10 @@ import com.ntt.skyway.manager.SFURoomManager
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.RoomSubscription
 import com.ntt.skyway.room.member.RoomMember
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 
 class SFURoomDetailsActivity : DetailsBaseActivity() {
@@ -200,10 +203,12 @@ class SFURoomDetailsActivity : DetailsBaseActivity() {
                         (subscription.stream as RemoteVideoStream).addRenderer(binding.remoteRenderer)
                         App.showMessage("subscribe success(Video) : ${subscription.id}")
                     }
+
                     Stream.ContentType.AUDIO -> {
                         (subscription.stream as RemoteAudioStream)
                         App.showMessage("subscribe success(Audio) : ${subscription.id}")
                     }
+
                     Stream.ContentType.DATA -> {}
                     else -> {}
                 }
@@ -281,7 +286,10 @@ class SFURoomDetailsActivity : DetailsBaseActivity() {
     fun initButton() {
         binding.btnLeave.setOnClickListener {
             runBlocking {
-                if (!manager.sfuRoom?.localRoomMember?.leave()!!) {
+                if (manager.sfuRoom?.localRoomMember == null) {
+                    App.showMessage("SfuRoom or localRoomMember is null")
+                }
+                if (!manager.sfuRoom?.localRoomMember!!.leave()) {
                     App.showMessage("leave failed : ${manager.sfuRoom?.localRoomMember?.id}")
                     return@runBlocking
                 }

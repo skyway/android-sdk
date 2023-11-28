@@ -50,6 +50,7 @@ rtc::scoped_refptr <AudioTrack> AudioSource::GetAudioTrackPointer(JNIEnv* env, j
     auto j_class = env->GetObjectClass(j_track);
     auto method_id = env->GetMethodID(j_class, "getNativeAudioTrack", "()J");
     auto audio_track_ptr = reinterpret_cast<AudioTrack*>(env->CallLongMethod(j_track, method_id));
+    env->DeleteLocalRef(j_class);
     return rtc::scoped_refptr<AudioTrack>(audio_track_ptr);
 }
 

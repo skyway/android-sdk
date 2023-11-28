@@ -31,6 +31,7 @@ std::shared_ptr<skyway::network::interface::WebSocketClient> WebSocketClientFact
         return nullptr;
     }
     auto j_ws = env->CallStaticObjectMethod(j_class, j_method_id);
+    env->DeleteLocalRef(j_class);
     return std::make_shared<WebSocketClient>(j_ws);
 }
 

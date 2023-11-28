@@ -36,6 +36,7 @@ void LocalPersonEventListener::OnMetadataUpdated(const std::string &metadata) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_metadata = env->NewStringUTF(metadata.c_str());
     CallJavaMethod(env, _j_local_person, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
+    env->DeleteLocalRef(j_metadata);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -43,6 +44,7 @@ void LocalPersonEventListener::OnStreamPublished(Publication* publication) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_publication_id = env->NewStringUTF(publication->Id().c_str());
     CallJavaMethod(env, _j_local_person, "onStreamPublished", "(Ljava/lang/String;)V", j_publication_id);
+    env->DeleteLocalRef(j_publication_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -50,6 +52,7 @@ void LocalPersonEventListener::OnStreamUnpublished(Publication* publication) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_publication_id = env->NewStringUTF(publication->Id().c_str());
     CallJavaMethod(env, _j_local_person, "onStreamUnpublished", "(Ljava/lang/String;)V", j_publication_id);
+    env->DeleteLocalRef(j_publication_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -57,6 +60,7 @@ void LocalPersonEventListener::OnPublicationSubscribed(Subscription* subscriptio
     auto env = ContextBridge::AttachCurrentThread();
     auto j_subscription_id = env->NewStringUTF(subscription->Id().c_str());
     CallJavaMethod(env, _j_local_person, "onPublicationSubscribed", "(Ljava/lang/String;)V", j_subscription_id);
+    env->DeleteLocalRef(j_subscription_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -64,6 +68,7 @@ void LocalPersonEventListener::OnPublicationUnsubscribed(Subscription* subscript
     auto env = ContextBridge::AttachCurrentThread();
     auto j_subscription_id = env->NewStringUTF(subscription->Id().c_str());
     CallJavaMethod(env, _j_local_person, "onPublicationUnsubscribed", "(Ljava/lang/String;)V", j_subscription_id);
+    env->DeleteLocalRef(j_subscription_id);
     ContextBridge::DetachCurrentThread();
 }
 

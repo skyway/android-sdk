@@ -1,15 +1,20 @@
 package com.ntt.skyway.core.channel
 
-import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.util.Util
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.internal.synchronized
 
+@OptIn(InternalCoroutinesApi::class)
 class Repository(channel: ChannelImpl) {
     private val _members = mutableMapOf<String, Member>()
     private val _publications = mutableMapOf<String, Publication>()
     private val _subscriptions = mutableMapOf<String, Subscription>()
     private val factory: Factory = Factory(channel)
+    private val membersLock = Any()
+    private val publicationsLock = Any()
+    private val subscriptionsLock = Any()
 
     val members
         get() = _members.map { it.value }.toSet()
@@ -36,66 +41,57 @@ class Repository(channel: ChannelImpl) {
         return _subscriptions[subscriptionId]
     }
 
-    internal fun addLocalParson(memberJson: String): LocalPerson {
-        val member = factory.createLocalPerson(memberJson)
-        _members[member.id] = member
-        return member
-    }
+    internal fun addMemberIfNeeded(memberJson: String): Member {
+        synchronized(membersLock) {
+            val memberId = Util.getObjectId(memberJson)
+            val exist = _members[memberId]
+            if (exist != null) return exist
 
-    internal fun addRemoteMemberIfNeeded(memberJson: String): Member {
-        val memberId = Util.getObjectId(memberJson)
-        val exist = _members[memberId]
-        if (exist != null) return exist
-
-        val member = factory.createRemoteMember(memberJson)
-        _members[memberId] = member
-        return member
-    }
-
-    internal fun addLocalPublication(publicationJson: String, stream: LocalStream): Publication {
-        val publicationId = Util.getObjectId(publicationJson)
-        val publication = factory.createPublication(publicationJson, stream)
-        _publications[publicationId] = publication
-        return publication
-    }
-
-    internal fun addRemotePublicationIfNeeded(publicationJson: String): Publication {
-        val publicationId = Util.getObjectId(publicationJson)
-        val exist = _publications[publicationId]
-        if (exist != null) return exist
-
-        val publication = factory.createPublication(publicationJson, null)
-        _publications[publicationId] = publication
-        return publication
-    }
-
-    internal fun addLocalSubscription(subscriptionJson: String): Subscription {
-        val subscriptionId = Util.getObjectId(subscriptionJson)
-        val subscription = factory.createSubscription(subscriptionJson)
-        _subscriptions[subscriptionId] = subscription
-        return subscription
-    }
-
-    internal fun addRemoteSubscriptionIfNeeded(subscriptionJson: String): Subscription {
-        val subscription = factory.createSubscription(subscriptionJson)
-
-        if (_subscriptions[subscription.id] == null) {
-            _subscriptions[subscription.id] = subscription
+            val member = factory.createMember(memberJson)
+            _members[memberId] = member
+            return member
         }
+    }
 
-        if (_subscriptions[subscription.id]?.stream == null && subscription.stream != null) {
-            _subscriptions[subscription.id]?.let {
-                (it as SubscriptionImpl).internalStream = subscription.stream
+    internal fun addPublicationIfNeeded(
+        publicationJson: String,
+        stream: LocalStream?
+    ): Publication {
+        synchronized(publicationsLock) {
+            val publicationId = Util.getObjectId(publicationJson)
+            val exist = _publications[publicationId]
+            if (exist != null) return exist
+
+            val publication = factory.createPublication(publicationJson, stream)
+            _publications[publicationId] = publication
+            return publication
+        }
+    }
+
+    internal fun addSubscriptionIfNeeded(subscriptionJson: String): Subscription {
+        synchronized(subscriptionsLock) {
+            val subscription = factory.createSubscription(subscriptionJson)
+
+            if (_subscriptions[subscription.id] == null) {
+                _subscriptions[subscription.id] = subscription
             }
-        }
 
-        return _subscriptions[subscription.id]!!
+            if (_subscriptions[subscription.id]?.stream == null && subscription.stream != null) {
+                _subscriptions[subscription.id]?.let {
+                    (it as SubscriptionImpl).internalStream = subscription.stream
+                }
+            }
+            return _subscriptions[subscription.id]!!
+        }
     }
 
     internal fun resetLocalPerson() {
-        val filterLocalMembers = _members.filter { (_, member) -> member.side == Member.Side.LOCAL }
-        filterLocalMembers.forEach { (_, member) ->
-            _members.remove(member.id)
+        synchronized(membersLock) {
+            val filterLocalMembers =
+                _members.filter { (_, member) -> member.side == Member.Side.LOCAL }
+            filterLocalMembers.forEach { (_, member) ->
+                _members.remove(member.id)
+            }
         }
     }
 }
