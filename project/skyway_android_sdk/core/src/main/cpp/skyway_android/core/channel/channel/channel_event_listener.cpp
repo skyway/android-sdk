@@ -35,6 +35,7 @@ void ChannelEventListener::OnMetadataUpdated(const std::string& metadata) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_metadata = env->NewStringUTF(metadata.c_str());
     CallJavaMethod(env, _j_channel, "onMetadataUpdated", "(Ljava/lang/String;)V", j_metadata);
+    env->DeleteLocalRef(j_metadata);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -49,6 +50,7 @@ void ChannelEventListener::OnMemberJoined(Member* member) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_member_json = env->NewStringUTF(member_json.dump().c_str());
     CallJavaMethod(env, _j_channel, "onMemberJoined", "(Ljava/lang/String;)V", j_member_json);
+    env->DeleteLocalRef(j_member_json);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -56,6 +58,7 @@ void ChannelEventListener::OnMemberLeft(Member* member) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_member_id = env->NewStringUTF(member->Id().c_str());
     CallJavaMethod(env, _j_channel, "onMemberLeft", "(Ljava/lang/String;)V", j_member_id);
+    env->DeleteLocalRef(j_member_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -64,6 +67,8 @@ void ChannelEventListener::OnMemberMetadataUpdated(Member* member, const std::st
     auto j_member_id = env->NewStringUTF(member->Id().c_str());
     auto j_metadata = env->NewStringUTF(metadata.c_str());
     CallJavaMethod(env, _j_channel, "onMemberMetadataUpdated", "(Ljava/lang/String;Ljava/lang/String;)V", j_member_id, j_metadata);
+    env->DeleteLocalRef(j_member_id);
+    env->DeleteLocalRef(j_metadata);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -72,6 +77,7 @@ void ChannelEventListener::OnStreamPublished(Publication* publication) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_publication_json = env->NewStringUTF(publication_json.dump().c_str());
     CallJavaMethod(env, _j_channel, "onStreamPublished", "(Ljava/lang/String;)V", j_publication_json);
+    env->DeleteLocalRef(j_publication_json);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -79,6 +85,7 @@ void ChannelEventListener::OnStreamUnpublished(Publication* publication) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_publication_id = env->NewStringUTF(publication->Id().c_str());
     CallJavaMethod(env, _j_channel, "onStreamUnpublished", "(Ljava/lang/String;)V", j_publication_id);
+    env->DeleteLocalRef(j_publication_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -92,6 +99,7 @@ void ChannelEventListener::OnPublicationEnabled(Publication* publication) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_publication_id = env->NewStringUTF(publication->Id().c_str());
     CallJavaMethod(env, _j_channel, "onPublicationEnabled", "(Ljava/lang/String;)V", j_publication_id);
+    env->DeleteLocalRef(j_publication_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -99,6 +107,7 @@ void ChannelEventListener::OnPublicationDisabled(Publication* publication) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_publication_id = env->NewStringUTF(publication->Id().c_str());
     CallJavaMethod(env, _j_channel, "onPublicationDisabled", "(Ljava/lang/String;)V", j_publication_id);
+    env->DeleteLocalRef(j_publication_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -107,6 +116,8 @@ void ChannelEventListener::OnPublicationMetadataUpdated(Publication* publication
     auto j_publication_id = env->NewStringUTF(publication->Id().c_str());
     auto j_metadata = env->NewStringUTF(metadata.c_str());
     CallJavaMethod(env, _j_channel, "onPublicationMetadataUpdated", "(Ljava/lang/String;Ljava/lang/String;)V", j_publication_id, j_metadata);
+    env->DeleteLocalRef(j_publication_id);
+    env->DeleteLocalRef(j_metadata);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -121,6 +132,7 @@ void ChannelEventListener::OnPublicationSubscribed(Subscription* subscription) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_subscription_json = env->NewStringUTF(subscription_json.dump().c_str());
     CallJavaMethod(env, _j_channel, "onPublicationSubscribed", "(Ljava/lang/String;)V", j_subscription_json);
+    env->DeleteLocalRef(j_subscription_json);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -128,6 +140,7 @@ void ChannelEventListener::OnPublicationUnsubscribed(Subscription* subscription)
     auto env = ContextBridge::AttachCurrentThread();
     auto j_subscription_id = env->NewStringUTF(subscription->Id().c_str());
     CallJavaMethod(env, _j_channel, "onPublicationUnsubscribed", "(Ljava/lang/String;)V", j_subscription_id);
+    env->DeleteLocalRef(j_subscription_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -135,6 +148,7 @@ void ChannelEventListener::OnSubscriptionEnabled(Subscription* subscription) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_subscription_id = env->NewStringUTF(subscription->Id().c_str());
     CallJavaMethod(env, _j_channel, "onSubscriptionEnabled", "(Ljava/lang/String;)V", j_subscription_id);
+    env->DeleteLocalRef(j_subscription_id);
     ContextBridge::DetachCurrentThread();
 }
 
@@ -142,6 +156,7 @@ void ChannelEventListener::OnSubscriptionDisabled(Subscription* subscription) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_subscription_id = env->NewStringUTF(subscription->Id().c_str());
     CallJavaMethod(env, _j_channel, "onSubscriptionDisabled", "(Ljava/lang/String;)V", j_subscription_id);
+    env->DeleteLocalRef(j_subscription_id);
     ContextBridge::DetachCurrentThread();
 }
 

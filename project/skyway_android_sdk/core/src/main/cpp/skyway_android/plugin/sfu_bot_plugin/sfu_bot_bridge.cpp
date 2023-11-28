@@ -18,6 +18,7 @@
 #include "core/channel/subscription/subscription_bridge.hpp"
 #include "core/util/register_methods_helper.hpp"
 #include "core/util/jstring_to_string.hpp"
+#include "core/util/native_to_jlong.hpp"
 
 namespace skyway_android {
 namespace plugin {
@@ -89,7 +90,7 @@ bool SfuBotBridge::StopForwarding(JNIEnv* env, jobject j_this, jlong sfu_bot, jl
 
 nlohmann::json SfuBotBridge::GetForwardingDataJson(Forwarding* forwarding_ptr) {
     nlohmann::json forwarding_json;
-    forwarding_json["nativePointer"] = (long) forwarding_ptr;
+    forwarding_json["nativePointer"] = NativeToJlong(forwarding_ptr);
     forwarding_json["id"] = forwarding_ptr->Id();
     forwarding_json["configure"] = nlohmann::json::object();
     forwarding_json["configure"]["maxSubscribers"] = forwarding_ptr->Configure().max_subscribers;

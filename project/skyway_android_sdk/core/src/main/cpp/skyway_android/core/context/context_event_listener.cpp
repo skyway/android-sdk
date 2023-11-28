@@ -39,6 +39,7 @@ void ContextEventListener::OnFatalError(const skyway::global::Error& error) {
     auto env = ContextBridge::AttachCurrentThread();
     auto j_message = env->NewStringUTF(error.message.c_str());
     CallJavaStaticMethod(env, _j_context, "onFatalError", "(Ljava/lang/String;)V", j_message);
+    env->DeleteLocalRef(j_message);
 }
 
 }  // namespace core

@@ -42,7 +42,7 @@ abstract class RemoteMemberImpl internal constructor(
      */
     override val side = Member.Side.REMOTE
 
-    private val scope = CoroutineScope(Dispatchers.Default)
+    protected val scope = CoroutineScope(Dispatchers.Default)
 
     constructor(dto: Member.Dto) : this(
         dto.channel,
@@ -64,28 +64,29 @@ abstract class RemoteMemberImpl internal constructor(
         return@withContext nativeLeave(nativePointer)
     }
 
-    private fun onLeft() {
+    // need override from inherited class for Android 7
+    protected open fun onLeft() {
         Logger.logI("🔔onLeft")
         scope.launch {
             onLeftHandler?.invoke()
         }
     }
 
-    private fun onMetadataUpdated(metadata: String) {
+    protected open fun onMetadataUpdated(metadata: String) {
         Logger.logI("🔔onMetadataUpdated")
         scope.launch {
             onMetadataUpdatedHandler?.invoke(metadata)
         }
     }
 
-    private fun onPublicationListChanged() {
+    protected open fun onPublicationListChanged() {
         Logger.logI("🔔onPublicationListChanged")
         scope.launch {
             onPublicationListChangedHandler?.invoke()
         }
     }
 
-    private fun onSubscriptionListChanged() {
+    protected open fun onSubscriptionListChanged() {
         Logger.logI("🔔onSubscriptionListChanged")
         scope.launch {
             onSubscriptionListChangedHandler?.invoke()

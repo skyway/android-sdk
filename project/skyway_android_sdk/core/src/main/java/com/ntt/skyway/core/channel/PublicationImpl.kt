@@ -23,7 +23,7 @@ import kotlinx.coroutines.withContext
 class PublicationImpl internal constructor(
     override val channel: Channel,
     override val id: String,
-    private val publisherId: String,
+    override val publisher: Member,
     override val contentType: ContentType,
     private val originId: String,
     override val codecCapabilities: List<Codec>,
@@ -31,9 +31,6 @@ class PublicationImpl internal constructor(
     private var internalStream: LocalStream?,
     private val repository: Repository
 ) : Publication {
-    override val publisher: Member
-        get() = repository.findMember(publisherId)!!
-
     override val origin: Publication?
         get() = if (originId == "") null else repository.findPublication(originId)
 
@@ -127,7 +124,7 @@ class PublicationImpl internal constructor(
 
     private fun onSubscribed(subscriptionJson: String) {
         Logger.logI("🔔onSubscribed")
-        val subscription = repository.addRemoteSubscriptionIfNeeded(subscriptionJson)
+        val subscription = repository.addSubscriptionIfNeeded(subscriptionJson)
         scope.launch {
             onSubscribedHandler?.invoke(subscription)
         }

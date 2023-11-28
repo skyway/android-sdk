@@ -11,7 +11,9 @@ import com.ntt.skyway.core.channel.ChannelImpl
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.channel.member.RemoteMemberImpl
+import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
@@ -81,6 +83,22 @@ class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
     suspend fun stopForwarding(forwarding: Forwarding): Boolean = withContext(Dispatchers.Default) {
         _forwardings.remove(forwarding)
         return@withContext nativeStopForwarding(nativePointer, forwarding.nativePointer)
+    }
+
+    protected override fun onLeft() {
+        super.onLeft()
+    }
+
+    protected override fun onMetadataUpdated(metadata: String) {
+        super.onMetadataUpdated(metadata)
+    }
+
+    protected override fun onPublicationListChanged() {
+        super.onPublicationListChanged()
+    }
+
+    protected override fun onSubscriptionListChanged() {
+        super.onSubscriptionListChanged()
     }
 
     private external fun nativeStartForwarding(

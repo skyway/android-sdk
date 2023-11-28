@@ -41,6 +41,7 @@ void SubscriptionEventListener::OnConnectionStateChanged(const skyway::core::Con
     auto env = ContextBridge::AttachCurrentThread();
     auto j_new_state = env->NewStringUTF(skyway::core::StringFromConnectionState(new_state).get().c_str());
     CallJavaMethod(env, _j_subscription, "onConnectionStateChanged", "(Ljava/lang/String;)V", j_new_state);
+    env->DeleteLocalRef(j_new_state);
 }
 
 }  // namespace core

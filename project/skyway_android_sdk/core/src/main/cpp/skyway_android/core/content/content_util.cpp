@@ -6,7 +6,10 @@
 //
 
 #include "core/content/content_util.hpp"
+
 #include <skyway/core/interface/local_stream.hpp>
+
+#include "core/util/native_to_jlong.hpp"
 
 namespace skyway_android {
 namespace content {
@@ -14,7 +17,7 @@ namespace util {
 
 nlohmann::json getStreamDataJson(Stream* stream_ptr) {
     nlohmann::json stream_json;
-    stream_json["nativePointer"] = (long) stream_ptr;
+    stream_json["nativePointer"] = NativeToJlong(stream_ptr);
     stream_json["id"] = stream_ptr->Id();
     stream_json["side"] = skyway::model::ToString(stream_ptr->Side());
     stream_json["contentType"] = skyway::model::ToString(stream_ptr->ContentType());

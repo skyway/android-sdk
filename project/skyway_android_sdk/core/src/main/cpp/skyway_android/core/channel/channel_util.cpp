@@ -10,6 +10,7 @@
 #include <json.hpp>
 
 #include "core/content/content_util.hpp"
+#include "core/util/native_to_jlong.hpp"
 
 namespace skyway_android {
 namespace core {
@@ -33,7 +34,7 @@ nlohmann::json getWebRTCStatsJson(skyway::model::WebRTCStats* webRtcStats_ptr) {
 
 nlohmann::json ToJson(Member* member_ptr) {
     nlohmann::json member_json;
-    member_json["nativePointer"] = (long) member_ptr;
+    member_json["nativePointer"] = NativeToJlong(member_ptr);
     member_json["id"] = member_ptr->Id();
     member_json["name"] = member_ptr->Name().has_value() ? member_ptr->Name()->c_str() : "";
     member_json["subtype"] = member_ptr->Subtype();
@@ -44,10 +45,10 @@ nlohmann::json ToJson(Member* member_ptr) {
 
 nlohmann::json ToJson(Publication* publication_ptr) {
     nlohmann::json publication_json;
-    publication_json["nativePointer"] = (long) publication_ptr;
+    publication_json["nativePointer"] = NativeToJlong(publication_ptr);
     publication_json["id"] = publication_ptr->Id();
     if (auto publisher = publication_ptr->Publisher()) {
-        publication_json["publisherId"] = publisher->Id();
+        publication_json["publisher"] = ToJson(publisher);
     }
     publication_json["contentType"] = skyway::model::ToString(publication_ptr->ContentType());
     publication_json["originId"] = publication_ptr->Origin() ? publication_ptr->Origin()->Id() : "";
@@ -71,16 +72,16 @@ nlohmann::json ToJson(Publication* publication_ptr) {
 
 nlohmann::json ToJson(Subscription* subscription_ptr) {
     nlohmann::json subscription_json;
-    subscription_json["nativePointer"] = (long) subscription_ptr;
+    subscription_json["nativePointer"] = NativeToJlong(subscription_ptr);
     subscription_json["id"] = subscription_ptr->Id();
+    subscription_json["contentType"] = skyway::model::ToString(subscription_ptr->ContentType());
 
     if(auto publication = subscription_ptr->Publication()) {
-        subscription_json["contentType"] = skyway::model::ToString(subscription_ptr->ContentType());
-        subscription_json["publicationId"] = subscription_ptr->Publication()->Id();
+        subscription_json["publication"] = ToJson(publication);
     }
 
     if (auto subscriber = subscription_ptr->Subscriber()) {
-        subscription_json["subscriberId"] = subscriber->Id();
+        subscription_json["subscriber"] = ToJson(subscriber);
     }
 
     if (subscription_ptr->State() != skyway::core::interface::SubscriptionState::kCanceled) {
@@ -95,7 +96,7 @@ nlohmann::json ToJson(Subscription* subscription_ptr) {
 
 nlohmann::json ToJson(Channel* channel_ptr) {
     nlohmann::json channel_json;
-    channel_json["nativePointer"] = (long) channel_ptr;
+    channel_json["nativePointer"] = NativeToJlong(channel_ptr);
     channel_json["id"] = channel_ptr->Id();
     channel_json["name"] = channel_ptr->Name().has_value() ? channel_ptr->Name()->c_str() : "";
 
