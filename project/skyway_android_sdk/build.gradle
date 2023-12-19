@@ -11,7 +11,7 @@ buildscript {
     }
 }
 
-ext.SkyWayVer = "1.5.3"
+ext.SkyWayVer = "1.6.0"
 ext.output_aar_dir = "outputs-aar"
 
 task clean(type: Delete) {

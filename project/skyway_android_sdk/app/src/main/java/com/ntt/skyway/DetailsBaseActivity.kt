@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.ServiceConnection
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -11,7 +12,6 @@ import android.media.projection.MediaProjectionManager
 import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
-import android.provider.MediaStore.Audio
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -188,5 +188,10 @@ open class DetailsBaseActivity : AppCompatActivity() {
         Intent(this, ScreenShareService::class.java).also {
             unbindService(serviceConnection)
         }
+    }
+
+    override fun onConfigurationChanged(config: Configuration) {
+        super.onConfigurationChanged(config)
+        mService?.changeCapturingSize(config.screenWidthDp, config.screenHeightDp)
     }
 }

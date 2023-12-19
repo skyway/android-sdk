@@ -170,6 +170,10 @@ class PublicationImpl internal constructor(
         }
     }
 
+    override fun hashCode(): Int {
+        return id.hashCode()
+    }
+
     private external fun nativeAddEventListener(channelId: String, ptr: Long)
     private external fun nativeMetadata(ptr: Long): String
     private external fun nativeState(ptr: Long): String

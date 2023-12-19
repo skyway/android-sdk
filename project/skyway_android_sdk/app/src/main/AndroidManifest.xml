@@ -2,12 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
@@ -26,21 +32,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChannelDetailsActivity"/>
-        <activity android:name=".P2PRoomDetailsActivity"/>
-        <activity android:name=".SFURoomDetailsActivity"/>
+        <activity
+            android:name=".ChannelDetailsActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".P2PRoomDetailsActivity"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".SFURoomDetailsActivity"
+            android:configChanges="orientation|screenSize" />
 
         <service
             android:name=".ScreenShareService"
             android:enabled="true"
-            android:foregroundServiceType="mediaProjection"
-            android:exported="false">
-        </service>
+            android:exported="false"
+            android:foregroundServiceType="mediaProjection" />
 
-        <activity android:name="com.journeyapps.barcodescanner.CaptureActivity"
+        <activity
+            android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="fullSensor"
-            tools:replace="android:screenOrientation"
-        />
+            tools:replace="android:screenOrientation" />
 
     </application>
 
