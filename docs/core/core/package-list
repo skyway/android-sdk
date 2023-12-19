@@ -234,6 +234,7 @@ $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/disable/#/PointingTo
 $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/enable/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/enable.html
 $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/encodings/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/encodings.html
 $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/getStats/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/get-stats.html
+$dokka.location:com.ntt.skyway.core.channel/PublicationImpl/hashCode/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/hash-code.html
 $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/id/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/id.html
 $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/metadata/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/metadata.html
 $dokka.location:com.ntt.skyway.core.channel/PublicationImpl/nativePointer/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication-impl/native-pointer.html
@@ -329,6 +330,7 @@ $dokka.location:com.ntt.skyway.core.content.local.source/DataSource///PointingTo
 $dokka.location:com.ntt.skyway.core.content.local.source/DataSource/DataSource/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-data-source/-data-source.html
 $dokka.location:com.ntt.skyway.core.content.local.source/DataSource/createStream/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-data-source/create-stream.html
 $dokka.location:com.ntt.skyway.core.content.local.source/ScreenSource///PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-screen-source/index.html
+$dokka.location:com.ntt.skyway.core.content.local.source/ScreenSource/changeCapturingSize/#kotlin.Int#kotlin.Int/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-screen-source/change-capturing-size.html
 $dokka.location:com.ntt.skyway.core.content.local.source/ScreenSource/setup/#android.content.Context#android.content.Intent/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-screen-source/setup.html
 $dokka.location:com.ntt.skyway.core.content.local.source/ScreenSource/startCapturing/#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-screen-source/start-capturing.html
 $dokka.location:com.ntt.skyway.core.content.local.source/ScreenSource/stopCapturing/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-screen-source/stop-capturing.html

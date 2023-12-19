@@ -86,4 +86,8 @@ class ScreenShareService : Service() {
         ScreenSource.startCapturing(800, 800, 30)
         return ScreenSource.createStream()
     }
+
+    fun changeCapturingSize(width: Int, height: Int) {
+        ScreenSource.changeCapturingSize(width, height)
+    }
 }

@@ -39,10 +39,10 @@ abstract class VideoSource {
         this.isInitialized = false
         try {
             source.dispose()
+            textureHelper.dispose()
         } catch(e: IllegalStateException) {
             Logger.logI("Source is already disposed")
         }
-        textureHelper.dispose()
     }
 
     private external fun nativeCreateVideoStream(track: VideoTrack): String

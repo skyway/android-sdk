@@ -59,8 +59,10 @@ class Repository(channel: ChannelImpl) {
     ): Publication {
         synchronized(publicationsLock) {
             val publicationId = Util.getObjectId(publicationJson)
-            val exist = _publications[publicationId]
-            if (exist != null) return exist
+            if (stream == null) {
+                val exist = _publications[publicationId]
+                if (exist != null) return exist
+            }
 
             val publication = factory.createPublication(publicationJson, stream)
             _publications[publicationId] = publication

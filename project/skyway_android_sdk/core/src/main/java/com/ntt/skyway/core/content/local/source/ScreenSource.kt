@@ -54,4 +54,13 @@ object ScreenSource : VideoSource() {
     fun stopCapturing() {
         capturer.stopCapture()
     }
+
+    /**
+     *  画面のキャプチャサイズを変更します。
+     *  先に[ScreenSource.setup]を行ってください。
+     */
+    @JvmStatic
+    fun changeCapturingSize(width: Int, height: Int) {
+        capturer.changeCaptureFormat(width, height, 0)
+    }
 }
