@@ -6,7 +6,9 @@ package com.ntt.skyway.core.content.local.source
 
 import android.content.Context
 import com.ntt.skyway.core.util.Logger
+import org.webrtc.Camera1Enumerator
 import org.webrtc.Camera2Enumerator
+import org.webrtc.CameraEnumerator
 import org.webrtc.CameraVideoCapturer
 
 /**
@@ -68,7 +70,7 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun getCameras(context: Context): Set<String> {
-        val enumerator = Camera2Enumerator(context)
+        val enumerator = createCameraEnumerator(context)
         return enumerator.deviceNames.toSet()
     }
 
@@ -77,7 +79,7 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun getFrontCameras(context: Context): Set<String> {
-        val enumerator = Camera2Enumerator(context)
+        val enumerator = createCameraEnumerator(context)
         return enumerator.deviceNames.filter { enumerator.isFrontFacing(it) }.toSet()
     }
 
@@ -86,7 +88,7 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun getBackCameras(context: Context): Set<String> {
-        val enumerator = Camera2Enumerator(context)
+        val enumerator = createCameraEnumerator(context)
         return enumerator.deviceNames.filter { enumerator.isBackFacing(it) }.toSet()
     }
 
@@ -115,7 +117,7 @@ object CameraSource : VideoSource() {
             stopCapture()
             dispose()
         }
-        val enumerator = Camera2Enumerator(context)
+        val enumerator = createCameraEnumerator(context)
         capturer = enumerator.createCapturer(deviceName, cameraEventsHandler)
         capturer?.initialize(textureHelper, context, source.capturerObserver)
         capturer?.startCapture(options.width, options.height, options.frameRate)
@@ -128,5 +130,13 @@ object CameraSource : VideoSource() {
     @JvmStatic
     fun stopCapturing() {
         capturer?.stopCapture()
+    }
+
+    private fun createCameraEnumerator(context: Context): CameraEnumerator {
+        return if (Camera2Enumerator.isSupported(context)) {
+            Camera2Enumerator(context)
+        } else {
+            Camera1Enumerator(true)
+        }
     }
 }
