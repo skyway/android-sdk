@@ -133,7 +133,6 @@ class ChannelImpl internal constructor(
 
     override suspend fun join(memberInit: Member.Init): LocalPerson? =
         withContext(Dispatchers.Default) {
-            repository.resetLocalPerson()
             val localPersonJson = nativeJoin(
                 nativePointer,
                 memberInit.name,
