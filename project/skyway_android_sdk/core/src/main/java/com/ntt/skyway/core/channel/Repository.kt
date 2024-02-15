@@ -17,28 +17,48 @@ class Repository(channel: ChannelImpl) {
     private val subscriptionsLock = Any()
 
     val members
-        get() = _members.map { it.value }.toSet()
+        get() = synchronized(membersLock) {
+            _members.map { it.value }.toSet()
+        }
     val availableMembers
-        get() = members.filter { it.state != Member.State.LEFT }.toSet()
+        get() = synchronized(membersLock) {
+            _members.map { it.value }.filter { it.state != Member.State.LEFT }.toSet()
+        }
+
     val publications
-        get() = _publications.map { it.value }
+        get() = synchronized(publicationsLock) {
+            _publications.map { it.value }
+        }
     val availablePublications
-        get() = publications.filter { it.state != Publication.State.CANCELED }.toSet()
+        get() = synchronized(publicationsLock) {
+            _publications.map { it.value }.filter { it.state != Publication.State.CANCELED }.toSet()
+        }
     val subscriptions
-        get() = _subscriptions.map { it.value }
+        get() = synchronized(subscriptionsLock) {
+            _subscriptions.map { it.value }
+        }
     val availableSubscriptions
-        get() = subscriptions.filter { it.state != Subscription.State.CANCELED }.toSet()
+        get() = synchronized(subscriptionsLock) {
+            _subscriptions.map { it.value }.filter { it.state != Subscription.State.CANCELED }
+                .toSet()
+        }
 
     internal fun findMember(memberId: String): Member? {
-        return _members[memberId]
+        synchronized(membersLock) {
+            return _members[memberId]
+        }
     }
 
     internal fun findPublication(publicationId: String): Publication? {
-        return _publications[publicationId]
+        synchronized(publicationsLock) {
+            return _publications[publicationId]
+        }
     }
 
     internal fun findSubscription(subscriptionId: String): Subscription? {
-        return _subscriptions[subscriptionId]
+        synchronized(subscriptionsLock) {
+            return _subscriptions[subscriptionId]
+        }
     }
 
     internal fun addMemberIfNeeded(memberJson: String): Member {
@@ -84,16 +104,6 @@ class Repository(channel: ChannelImpl) {
                 }
             }
             return _subscriptions[subscription.id]!!
-        }
-    }
-
-    internal fun resetLocalPerson() {
-        synchronized(membersLock) {
-            val filterLocalMembers =
-                _members.filter { (_, member) -> member.side == Member.Side.LOCAL }
-            filterLocalMembers.forEach { (_, member) ->
-                _members.remove(member.id)
-            }
         }
     }
 }
