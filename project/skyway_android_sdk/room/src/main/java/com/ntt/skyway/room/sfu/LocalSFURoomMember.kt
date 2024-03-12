@@ -33,8 +33,13 @@ class LocalSFURoomMember internal constructor(
             val channelOriginPublication =
                 localPerson.publish(localStream, options?.toCore())
                     ?: return null
+            val bot = sfuRoom.bot
+            if (bot == null) {
+                Logger.logE("SFUBot is not found")
+                return null
+            }
             val forwarding =
-                sfuRoom.bot.startForwarding(channelOriginPublication, options?.toConfigure()) ?: return null
+                bot.startForwarding(channelOriginPublication, options?.toConfigure()) ?: return null
             val relayingPublication = forwarding.relayingPublication
             return room.createRoomPublication(relayingPublication)
         }
@@ -47,13 +52,17 @@ class LocalSFURoomMember internal constructor(
     override suspend fun unpublish(publication: RoomPublication): Boolean {
         val originPublication = publication.origin
         if (originPublication == null) {
-            Logger.logW("The origin publication is not found ${publication.id}")
+            Logger.logE("The origin publication is not found ${publication.id}")
             return false
         }
-
-        sfuRoom.bot.forwardings.find { it.relayingPublication.id == publication.id }?.let {
-            val result = sfuRoom.bot.stopForwarding(it)
-            if(!result) return false
+        val bot = sfuRoom.bot
+        if (bot == null) {
+            Logger.logE("SFUBot is not found")
+            return false
+        }
+        bot.forwardings.find { it.relayingPublication.id == publication.id }?.let {
+            val result = bot.stopForwarding(it)
+            if (!result) return false
         }
 
         return localPerson.unpublish(originPublication)

@@ -3,6 +3,7 @@ package com.ntt.skyway.core
 import android.annotation.SuppressLint
 import android.content.Context
 import com.ntt.skyway.core.content.local.source.AudioSource
+import com.ntt.skyway.core.content.local.source.VideoSource
 import com.ntt.skyway.core.util.Logger
 import org.webrtc.*
 import org.webrtc.audio.JavaAudioDeviceModule
@@ -36,7 +37,7 @@ internal object WebRTCManager {
 
     var isSetup = false
 
-    internal val videoSourceList: MutableList<com.ntt.skyway.core.content.local.source.VideoSource> = mutableListOf()
+    internal val videoSourceList: MutableList<VideoSource> = mutableListOf()
     private lateinit var egl: EglBase
     private lateinit var audioDeviceModule: JavaAudioDeviceModule
     private lateinit var pcFactory: PeerConnectionFactory
@@ -56,8 +57,22 @@ internal object WebRTCManager {
         val videoDecoderFactory =
             if (enableHardwareCodec) DefaultVideoDecoderFactory(eglBaseContext) else SoftwareVideoDecoderFactory()
 
+        val audioRecordStateCallback = object : JavaAudioDeviceModule.AudioRecordStateCallback {
+            override fun onWebRtcAudioRecordStart() {
+                if (!AudioSource.isStarted) {
+                    AudioSource.stop()
+                }
+            }
+
+            override fun onWebRtcAudioRecordStop() {
+            }
+        }
+
         val audioDeviceModuleBuilder = JavaAudioDeviceModule.builder(context)
-        audioDeviceModule = audioDeviceModuleBuilder.createAudioDeviceModule()
+        audioDeviceModule = audioDeviceModuleBuilder
+            .setAudioRecordStateCallback(audioRecordStateCallback)
+            .createAudioDeviceModule()
+
         audioDeviceModule.audioInput.onAudioBufferListener = AudioSource.onAudioBufferListener
 
         pcFactory = PeerConnectionFactory.builder()
@@ -69,11 +84,11 @@ internal object WebRTCManager {
         isSetup = true
     }
 
-    fun createRTCVideoSource(): VideoSource {
+    fun createRTCVideoSource(): org.webrtc.VideoSource {
         return pcFactory.createVideoSource(false)
     }
 
-    fun createRTCVideoTrack(source: VideoSource): VideoTrack {
+    fun createRTCVideoTrack(source: org.webrtc.VideoSource): VideoTrack {
         return pcFactory.createVideoTrack(UUID.randomUUID().toString(), source)
     }
 

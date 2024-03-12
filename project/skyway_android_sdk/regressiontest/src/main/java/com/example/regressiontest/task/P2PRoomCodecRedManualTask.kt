@@ -13,7 +13,7 @@ class P2PRoomCodecRedManualTask(listener: Listener, params: Params) :
     P2PRoomTaskBase(listener, params) {
 
     override val TAG = this.javaClass.simpleName
-    val SUCCESS_SUBSCRIPTION_CODEC = "audio/opus"
+    val SUCCESS_SUBSCRIPTION_CODEC = "audio/red"
 
     @OptIn(SkyWayOptIn::class)
     override fun run() {
@@ -40,7 +40,7 @@ class P2PRoomCodecRedManualTask(listener: Listener, params: Params) :
             }
 
             val options =
-                RoomPublication.Options(codecCapabilities = mutableListOf(Codec(Codec.MimeType.OPUS)))
+                RoomPublication.Options(codecCapabilities = mutableListOf(Codec(Codec.MimeType.RED)))
             val publicationLocalAudioStream = localP2PRoomMember?.publish(getAudioStream(), options)
             if (publicationLocalAudioStream == null) {
                 listener.onTaskFailedHandler?.invoke(params.requestId, "publish audio failed")
