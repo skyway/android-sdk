@@ -79,8 +79,11 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
     }
 
     override val type: Type = Type.SFU
-    internal val bot: SFUBot
-        get() = channel.bots.first { it.subType == "sfu" } as SFUBot
+    internal val bot: SFUBot?
+        get() {
+            val bot = channel.bots.firstOrNull { it.subType == "sfu" }
+            return if (bot == null) null else bot as SFUBot
+        }
     private val scope = CoroutineScope(Dispatchers.Default)
 
     init {

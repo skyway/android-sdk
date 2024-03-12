@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.SkyWayOptIn
+import com.ntt.skyway.core.channel.Channel
 import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
@@ -46,6 +47,7 @@ class SFURoomTest {
     fun create() = runBlocking {
         val room = SFURoom.create()
         assertNotNull(room)
+        assertNotNull(room?.bot)
     }
 
     @Test
@@ -216,5 +218,14 @@ class SFURoomTest {
         val subStats = subscription!!.getStats()
         assertNotNull(subStats)
         assertTrue(subStats!!.reports.isNotEmpty())
+    }
+
+    @Test
+    fun getBotExited() = runBlocking {
+        val room = SFURoom.create()
+        val channel = Channel.find(id = room?.id)
+        val bot = channel?.bots?.first()
+        channel?.leave(bot!!)
+        assertNull(room?.bot)
     }
 }

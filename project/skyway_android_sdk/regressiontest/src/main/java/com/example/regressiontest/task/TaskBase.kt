@@ -80,28 +80,33 @@ abstract class TaskBase(protected val listener: Listener, val params: Params) {
 
     fun checkCodec(subscription: RoomSubscription, checkCodec: String) {
         job = GlobalScope.launch {
-            while (true) {
-                if (isClose) return@launch
-                val codec = getCodec(subscription)
-
-                if (codec != null) {
-                    if (codec == checkCodec) {
-                        listener.onTaskSuccessHandler?.invoke(
-                            subscription.publication.publisher!!.id,
-                            params.requestId,
-                            params.taskId
-                        )
-                    } else {
-                        listener.onTaskFailedHandler?.invoke(
-                            params.requestId,
-                            "codec miss match : $codec(client) vs $checkCodec(expect)"
-                        )
-                    }
-
-                    // finish this task
-                    return@launch
+            if (isClose) return@launch
+            var codec: String? = null
+            var retryCount = 0
+            while (codec.isNullOrBlank() && retryCount < 5) {
+                codec = getCodec(subscription)
+                if (codec.isNullOrBlank()) {
+                    delay(500)
+                    retryCount++
                 }
-                delay(500)
+            }
+
+            if (!codec.isNullOrBlank()) {
+                if (codec == checkCodec) {
+                    listener.onTaskSuccessHandler?.invoke(
+                        subscription.publication.publisher!!.id,
+                        params.requestId,
+                        params.taskId
+                    )
+                } else {
+                    listener.onTaskFailedHandler?.invoke(
+                        params.requestId,
+                        "codec miss match : $codec(client) vs $checkCodec(expect)"
+                    )
+                }
+
+                // finish this task
+                return@launch
             }
         }
     }
