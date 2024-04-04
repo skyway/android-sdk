@@ -62,7 +62,7 @@ void RemoteMemberBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j
 
 jstring RemoteMemberBridge::Metadata(JNIEnv* env, jobject j_this, jlong member) {
     auto metadata = ((RemoteMember*)member)->Metadata();
-    return env->NewStringUTF(metadata->c_str());
+    return metadata ? env->NewStringUTF(metadata->c_str()) : env->NewStringUTF("");
 }
 
 jstring RemoteMemberBridge::State(JNIEnv* env, jobject j_this, jlong member) {

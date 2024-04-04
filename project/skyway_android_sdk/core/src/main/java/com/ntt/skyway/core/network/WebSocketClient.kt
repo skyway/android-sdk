@@ -30,6 +30,11 @@ class WebSocketClient {
             nativeOnMessage(nativePointer, text)
         }
 
+        override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+            Logger.logD("Closing: $code $reason")
+            webSocket.close(code, reason)
+        }
+
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
             Logger.logD("Closed: $code $reason")
             updateState(ConnectionState.CLOSED)
@@ -43,15 +48,16 @@ class WebSocketClient {
         }
     }
 
-    private fun connect(url: String, subProtocol: String, nativePointer: Long) {
+    private fun connect(url: String, subProtocols: Array<String>, headers: Array<WebSocketHeader>, nativePointer: Long) {
         Logger.logD("Connect start")
         this.nativePointer = nativePointer
         updateState(ConnectionState.CONNECTING)
-
-        request = Request.Builder()
-            .addHeader("Sec-WebSocket-Protocol", subProtocol)
-            .url(url)
-            .build()
+        val request = Request.Builder().apply {
+            this.addHeader("Sec-WebSocket-Protocol", subProtocols.joinToString())
+            headers.forEach {
+                this.addHeader(it.key, it.value)
+            }
+        }.url(url).build()
         ws = client.newWebSocket(request, webSocketListener)
     }
 
@@ -72,6 +78,14 @@ class WebSocketClient {
     private fun updateState(state: ConnectionState) {
         Logger.logD("Update status: $state, ${this.hashCode()}")
         connectionState = state
+    }
+
+    private fun createHeader(key: String, value: String): WebSocketHeader {
+        return WebSocketHeader(key, value)
+    }
+
+    private fun createHeaderArray(length: Int): Array<WebSocketHeader> {
+        return Array(length){WebSocketHeader("", "")}
     }
 
     private external fun nativeOnConnect(nativePointer: Long)

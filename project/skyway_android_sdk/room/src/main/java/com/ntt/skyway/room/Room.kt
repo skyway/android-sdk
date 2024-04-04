@@ -36,7 +36,7 @@ abstract class Room internal constructor(private val channel: Channel) {
     /**
      *  このRoomのname。
      */
-    val name: String
+    val name: String?
         get() = channel.name
 
     /**
@@ -47,7 +47,7 @@ abstract class Room internal constructor(private val channel: Channel) {
     /**
      *  このRoomのMetadata。
      */
-    val metadata: String
+    val metadata: String?
         get() = channel.metadata
 
     /**
@@ -154,6 +154,7 @@ abstract class Room internal constructor(private val channel: Channel) {
 
     /**
      * StreamがSubscribeされた時に発火するハンドラ。
+     * Subscriptionにはまだstreamがsetされていない可能性があります。
      */
     var onPublicationSubscribedHandler: ((subscription: RoomSubscription) -> Unit)? = null
 

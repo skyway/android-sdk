@@ -5,14 +5,13 @@
 package com.ntt.skyway.room
 
 
-import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.channel.Channel
-import com.ntt.skyway.core.content.Codec
-import com.ntt.skyway.core.content.Encoding
-import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
+import com.ntt.skyway.core.content.Codec
+import com.ntt.skyway.core.content.Encoding
+import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.WebRTCStats
 import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.util.Logger
@@ -155,6 +154,7 @@ class RoomPublication internal constructor(
 
     /**
      * このRoomPublicationのSubscribeされた時に発火するハンドラ。
+     * Subscriptionにはまだstreamがsetされていない可能性があります。
      */
     var onSubscribedHandler: ((subscription: RoomSubscription) -> Unit)? = null
         set(value) {
@@ -308,12 +308,7 @@ class RoomPublication internal constructor(
         return origin?.replaceStream(stream) ?: publication.replaceStream(stream)
     }
 
-    /**
-     *  統計情報を取得します。
-     *  experimentalな機能です。
-     *  @param remoteMemberId 対象の[RemoteMember]のID
-     */
-    @SkyWayOptIn
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     fun getStats(remoteMemberId: String): WebRTCStats? {
         val origin = publication.origin
         if (origin == null) {

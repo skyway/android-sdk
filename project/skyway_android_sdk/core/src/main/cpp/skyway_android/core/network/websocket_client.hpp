@@ -11,6 +11,7 @@
 #include <future>
 #include <thread>
 #include <vector>
+#include <unordered_map>
 
 #include <skyway/network/interface/websocket_client.hpp>
 
@@ -36,6 +37,9 @@ public:
     void RegisterListener(Listener* listener) override;
 
     std::future<bool> Connect(const std::string& url, const std::string& sub_protocol) override;
+    std::future<bool> Connect(const std::string& url,
+                              const std::vector<std::string>& sub_protocols,
+                              const std::unordered_map<std::string, std::string>& headers) override;
     std::future<bool> Send(const std::string& message) override;
     std::future<bool> Close(const int code, const std::string& reason) override;
     std::future<bool> Destroy() override;
@@ -48,6 +52,8 @@ public:
     Listener* _listener;
 
 private:
+    jobjectArray _CreateJSubprotocols(JNIEnv* env, const std::vector<std::string>& sub_protocols);
+    jobjectArray _CreateJHeaders(JNIEnv* env, const std::unordered_map<std::string, std::string>& headers);
     jobject _j_ws;
     bool _is_connecting;
     std::promise<bool> _connect_promise;

@@ -25,12 +25,12 @@ abstract class RoomMember internal constructor(
         /**
          * RoomMemberの名前。
          */
-        val name: String,
+        val name: String? = null,
 
         /**
          * RoomMemberのMetadata。
          */
-        val metadata: String? = "",
+        val metadata: String? = null,
 
         /**
          * 生存確認の間隔。
@@ -47,13 +47,13 @@ abstract class RoomMember internal constructor(
     /**
      * このRoomMemberの名前。
      */
-    val name: String
+    val name: String?
         get() = member.name
 
     /**
      * このRoomMemberのMetadata。
      */
-    val metadata: String
+    val metadata: String?
         get() = member.metadata
 
     /**

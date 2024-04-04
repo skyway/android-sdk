@@ -18,6 +18,7 @@
 #include "core/util/register_methods_helper.hpp"
 #include "core/util/jstring_to_string.hpp"
 #include "core/channel/channel_util.hpp"
+#include "core/platform/platform_info_delegator.hpp"
 
 namespace skyway_android {
 namespace core {
@@ -78,6 +79,7 @@ jboolean ContextBridge::Setup(JNIEnv* env, jobject j_this, jstring j_auth_token,
     auto http_ptr = http.get();
 
     auto ws_factory = std::make_unique<network::WebSocketClientFactory>(j_ws_factory);
+    auto platform_info = std::make_unique<platform::PlatformInfoDelegator>();
     auto logger = std::make_unique<logger_util::Logger>(j_logger);
     auto listener = new ContextEventListener(j_this);
     auto auth_token_manager_listener = new AuthTokenManagerEventListener(j_this);
@@ -89,7 +91,7 @@ jboolean ContextBridge::Setup(JNIEnv* env, jobject j_this, jstring j_auth_token,
     ApplyContextOptions(options, options_json);
     options.token.listener = auth_token_manager_listener;
 
-    auto setup_result = Context::Setup(auth_token, std::move(http), std::move(ws_factory), std::move(logger), listener, options);
+    auto setup_result = Context::Setup(auth_token, std::move(http), std::move(ws_factory), std::move(platform_info), std::move(logger), listener, options);
 
     if (!setup_result) {
         return false;
@@ -196,6 +198,15 @@ void ContextBridge::ApplyContextOptions(ContextOptions& options, nlohmann::json&
         }
         if(signaling.contains("secure")) {
             options.signaling.secure = signaling["secure"];
+        }
+    }
+    if(options_json.contains("analytics")) {
+        auto analytics = options_json["analytics"];
+        if(analytics.contains("domain")) {
+            options.analytics.domain = analytics["domain"];
+        }
+        if(analytics.contains("secure")) {
+            options.analytics.secure = analytics["secure"];
         }
     }
     if(options_json.contains("rtcConfig")) {

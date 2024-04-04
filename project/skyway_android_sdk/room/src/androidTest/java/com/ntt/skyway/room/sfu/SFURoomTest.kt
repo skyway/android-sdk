@@ -228,4 +228,26 @@ class SFURoomTest {
         channel?.leave(bot!!)
         assertNull(room?.bot)
     }
+
+    @Test
+    fun room_Member_NameAndMetadataNullable() = runBlocking {
+        val aliceRoom = SFURoom.create()
+        assertNotNull(aliceRoom)
+        assertTrue(aliceRoom?.name == null)
+        assertTrue(aliceRoom?.metadata == null)
+        val bobRoom = SFURoom.find(id = aliceRoom?.id)
+        assertNotNull(bobRoom)
+        val alice = aliceRoom?.join(RoomMember.Init())
+        assertNotNull(alice)
+        assertTrue(alice?.name == null)
+        assertTrue(alice?.metadata == null)
+        val bob = bobRoom?.join(RoomMember.Init())
+        assertNotNull(bob)
+        assertTrue(bob?.name == null)
+        assertTrue(bob?.metadata == null)
+        val bobRemoteMember = aliceRoom?.members?.firstOrNull { it.id != alice?.id }
+        assertNotNull(bobRemoteMember)
+        assertTrue(bobRemoteMember?.name == null)
+        assertTrue(bobRemoteMember?.metadata == null)
+    }
 }

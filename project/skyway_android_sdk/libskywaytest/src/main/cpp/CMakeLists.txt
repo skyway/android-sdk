@@ -74,6 +74,7 @@ FILE( GLOB_RECURSE ANDROID_CONTEXT ../../../../core/src/main/cpp/skyway_android/
 FILE( GLOB_RECURSE ANDROID_EVENT_LISTENER ../../../../core/src/main/cpp/skyway_android/core/event_listener.cpp )
 FILE( GLOB_RECURSE ANDROID_UTIL ../../../../core/src/main/cpp/skyway_android/core/util/*.cpp )
 FILE( GLOB_RECURSE ANDROID_NETWORK ../../../../core/src/main/cpp/skyway_android/core/network/*.cpp )
+FILE( GLOB_RECURSE ANDROID_PLATFORM ../../../../core/src/main/cpp/skyway_android/core/platform/*.cpp )
 FILE( GLOB_RECURSE ANDROID_WRAPPER wrapper/*.cpp )
 
 add_library(nativetest SHARED
@@ -85,6 +86,7 @@ add_library(nativetest SHARED
         ${ANDROID_EVENT_LISTENER}
         ${ANDROID_NETWORK}
         ${ANDROID_UTIL}
+        ${ANDROID_PLATFORM}
         ${ANDROID_WRAPPER}
         nativetest.cpp)
 

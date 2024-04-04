@@ -3,9 +3,8 @@
  */
 
 package com.ntt.skyway.core.content
-/**
- *  統計情報の一覧。
- */
+
+@Deprecated("This API is deprecated.", ReplaceWith("", ""))
 data class WebRTCStats(
     val reports: List<WebRTCStatsReport>
 )

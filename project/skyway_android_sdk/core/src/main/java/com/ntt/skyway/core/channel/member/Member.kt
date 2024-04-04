@@ -20,11 +20,11 @@ interface Member {
         /**
          * 名前。
          */
-        val name: String,
+        val name: String? = null,
         /**
          * Metadata。
          */
-        val metadata: String? = "",
+        val metadata: String? = null,
         /**
          * 生存確認の間隔。
          */
@@ -76,7 +76,7 @@ interface Member {
     data class Dto(
         val channel: Channel,
         val id: String,
-        val name: String,
+        val name: String?,
         val nativePointer: Long
     )
 
@@ -93,7 +93,7 @@ interface Member {
     /**
      * このMemberの名前。
      */
-    val name: String
+    val name: String?
 
     val nativePointer: Long
 
@@ -115,7 +115,7 @@ interface Member {
     /**
      * このMemberのMetadata。
      */
-    val metadata: String
+    val metadata: String?
 
     /**
      * このMemberの状態。

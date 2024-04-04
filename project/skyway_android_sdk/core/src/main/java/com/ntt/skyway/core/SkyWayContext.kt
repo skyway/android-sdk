@@ -43,6 +43,7 @@ object SkyWayContext {
         val rtcApi: RtcApi? = null,
         val iceParams: IceParams? = null,
         val signaling: Signaling? = null,
+        val analytics: Analytics? = null,
         val rtcConfig: RtcConfig? = null,
         val sfu: Sfu? = null,
         val token: Token? = null,
@@ -72,6 +73,15 @@ object SkyWayContext {
     }
 
     data class Signaling(
+        val domain: String? = null,
+        val secure: Boolean? = null
+    ) {
+        internal fun toJson(): String {
+            return Gson().toJson(this)
+        }
+    }
+
+    data class Analytics(
         val domain: String? = null,
         val secure: Boolean? = null
     ) {

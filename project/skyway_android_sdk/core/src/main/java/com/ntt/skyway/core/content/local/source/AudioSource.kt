@@ -21,14 +21,13 @@ object AudioSource {
     val isStarted
         get() = _isStarted
 
-    @SkyWayOptIn
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     var onAudioBufferHandler: ((buffer: ByteBuffer) -> Unit)? = null
 
     @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     val audioRecord
         get() = null
 
-    @OptIn(SkyWayOptIn::class)
     internal val onAudioBufferListener =
         WebRtcAudioRecord.OnAudioBufferListener { buffer ->
             onAudioBufferHandler?.invoke(buffer)

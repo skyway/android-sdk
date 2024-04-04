@@ -279,4 +279,26 @@ class ChannelTest {
         aliceChannel?.dispose()
         assertTrue(alice?.metadata != "metadata")
     }
+
+    @Test
+    fun channel_Member_NameAndMetadataNullable() = runBlocking {
+        val aliceChannel = Channel.create()
+        assertNotNull(aliceChannel)
+        assertTrue(aliceChannel?.name == null)
+        assertTrue(aliceChannel?.metadata == null)
+        val bobChannel = Channel.find(id = aliceChannel?.id)
+        assertNotNull(bobChannel)
+        val alice = aliceChannel?.join(Member.Init())
+        assertNotNull(alice)
+        assertTrue(alice?.name == null)
+        assertTrue(alice?.metadata == null)
+        val bob = bobChannel?.join(Member.Init())
+        assertNotNull(bob)
+        assertTrue(bob?.name == null)
+        assertTrue(bob?.metadata == null)
+        val bobRemoteMember = aliceChannel?.members?.firstOrNull { it.id != alice?.id }
+        assertNotNull(bobRemoteMember)
+        assertTrue(bobRemoteMember?.name == null)
+        assertTrue(bobRemoteMember?.metadata == null)
+    }
 }
