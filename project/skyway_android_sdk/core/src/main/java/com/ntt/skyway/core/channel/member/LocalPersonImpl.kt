@@ -20,7 +20,7 @@ import kotlinx.coroutines.withContext
 class LocalPersonImpl internal constructor(
     override val channel: Channel,
     override val id: String,
-    override val name: String,
+    override val name: String?,
     override val nativePointer: Long,
     private val repository: Repository
 ) : LocalPerson() {
@@ -29,8 +29,8 @@ class LocalPersonImpl internal constructor(
 
     override val side = Member.Side.LOCAL
 
-    override val metadata: String
-        get() = nativeMetadata(nativePointer)
+    override val metadata: String?
+        get() = nativeMetadata(nativePointer).takeUnless { it.isBlank() }
 
     override val state: Member.State
         get() = Member.State.fromString(nativeState(nativePointer))

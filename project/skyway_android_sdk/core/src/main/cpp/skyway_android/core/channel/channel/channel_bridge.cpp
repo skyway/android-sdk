@@ -156,7 +156,7 @@ jstring ChannelBridge::FindOrCreate(JNIEnv* env, jobject j_this, jstring j_chann
 
 jstring ChannelBridge::Metadata(JNIEnv* env, jobject j_this, jlong channel) {
     auto metadata = ((Channel*)channel)->Metadata();
-    return env->NewStringUTF(metadata->c_str());
+    return metadata ? env->NewStringUTF(metadata->c_str()) : env->NewStringUTF("");
 }
 
 jstring ChannelBridge::State(JNIEnv* env, jobject j_this, jlong channel) {
@@ -196,8 +196,21 @@ jstring ChannelBridge::Join(JNIEnv* env, jobject j_this, jlong channel, jstring 
         member_init.type = skyway::model::MemberType::kBot;
     }
     member_init.subtype = JStringToStdString(env, j_subtype);
-    member_init.name = JStringToStdString(env, j_name);
-    member_init.metadata = JStringToStdString(env, j_metadata);
+
+    auto name = JStringToStdString(env, j_name);
+    if(!name.empty()) {
+        member_init.name = name;
+    } else {
+        member_init.name = boost::none;
+    }
+
+    auto metadata = JStringToStdString(env, j_metadata);
+    if(!metadata.empty()) {
+        member_init.metadata = metadata;
+    } else {
+        member_init.metadata = boost::none;
+    }
+
     if(keepalive_interval_sec == 0) {
         member_init.keepalive_interval_sec = boost::none;
     } else {

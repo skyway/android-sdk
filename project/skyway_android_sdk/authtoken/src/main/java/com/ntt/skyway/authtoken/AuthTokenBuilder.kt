@@ -22,6 +22,7 @@ object AuthTokenBuilder {
                 app: {
                     id: "${app_id}",
                     turn: true,
+                    analytics: true,
                     actions: ["read"],
                     channels: [
                         {

@@ -66,6 +66,8 @@ interface Subscription {
 
     /**
      * このSubscriptionのStream。
+     * `LocalPerson.subscribe`の返り値でSubscriptionを入手した場合、入手時点で値がsetされています。
+     * その他、イベントの発火によってSubscriptionを取得した場合、まだ値がsetされていない可能性があります。
      */
     val stream: RemoteStream?
 
@@ -105,10 +107,7 @@ interface Subscription {
      */
     fun changePreferredEncoding(id: String)
 
-    /**
-     *  統計情報を取得します。
-     *  experimentalな機能です。
-     */
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     fun getStats(): WebRTCStats?
 
     /**

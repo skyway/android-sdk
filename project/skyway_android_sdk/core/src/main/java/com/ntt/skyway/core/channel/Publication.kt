@@ -6,7 +6,6 @@ package com.ntt.skyway.core.channel
 
 import com.google.gson.Gson
 import com.ntt.skyway.core.channel.member.Member
-import com.ntt.skyway.core.channel.member.RemoteMember
 import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
@@ -138,6 +137,7 @@ interface Publication {
 
     /**
      * このPublicationのSubscribeされた時に発火するハンドラ。
+     * Subscriptionにはまだstreamがsetされていない可能性があります。
      */
     var onSubscribedHandler: ((subscription: Subscription) -> Unit)?
 
@@ -207,10 +207,6 @@ interface Publication {
      */
     fun replaceStream(stream: LocalStream): Boolean
 
-    /**
-     *  統計情報を取得します。
-     *  experimentalな機能です。
-     *  @param remoteMemberId 対象の[RemoteMember]のID
-     */
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     fun getStats(remoteMemberId: String): WebRTCStats?
 }

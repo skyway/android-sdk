@@ -4,11 +4,10 @@
 
 package com.ntt.skyway.room
 
-import com.ntt.skyway.core.SkyWayOptIn
-import com.ntt.skyway.core.content.Stream
-import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.core.channel.Subscription
+import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.WebRTCStats
+import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.room.member.RoomMember
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -77,6 +76,8 @@ class RoomSubscription internal constructor(
 
     /**
      * このRoomSubscriptionの[Stream]。
+     * `LocalRoomMember.subscribe`の返り値でSubscriptionを入手した場合、入手時点で値がsetされています。
+     * その他、イベントの発火によってSubscriptionを取得した場合、まだ値がsetされていない可能性があります。
      */
     val stream: RemoteStream?
         get() = subscription.stream
@@ -117,11 +118,7 @@ class RoomSubscription internal constructor(
         subscription.changePreferredEncoding(preferredEncodingId)
     }
 
-    /**
-     *  統計情報を取得します。
-     *  experimentalな機能です。
-     */
-    @SkyWayOptIn
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     fun getStats(): WebRTCStats? {
         return subscription.getStats()
     }

@@ -56,6 +56,7 @@ abstract class LocalRoomMember internal constructor(
 
     /**
      * PublicationをSubscribeした時に発火するハンドラ。
+     * Subscriptionにはまだstreamがsetされていない可能性があります。
      */
     var onPublicationSubscribedHandler: ((subscription: RoomSubscription) -> Unit)? = null
         set(value) {
@@ -79,10 +80,10 @@ abstract class LocalRoomMember internal constructor(
         }
 
     /**
-     *  [LocalStream]をpublishします。
+     *  [LocalStream]をpublishします。既にpublish中のStreamは指定することができません。
      *  [Room.onStreamPublishedHandler]が発火します。
      *
-     *  @param localStream publishするStream。既にpublish中のStreamは指定することができません。
+     *  @param localStream publishするStream。
      */
     open suspend fun publish(
         localStream: LocalStream,

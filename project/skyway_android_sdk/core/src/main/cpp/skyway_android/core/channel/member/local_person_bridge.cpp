@@ -94,7 +94,7 @@ void LocalPersonBridge::AddEventListener(JNIEnv* env, jobject j_this, jstring j_
 
 jstring LocalPersonBridge::Metadata(JNIEnv* env, jobject j_this, jlong member) {
     auto metadata = ((LocalPerson*)member)->Metadata();
-    return env->NewStringUTF(metadata->c_str());
+    return metadata ? env->NewStringUTF(metadata->c_str()) : env->NewStringUTF("");
 }
 
 jstring LocalPersonBridge::State(JNIEnv* env, jobject j_this, jlong member) {

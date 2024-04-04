@@ -101,6 +101,7 @@ class PublicationImpl internal constructor(
         return nativeReplaceStream(nativePointer, stream.nativePointer)
     }
 
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     override fun getStats(remoteMemberId: String): WebRTCStats? {
         nativeGetStats(remoteMemberId, nativePointer)?.let {
             return Factory.createWebRTCStats(it)

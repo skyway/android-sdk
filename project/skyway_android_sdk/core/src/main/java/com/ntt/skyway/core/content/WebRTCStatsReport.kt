@@ -5,9 +5,8 @@
 package com.ntt.skyway.core.content
 
 import com.google.gson.JsonElement
-/**
- *  統計情報。
- */
+
+@Deprecated("This API is deprecated.", ReplaceWith("", ""))
 data class WebRTCStatsReport(
     /**
      *  統計情報のID。

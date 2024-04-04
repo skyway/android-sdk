@@ -62,12 +62,12 @@ interface Channel {
     /**
      * このChannelの名前。
      */
-    val name: String
+    val name: String?
 
     /**
      *  このChannelのMetadata。
      */
-    val metadata: String
+    val metadata: String?
 
     /**
      *  このChannelの状態。
@@ -166,6 +166,7 @@ interface Channel {
 
     /**
      * このChannel内のPublicationがSubscribeされた時に発火するハンドラ。
+     * Subscriptionにはまだstreamがsetされていない可能性があります。
      */
     var onPublicationSubscribedHandler: ((subscription: Subscription) -> Unit)?
 

@@ -20,7 +20,7 @@ internal class Factory(private val channel: ChannelImpl) {
             val dto = Gson().fromJson(channelJson, JsonObject::class.java)
             val channel = ChannelImpl(
                 id = dto.get("id").asString,
-                name = dto.get("name").asString,
+                name = dto.get("name").asString.takeUnless { it.isBlank() },
                 nativePointer = dto.get("nativePointer").asLong
             )
 
@@ -55,7 +55,7 @@ internal class Factory(private val channel: ChannelImpl) {
             Member.Dto(
                 channel = channel,
                 id = dto.get("id").asString,
-                name = dto.get("name").asString,
+                name = dto.get("name").asString.takeUnless { it.isBlank() },
                 nativePointer = dto.get("nativePointer").asLong,
             ),
             repository = channel.repository
@@ -67,7 +67,7 @@ internal class Factory(private val channel: ChannelImpl) {
         val memberDto = Member.Dto(
             channel = channel,
             id = dto.get("id").asString,
-            name = dto.get("name").asString,
+            name = dto.get("name").asString.takeUnless { it.isBlank() },
             nativePointer = dto.get("nativePointer").asLong,
         )
         val subtype = dto.get("subtype").asString

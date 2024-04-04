@@ -32,6 +32,7 @@ abstract class LocalPerson : Member {
 
     /**
      * このLocalPersonがsubscribeした時に発火するハンドラ。
+     * Subscriptionにはまだstreamがsetされていない可能性があります。
      */
     abstract var onPublicationSubscribedHandler: ((subscription: Subscription) -> Unit)?
 
@@ -41,7 +42,9 @@ abstract class LocalPerson : Member {
     abstract var onPublicationUnsubscribedHandler: ((subscription: Subscription) -> Unit)?
 
     /**
-     *  Streamをpublishします。
+     *  Streamをpublishします。既にpublish中のStreamは指定することができません。
+     *
+     *  @param localStream publishするStream。
      */
     abstract suspend fun publish(
         localStream: LocalStream, options: Publication.Options? = null
@@ -56,6 +59,8 @@ abstract class LocalPerson : Member {
 
     /**
      *  Publicationをsubscribeします。
+     *  `LocalPerson.subscribe`の返り値でSubscriptionを入手した場合、入手時点で値がsetされています。
+     *  その他、イベントの発火によってSubscriptionを取得した場合、まだ値がsetされていない可能性があります。
      */
     abstract suspend fun subscribe(
         publicationId: String, options: Subscription.Options? = null

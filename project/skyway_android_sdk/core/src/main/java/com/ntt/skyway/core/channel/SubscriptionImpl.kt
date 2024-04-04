@@ -48,6 +48,7 @@ class SubscriptionImpl internal constructor(
         nativeChangePreferredEncoding(nativePointer, id)
     }
 
+    @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     override fun getStats(): WebRTCStats? {
         nativeGetStats(nativePointer)?.let {
             return Factory.createWebRTCStats(it)

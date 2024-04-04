@@ -102,11 +102,38 @@ std::future<bool> WebSocketClient::Connect(const std::string& url, const std::st
 
     auto env = core::ContextBridge::AttachCurrentThread();
     auto j_url = env->NewStringUTF(url.c_str());
-    auto j_sub_protocol = env->NewStringUTF(sub_protocol.c_str());
-    auto signature = "(Ljava/lang/String;Ljava/lang/String;J)V";
+    auto j_sub_protocols = _CreateJSubprotocols(env, std::vector<std::string>{sub_protocol});
+    auto j_headers = _CreateJHeaders(env, std::unordered_map<std::string, std::string>{});
+    auto signature = "(Ljava/lang/String;[Ljava/lang/String;[Lcom/ntt/skyway/core/network/WebSocketHeader;J)V";
     jlong ptr = NativeToJlong(this);
-    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocol, ptr);
+    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocols, j_headers, ptr);
+    env->DeleteLocalRef(j_sub_protocols);
+    env->DeleteLocalRef(j_headers);
     return _connect_promise.get_future();
+}
+
+
+std::future<bool> WebSocketClient::Connect(const std::string& url,
+                          const std::vector<std::string>& sub_protocols,
+                          const std::unordered_map<std::string, std::string>& headers) {
+    std::unique_lock<std::mutex> lk(_connect_mtx);
+    _is_connecting = true;
+    _is_closed = false;
+
+    std::promise<bool> p;
+    _connect_promise = std::move(p);
+
+    auto env = core::ContextBridge::AttachCurrentThread();
+    auto j_url = env->NewStringUTF(url.c_str());
+    auto j_sub_protocols = _CreateJSubprotocols(env, sub_protocols);
+    auto j_headers = _CreateJHeaders(env, headers);
+    auto signature = "(Ljava/lang/String;[Ljava/lang/String;[Lcom/ntt/skyway/core/network/WebSocketHeader;J)V";
+    jlong ptr = NativeToJlong(this);
+    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocols, j_headers, ptr);
+    env->DeleteLocalRef(j_sub_protocols);
+    env->DeleteLocalRef(j_headers);
+    return _connect_promise.get_future();
+
 }
 
 std::future<bool> WebSocketClient::Send(const std::string& message) {
@@ -200,16 +227,19 @@ void WebSocketClient::_OnClose(int code) {
 }
 
 void WebSocketClient::_OnError(int code) {
+    if (_is_closing) {
+        _close_promise.set_value(false);
+        SKW_ERROR("Websocket error occurred when closing.");
+    }
     _is_closed = true;
     if (_is_connecting) {
         _connect_promise.set_value(false);
-        _is_connecting = false;
-        return;
+        SKW_ERROR("Websocket error occurred when connecting.");
     }
 
-    if (_is_closing) {
-        _close_promise.set_value(false);
+    if (_is_closing || _is_connecting){
         _is_closing = false;
+        _is_connecting = false;
         return;
     }
 
@@ -219,6 +249,35 @@ void WebSocketClient::_OnError(int code) {
         _listener->OnError(code);
     });
     _workers.emplace_back(std::move(worker));
+}
+
+
+jobjectArray WebSocketClient::_CreateJSubprotocols(JNIEnv* env, const std::vector<std::string>& sub_protocols) {
+    auto j_str_class = env->FindClass("java/lang/String");
+    auto j_sub_protocols = env->NewObjectArray(sub_protocols.size(), j_str_class, env->NewStringUTF(""));
+    for (int i = 0; i < sub_protocols.size(); i++) {
+        auto j_sub_protocol = env->NewStringUTF(sub_protocols[i].c_str());
+        env->SetObjectArrayElement(j_sub_protocols, i, j_sub_protocol);
+    }
+    return j_sub_protocols;
+}
+
+jobjectArray WebSocketClient::_CreateJHeaders(JNIEnv* env, const std::unordered_map<std::string, std::string>& headers){
+    auto header_array_signature = "(I)[Lcom/ntt/skyway/core/network/WebSocketHeader;";
+    auto j_ws_class = env->GetObjectClass(_j_ws);
+    auto j_create_header_array = env->GetMethodID(j_ws_class, "createHeaderArray", header_array_signature);
+    jobjectArray j_headers = (jobjectArray)(env->CallObjectMethod(_j_ws, j_create_header_array, headers.size()));
+    auto header_signature = "(Ljava/lang/String;Ljava/lang/String;)Lcom/ntt/skyway/core/network/WebSocketHeader;";
+    auto j_create_header = env->GetMethodID(j_ws_class, "createHeader", header_signature);
+    int index = 0;
+    for (auto itr = headers.begin(); itr != headers.end(); itr++) {
+        auto j_header_key = env->NewStringUTF(itr->first.c_str());
+        auto j_header_val = env->NewStringUTF(itr->second.c_str());
+        auto j_header = env->CallObjectMethod(_j_ws, j_create_header, j_header_key, j_header_val);
+        env->SetObjectArrayElement((jobjectArray)j_headers, index, j_header);
+        index++;
+    }
+    return j_headers;
 }
 
 }  // namespace network

@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChannelImpl internal constructor(
-    override val id: String, override val name: String, val nativePointer: Long
+    override val id: String, override val name: String?, val nativePointer: Long
 ) : Channel {
     companion object {
         @JvmStatic
@@ -60,8 +60,8 @@ class ChannelImpl internal constructor(
         ): String?
     }
 
-    override val metadata: String
-        get() = nativeMetadata(nativePointer)
+    override val metadata: String?
+        get() = nativeMetadata(nativePointer).takeUnless { it.isBlank() }
 
     override val state: Channel.State
         get() = Channel.State.fromString(nativeState(nativePointer))

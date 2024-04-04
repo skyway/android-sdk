@@ -14,11 +14,11 @@ import kotlinx.coroutines.withContext
 abstract class RemoteMemberImpl internal constructor(
     final override val channel: Channel,
     override val id: String,
-    override val name: String,
+    override val name: String?,
     final override val nativePointer: Long
 ) : RemoteMember() {
-    override val metadata: String
-        get() = nativeMetadata(nativePointer)
+    override val metadata: String?
+        get() = nativeMetadata(nativePointer).takeUnless { it.isBlank() }
 
     override val state: Member.State
         get() = Member.State.fromString(nativeState(nativePointer))
