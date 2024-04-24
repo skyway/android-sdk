@@ -2,6 +2,7 @@ package com.ntt.skyway.core
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.media.AudioDeviceInfo
 import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.content.local.source.VideoSource
 import com.ntt.skyway.core.util.Logger
@@ -42,7 +43,7 @@ internal object WebRTCManager {
     private lateinit var audioDeviceModule: JavaAudioDeviceModule
     private lateinit var pcFactory: PeerConnectionFactory
 
-    fun setup(context: Context, enableHardwareCodec: Boolean) {
+    fun setup(context: Context, enableHardwareCodec: Boolean, audioSource: Int?) {
         val options = PeerConnectionFactory.InitializationOptions.builder(context)
             .setInjectableLogger(WebRTCLog(), Logging.Severity.LS_VERBOSE)
             .createInitializationOptions()
@@ -69,9 +70,10 @@ internal object WebRTCManager {
         }
 
         val audioDeviceModuleBuilder = JavaAudioDeviceModule.builder(context)
-        audioDeviceModule = audioDeviceModuleBuilder
-            .setAudioRecordStateCallback(audioRecordStateCallback)
-            .createAudioDeviceModule()
+        audioDeviceModule = audioDeviceModuleBuilder.apply {
+            setAudioRecordStateCallback(audioRecordStateCallback)
+            audioSource?.let { setAudioSource(audioSource) }
+        }.createAudioDeviceModule()
 
         audioDeviceModule.audioInput.onAudioBufferListener = AudioSource.onAudioBufferListener
 
@@ -112,6 +114,10 @@ internal object WebRTCManager {
     fun stopRecording() {
         check(isSetup) { "Please setup first" }
         audioDeviceModule.audioInput.audioRecord?.stop()
+    }
+
+    fun setPreferredInputDevice(audioDeviceInfo: AudioDeviceInfo) {
+        audioDeviceModule.setPreferredInputDevice(audioDeviceInfo)
     }
 
     fun dispose() {

@@ -25,7 +25,8 @@ class App : Application() {
             authToken,
             logLevel,
             rtcConfig = SkyWayContext.RtcConfig(policy = SkyWayContext.TurnPolicy.ENABLE),
-//            webRTCLog = true
+//            webRTCLog = true,
+//            audioSource = MediaRecorder.AudioSource.MIC
         )
         val channelManager = ChannelManager()
         val roomManager = RoomManager()
@@ -61,5 +62,9 @@ class App : Application() {
                 showMessage("setup success")
             }
         }
+
+         // When use bluetooth headset
+//        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
+//        audioManager.startBluetoothSco()
     }
 }

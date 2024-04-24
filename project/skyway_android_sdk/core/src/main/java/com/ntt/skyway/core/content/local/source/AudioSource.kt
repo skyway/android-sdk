@@ -4,6 +4,7 @@
 
 package com.ntt.skyway.core.content.local.source
 
+import android.media.AudioDeviceInfo
 import android.media.AudioRecord
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.local.LocalAudioStream
@@ -53,6 +54,13 @@ object AudioSource {
     fun stop() {
         WebRTCManager.stopRecording()
         _isStarted = false
+    }
+
+    /**
+     *  優先音声入力デバイスを設定します。
+     */
+    fun setPreferredInputDevice(audioDeviceInfo: AudioDeviceInfo) {
+        WebRTCManager.setPreferredInputDevice(audioDeviceInfo)
     }
 
     @Deprecated("This API is deprecated.", ReplaceWith("", ""))
