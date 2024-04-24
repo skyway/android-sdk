@@ -34,12 +34,15 @@ object SkyWayContext {
      *  @param authToken 認証トークン。
      *  @param logLevel SkyWayのログレベル。
      *  @param webRTCLog SkyWayのログの内、特にWebRTCに関するログを出力するか。
+     *  @param enableHardwareCodec ハードウェアコーデックを利用するか。
+     *  @param audioSource AudioSourceが集音する際に利用するAudioSource。MediaRecorder.AudioSourceのうち、有効な値を指定してください。
      */
     data class Options(
         val authToken: String,
         val logLevel: Logger.LogLevel = Logger.LogLevel.INFO,
         val webRTCLog: Boolean = false,
         val enableHardwareCodec: Boolean = true,
+        val audioSource: Int? = null,
         val rtcApi: RtcApi? = null,
         val iceParams: IceParams? = null,
         val signaling: Signaling? = null,
@@ -199,7 +202,7 @@ object SkyWayContext {
         Logger.logLevel = option.logLevel
         Logger.webRTCLog = option.webRTCLog
 
-        WebRTCManager.setup(context, option.enableHardwareCodec)
+        WebRTCManager.setup(context, option.enableHardwareCodec, option.audioSource)
         isSetup = nativeSetup(
             option.authToken,
             option.toJson(),

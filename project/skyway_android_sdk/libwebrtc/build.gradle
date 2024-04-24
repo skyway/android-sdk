@@ -2,6 +2,8 @@ plugins {
     id 'maven-publish'
 }
 
+def libwebrtcVer = rootProject.ext.libwebrtcVer
+
 configurations.maybeCreate("default")
 artifacts.add("default", file("libwebrtc.aar"))
 
@@ -25,7 +27,7 @@ publishing {
         GitHubPackages(MavenPublication) {
             groupId "com.ntt.skyway"
             artifactId "libwebrtc"
-            version "1.1.1"
+            version libwebrtcVer
 
             artifact("libwebrtc.aar")
 

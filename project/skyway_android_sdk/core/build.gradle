@@ -6,6 +6,7 @@ plugins {
 }
 
 def SkyWayVer = rootProject.ext.SkyWayVer
+def libwebrtcVer = rootProject.ext.libwebrtcVer
 
 android {
     compileSdk 33
@@ -114,8 +115,8 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.6.4"
 
     // libwebrtc
-//    implementation "com.ntt.skyway:libwebrtc:1.1.1"
-    implementation project(':libwebrtc')
+//    implementation "com.ntt.skyway:libwebrtc:${libwebrtcVer}"
+    implementation project(":libwebrtc")
 }
 
 tasks.dokkaHtml.configure {
