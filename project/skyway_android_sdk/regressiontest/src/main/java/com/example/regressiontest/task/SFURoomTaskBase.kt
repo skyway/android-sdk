@@ -8,8 +8,7 @@ import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.sfu.SFURoom
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.withLock
-import java.util.*
+import java.util.UUID
 
 abstract class SFURoomTaskBase(listener: Listener, params: Params) :
     TaskBase(listener, params) {
@@ -50,5 +49,10 @@ abstract class SFURoomTaskBase(listener: Listener, params: Params) :
                 localSFURoomMember?.subscribe(it.id, options)
             }
         }
+    }
+
+    override fun closeTask() {
+        super.closeTask()
+        sfuRoom?.dispose()
     }
 }

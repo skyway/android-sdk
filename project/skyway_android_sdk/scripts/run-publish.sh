@@ -1,6 +1,6 @@
 #!/bin/bash
 
-modules=("core" "room" "sfubot")
+modules=("core" "sfubot" "room")
 
 read -p "Do you want to perform publishGitHubPackages dry run? (Y/N): " dry_run_choice
 
@@ -36,12 +36,18 @@ do
     # check the exit status of the command
     if [ $? -eq 0 ]; then
         echo "=> publishGitHubPackages for $module completed"
+        mkdir -p outputs-aar
+        cp $module/build/outputs/aar/*.aar outputs-aar/
     else
         echo "=> publishGitHubPackages for $module failed"
     fi
 done
 
 echo "=> publishGitHubPackages for all modules completed"
+
+outputs_aar_location="$(pwd)/outputs-aar"
+echo "=> Outputs AAR location: file://$outputs_aar_location"
+open "$outputs_aar_location"
 
 afplay /$(pwd)/scripts/Ping.aiff
 

@@ -61,15 +61,6 @@ android {
 
 }
 
-afterEvaluate {
-    def outputFileName = file("$buildDir/outputs/aar/skyway-${archivesBaseName}.aar")
-    tasks.named("assembleRelease").configure {
-        doLast {
-            outputFileName.renameTo("${project.rootDir.absolutePath}/${rootProject.ext.output_aar_dir}/skyway-${archivesBaseName}.aar")
-        }
-    }
-}
-
 dependencies {
     // test
     testImplementation 'junit:junit:4.13.2'

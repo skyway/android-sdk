@@ -178,7 +178,7 @@ abstract class TaskBase(protected val listener: Listener, val params: Params) {
         }
     }
 
-    fun closeTask() {
+    open fun closeTask() {
         isClose = true
         job?.cancel()
     }
