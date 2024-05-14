@@ -8,10 +8,12 @@ import com.ntt.skyway.room.RoomSubscription
 import com.ntt.skyway.room.member.LocalRoomMember
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.p2p.P2PRoom
-import kotlinx.coroutines.*
-import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.json.JSONObject
-import java.util.*
+import java.util.UUID
 
 abstract class P2PRoomTaskBase(listener: Listener, params: Params) :
     TaskBase(listener, params) {
@@ -67,5 +69,10 @@ abstract class P2PRoomTaskBase(listener: Listener, params: Params) :
             }
         }
         return localDataStream
+    }
+
+    override fun closeTask() {
+        super.closeTask()
+        p2PRoom?.dispose()
     }
 }

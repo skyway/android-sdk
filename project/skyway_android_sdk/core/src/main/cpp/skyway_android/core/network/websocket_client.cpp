@@ -92,27 +92,6 @@ void WebSocketClient::RegisterListener(Listener* listener) {
     _listener = listener;
 }
 
-std::future<bool> WebSocketClient::Connect(const std::string& url, const std::string& sub_protocol) {
-    std::unique_lock<std::mutex> lk(_connect_mtx);
-    _is_connecting = true;
-    _is_closed = false;
-
-    std::promise<bool> p;
-    _connect_promise = std::move(p);
-
-    auto env = core::ContextBridge::AttachCurrentThread();
-    auto j_url = env->NewStringUTF(url.c_str());
-    auto j_sub_protocols = _CreateJSubprotocols(env, std::vector<std::string>{sub_protocol});
-    auto j_headers = _CreateJHeaders(env, std::unordered_map<std::string, std::string>{});
-    auto signature = "(Ljava/lang/String;[Ljava/lang/String;[Lcom/ntt/skyway/core/network/WebSocketHeader;J)V";
-    jlong ptr = NativeToJlong(this);
-    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocols, j_headers, ptr);
-    env->DeleteLocalRef(j_sub_protocols);
-    env->DeleteLocalRef(j_headers);
-    return _connect_promise.get_future();
-}
-
-
 std::future<bool> WebSocketClient::Connect(const std::string& url,
                           const std::vector<std::string>& sub_protocols,
                           const std::unordered_map<std::string, std::string>& headers) {
