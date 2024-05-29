@@ -4,6 +4,7 @@
 
 package com.ntt.skyway.core.channel
 
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.Stream.ContentType
@@ -22,8 +23,7 @@ class SubscriptionImpl internal constructor(
     override val publication: Publication,
     override val contentType: ContentType,
     override val nativePointer: Long,
-    internal var internalStream: RemoteStream?,
-    private val repository: Repository
+    internal var internalStream: RemoteStream?
 ) : Subscription {
     override val state: Subscription.State
         get() = Subscription.State.fromString(nativeState(nativePointer))
@@ -45,6 +45,10 @@ class SubscriptionImpl internal constructor(
     }
 
     override fun changePreferredEncoding(id: String) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         nativeChangePreferredEncoding(nativePointer, id)
     }
 
@@ -57,6 +61,10 @@ class SubscriptionImpl internal constructor(
     }
 
     override suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeCancel(nativePointer)
     }
 

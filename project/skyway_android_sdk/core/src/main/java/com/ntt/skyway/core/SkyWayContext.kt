@@ -206,7 +206,7 @@ object SkyWayContext {
         isSetup = nativeSetup(
             option.authToken,
             option.toJson(),
-            WebRTCManager.nativePCFactory,
+            WebRTCManager.nativePCFactory!!,
             HttpClient,
             WebSocketClientFactory,
             Logger

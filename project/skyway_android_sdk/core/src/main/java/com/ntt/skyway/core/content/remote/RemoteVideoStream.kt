@@ -4,7 +4,9 @@
 
 package com.ntt.skyway.core.content.remote
 
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.content.sink.Renderer
+import com.ntt.skyway.core.util.Logger
 import org.webrtc.VideoTrack
 
 class RemoteVideoStream internal constructor(dto: Dto) : RemoteStream(dto) {
@@ -22,7 +24,10 @@ class RemoteVideoStream internal constructor(dto: Dto) : RemoteStream(dto) {
      *  追加されたRendererには映像が出力されます。
      */
     fun addRenderer(renderer: Renderer) {
-        check(renderer.isSetup) { "Please setup Renderer first" }
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         track.addSink(renderer.sink)
         renderers.add(renderer)
     }
@@ -31,6 +36,10 @@ class RemoteVideoStream internal constructor(dto: Dto) : RemoteStream(dto) {
      *  指定した[Renderer]を取り除きます。
      */
     fun removeRenderer(renderer: Renderer) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         track.removeSink(renderer.sink)
         renderers.remove(renderer)
     }
@@ -39,6 +48,10 @@ class RemoteVideoStream internal constructor(dto: Dto) : RemoteStream(dto) {
      *  全ての[Renderer]を取り除きます。
      */
     fun removeAllRenderer() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         for (renderer in renderers) {
             track.removeSink(renderer.sink)
         }
@@ -46,6 +59,10 @@ class RemoteVideoStream internal constructor(dto: Dto) : RemoteStream(dto) {
     }
 
     override fun dispose() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         removeAllRenderer()
         track.dispose()
     }

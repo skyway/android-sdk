@@ -20,7 +20,10 @@ class ChannelImpl internal constructor(
         @JvmStatic
         suspend fun find(name: String? = null, id: String? = null): Channel? =
             withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+                if (!SkyWayContext.isSetup) {
+                    Logger.logE("Please setup SkyWayContext first")
+                    return@withContext null
+                }
 
                 val initDto = nativeFind(name, id) ?: return@withContext null
                 return@withContext instantiateChannel(initDto)
@@ -29,7 +32,10 @@ class ChannelImpl internal constructor(
         @JvmStatic
         suspend fun create(name: String? = null, metadata: String? = null): Channel? =
             withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+                if (!SkyWayContext.isSetup) {
+                    Logger.logE("Please setup SkyWayContext first")
+                    return@withContext null
+                }
 
                 val initDto = nativeCreate(name, metadata) ?: return@withContext null
                 return@withContext instantiateChannel(initDto)
@@ -38,7 +44,10 @@ class ChannelImpl internal constructor(
         @JvmStatic
         suspend fun findOrCreate(name: String? = null, metadata: String? = null): Channel? =
             withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+                if (!SkyWayContext.isSetup) {
+                    Logger.logE("Please setup SkyWayContext first")
+                    return@withContext null
+                }
 
                 val initDto = nativeFindOrCreate(name, metadata) ?: return@withContext null
                 return@withContext instantiateChannel(initDto)
@@ -61,10 +70,22 @@ class ChannelImpl internal constructor(
     }
 
     override val metadata: String?
-        get() = nativeMetadata(nativePointer).takeUnless { it.isBlank() }
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return null
+            }
+            return nativeMetadata(nativePointer).takeUnless { it.isBlank() }
+        }
 
     override val state: Channel.State
-        get() = Channel.State.fromString(nativeState(nativePointer))
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return Channel.State.CLOSED
+            }
+            return Channel.State.fromString(nativeState(nativePointer))
+        }
 
     override val members: Set<Member>
         get() = repository.availableMembers
@@ -128,11 +149,19 @@ class ChannelImpl internal constructor(
 
     override suspend fun updateMetadata(metadata: String): Boolean =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext false
+            }
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
     override suspend fun join(memberInit: Member.Init): LocalPerson? =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext null
+            }
             val localPersonJson = nativeJoin(
                 nativePointer,
                 memberInit.name,
@@ -146,14 +175,26 @@ class ChannelImpl internal constructor(
 
 
     override suspend fun leave(member: Member): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeLeave(nativePointer, member.nativePointer)
     }
 
     override suspend fun close(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeClose(nativePointer)
     }
 
     override fun dispose() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         nativeDispose(nativePointer)
     }
 

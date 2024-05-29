@@ -120,8 +120,7 @@ internal class Factory(private val channel: ChannelImpl) {
             publication = publication,
             contentType = contentType,
             nativePointer = dto.get("nativePointer").asLong,
-            internalStream = stream,
-            repository = channel.repository
+            internalStream = stream
         )
     }
 }

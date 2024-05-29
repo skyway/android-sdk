@@ -149,13 +149,25 @@ std::future<bool> WebSocketClient::Close(const int code, const std::string& reas
 }
 
 std::future<bool> WebSocketClient::Destroy() {
-    std::promise<bool> p;
-    auto result = this->Close(1000, "");
+    _is_destroyed = true;
+    std::unique_lock<std::mutex> lk(_close_mtx);
+    _is_closing = true;
 
-    if(!result.get()) {
+    std::promise<bool> p;
+    auto env = core::ContextBridge::AttachCurrentThread();
+    auto j_class = env->GetObjectClass(this->_j_ws);
+    auto j_method_id = env->GetMethodID(j_class, "close", "(ILjava/lang/String;)Z");
+    auto code = 1000;
+    auto j_reason = env->NewStringUTF("destroy");
+    auto result = env->CallBooleanMethod(this->_j_ws, j_method_id, code, j_reason);
+    env->DeleteLocalRef(j_class);
+    env->DeleteLocalRef(j_reason);
+
+    if(!result) {
         p.set_value(false);
         return p.get_future();
     }
+    _is_closed = true;
 
     std::lock_guard<std::mutex> lg(_workers_mtx);
     for (auto& w : _workers) {
@@ -170,6 +182,9 @@ std::future<bool> WebSocketClient::Destroy() {
 }
 
 void WebSocketClient::_OnConnect() {
+    if (_is_destroyed) {
+        return;
+    }
     std::unique_lock<std::mutex> lk(_connect_mtx);
     if (_is_connecting) {
         _connect_promise.set_value(true);
@@ -178,6 +193,9 @@ void WebSocketClient::_OnConnect() {
 }
 
 void WebSocketClient::_OnMessage(const std::string& message ) {
+    if (_is_destroyed) {
+        return;
+    }
     std::lock_guard<std::mutex> lg(_workers_mtx);
     auto worker = std::make_unique<std::thread>([=]{
         if (!_listener) return;
@@ -187,6 +205,9 @@ void WebSocketClient::_OnMessage(const std::string& message ) {
 }
 
 void WebSocketClient::_OnClose(int code) {
+    if (_is_destroyed) {
+        return;
+    }
     std::unique_lock<std::mutex> lk(_close_mtx);
     _is_closed = true;
     auto worker = std::make_unique<std::thread>([=]{
@@ -206,7 +227,10 @@ void WebSocketClient::_OnClose(int code) {
 }
 
 void WebSocketClient::_OnError(int code) {
-    if (_is_closing) {
+    if (_is_destroyed) {
+        return;
+    }
+    if (_is_closing && !_is_closed) {
         _close_promise.set_value(false);
         SKW_ERROR("Websocket error occurred when closing.");
     }

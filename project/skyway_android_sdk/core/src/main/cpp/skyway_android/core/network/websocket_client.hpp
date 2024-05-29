@@ -64,6 +64,7 @@ private:
     std::vector<std::unique_ptr<std::thread>> _workers;
 
     std::mutex _workers_mtx;
+    std::atomic<bool> _is_destroyed = false;
 };
 
 }  // namespace network

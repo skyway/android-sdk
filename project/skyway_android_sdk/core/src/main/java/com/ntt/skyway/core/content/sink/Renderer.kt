@@ -8,7 +8,7 @@ import org.webrtc.VideoSink
 
 interface Renderer {
     var isSetup: Boolean
-    val sink: VideoSink
+    val sink: VideoSink?
 
     fun dispose()
 }

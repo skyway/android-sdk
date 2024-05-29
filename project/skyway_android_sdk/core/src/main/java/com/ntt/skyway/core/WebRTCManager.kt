@@ -6,9 +6,20 @@ import android.media.AudioDeviceInfo
 import com.ntt.skyway.core.content.local.source.AudioSource
 import com.ntt.skyway.core.content.local.source.VideoSource
 import com.ntt.skyway.core.util.Logger
-import org.webrtc.*
+import org.webrtc.AudioTrack
+import org.webrtc.DefaultVideoDecoderFactory
+import org.webrtc.DefaultVideoEncoderFactory
+import org.webrtc.EglBase
+import org.webrtc.Loggable
+import org.webrtc.Logging
+import org.webrtc.MediaConstraints
+import org.webrtc.PeerConnectionFactory
+import org.webrtc.SoftwareVideoDecoderFactory
+import org.webrtc.SoftwareVideoEncoderFactory
+import org.webrtc.SurfaceTextureHelper
+import org.webrtc.VideoTrack
 import org.webrtc.audio.JavaAudioDeviceModule
-import java.util.*
+import java.util.UUID
 
 @SuppressLint("StaticFieldLeak")
 internal object WebRTCManager {
@@ -31,17 +42,17 @@ internal object WebRTCManager {
         }
     }
 
-    val nativePCFactory
-        get() = pcFactory.nativePeerConnectionFactory
-    val eglBaseContext: EglBase.Context
-        get() = egl.eglBaseContext
+    val nativePCFactory: Long?
+        get() = pcFactory?.nativePeerConnectionFactory
+    val eglBaseContext: EglBase.Context?
+        get() = egl?.eglBaseContext
 
     var isSetup = false
 
     internal val videoSourceList: MutableList<VideoSource> = mutableListOf()
-    private lateinit var egl: EglBase
-    private lateinit var audioDeviceModule: JavaAudioDeviceModule
-    private lateinit var pcFactory: PeerConnectionFactory
+    private var egl: EglBase? = null
+    private var audioDeviceModule: JavaAudioDeviceModule? = null
+    private var pcFactory: PeerConnectionFactory? = null
 
     fun setup(context: Context, enableHardwareCodec: Boolean, audioSource: Int?) {
         val options = PeerConnectionFactory.InitializationOptions.builder(context)
@@ -75,7 +86,7 @@ internal object WebRTCManager {
             audioSource?.let { setAudioSource(audioSource) }
         }.createAudioDeviceModule()
 
-        audioDeviceModule.audioInput.onAudioBufferListener = AudioSource.onAudioBufferListener
+        audioDeviceModule?.audioInput?.onAudioBufferListener = AudioSource.onAudioBufferListener
 
         pcFactory = PeerConnectionFactory.builder()
             .setAudioDeviceModule(audioDeviceModule)
@@ -86,20 +97,20 @@ internal object WebRTCManager {
         isSetup = true
     }
 
-    fun createRTCVideoSource(): org.webrtc.VideoSource {
-        return pcFactory.createVideoSource(false)
+    fun createRTCVideoSource(): org.webrtc.VideoSource? {
+        return pcFactory?.createVideoSource(false)
     }
 
-    fun createRTCVideoTrack(source: org.webrtc.VideoSource): VideoTrack {
-        return pcFactory.createVideoTrack(UUID.randomUUID().toString(), source)
+    fun createRTCVideoTrack(source: org.webrtc.VideoSource): VideoTrack? {
+        return pcFactory?.createVideoTrack(UUID.randomUUID().toString(), source)
     }
 
-    fun createRTCAudioSource(): org.webrtc.AudioSource {
-        return pcFactory.createAudioSource(MediaConstraints())
+    fun createRTCAudioSource(): org.webrtc.AudioSource? {
+        return pcFactory?.createAudioSource(MediaConstraints())
     }
 
-    fun createRTCAudioTrack(source: org.webrtc.AudioSource): AudioTrack {
-        return pcFactory.createAudioTrack(UUID.randomUUID().toString(), source)
+    fun createRTCAudioTrack(source: org.webrtc.AudioSource): AudioTrack? {
+        return pcFactory?.createAudioTrack(UUID.randomUUID().toString(), source)
     }
 
     fun createSurfaceTextureHelper(): SurfaceTextureHelper {
@@ -108,16 +119,16 @@ internal object WebRTCManager {
 
     fun startRecording() {
         check(isSetup) { "Please setup first" }
-        audioDeviceModule.audioInput.audioRecord?.startRecording()
+        audioDeviceModule?.audioInput?.audioRecord?.startRecording()
     }
 
     fun stopRecording() {
         check(isSetup) { "Please setup first" }
-        audioDeviceModule.audioInput.audioRecord?.stop()
+        audioDeviceModule?.audioInput?.audioRecord?.stop()
     }
 
     fun setPreferredInputDevice(audioDeviceInfo: AudioDeviceInfo) {
-        audioDeviceModule.setPreferredInputDevice(audioDeviceInfo)
+        audioDeviceModule?.setPreferredInputDevice(audioDeviceInfo)
     }
 
     fun dispose() {
@@ -126,7 +137,7 @@ internal object WebRTCManager {
         }
         videoSourceList.clear()
 
-        pcFactory.dispose()
-        egl.release()
+        pcFactory?.dispose()
+        egl?.release()
     }
 }
