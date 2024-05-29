@@ -4,6 +4,7 @@
 
 package com.ntt.skyway.plugin.remotePerson
 
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.Repository
 import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
@@ -22,6 +23,10 @@ class RemotePerson internal constructor(dto: Member.Dto, private val repository:
      *  subscribeします。
      */
     suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext null
+        }
         val subscriptionJson =
             nativeSubscribe(nativePointer, publicationId) ?: return@withContext null
         return@withContext repository.addSubscriptionIfNeeded(subscriptionJson)
@@ -31,6 +36,10 @@ class RemotePerson internal constructor(dto: Member.Dto, private val repository:
      *  unsubscribeします。
      */
     suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeUnsubscribe(nativePointer, subscriptionId)
     }
 

@@ -6,10 +6,12 @@ package com.ntt.skyway.core.content.local.source
 
 import android.media.AudioDeviceInfo
 import android.media.AudioRecord
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.content.Factory
 import com.ntt.skyway.core.content.local.LocalAudioStream
 import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.WebRTCManager
+import com.ntt.skyway.core.util.Logger
 import org.webrtc.AudioSource
 import org.webrtc.AudioTrack
 import org.webrtc.audio.WebRtcAudioRecord
@@ -42,6 +44,10 @@ object AudioSource {
      */
     @JvmStatic
     fun start() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         WebRTCManager.startRecording()
         _isStarted = true
     }
@@ -52,6 +58,10 @@ object AudioSource {
      */
     @JvmStatic
     fun stop() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         WebRTCManager.stopRecording()
         _isStarted = false
     }
@@ -60,6 +70,10 @@ object AudioSource {
      *  優先音声入力デバイスを設定します。
      */
     fun setPreferredInputDevice(audioDeviceInfo: AudioDeviceInfo) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         WebRTCManager.setPreferredInputDevice(audioDeviceInfo)
     }
 
@@ -75,7 +89,7 @@ object AudioSource {
             source = WebRTCManager.createRTCAudioSource()
         }
         val track = WebRTCManager.createRTCAudioTrack(source!!)
-        val streamJson = nativeCreateAudioStream(track)
+        val streamJson = nativeCreateAudioStream(track!!)
         return Factory.createLocalAudioStream(streamJson, this, track)
     }
 

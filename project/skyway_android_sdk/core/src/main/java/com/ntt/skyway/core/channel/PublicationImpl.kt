@@ -6,6 +6,7 @@ package com.ntt.skyway.core.channel
 
 import com.google.gson.Gson
 import com.google.gson.JsonParser
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Encoding
@@ -35,16 +36,32 @@ class PublicationImpl internal constructor(
         get() = if (originId == "") null else repository.findPublication(originId)
 
     override val metadata: String
-        get() = nativeMetadata(nativePointer)
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return ""
+            }
+            return nativeMetadata(nativePointer)
+        }
 
     override val state: Publication.State
-        get() = Publication.State.fromString(nativeState(nativePointer))
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return Publication.State.CANCELED
+            }
+            return Publication.State.fromString(nativeState(nativePointer))
+        }
 
     override val subscriptions
         get() = repository.availableSubscriptions.filter { it.publication == this }
 
     override val encodings: List<Encoding>
         get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return listOf()
+            }
             val jsonArr = JsonParser.parseString(nativeEncodings(nativePointer)).asJsonArray
             return Encoding.fromJsonArray(jsonArr.asJsonArray)
         }
@@ -76,27 +93,51 @@ class PublicationImpl internal constructor(
 
     override suspend fun updateMetadata(metadata: String): Boolean =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext false
+            }
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
     override suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeCancel(nativePointer)
     }
 
     override suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeEnable(nativePointer)
     }
 
     override suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeDisable(nativePointer)
     }
 
     override fun updateEncodings(encodings: List<Encoding>) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         val encodingsJson = Gson().toJson(encodings)
         nativeUpdateEncodings(nativePointer, encodingsJson)
     }
 
     override fun replaceStream(stream: LocalStream): Boolean {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return false
+        }
         this.internalStream = stream
         return nativeReplaceStream(nativePointer, stream.nativePointer)
     }

@@ -4,6 +4,7 @@
 
 package com.ntt.skyway.core.channel.member
 
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.Channel
 import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.CoroutineScope
@@ -18,10 +19,22 @@ abstract class RemoteMemberImpl internal constructor(
     final override val nativePointer: Long
 ) : RemoteMember() {
     override val metadata: String?
-        get() = nativeMetadata(nativePointer).takeUnless { it.isBlank() }
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return null
+            }
+            return nativeMetadata(nativePointer).takeUnless { it.isBlank() }
+        }
 
     override val state: Member.State
-        get() = Member.State.fromString(nativeState(nativePointer))
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return Member.State.LEFT
+            }
+            return Member.State.fromString(nativeState(nativePointer))
+        }
 
     override val publications
         get() = channel.publications.filter { it.publisher == this }
@@ -57,10 +70,18 @@ abstract class RemoteMemberImpl internal constructor(
 
     override suspend fun updateMetadata(metadata: String): Boolean =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext false
+            }
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
     override suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeLeave(nativePointer)
     }
 

@@ -4,11 +4,14 @@
 
 package com.ntt.skyway.core.content.local.source
 
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Matrix
 import android.opengl.GLES20
 import android.opengl.GLUtils
 import android.os.SystemClock
-import org.webrtc.*
+import org.webrtc.CapturerObserver
+import org.webrtc.TextureBufferImpl
+import org.webrtc.VideoFrame
 import org.webrtc.VideoFrame.TextureBuffer.Type.RGB
 import java.util.concurrent.TimeUnit
 
@@ -22,14 +25,14 @@ class CustomVideoFrameSource(width: Int, height: Int) : VideoSource() {
 
     init {
         initialize()
-        observer = source.capturerObserver
+        observer = source!!.capturerObserver
         buffer = TextureBufferImpl(
             width,
             height,
             RGB,
             textures[0],
             Matrix(),
-            textureHelper.handler,
+            textureHelper?.handler,
             yuvConverter,
             null
         )
@@ -44,7 +47,7 @@ class CustomVideoFrameSource(width: Int, height: Int) : VideoSource() {
      *  @param rotation 画像の回転角度。
      */
     fun updateFrame(bitmap: Bitmap, rotation: Int) {
-        textureHelper.handler.post {
+        textureHelper?.handler?.post {
             GLES20.glTexParameteri(
                 GLES20.GL_TEXTURE_2D,
                 GLES20.GL_TEXTURE_MIN_FILTER,

@@ -7,6 +7,7 @@ package com.ntt.skyway.core.content.local.source
 import android.content.Context
 import android.content.Intent
 import android.media.projection.MediaProjection
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.util.Logger
 import org.webrtc.ScreenCapturerAndroid
 
@@ -14,7 +15,7 @@ import org.webrtc.ScreenCapturerAndroid
  *  画面共有による映像入力に関する操作を行うクラス。
  */
 object ScreenSource : VideoSource() {
-    private lateinit var capturer: ScreenCapturerAndroid
+    private var capturer: ScreenCapturerAndroid? = null
 
     private val mediaProjectionCallback = object : MediaProjection.Callback() {
         override fun onStop() {
@@ -28,13 +29,17 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun setup(context: Context, mediaProjectionPermissionResultData: Intent) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         if (!this.isInitialized) {
             this.initialize()
         }
         capturer = ScreenCapturerAndroid(
             mediaProjectionPermissionResultData, mediaProjectionCallback
         )
-        capturer.initialize(textureHelper, context, source.capturerObserver)
+        capturer?.initialize(textureHelper, context, source?.capturerObserver)
     }
 
     /**
@@ -43,7 +48,11 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun startCapturing(width: Int, height: Int, frameRate: Int) {
-        capturer.startCapture(width, height, frameRate)
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
+        capturer?.startCapture(width, height, frameRate)
     }
 
     /**
@@ -52,7 +61,11 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun stopCapturing() {
-        capturer.stopCapture()
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
+        capturer?.stopCapture()
     }
 
     /**
@@ -61,6 +74,10 @@ object ScreenSource : VideoSource() {
      */
     @JvmStatic
     fun changeCapturingSize(width: Int, height: Int) {
-        capturer.changeCaptureFormat(width, height, 0)
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
+        capturer?.changeCaptureFormat(width, height, 0)
     }
 }

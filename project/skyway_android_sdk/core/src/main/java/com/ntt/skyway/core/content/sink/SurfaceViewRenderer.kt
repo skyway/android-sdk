@@ -42,7 +42,7 @@ class SurfaceViewRenderer : FrameLayout, Renderer {
     }
 
     override var isSetup: Boolean = false
-    override lateinit var sink: org.webrtc.SurfaceViewRenderer
+    override var sink: org.webrtc.SurfaceViewRenderer? = null
 
     constructor(context: Context) : super(context)
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -55,9 +55,12 @@ class SurfaceViewRenderer : FrameLayout, Renderer {
             Logger.logI("Already setup SurfaceViewRenderer")
             return
         }
-        check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         sink = org.webrtc.SurfaceViewRenderer(context)
-        sink.init(WebRTCManager.eglBaseContext, null)
+        sink?.init(WebRTCManager.eglBaseContext, null)
         addRendererToView(width, height)
         isSetup = true
     }
@@ -66,18 +69,22 @@ class SurfaceViewRenderer : FrameLayout, Renderer {
      *  描画方法を変更します。
      */
     fun setScalingType(scalingType: ScalingType) {
-        sink.setScalingType(ScalingType.toWebRTC(scalingType))
+        sink?.setScalingType(ScalingType.toWebRTC(scalingType))
     }
 
     override fun dispose() {
-        sink.release()
-        removeView(sink)
+        sink?.let {
+            it.release()
+            removeView(it)
+        }
     }
 
     private fun addRendererToView(width: LayoutParam, height: LayoutParam) {
-        val params = LayoutParams(width.value, height.value)
-        params.gravity = Gravity.CENTER
-        addView(sink, params)
-        sink.requestLayout()
+        sink?.let {
+            val params = LayoutParams(width.value, height.value)
+            params.gravity = Gravity.CENTER
+            addView(it, params)
+            it.requestLayout()
+        }
     }
 }

@@ -13,35 +13,46 @@ class WebSocketClient {
     }
 
     private val client = OkHttpClient()
-    private lateinit var request: Request
-    private lateinit var ws: WebSocket
+    private var ws: WebSocket? = null
     private var connectionState: ConnectionState = ConnectionState.ESTABLISHING
     private var nativePointer: Long = 0L
+    private var isDestroyed = false
 
     private val webSocketListener: WebSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
+            if (isDestroyed) {
+                return
+            }
             Logger.logD("Connect")
             updateState(ConnectionState.OPEN)
             nativeOnConnect(nativePointer)
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
+            if (isDestroyed) {
+                return
+            }
             Logger.logD("Receive Message: $text")
             nativeOnMessage(nativePointer, text)
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
-            Logger.logD("Closing: $code $reason")
             webSocket.close(code, reason)
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
+            if (isDestroyed) {
+                return
+            }
             Logger.logD("Closed: $code $reason")
             updateState(ConnectionState.CLOSED)
             nativeOnClose(nativePointer, code)
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
+            if (isDestroyed) {
+                return
+            }
             Logger.logE("Error: $connectionState, ${this@WebSocketClient.hashCode()}, ${t.message}, $response")
             updateState(ConnectionState.CLOSED)
             nativeOnError(nativePointer, response?.code ?: 0)
@@ -67,12 +78,15 @@ class WebSocketClient {
             return
         }
         Logger.logD("Sending Message: $text")
-        ws.send(text)
+        ws?.send(text)
     }
 
     private fun close(code: Int, reason: String): Boolean {
-        Logger.logD("Close start: ${this.hashCode()}")
-        return ws.close(code, reason)
+        Logger.logD("Close start: ${this.hashCode()}, $code, $reason")
+        if(reason == "destroy") {
+            isDestroyed = true
+        }
+        return ws?.close(code, reason) ?: false
     }
 
     private fun updateState(state: ConnectionState) {
@@ -85,7 +99,7 @@ class WebSocketClient {
     }
 
     private fun createHeaderArray(length: Int): Array<WebSocketHeader> {
-        return Array(length){WebSocketHeader("", "")}
+        return Array(length) { WebSocketHeader("", "") }
     }
 
     private external fun nativeOnConnect(nativePointer: Long)

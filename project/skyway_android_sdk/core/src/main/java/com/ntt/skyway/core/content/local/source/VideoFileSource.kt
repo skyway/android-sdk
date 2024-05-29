@@ -5,8 +5,9 @@
 package com.ntt.skyway.core.content.local.source
 
 import android.content.Context
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.SkyWayOptIn
-import com.ntt.skyway.core.content.local.source.ScreenSource.setup
+import com.ntt.skyway.core.util.Logger
 import org.webrtc.FileVideoCapturer
 
 /**
@@ -22,13 +23,17 @@ class VideoFileSource(context: Context, fileName: String): VideoSource() {
     init {
         initialize()
         capturer = FileVideoCapturer(fileName)
-        capturer.initialize(textureHelper, context, source.capturerObserver)
+        capturer.initialize(textureHelper, context, source?.capturerObserver)
     }
 
     /**
      *  映像ファイルのキャプチャを開始します。
      */
     fun startCapturing(width: Int, height: Int, frameRate: Int) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         capturer.startCapture(width, height, frameRate)
     }
 
@@ -36,6 +41,10 @@ class VideoFileSource(context: Context, fileName: String): VideoSource() {
      *  映像ファイルのキャプチャを停止します。
      */
     fun stopCapturing() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         capturer.stopCapture()
     }
 }

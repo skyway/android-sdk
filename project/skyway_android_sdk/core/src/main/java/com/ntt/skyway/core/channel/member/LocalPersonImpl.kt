@@ -4,6 +4,7 @@
 
 package com.ntt.skyway.core.channel.member
 
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.channel.Channel
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.Repository
@@ -30,10 +31,22 @@ class LocalPersonImpl internal constructor(
     override val side = Member.Side.LOCAL
 
     override val metadata: String?
-        get() = nativeMetadata(nativePointer).takeUnless { it.isBlank() }
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return null
+            }
+            return nativeMetadata(nativePointer).takeUnless { it.isBlank() }
+        }
 
     override val state: Member.State
-        get() = Member.State.fromString(nativeState(nativePointer))
+        get() {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return Member.State.LEFT
+            }
+            return Member.State.fromString(nativeState(nativePointer))
+        }
 
     override val publications
         get() = channel.publications.filter { it.publisher == this }
@@ -76,16 +89,29 @@ class LocalPersonImpl internal constructor(
 
     override suspend fun updateMetadata(metadata: String): Boolean =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext false
+            }
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
     override suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext false
+        }
         return@withContext nativeLeave(nativePointer)
     }
 
     override suspend fun publish(
         localStream: LocalStream, options: Publication.Options?
     ): Publication? = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext null
+        }
+
         publishMutex.withLock {
             val optionsJson = options?.toJson() ?: "{}"
             val publicationJson =
@@ -99,6 +125,10 @@ class LocalPersonImpl internal constructor(
 
     override suspend fun unpublish(publicationId: String): Boolean =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext false
+            }
             return@withContext nativeUnpublish(nativePointer, publicationId)
         }
 
@@ -109,6 +139,11 @@ class LocalPersonImpl internal constructor(
     override suspend fun subscribe(
         publicationId: String, options: Subscription.Options?
     ): Subscription? = withContext(Dispatchers.Default) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return@withContext null
+        }
+
         subscribeMutex.withLock {
             val optionsJson = options?.toJson() ?: "{}"
             val subscriptionJson = nativeSubscribe(nativePointer, publicationId, optionsJson)
@@ -125,6 +160,10 @@ class LocalPersonImpl internal constructor(
 
     override suspend fun unsubscribe(subscriptionId: String): Boolean =
         withContext(Dispatchers.Default) {
+            if (!SkyWayContext.isSetup) {
+                Logger.logE("SkyWayContext is disposed.")
+                return@withContext false
+            }
             return@withContext nativeUnsubscribe(nativePointer, subscriptionId)
         }
 

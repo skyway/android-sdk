@@ -5,6 +5,7 @@
 package com.ntt.skyway.core.content.local.source
 
 import android.content.Context
+import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.util.Logger
 import org.webrtc.Camera1Enumerator
 import org.webrtc.Camera2Enumerator
@@ -101,6 +102,10 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun changeCamera(deviceName: String) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         capturer?.switchCamera(cameraSwitchHandler, deviceName)
     }
 
@@ -110,6 +115,10 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun startCapturing(context: Context, deviceName: String, options: CapturingOptions) {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         if (!this.isInitialized) {
             this.initialize()
         }
@@ -119,7 +128,7 @@ object CameraSource : VideoSource() {
         }
         val enumerator = createCameraEnumerator(context)
         capturer = enumerator.createCapturer(deviceName, cameraEventsHandler)
-        capturer?.initialize(textureHelper, context, source.capturerObserver)
+        capturer?.initialize(textureHelper, context, source?.capturerObserver)
         capturer?.startCapture(options.width, options.height, options.frameRate)
     }
 
@@ -129,6 +138,10 @@ object CameraSource : VideoSource() {
      */
     @JvmStatic
     fun stopCapturing() {
+        if (!SkyWayContext.isSetup) {
+            Logger.logE("SkyWayContext is disposed.")
+            return
+        }
         capturer?.stopCapture()
     }
 
