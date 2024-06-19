@@ -16,7 +16,7 @@ object HttpClient {
     private var client: OkHttpClient
 
     init {
-        logging.level = HttpLoggingInterceptor.Level.BODY
+        logging.level = HttpLoggingInterceptor.Level.BASIC
         client = OkHttpClient.Builder()
             .addInterceptor(logging)
             .build()

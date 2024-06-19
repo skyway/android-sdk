@@ -78,12 +78,6 @@ WebSocketClient::WebSocketClient(jobject j_ws): _listener(nullptr), _is_connecti
 }
 
 WebSocketClient::~WebSocketClient() {
-    std::lock_guard<std::mutex> lg(_workers_mtx);
-    for (auto& w : _workers) {
-        if (w && w->joinable()) {
-            w->join();
-        }
-    }
     auto env = core::ContextBridge::AttachCurrentThread();
     env->DeleteGlobalRef(_j_ws);
 }
@@ -96,6 +90,12 @@ std::future<bool> WebSocketClient::Connect(const std::string& url,
                           const std::vector<std::string>& sub_protocols,
                           const std::unordered_map<std::string, std::string>& headers) {
     std::unique_lock<std::mutex> lk(_connect_mtx);
+    if (_is_destroyed) {
+        SKW_WARN("Websocket is already destroyed.");
+        std::promise<bool> p;
+        p.set_value(false);
+        return p.get_future();
+    }
     _is_connecting = true;
     _is_closed = false;
 
@@ -153,6 +153,10 @@ std::future<bool> WebSocketClient::Destroy() {
     std::unique_lock<std::mutex> lk(_close_mtx);
     _is_closing = true;
 
+    if (_is_connecting) {
+        _connect_promise.set_value(false);
+    }
+
     std::promise<bool> p;
     auto env = core::ContextBridge::AttachCurrentThread();
     auto j_class = env->GetObjectClass(this->_j_ws);
@@ -168,15 +172,7 @@ std::future<bool> WebSocketClient::Destroy() {
         return p.get_future();
     }
     _is_closed = true;
-
-    std::lock_guard<std::mutex> lg(_workers_mtx);
-    for (auto& w : _workers) {
-        if (w && w->joinable()) {
-            w->join();
-        }
-    }
     _listener = nullptr;
-
     p.set_value(true);
     return p.get_future();
 }
@@ -196,12 +192,8 @@ void WebSocketClient::_OnMessage(const std::string& message ) {
     if (_is_destroyed) {
         return;
     }
-    std::lock_guard<std::mutex> lg(_workers_mtx);
-    auto worker = std::make_unique<std::thread>([=]{
-        if (!_listener) return;
-        _listener->OnMessage(message);
-    });
-    _workers.emplace_back(std::move(worker));
+    if (!_listener) return;
+    _listener->OnMessage(message);
 }
 
 void WebSocketClient::_OnClose(int code) {
@@ -210,14 +202,9 @@ void WebSocketClient::_OnClose(int code) {
     }
     std::unique_lock<std::mutex> lk(_close_mtx);
     _is_closed = true;
-    auto worker = std::make_unique<std::thread>([=]{
-        if (!_listener) return;
-        _listener->OnClose(code);
-    });
 
-    {
-        std::lock_guard <std::mutex> lg(_workers_mtx);
-        _workers.emplace_back(std::move(worker));
+    if (_listener) {
+        _listener->OnClose(code);
     }
 
     if (_is_closing) {
@@ -246,12 +233,8 @@ void WebSocketClient::_OnError(int code) {
         return;
     }
 
-    std::lock_guard<std::mutex> lg(_workers_mtx);
-    auto worker = std::make_unique<std::thread>([=]{
-        if (!_listener) return;
-        _listener->OnError(code);
-    });
-    _workers.emplace_back(std::move(worker));
+    if (!_listener) return;
+    _listener->OnError(code);
 }
 
 

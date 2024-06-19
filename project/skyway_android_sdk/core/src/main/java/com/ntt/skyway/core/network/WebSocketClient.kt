@@ -1,6 +1,15 @@
 package com.ntt.skyway.core.network
 
 import com.ntt.skyway.core.util.Logger
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import okhttp3.*
 
 
@@ -17,23 +26,42 @@ class WebSocketClient {
     private var connectionState: ConnectionState = ConnectionState.ESTABLISHING
     private var nativePointer: Long = 0L
     private var isDestroyed = false
+    @OptIn(DelicateCoroutinesApi::class)
+    private val coroutineContext = newSingleThreadContext("skyway-websocket")
+    private val scope = CoroutineScope(coroutineContext)
+    private val destroyMutex = Mutex()
+    private val jobsScope = CoroutineScope(Dispatchers.IO)
+    private val jobs = mutableListOf<Job>()
 
     private val webSocketListener: WebSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
-            if (isDestroyed) {
-                return
+            jobsScope.launch {
+                destroyMutex.withLock {
+                    if (isDestroyed) {
+                        return@launch
+                    }
+                    Logger.logD("Connected: ${this.hashCode()}")
+                    updateState(ConnectionState.OPEN)
+                    val job = scope.launch {
+                        nativeOnConnect(nativePointer)
+                    }
+                    addJob(job)
+                }
             }
-            Logger.logD("Connect")
-            updateState(ConnectionState.OPEN)
-            nativeOnConnect(nativePointer)
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            if (isDestroyed) {
-                return
+            jobsScope.launch {
+                destroyMutex.withLock {
+                    if (isDestroyed) {
+                        return@launch
+                    }
+                    val job = scope.launch {
+                        nativeOnMessage(nativePointer, text)
+                    }
+                    addJob(job)
+                }
             }
-            Logger.logD("Receive Message: $text")
-            nativeOnMessage(nativePointer, text)
         }
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
@@ -41,26 +69,44 @@ class WebSocketClient {
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-            if (isDestroyed) {
-                return
+            jobsScope.launch {
+                destroyMutex.withLock {
+                    if (isDestroyed) {
+                        return@launch
+                    }
+                    Logger.logD("Closed: $code $reason")
+                    updateState(ConnectionState.CLOSED)
+                    val job = scope.launch {
+                        nativeOnClose(nativePointer, code)
+                    }
+                    addJob(job)
+                }
             }
-            Logger.logD("Closed: $code $reason")
-            updateState(ConnectionState.CLOSED)
-            nativeOnClose(nativePointer, code)
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            if (isDestroyed) {
-                return
+            jobsScope.launch {
+                destroyMutex.withLock {
+                    if (isDestroyed) {
+                        return@launch
+                    }
+                    Logger.logE("Error: $connectionState, ${this@WebSocketClient.hashCode()}, ${t.message}, $response")
+                    updateState(ConnectionState.CLOSED)
+                    val job = scope.launch {
+                        nativeOnError(nativePointer, response?.code ?: 0)
+                    }
+                    addJob(job)
+                }
             }
-            Logger.logE("Error: $connectionState, ${this@WebSocketClient.hashCode()}, ${t.message}, $response")
-            updateState(ConnectionState.CLOSED)
-            nativeOnError(nativePointer, response?.code ?: 0)
         }
     }
 
+    private fun addJob(job: Job) {
+        jobs.add(job)
+    }
+
     private fun connect(url: String, subProtocols: Array<String>, headers: Array<WebSocketHeader>, nativePointer: Long) {
-        Logger.logD("Connect start")
+        Logger.logD("Connect start: ${this.hashCode()}")
         this.nativePointer = nativePointer
         updateState(ConnectionState.CONNECTING)
         val request = Request.Builder().apply {
@@ -77,16 +123,22 @@ class WebSocketClient {
             Logger.logW("Failed to send message. WebSocket is not opened")
             return
         }
-        Logger.logD("Sending Message: $text")
         ws?.send(text)
     }
 
     private fun close(code: Int, reason: String): Boolean {
         Logger.logD("Close start: ${this.hashCode()}, $code, $reason")
-        if(reason == "destroy") {
-            isDestroyed = true
+        return runBlocking {
+            if(reason == "destroy") {
+                destroyMutex.withLock {
+                    isDestroyed = true
+                    jobs.forEach {
+                        it.join()
+                    }
+                }
+            }
+            return@runBlocking ws?.close(code, reason) ?: false
         }
-        return ws?.close(code, reason) ?: false
     }
 
     private fun updateState(state: ConnectionState) {

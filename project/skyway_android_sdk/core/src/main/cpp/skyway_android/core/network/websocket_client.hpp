@@ -61,9 +61,6 @@ private:
     bool _is_closed;
     std::promise<bool> _close_promise;
     std::mutex _close_mtx;
-    std::vector<std::unique_ptr<std::thread>> _workers;
-
-    std::mutex _workers_mtx;
     std::atomic<bool> _is_destroyed = false;
 };
 
