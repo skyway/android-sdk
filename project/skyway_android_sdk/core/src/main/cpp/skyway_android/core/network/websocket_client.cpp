@@ -96,6 +96,11 @@ std::future<bool> WebSocketClient::Connect(const std::string& url,
         p.set_value(false);
         return p.get_future();
     }
+    if (_is_connecting) {
+        std::promise<bool> p;
+        p.set_value(false);
+        return p.get_future();
+    }
     _is_connecting = true;
     _is_closed = false;
 

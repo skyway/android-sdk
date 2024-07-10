@@ -15,8 +15,10 @@ import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.plugin.Plugin
 import com.ntt.skyway.plugin.remotePerson.RemotePersonPlugin
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newFixedThreadPoolContext
 import kotlinx.coroutines.withContext
 
 /**
@@ -164,6 +166,7 @@ object SkyWayContext {
 
     const val version: String = BuildConfig.SkyWayVer
 
+    internal val threadContext = Dispatchers.Default
     private val scope = CoroutineScope(Dispatchers.Default)
 
     init {
@@ -189,7 +192,7 @@ object SkyWayContext {
         context: Context,
         option: Options,
         onErrorHandler: ((error: Error) -> Unit)? = null
-    ): Boolean = withContext(Dispatchers.Default) {
+    ): Boolean = withContext(threadContext) {
         if (isSetup) {
             Logger.logI("Already setup SkyWayContext")
             return@withContext true

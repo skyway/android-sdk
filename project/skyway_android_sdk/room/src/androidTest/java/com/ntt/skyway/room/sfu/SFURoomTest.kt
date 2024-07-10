@@ -1,6 +1,7 @@
 package com.ntt.skyway.room.sfu
 
 import android.Manifest
+import android.os.ConditionVariable
 import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import com.ntt.skyway.core.SkyWayContext
@@ -11,9 +12,15 @@ import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
 import kotlinx.coroutines.runBlocking
-import org.junit.*
-import org.junit.Assert.*
-import java.util.*
+import org.junit.After
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
+import java.util.UUID
 
 
 class SFURoomTest {
@@ -225,7 +232,14 @@ class SFURoomTest {
         val room = SFURoom.create()
         val channel = Channel.find(id = room?.id)
         val bot = channel?.bots?.first()
+        val cv = ConditionVariable()
         channel?.leave(bot!!)
+        channel?.onMemberLeftHandler = {
+            if(it.id == bot?.id) {
+                cv.open()
+            }
+        }
+        cv.block(3000)
         assertNull(room?.bot)
     }
 

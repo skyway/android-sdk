@@ -8,8 +8,6 @@ import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.plugin.remotePerson.RemotePerson
 import com.ntt.skyway.room.Room
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * RemoteRoomMemberの操作を行うクラス。
@@ -26,15 +24,15 @@ open class RemoteRoomMember internal constructor(room: Room, internal val remote
      *  [com.ntt.skyway.room.RoomPublication]をsubscribeします。
      *  [Room.onPublicationSubscribedHandler]が発火します。
      */
-    suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.Default) {
-        return@withContext remoteMember.subscribe(publicationId)
+    suspend fun subscribe(publicationId: String): Subscription? {
+        return remoteMember.subscribe(publicationId)
     }
 
     /**
      *  [com.ntt.skyway.room.RoomSubscription]をunsubscribeします。
      *  [Room.onPublicationUnsubscribedHandler]が発火します。
      */
-    suspend fun unsubscribe(subscriptionsId: String): Boolean = withContext(Dispatchers.Default) {
-        return@withContext remoteMember.unsubscribe(subscriptionsId)
+    suspend fun unsubscribe(subscriptionsId: String): Boolean {
+        return remoteMember.unsubscribe(subscriptionsId)
     }
 }

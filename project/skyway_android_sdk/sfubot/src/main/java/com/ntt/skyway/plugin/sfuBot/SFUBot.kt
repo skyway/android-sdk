@@ -11,9 +11,6 @@ import com.ntt.skyway.core.channel.ChannelImpl
 import com.ntt.skyway.core.channel.Publication
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.channel.member.RemoteMemberImpl
-import com.ntt.skyway.core.util.Logger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
@@ -22,7 +19,7 @@ class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
          * SFUBotを作成します。
          */
         @JvmStatic
-        suspend fun createBot(channel: Channel): SFUBot? = withContext(Dispatchers.Default) {
+        suspend fun createBot(channel: Channel): SFUBot? = withContext(channel._threadContext) {
             val sfuBotJson =
                 nativeCreateBot((channel as ChannelImpl).nativePointer) ?: return@withContext null
             val dto = Gson().fromJson(sfuBotJson, JsonObject::class.java)
@@ -65,7 +62,7 @@ class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
         publication: Publication,
         configure: Forwarding.Configure? = null
     ): Forwarding? =
-        withContext(Dispatchers.Default) {
+        withContext(channel._threadContext) {
             val forwardingJson = nativeStartForwarding(
                 nativePointer,
                 publication.nativePointer,
@@ -80,7 +77,7 @@ class SFUBot internal constructor(dto: Member.Dto) : RemoteMemberImpl(dto) {
     /**
      * Forwarding停止します。
      */
-    suspend fun stopForwarding(forwarding: Forwarding): Boolean = withContext(Dispatchers.Default) {
+    suspend fun stopForwarding(forwarding: Forwarding): Boolean = withContext(channel._threadContext) {
         _forwardings.remove(forwarding)
         return@withContext nativeStopForwarding(nativePointer, forwarding.nativePointer)
     }

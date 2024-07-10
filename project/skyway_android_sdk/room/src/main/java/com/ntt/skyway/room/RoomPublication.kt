@@ -17,8 +17,6 @@ import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.plugin.sfuBot.Forwarding
 import com.ntt.skyway.room.member.RoomMember
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * RoomPublicationの操作を行うクラス。
@@ -254,11 +252,11 @@ class RoomPublication internal constructor(
      *  publishを中止します。
      *  [onUnpublishedHandler]が発火します。
      */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
+    suspend fun cancel(): Boolean {
         if (publication.origin == null) {
-            return@withContext publication.cancel()
+            return publication.cancel()
         }
-        return@withContext publication.origin!!.cancel()
+        return publication.origin!!.cancel()
     }
 
     /**
@@ -266,11 +264,11 @@ class RoomPublication internal constructor(
      *  [onEnabledHandler]が発火します。
      *  また、入室している[Channel]に対して[Channel.onPublicationEnabledHandler]が発火します。
      */
-    suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
+    suspend fun enable(): Boolean {
         if (publication.origin == null) {
-            return@withContext publication.enable()
+            return publication.enable()
         }
-        return@withContext publication.origin!!.enable()
+        return publication.origin!!.enable()
     }
 
     /**
@@ -278,11 +276,11 @@ class RoomPublication internal constructor(
      *  [onDisabledHandler]が発火します。
      *  また、入室している[Channel]に対して[Channel.onPublicationDisabledHandler]が発火します。
      */
-    suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
+    suspend fun disable(): Boolean {
         if (publication.origin == null) {
-            return@withContext publication.disable()
+            return publication.disable()
         }
-        return@withContext publication.origin!!.disable()
+        return publication.origin!!.disable()
     }
 
     /**

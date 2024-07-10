@@ -82,9 +82,9 @@ object Logger {
     private fun printLog(
         level: LogLevel,
         message: String,
-        methodName: String,
-        fileName: String,
-        lineNumber: Int
+        methodName: String?,
+        fileName: String?,
+        lineNumber: Int?
     ) {
         if (level > logLevel) return
         val text = "${getIcon(level)} $message | $methodName($fileName:$lineNumber)"

@@ -92,7 +92,7 @@ class PublicationImpl internal constructor(
     }
 
     override suspend fun updateMetadata(metadata: String): Boolean =
-        withContext(Dispatchers.Default) {
+        withContext(channel._threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext false
@@ -100,7 +100,7 @@ class PublicationImpl internal constructor(
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
-    override suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun cancel(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false
@@ -108,7 +108,7 @@ class PublicationImpl internal constructor(
         return@withContext nativeCancel(nativePointer)
     }
 
-    override suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun enable(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false
@@ -116,7 +116,7 @@ class PublicationImpl internal constructor(
         return@withContext nativeEnable(nativePointer)
     }
 
-    override suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun disable(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false

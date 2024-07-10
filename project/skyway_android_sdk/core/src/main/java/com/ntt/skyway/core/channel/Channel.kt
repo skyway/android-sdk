@@ -3,6 +3,7 @@ package com.ntt.skyway.core.channel
 import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.util.Logger
+import kotlinx.coroutines.CoroutineDispatcher
 
 /**
  * Channelの操作を行うクラス。
@@ -179,6 +180,8 @@ interface Channel {
      * このChannel内の各種イベントでエラーが起きた時に発火するハンドラ。
      */
     var onErrorHandler: ((e: Exception) -> Unit)?
+
+    val _threadContext: CoroutineDispatcher
 
     /**
      *  Channelの[metadata]を更新します。

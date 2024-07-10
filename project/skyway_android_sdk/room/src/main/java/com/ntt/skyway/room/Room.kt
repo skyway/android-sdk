@@ -12,9 +12,7 @@ import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.plugin.remotePerson.RemotePerson
 import com.ntt.skyway.room.member.LocalRoomMember
 import com.ntt.skyway.room.member.RoomMember
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.withContext
 
 /**
  * Roomの操作を行うクラス。
@@ -190,8 +188,8 @@ abstract class Room internal constructor(private val channel: Channel) {
      *
      *  @param metadata 更新後のMetadata
      */
-    suspend fun updateMetadata(metadata: String):Boolean = withContext(Dispatchers.Default) {
-        return@withContext channel.updateMetadata(metadata)
+    suspend fun updateMetadata(metadata: String):Boolean {
+        return channel.updateMetadata(metadata)
     }
 
     /**
@@ -208,16 +206,16 @@ abstract class Room internal constructor(private val channel: Channel) {
      *
      *  @param member 退室させる[RoomMember]
      */
-    suspend fun leave(member: RoomMember): Boolean = withContext(Dispatchers.Default) {
-        return@withContext channel.leave(member.member)
+    suspend fun leave(member: RoomMember): Boolean {
+        return channel.leave(member.member)
     }
 
     /**
      *  Roomを閉じます。
      *  [onClosedHandler]が発火します。
      */
-    suspend fun close(): Boolean = withContext(Dispatchers.Default) {
-        return@withContext channel.close()
+    suspend fun close(): Boolean {
+        return channel.close()
     }
 
     /**
