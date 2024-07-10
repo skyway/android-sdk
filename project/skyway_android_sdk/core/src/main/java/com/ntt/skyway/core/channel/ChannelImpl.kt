@@ -9,9 +9,11 @@ import com.ntt.skyway.core.channel.member.LocalPerson
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlinx.coroutines.newFixedThreadPoolContext
 
 class ChannelImpl internal constructor(
     override val id: String, override val name: String?, val nativePointer: Long
@@ -19,7 +21,7 @@ class ChannelImpl internal constructor(
     companion object {
         @JvmStatic
         suspend fun find(name: String? = null, id: String? = null): Channel? =
-            withContext(Dispatchers.Default) {
+            withContext(SkyWayContext.threadContext) {
                 if (!SkyWayContext.isSetup) {
                     Logger.logE("Please setup SkyWayContext first")
                     return@withContext null
@@ -31,7 +33,7 @@ class ChannelImpl internal constructor(
 
         @JvmStatic
         suspend fun create(name: String? = null, metadata: String? = null): Channel? =
-            withContext(Dispatchers.Default) {
+            withContext(SkyWayContext.threadContext) {
                 if (!SkyWayContext.isSetup) {
                     Logger.logE("Please setup SkyWayContext first")
                     return@withContext null
@@ -43,7 +45,7 @@ class ChannelImpl internal constructor(
 
         @JvmStatic
         suspend fun findOrCreate(name: String? = null, metadata: String? = null): Channel? =
-            withContext(Dispatchers.Default) {
+            withContext(SkyWayContext.threadContext) {
                 if (!SkyWayContext.isSetup) {
                     Logger.logE("Please setup SkyWayContext first")
                     return@withContext null
@@ -140,6 +142,8 @@ class ChannelImpl internal constructor(
 
     override var onErrorHandler: ((e: Exception) -> Unit)? = null
 
+    override val _threadContext = Dispatchers.Default
+
     val repository: Repository = Repository(this)
     private val scope = CoroutineScope(Dispatchers.Default)
 
@@ -148,7 +152,7 @@ class ChannelImpl internal constructor(
     }
 
     override suspend fun updateMetadata(metadata: String): Boolean =
-        withContext(Dispatchers.Default) {
+        withContext(_threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext false
@@ -157,7 +161,7 @@ class ChannelImpl internal constructor(
         }
 
     override suspend fun join(memberInit: Member.Init): LocalPerson? =
-        withContext(Dispatchers.Default) {
+        withContext(_threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext null
@@ -174,7 +178,7 @@ class ChannelImpl internal constructor(
         }
 
 
-    override suspend fun leave(member: Member): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun leave(member: Member): Boolean = withContext(_threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false
@@ -182,7 +186,7 @@ class ChannelImpl internal constructor(
         return@withContext nativeLeave(nativePointer, member.nativePointer)
     }
 
-    override suspend fun close(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun close(): Boolean = withContext(_threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false

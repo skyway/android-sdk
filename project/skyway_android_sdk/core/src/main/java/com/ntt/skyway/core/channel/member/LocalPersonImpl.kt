@@ -88,7 +88,7 @@ class LocalPersonImpl internal constructor(
     }
 
     override suspend fun updateMetadata(metadata: String): Boolean =
-        withContext(Dispatchers.Default) {
+        withContext(channel._threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext false
@@ -96,7 +96,7 @@ class LocalPersonImpl internal constructor(
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
-    override suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun leave(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false
@@ -106,7 +106,7 @@ class LocalPersonImpl internal constructor(
 
     override suspend fun publish(
         localStream: LocalStream, options: Publication.Options?
-    ): Publication? = withContext(Dispatchers.Default) {
+    ): Publication? = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext null
@@ -124,7 +124,7 @@ class LocalPersonImpl internal constructor(
     }
 
     override suspend fun unpublish(publicationId: String): Boolean =
-        withContext(Dispatchers.Default) {
+        withContext(channel._threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext false
@@ -138,7 +138,7 @@ class LocalPersonImpl internal constructor(
 
     override suspend fun subscribe(
         publicationId: String, options: Subscription.Options?
-    ): Subscription? = withContext(Dispatchers.Default) {
+    ): Subscription? = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext null
@@ -159,7 +159,7 @@ class LocalPersonImpl internal constructor(
     }
 
     override suspend fun unsubscribe(subscriptionId: String): Boolean =
-        withContext(Dispatchers.Default) {
+        withContext(channel._threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext false

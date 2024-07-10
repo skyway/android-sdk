@@ -28,54 +28,51 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
          *  SFURoomを探します。
          */
         @JvmStatic
-        suspend fun find(name: String? = null, id: String? = null): SFURoom? =
-            withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
-                if (SkyWayContext.findPlugin("sfu") == null) {
-                    SkyWayContext.registerPlugin(SFUBotPlugin())
-                }
-                val channel = Channel.find(name, id)
-                if (channel != null) {
-                    if (channel.bots.isEmpty()) {
-                        SFUBot.createBot(channel)
-                    }
-                }
-                return@withContext channel?.let { SFURoom(it) }
+        suspend fun find(name: String? = null, id: String? = null): SFURoom? {
+            check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+            if (SkyWayContext.findPlugin("sfu") == null) {
+                SkyWayContext.registerPlugin(SFUBotPlugin())
             }
+            val channel = Channel.find(name, id)
+            if (channel != null) {
+                if (channel.bots.isEmpty()) {
+                    SFUBot.createBot(channel)
+                }
+            }
+            return channel?.let { SFURoom(it) }
+        }
 
         /**
          *  SFURoomを作成します。
          */
         @JvmStatic
-        suspend fun create(name: String? = null, metadata: String? = null): SFURoom? =
-            withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
-                if (SkyWayContext.findPlugin("sfu") == null) {
-                    SkyWayContext.registerPlugin(SFUBotPlugin())
-                }
-                val channel = Channel.create(name, metadata)
-                channel?.let { SFUBot.createBot(it) }
-                return@withContext channel?.let { SFURoom(it) }
+        suspend fun create(name: String? = null, metadata: String? = null): SFURoom? {
+            check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+            if (SkyWayContext.findPlugin("sfu") == null) {
+                SkyWayContext.registerPlugin(SFUBotPlugin())
             }
+            val channel = Channel.create(name, metadata)
+            channel?.let { SFUBot.createBot(it) }
+            return channel?.let { SFURoom(it) }
+        }
 
         /**
          *  SFURoomを探し、見つからなかった場合は作成します。
          */
         @JvmStatic
-        suspend fun findOrCreate(name: String? = null, metadata: String? = null): SFURoom? =
-            withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
-                if (SkyWayContext.findPlugin("sfu") == null) {
-                    SkyWayContext.registerPlugin(SFUBotPlugin())
-                }
-                val channel = Channel.findOrCreate(name, metadata)
-                if (channel != null) {
-                    if (channel.bots.isEmpty()) {
-                        SFUBot.createBot(channel)
-                    }
-                }
-                return@withContext channel?.let { SFURoom(it) }
+        suspend fun findOrCreate(name: String? = null, metadata: String? = null): SFURoom? {
+            check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+            if (SkyWayContext.findPlugin("sfu") == null) {
+                SkyWayContext.registerPlugin(SFUBotPlugin())
             }
+            val channel = Channel.findOrCreate(name, metadata)
+            if (channel != null) {
+                if (channel.bots.isEmpty()) {
+                    SFUBot.createBot(channel)
+                }
+            }
+            return channel?.let { SFURoom(it) }
+        }
     }
 
     override val type: Type = Type.SFU
@@ -93,18 +90,17 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
     /**
      *  SFURoomに入室します。
      */
-    override suspend fun join(memberInit: RoomMember.Init): LocalSFURoomMember? =
-        withContext(Dispatchers.Default) {
-            val channelMemberInit = Member.Init(
-                memberInit.name,
-                memberInit.metadata,
-                memberInit.keepAliveIntervalSec,
-                Member.Type.PERSON,
-                "",
-            )
-            val localPerson = channel.join(channelMemberInit) ?: return@withContext null
-            return@withContext createRoomMember(localPerson) as LocalSFURoomMember
-        }
+    override suspend fun join(memberInit: RoomMember.Init): LocalSFURoomMember? {
+        val channelMemberInit = Member.Init(
+            memberInit.name,
+            memberInit.metadata,
+            memberInit.keepAliveIntervalSec,
+            Member.Type.PERSON,
+            "",
+        )
+        val localPerson = channel.join(channelMemberInit) ?: return null
+        return createRoomMember(localPerson) as LocalSFURoomMember
+    }
 
     // Impl of Channel EventHandler
     private fun initEventHandler() {
@@ -161,7 +157,7 @@ class SFURoom internal constructor(private val channel: Channel) : Room(channel)
     }
 
     private fun onStreamPublished(publication: Publication) {
-        scope.launch(Dispatchers.Default) {
+        scope.launch {
             mutex.withLock {
                 if (publication.origin == null) return@launch
                 // Pushing only relayed publications

@@ -119,6 +119,7 @@ $dokka.location:com.ntt.skyway.core.channel/Channel.State.Companion///PointingTo
 $dokka.location:com.ntt.skyway.core.channel/Channel.State.OPENED///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/-o-p-e-n-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel/Channel.State///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/index.html
 $dokka.location:com.ntt.skyway.core.channel/Channel///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/index.html
+$dokka.location:com.ntt.skyway.core.channel/Channel/_threadContext/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/_thread-context.html
 $dokka.location:com.ntt.skyway.core.channel/Channel/bots/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/bots.html
 $dokka.location:com.ntt.skyway.core.channel/Channel/close/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/close.html
 $dokka.location:com.ntt.skyway.core.channel/Channel/dispose/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/dispose.html
@@ -154,6 +155,7 @@ $dokka.location:com.ntt.skyway.core.channel/ChannelImpl.Companion/create/#kotlin
 $dokka.location:com.ntt.skyway.core.channel/ChannelImpl.Companion/find/#kotlin.String?#kotlin.String?/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/-companion/find.html
 $dokka.location:com.ntt.skyway.core.channel/ChannelImpl.Companion/findOrCreate/#kotlin.String?#kotlin.String?/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/-companion/find-or-create.html
 $dokka.location:com.ntt.skyway.core.channel/ChannelImpl///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/index.html
+$dokka.location:com.ntt.skyway.core.channel/ChannelImpl/_threadContext/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/_thread-context.html
 $dokka.location:com.ntt.skyway.core.channel/ChannelImpl/bots/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/bots.html
 $dokka.location:com.ntt.skyway.core.channel/ChannelImpl/close/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/close.html
 $dokka.location:com.ntt.skyway.core.channel/ChannelImpl/dispose/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel-impl/dispose.html

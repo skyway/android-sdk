@@ -6,8 +6,6 @@ package com.ntt.skyway.room.member
 
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.room.Room
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * RoomMemberの操作を行う抽象クラス。
@@ -16,7 +14,8 @@ abstract class RoomMember internal constructor(
     /**
      * このRoomMemberが所属する[Room]。
      */
-    val room: Room, internal val member: Member) {
+    val room: Room, internal val member: Member
+) {
 
     /**
      * RoomMemberの初期設定。
@@ -125,22 +124,22 @@ abstract class RoomMember internal constructor(
         }
 
     override fun equals(other: Any?): Boolean {
-        if(other == null || other !is RoomMember) return false
+        if (other == null || other !is RoomMember) return false
         return id == other.id
     }
 
     /**
      *  Metadataを更新します。
      */
-    suspend fun updateMetadata(metadata: String): Boolean = withContext(Dispatchers.Default) {
-        return@withContext member.updateMetadata(metadata)
+    suspend fun updateMetadata(metadata: String): Boolean {
+        return member.updateMetadata(metadata)
     }
 
     /**
      *  Roomから退室します。
      */
-    suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
-        return@withContext member.leave()
+    suspend fun leave(): Boolean {
+        return member.leave()
     }
 
     override fun hashCode(): Int {

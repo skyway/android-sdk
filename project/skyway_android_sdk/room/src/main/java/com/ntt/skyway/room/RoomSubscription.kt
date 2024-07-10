@@ -9,8 +9,6 @@ import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.WebRTCStats
 import com.ntt.skyway.core.content.remote.RemoteStream
 import com.ntt.skyway.room.member.RoomMember
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * RoomSubscriptionの操作を行うクラス。
@@ -114,7 +112,7 @@ class RoomSubscription internal constructor(
     /**
      *  subscribeを中止します。
      */
-    suspend fun changePreferredEncoding(preferredEncodingId: String) = withContext(Dispatchers.Default) {
+    suspend fun changePreferredEncoding(preferredEncodingId: String) {
         subscription.changePreferredEncoding(preferredEncodingId)
     }
 
@@ -125,17 +123,17 @@ class RoomSubscription internal constructor(
 
     /**
      *  publishを中止します。
-     *  [onUnsubscribedHandler]が発火します。
+     *  [onCanceledHandler]が発火します。
      */
-    suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
-        return@withContext subscription.cancel()
+    suspend fun cancel(): Boolean {
+        return subscription.cancel()
     }
 
-//    suspend fun enable(): Boolean = withContext(Dispatchers.Default) {
+//    suspend fun enable(): Boolean {
 //        return@withContext subscription.enable()
 //    }
 //
-//    suspend fun disable(): Boolean = withContext(Dispatchers.Default) {
+//    suspend fun disable(): Boolean {
 //        return@withContext subscription.disable()
 //    }
 

@@ -69,7 +69,7 @@ abstract class RemoteMemberImpl internal constructor(
     }
 
     override suspend fun updateMetadata(metadata: String): Boolean =
-        withContext(Dispatchers.Default) {
+        withContext(channel._threadContext) {
             if (!SkyWayContext.isSetup) {
                 Logger.logE("SkyWayContext is disposed.")
                 return@withContext false
@@ -77,7 +77,7 @@ abstract class RemoteMemberImpl internal constructor(
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
-    override suspend fun leave(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun leave(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false

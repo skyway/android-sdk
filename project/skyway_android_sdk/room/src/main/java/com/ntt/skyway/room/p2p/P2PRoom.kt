@@ -11,8 +11,6 @@ import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.room.Room
 import com.ntt.skyway.room.member.RoomMember
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  * P2PRoomの操作を行うクラス。
@@ -23,33 +21,30 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
          *  P2PRoomを探します。
          */
         @JvmStatic
-        suspend fun find(name: String? = null, id: String? = null): P2PRoom? =
-            withContext(Dispatchers.Default) {
-                val channel = Channel.find(name, id)
-                return@withContext channel?.let { P2PRoom(it) }
-            }
+        suspend fun find(name: String? = null, id: String? = null): P2PRoom? {
+            val channel = Channel.find(name, id)
+            return channel?.let { P2PRoom(it) }
+        }
 
         /**
          *  P2PRoomを作成します。
          */
         @JvmStatic
-        suspend fun create(name: String? = null, metadata: String? = null): P2PRoom? =
-            withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
-                val channel = Channel.create(name, metadata)
-                return@withContext channel?.let { P2PRoom(it) }
-            }
+        suspend fun create(name: String? = null, metadata: String? = null): P2PRoom? {
+            check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+            val channel = Channel.create(name, metadata)
+            return channel?.let { P2PRoom(it) }
+        }
 
         /**
          *  P2PRoomを探し、見つからなかった場合は作成します。
          */
         @JvmStatic
-        suspend fun findOrCreate(name: String? = null, metadata: String? = null): P2PRoom? =
-            withContext(Dispatchers.Default) {
-                check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
-                val channel = Channel.findOrCreate(name, metadata)
-                return@withContext channel?.let { P2PRoom(it) }
-            }
+        suspend fun findOrCreate(name: String? = null, metadata: String? = null): P2PRoom? {
+            check(SkyWayContext.isSetup) { "Please setup SkyWayContext first" }
+            val channel = Channel.findOrCreate(name, metadata)
+            return channel?.let { P2PRoom(it) }
+        }
     }
 
     override val type: Type = Type.P2P
@@ -61,18 +56,17 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
     /**
      *  Roomへ参加します。
      */
-    override suspend fun join(memberInit: RoomMember.Init): LocalP2PRoomMember? =
-        withContext(Dispatchers.Default) {
-            val channelMemberInit = Member.Init(
-                memberInit.name,
-                memberInit.metadata,
-                memberInit.keepAliveIntervalSec,
-                Member.Type.PERSON,
-                "",
-            )
-            val localPerson = channel.join(channelMemberInit) ?: return@withContext null
-            return@withContext createRoomMember(localPerson) as LocalP2PRoomMember
-        }
+    override suspend fun join(memberInit: RoomMember.Init): LocalP2PRoomMember? {
+        val channelMemberInit = Member.Init(
+            memberInit.name,
+            memberInit.metadata,
+            memberInit.keepAliveIntervalSec,
+            Member.Type.PERSON,
+            "",
+        )
+        val localPerson = channel.join(channelMemberInit) ?: return null
+        return createRoomMember(localPerson) as LocalP2PRoomMember
+    }
 
     // Impl of Channel EventHandler
     private fun initEventHandler() {

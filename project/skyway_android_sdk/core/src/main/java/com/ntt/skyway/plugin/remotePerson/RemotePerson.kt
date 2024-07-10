@@ -10,8 +10,6 @@ import com.ntt.skyway.core.channel.Subscription
 import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.channel.member.RemoteMemberImpl
 import com.ntt.skyway.core.util.Logger
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class RemotePerson internal constructor(dto: Member.Dto, private val repository: Repository) :
@@ -22,7 +20,7 @@ class RemotePerson internal constructor(dto: Member.Dto, private val repository:
     /**
      *  subscribeします。
      */
-    suspend fun subscribe(publicationId: String): Subscription? = withContext(Dispatchers.Default) {
+    suspend fun subscribe(publicationId: String): Subscription? = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext null
@@ -35,7 +33,7 @@ class RemotePerson internal constructor(dto: Member.Dto, private val repository:
     /**
      *  unsubscribeします。
      */
-    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.Default) {
+    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false

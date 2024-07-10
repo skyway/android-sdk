@@ -60,7 +60,7 @@ class SubscriptionImpl internal constructor(
         return null
     }
 
-    override suspend fun cancel(): Boolean = withContext(Dispatchers.Default) {
+    override suspend fun cancel(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")
             return@withContext false

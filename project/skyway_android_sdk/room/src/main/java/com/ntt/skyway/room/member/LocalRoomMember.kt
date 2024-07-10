@@ -11,8 +11,6 @@ import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.room.Room
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.RoomSubscription
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 /**
  *  LocalRoomMemberの操作を行うクラス。
@@ -97,8 +95,8 @@ abstract class LocalRoomMember internal constructor(
      *  [LocalStream]をunpublishします。
      *  [Room.onStreamUnpublishedHandler]が発火します。
      */
-    open suspend fun unpublish(publication: RoomPublication): Boolean = withContext(Dispatchers.Default) {
-        return@withContext localPerson.unpublish(publication.id)
+    open suspend fun unpublish(publication: RoomPublication): Boolean {
+        return localPerson.unpublish(publication.id)
     }
 
     /**
@@ -108,28 +106,29 @@ abstract class LocalRoomMember internal constructor(
     suspend fun subscribe(
         publication: RoomPublication,
         options: RoomSubscription.Options? = null
-    ): RoomSubscription? = withContext(Dispatchers.Default){
-        return@withContext subscribe(publication.id, options)
+    ): RoomSubscription? {
+        return subscribe(publication.id, options)
     }
 
     suspend fun subscribe(
         publicationId: String,
         options: RoomSubscription.Options? = null
-    ): RoomSubscription? = withContext(Dispatchers.Default) {
-        val subscription = localPerson.subscribe(publicationId, options?.toCore()) ?: return@withContext null
-        return@withContext room.createRoomSubscription(subscription)
+    ): RoomSubscription? {
+        val subscription =
+            localPerson.subscribe(publicationId, options?.toCore()) ?: return null
+        return room.createRoomSubscription(subscription)
     }
 
     /**
-     *  [publication]をsubscribeします。
+     *  [RoomPublication]をsubscribeします。
      *  [Room.onPublicationUnsubscribedHandler]が発火します。
      */
-    suspend fun unsubscribe(subscription: Subscription): Boolean = withContext(Dispatchers.Default) {
-        return@withContext unsubscribe(subscription.id)
+    suspend fun unsubscribe(subscription: Subscription): Boolean {
+        return unsubscribe(subscription.id)
     }
 
-    suspend fun unsubscribe(subscriptionId: String): Boolean = withContext(Dispatchers.Default) {
-        return@withContext localPerson.unsubscribe(subscriptionId)
+    suspend fun unsubscribe(subscriptionId: String): Boolean {
+        return localPerson.unsubscribe(subscriptionId)
     }
 
 }
