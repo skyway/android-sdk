@@ -24,19 +24,11 @@ class MainActivity : ComponentActivity() {
         setContentView(R.layout.activity_main)
         checkPermission(this, applicationContext)
 
-        val options = PeerConnectionFactory.InitializationOptions.builder(applicationContext)
-            .setInjectableLogger({ _, _, _ -> }, Logging.Severity.LS_NONE)
-            .createInitializationOptions()
-        PeerConnectionFactory.initialize(options)
-
         Logger.logLevel = Logger.LogLevel.VERBOSE
 
         CoroutineScope(Dispatchers.Default).launch {
-            startTest(
+            SkywayTest.startTest(
                 applicationContext,
-                HttpClient,
-                WebSocketClientFactory,
-                Logger
             )
             runOnUiThread {
                 val testView = findViewById<TextView>(R.id.textView)
@@ -68,19 +60,6 @@ class MainActivity : ComponentActivity() {
                 ),
                 0
             )
-        }
-    }
-
-    private external fun startTest(
-        context: Context,
-        httpClient: HttpClient,
-        webSocketClient: WebSocketClientFactory,
-        logger: Logger
-    ): Int
-
-    companion object {
-        init {
-            System.loadLibrary("nativetest")
         }
     }
 }

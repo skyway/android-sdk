@@ -8,15 +8,15 @@ import com.ntt.skyway.room.member.RoomMember
 import kotlinx.coroutines.*
 import java.util.*
 
-class SFURoomAudioVideoManualTask(listener: Listener, params: Params):
-    SFURoomTaskBase(listener,params) {
+class SFURoomAudioVideoManualTask(listener: Listener, params: Params) :
+    SFURoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
 
-    var subscriptionCountMap:MutableMap<String,Int> = mutableMapOf()
+    var subscriptionCountMap: MutableMap<String, Int> = mutableMapOf()
     val SUCCESS_SUBSCRIPTION_COUNT = 2
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -26,49 +26,52 @@ class SFURoomAudioVideoManualTask(listener: Listener, params: Params):
 
             joinTask()
             if (localSFURoomMember == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"join failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "join failed")
                 return@launch
             }
 
-            localSFURoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            sfuRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-                checkSubscriber(it.publisher!!)
-            }
-            sfuRoom?.publications?.forEach {
-                subscribe(it)
-                checkSubscriber(it.publisher!!)
+            sfuRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                    checkSubscriber(pub.publisher!!)
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                    checkSubscriber(pub.publisher!!)
+                }
             }
 
             val publicationLocalAudioStream = localSFURoomMember?.publish(getAudioStream())
             if (publicationLocalAudioStream == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"publish audio failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "publish audio failed")
                 return@launch
             }
 
             val publicationLocalVideoStream = localSFURoomMember?.publish(getCameraStream())
             if (publicationLocalVideoStream == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"publish video failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "publish video failed")
                 return@launch
             }
         }
     }
 
-    private fun checkSubscriber(member: RoomMember){
-        if(!subscriptionCountMap.contains(member.id)){
+    private fun checkSubscriber(member: RoomMember) {
+        if (!subscriptionCountMap.contains(member.id)) {
             subscriptionCountMap[member.id] = 0
         }
-        subscriptionCountMap[member.id]=subscriptionCountMap[member.id]!!+1
-        if(subscriptionCountMap[member.id] == SUCCESS_SUBSCRIPTION_COUNT){
-            listener.onTaskSuccessHandler?.invoke(member.id,params.requestId,params.taskId)
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            listener.onSubscribeHandler?.invoke(it)
+        subscriptionCountMap[member.id] = subscriptionCountMap[member.id]!! + 1
+        if (subscriptionCountMap[member.id] == SUCCESS_SUBSCRIPTION_COUNT) {
+            listener.onTaskSuccessHandler?.invoke(member.id, params.requestId, params.taskId)
         }
     }
 }

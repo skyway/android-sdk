@@ -5,16 +5,17 @@ import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.room.RoomPublication
-import com.ntt.skyway.room.RoomSubscription
-import kotlinx.coroutines.*
-import java.util.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class P2PRoomEncodingAutoTask(listener: Listener, params: Params) :
     P2PRoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -28,14 +29,25 @@ class P2PRoomEncodingAutoTask(listener: Listener, params: Params) :
                 return@launch
             }
 
-            localP2PRoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            p2PRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            p2PRoom?.publications?.forEach {
-                subscribe(it)
+            p2PRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            listener.onSubscribeHandler?.invoke(subscription)
+                            checkBitrate(100_000, 150_000, it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            listener.onSubscribeHandler?.invoke(subscription)
+                            checkBitrate(100_000, 150_000, it)
+                        }
+                    }
+                }
             }
 
             val options =
@@ -59,13 +71,6 @@ class P2PRoomEncodingAutoTask(listener: Listener, params: Params) :
                     )
                 }
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            listener.onSubscribeHandler?.invoke(it)
-            checkBitrate(100_000, 150_000, it)
         }
     }
 }

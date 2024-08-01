@@ -6,16 +6,19 @@ import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.RoomSubscription
-import kotlinx.coroutines.*
-import java.util.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 // Test fails because simulcast is not supported
 class SFURoomSimulcastAutoTask(listener: Listener, params: Params) :
     SFURoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -29,14 +32,25 @@ class SFURoomSimulcastAutoTask(listener: Listener, params: Params) :
                 return@launch
             }
 
-            localSFURoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            sfuRoom?.onStreamPublishedHandler = {
-                subscribe(it, RoomSubscription.Options("low"))
-            }
-            sfuRoom?.publications?.forEach {
-                subscribe(it, RoomSubscription.Options("low"))
+            sfuRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub, RoomSubscription.Options("low"))
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkBitrate(100_000, 150_000, it)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub, RoomSubscription.Options("low"))
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkBitrate(100_000, 150_000, it)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
             }
 
             val options = RoomPublication.Options(
@@ -65,13 +79,6 @@ class SFURoomSimulcastAutoTask(listener: Listener, params: Params) :
                     }
                 }
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            checkBitrate(100_000, 150_000, it)
-            listener.onSubscribeHandler?.invoke(it)
         }
     }
 }

@@ -34,6 +34,7 @@ class SubscriptionImpl internal constructor(
     override val stream: RemoteStream?
         get() = internalStream
 
+    @Deprecated("v2.1.5から非推奨になりました。")
     override var onCanceledHandler: (() -> Unit)? = null
 
     override var onConnectionStateChangedHandler: ((state: String) -> Unit)? = null
@@ -60,6 +61,8 @@ class SubscriptionImpl internal constructor(
         return null
     }
 
+
+    @Deprecated("v2.1.5から非推奨になりました。")
     override suspend fun cancel(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")

@@ -23,6 +23,7 @@ android {
             cmake {
                 cppFlags '-std=c++17 -fPIC'
                 arguments '-DANDROID_TOOLCHAIN=clang'
+                abiFilters project.hasProperty('targetAbi') ? project.targetAbi.split(',') : []
             }
         }
     }
@@ -65,6 +66,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
     implementation 'com.google.android.material:material:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+    // test
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation "org.mockito:mockito-core:3.+"
+    androidTestImplementation 'androidx.test:rules:1.5.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4"
 
     // JSON parser
     implementation 'com.google.code.gson:gson:2.9.0'

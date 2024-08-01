@@ -48,12 +48,13 @@ abstract class P2PRoomTaskBase(listener: Listener, params: Params) :
     fun subscribe(
         it: RoomPublication,
         options: RoomSubscription.Options = RoomSubscription.Options()
-    ) {
+    ): RoomSubscription? {
         if (it.publisher?.id != localP2PRoomMember?.id) {
-            runBlocking {
-                localP2PRoomMember?.subscribe(it.id, options)
+            return runBlocking {
+                return@runBlocking localP2PRoomMember?.subscribe(it.id, options)
             }
         }
+        return null
     }
 
     fun getDataTaskStream(): LocalDataStream {

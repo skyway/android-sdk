@@ -1,406 +1,453 @@
-<html>
-  <head>
+<!DOCTYPE html>
+<html class="no-js">
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
     <title>LocalSFURoomMember</title>
-<link href="../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../";</script>    <script>const storage = localStorage.getItem("dokka-dark-mode")
-const savedDarkMode = storage ? JSON.parse(storage) : false
-if(savedDarkMode === true){
-    document.getElementsByTagName("html")[0].classList.add("theme-dark")
-}</script>
-<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script><link href="../../../styles/style.css" rel="Stylesheet"><link href="../../../styles/jetbrains-mono.css" rel="Stylesheet"><link href="../../../styles/main.css" rel="Stylesheet"><link href="../../../styles/prism.css" rel="Stylesheet"><link href="../../../styles/logo-styles.css" rel="Stylesheet"><script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script><script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script><script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script><script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script><script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>  </head>
-  <body>
-    <div class="navigation-wrapper" id="navigation-wrapper">
-      <div id="leftToggler"><span class="icon-toggler"></span></div>
-      <div class="library-name"><a href="../../../index.html">room</a></div>
-      <div></div>
-      <div class="pull-right d-flex"><button id="theme-toggle-button"><span id="theme-toggle"></span></button>
-        <div id="searchBar"></div>
-      </div>
+    <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
+    <script>var pathToRoot = "../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/sourceset_dependencies.js" async="async"></script>
+<link href="../../../styles/style.css" rel="Stylesheet">
+<link href="../../../styles/main.css" rel="Stylesheet">
+<link href="../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../scripts/clipboard.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/navigation-loader.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/platform-content-handler.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/main.js" defer="defer"></script>
+<script type="text/javascript" src="../../../scripts/prism.js" async="async"></script>
+<script type="text/javascript" src="../../../scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+</head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+                    <a class="library-name--link" href="../../../index.html">
+                            room
+                    </a>
+            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":room:dokkaHtml/release">androidJvm</button>
+        </div>
     </div>
-    <div id="container">
-      <div id="leftColumn">
-        <div id="sideMenu"></div>
-      </div>
-      <div id="main">
-        <div class="main-content" id="content" pageIds="room::com.ntt.skyway.room.sfu/LocalSFURoomMember///PointingToDeclaration//964082189">
-          <div class="breadcrumbs"><a href="../../../index.html">room</a>/<a href="../index.html">com.ntt.skyway.room.sfu</a>/<a href="index.html">LocalSFURoomMember</a></div>
-          <div class="cover ">
-            <h1 class="cover"><span>Local</span><wbr></wbr><span>SFURoom</span><wbr></wbr><span><span>Member</span></span></h1>
-            <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">LocalSFURoomMember</a> : <a href="../../com.ntt.skyway.room.member/-local-room-member/index.html">LocalRoomMember</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">LocalSFURoomMemberの操作を行うクラス。</p></div></div>
-          </div>
-          <div class="tabbedcontent">
-            <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="Functions">Functions</button><button class="section-tab" data-togglable="Properties">Properties</button></div>
-            <div class="tabs-section-body">
-              <h2 class="">Functions</h2>
-              <div class="table" data-togglable="Functions"><a data-name="-2143319095%2FFunctions%2F964082189" anchor-label="equals" id="-2143319095%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/equals.html"><span><span>equals</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2143319095%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span>other<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1080588547%2FFunctions%2F964082189" anchor-label="hashCode" id="-1080588547%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/hash-code.html"><span>hash</span><wbr></wbr><span><span>Code</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1080588547%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-167669813%2FFunctions%2F964082189" anchor-label="leave" id="-167669813%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/leave.html"><span><span>leave</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-167669813%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/leave.html"><span class="token function">leave</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Roomから退室します。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="367000858%2FFunctions%2F964082189" anchor-label="publish" id="367000858%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="publish.html"><span><span>publish</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="367000858%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="publish.html"><span class="token function">publish</span></a><span class="token punctuation">(</span>localStream<span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.content.local/LocalStream///PointingToDeclaration/">LocalStream</span><span class="token punctuation">, </span>options<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/-options/index.html">RoomPublication.Options</a><span class="token operator">?</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph"><span data-unresolved-link="com.ntt.skyway.core.content.local/LocalStream///PointingToDeclaration/">LocalStream</span>をpublishします。 <a href="../../com.ntt.skyway.room/-room/on-stream-published-handler.html">Room.onStreamPublishedHandler</a>が発火します。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1231002093%2FFunctions%2F964082189" anchor-label="subscribe" id="-1231002093%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html"><span><span>subscribe</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1231002093%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html"><span class="token function">subscribe</span></a><span class="token punctuation">(</span>publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">, </span>options<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/-options/index.html">RoomSubscription.Options</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph"><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html">publication</a>をsubscribeします。 <a href="../../com.ntt.skyway.room/-room/on-publication-subscribed-handler.html">Room.onPublicationSubscribedHandler</a>が発火します。</p></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html"><span class="token function">subscribe</span></a><span class="token punctuation">(</span>publicationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span>options<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/-options/index.html">RoomSubscription.Options</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-1868877708%2FFunctions%2F964082189" anchor-label="unpublish" id="-1868877708%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="unpublish.html"><span><span>unpublish</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1868877708%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="unpublish.html"><span class="token function">unpublish</span></a><span class="token punctuation">(</span>publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph"><span data-unresolved-link="com.ntt.skyway.core.content.local/LocalStream///PointingToDeclaration/">LocalStream</span>をunpublishします。 <a href="../../com.ntt.skyway.room/-room/on-stream-unpublished-handler.html">Room.onStreamUnpublishedHandler</a>が発火します。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="1199357876%2FFunctions%2F964082189" anchor-label="unsubscribe" id="1199357876%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/unsubscribe.html"><span><span>unsubscribe</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1199357876%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/unsubscribe.html"><span class="token function">unsubscribe</span></a><span class="token punctuation">(</span>subscription<span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.channel/Subscription///PointingToDeclaration/">Subscription</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph"><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a>をsubscribeします。 <a href="../../com.ntt.skyway.room/-room/on-publication-unsubscribed-handler.html">Room.onPublicationUnsubscribedHandler</a>が発火します。</p></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/unsubscribe.html"><span class="token function">unsubscribe</span></a><span class="token punctuation">(</span>subscriptionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-<a data-name="-218432860%2FFunctions%2F964082189" anchor-label="updateMetadata" id="-218432860%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/update-metadata.html"><span>update</span><wbr></wbr><span><span>Metadata</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-218432860%2FFunctions%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/update-metadata.html"><span class="token function">updateMetadata</span></a><span class="token punctuation">(</span>metadata<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><p class="paragraph">Metadataを更新します。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageIds="room::com.ntt.skyway.room.sfu/LocalSFURoomMember///PointingToDeclaration//964082189">
+  <div class="breadcrumbs"><a href="../../../index.html">room</a><span class="delimiter">/</span><a href="../index.html">com.ntt.skyway.room.sfu</a><span class="delimiter">/</span><span class="current">LocalSFURoomMember</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Local</span><wbr></wbr><span>SFURoom</span><wbr></wbr><span><span>Member</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">LocalSFURoomMember</a> : <a href="../../com.ntt.skyway.room.member/-local-room-member/index.html">LocalRoomMember</a></div><p class="paragraph">LocalSFURoomMemberの操作を行うクラス。</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-401940931%2FProperties%2F964082189" anchor-label="id" id="-401940931%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/id.html"><span><span>id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-401940931%2FProperties%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/id.html">id</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">このRoomMemberのID。</p></div></div></div>
                 </div>
               </div>
-              <h2 class="">Properties</h2>
-              <div class="table" data-togglable="Properties"><a data-name="-401940931%2FProperties%2F964082189" anchor-label="id" id="-401940931%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/id.html">id</a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-401940931%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-401940931%2FProperties%2F964082189" anchor-label="id" id="-401940931%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/id.html">id</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-401940931%2FProperties%2F964082189" anchor-label="id" id="-401940931%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのID。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </div>
 <a data-name="457774697%2FProperties%2F964082189" anchor-label="metadata" id="457774697%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/metadata.html">metadata</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/metadata.html"><span><span>metadata</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="457774697%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="457774697%2FProperties%2F964082189" anchor-label="metadata" id="457774697%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/metadata.html">metadata</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="457774697%2FProperties%2F964082189" anchor-label="metadata" id="457774697%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのMetadata。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/metadata.html">metadata</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomMemberのMetadata。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="1183091725%2FProperties%2F964082189" anchor-label="name" id="1183091725%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/name.html">name</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/name.html"><span><span>name</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1183091725%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="1183091725%2FProperties%2F964082189" anchor-label="name" id="1183091725%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1183091725%2FProperties%2F964082189" anchor-label="name" id="1183091725%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberの名前。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/name.html">name</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomMemberの名前。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="1482495038%2FProperties%2F964082189" anchor-label="onLeftHandler" id="1482495038%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/on-left-handler.html">onLeftHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/on-left-handler.html"><span>on</span><wbr></wbr><span>Left</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1482495038%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="1482495038%2FProperties%2F964082189" anchor-label="onLeftHandler" id="1482495038%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-left-handler.html">onLeftHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1482495038%2FProperties%2F964082189" anchor-label="onLeftHandler" id="1482495038%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberが退出した時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-left-handler.html">onLeftHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomMemberが退出した時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-1564908677%2FProperties%2F964082189" anchor-label="onMetadataUpdatedHandler" id="-1564908677%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/on-metadata-updated-handler.html">onMetadataUpdatedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/on-metadata-updated-handler.html"><span>on</span><wbr></wbr><span>Metadata</span><wbr></wbr><span>Updated</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1564908677%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-1564908677%2FProperties%2F964082189" anchor-label="onMetadataUpdatedHandler" id="-1564908677%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-metadata-updated-handler.html">onMetadataUpdatedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>metadata<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1564908677%2FProperties%2F964082189" anchor-label="onMetadataUpdatedHandler" id="-1564908677%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのMetadataが更新された時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-metadata-updated-handler.html">onMetadataUpdatedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>metadata<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomMemberのMetadataが更新された時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="901416353%2FProperties%2F964082189" anchor-label="onPublicationListChangedHandler" id="901416353%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/on-publication-list-changed-handler.html">onPublicationListChangedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/on-publication-list-changed-handler.html"><span>on</span><wbr></wbr><span>Publication</span><wbr></wbr><span>List</span><wbr></wbr><span>Changed</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="901416353%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="901416353%2FProperties%2F964082189" anchor-label="onPublicationListChangedHandler" id="901416353%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-publication-list-changed-handler.html">onPublicationListChangedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="901416353%2FProperties%2F964082189" anchor-label="onPublicationListChangedHandler" id="901416353%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのPublicationの数が変化した時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-publication-list-changed-handler.html">onPublicationListChangedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomMemberのPublicationの数が変化した時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="700969622%2FProperties%2F964082189" anchor-label="onPublicationSubscribedHandler" id="700969622%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-subscribed-handler.html">onPublicationSubscribedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-subscribed-handler.html"><span>on</span><wbr></wbr><span>Publication</span><wbr></wbr><span>Subscribed</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="700969622%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="700969622%2FProperties%2F964082189" anchor-label="onPublicationSubscribedHandler" id="700969622%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-subscribed-handler.html">onPublicationSubscribedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>subscription<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="700969622%2FProperties%2F964082189" anchor-label="onPublicationSubscribedHandler" id="700969622%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">PublicationをSubscribeした時に発火するハンドラ。 Subscriptionにはまだstreamがsetされていない可能性があります。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-subscribed-handler.html">onPublicationSubscribedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>subscription<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">PublicationをSubscribeした時に発火するハンドラ。 Subscriptionにはまだstreamがsetされていない可能性があります。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-1042957393%2FProperties%2F964082189" anchor-label="onPublicationUnsubscribedHandler" id="-1042957393%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-unsubscribed-handler.html">onPublicationUnsubscribedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-unsubscribed-handler.html"><span>on</span><wbr></wbr><span>Publication</span><wbr></wbr><span>Unsubscribed</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1042957393%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-1042957393%2FProperties%2F964082189" anchor-label="onPublicationUnsubscribedHandler" id="-1042957393%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-unsubscribed-handler.html">onPublicationUnsubscribedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>subscription<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1042957393%2FProperties%2F964082189" anchor-label="onPublicationUnsubscribedHandler" id="-1042957393%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">PublicationをUnsubscribeした時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-publication-unsubscribed-handler.html">onPublicationUnsubscribedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>subscription<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">PublicationをUnsubscribeした時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="1941867262%2FProperties%2F964082189" anchor-label="onStreamPublishedHandler" id="1941867262%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-published-handler.html">onStreamPublishedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-published-handler.html"><span>on</span><wbr></wbr><span>Stream</span><wbr></wbr><span>Published</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1941867262%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="1941867262%2FProperties%2F964082189" anchor-label="onStreamPublishedHandler" id="1941867262%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-published-handler.html">onStreamPublishedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1941867262%2FProperties%2F964082189" anchor-label="onStreamPublishedHandler" id="1941867262%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">StreamをPublishした時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-published-handler.html">onStreamPublishedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">StreamをPublishした時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="307077445%2FProperties%2F964082189" anchor-label="onStreamUnpublishedHandler" id="307077445%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-unpublished-handler.html">onStreamUnpublishedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-unpublished-handler.html"><span>on</span><wbr></wbr><span>Stream</span><wbr></wbr><span>Unpublished</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="307077445%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="307077445%2FProperties%2F964082189" anchor-label="onStreamUnpublishedHandler" id="307077445%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-unpublished-handler.html">onStreamUnpublishedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token keyword"></span>publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="307077445%2FProperties%2F964082189" anchor-label="onStreamUnpublishedHandler" id="307077445%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">StreamをUnpublishした時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-local-room-member/on-stream-unpublished-handler.html">onStreamUnpublishedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">StreamをUnpublishした時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-149577784%2FProperties%2F964082189" anchor-label="onSubscriptionListChangedHandler" id="-149577784%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/on-subscription-list-changed-handler.html">onSubscriptionListChangedHandler</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/on-subscription-list-changed-handler.html"><span>on</span><wbr></wbr><span>Subscription</span><wbr></wbr><span>List</span><wbr></wbr><span>Changed</span><wbr></wbr><span><span>Handler</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-149577784%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-149577784%2FProperties%2F964082189" anchor-label="onSubscriptionListChangedHandler" id="-149577784%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-subscription-list-changed-handler.html">onSubscriptionListChangedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><span class="token keyword"></span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span><span class="token operator"> = </span>null<span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-149577784%2FProperties%2F964082189" anchor-label="onSubscriptionListChangedHandler" id="-149577784%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのSubscriptionの数が変化した時に発火するハンドラ。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="../../com.ntt.skyway.room.member/-room-member/on-subscription-list-changed-handler.html">onSubscriptionListChangedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomMemberのSubscriptionの数が変化した時に発火するハンドラ。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="96490321%2FProperties%2F964082189" anchor-label="publications" id="96490321%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/publications.html">publications</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/publications.html"><span><span>publications</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="96490321%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="96490321%2FProperties%2F964082189" anchor-label="publications" id="96490321%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/publications.html">publications</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="96490321%2FProperties%2F964082189" anchor-label="publications" id="96490321%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのPublication一覧。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/publications.html">publications</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">このRoomMemberのPublication一覧。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-1734393923%2FProperties%2F964082189" anchor-label="room" id="-1734393923%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/room.html">room</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/room.html"><span><span>room</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1734393923%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-1734393923%2FProperties%2F964082189" anchor-label="room" id="-1734393923%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/room.html">room</a><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room/index.html">Room</a><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1734393923%2FProperties%2F964082189" anchor-label="room" id="-1734393923%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberが所属する<a href="../../com.ntt.skyway.room/-room/index.html">Room</a>。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/room.html">room</a><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room/index.html">Room</a></div><div class="brief "><p class="paragraph">このRoomMemberが所属する<a href="../../com.ntt.skyway.room/-room/index.html">Room</a>。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="1961031938%2FProperties%2F964082189" anchor-label="side" id="1961031938%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-local-room-member/side.html">side</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/side.html"><span><span>side</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1961031938%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="1961031938%2FProperties%2F964082189" anchor-label="side" id="1961031938%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-local-room-member/side.html">side</a><span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.channel.member/Member.Side///PointingToDeclaration/">Member.Side</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="1961031938%2FProperties%2F964082189" anchor-label="side" id="1961031938%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">常に<span data-unresolved-link="com.ntt.skyway.core.channel.member/Member.Side.LOCAL///PointingToDeclaration/{&quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&quot;:{&quot;key&quot;:&quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&quot;}}">Member.Side.LOCAL</span>を返します。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-local-room-member/side.html">side</a><span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.channel.member/Member.Side///PointingToDeclaration/">Member.Side</span></div><div class="brief "><p class="paragraph">常に<span data-unresolved-link="com.ntt.skyway.core.channel.member/Member.Side.LOCAL///PointingToDeclaration/{&amp;quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&amp;quot;:{&amp;quot;key&amp;quot;:&amp;quot;org.jetbrains.dokka.links.EnumEntryDRIExtra&amp;quot;}}">Member.Side.LOCAL</span>を返します。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-205094095%2FProperties%2F964082189" anchor-label="state" id="-205094095%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/state.html">state</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/state.html"><span><span>state</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-205094095%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-205094095%2FProperties%2F964082189" anchor-label="state" id="-205094095%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/state.html">state</a><span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.channel.member/Member.State///PointingToDeclaration/">Member.State</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-205094095%2FProperties%2F964082189" anchor-label="state" id="-205094095%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberの状態。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/state.html">state</a><span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.channel.member/Member.State///PointingToDeclaration/">Member.State</span></div><div class="brief "><p class="paragraph">このRoomMemberの状態。</p></div></div></div>
                 </div>
+              </div>
+            </div>
+          </div>
 <a data-name="-1005169812%2FProperties%2F964082189" anchor-label="subscriptions" id="-1005169812%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-                <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-                  <div class="main-subrow keyValue ">
-                    <div class=""><span class="inline-flex">
-                        <div><a href="../../com.ntt.skyway.room.member/-room-member/subscriptions.html">subscriptions</a></div>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/subscriptions.html"><span><span>subscriptions</span></span></a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1005169812%2FProperties%2F964082189"></span>
-                          <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                        </span></span></div>
-                    <div>
-                      <div class="title">
-                        <div class="platform-hinted " data-platform-hinted="data-platform-hinted" data-togglable="Properties"><div class="content sourceset-depenent-content" data-active="" data-togglable=":room:dokkaHtml/release"><a data-name="-1005169812%2FProperties%2F964082189" anchor-label="subscriptions" id="-1005169812%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><div class="symbol monospace"><span class="token keyword"></span><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/subscriptions.html">subscriptions</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><span class="token keyword"></span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token operator">&gt;</span><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="brief "><a data-name="-1005169812%2FProperties%2F964082189" anchor-label="subscriptions" id="-1005169812%2FProperties%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a><p class="paragraph">このRoomMemberのSubscription一覧。</p></div></div></div>
-                      </div>
-                    </div>
-                  </div>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="../../com.ntt.skyway.room.member/-room-member/subscriptions.html">subscriptions</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token operator">&gt;</span></div><div class="brief "><p class="paragraph">このRoomMemberのSubscription一覧。</p></div></div></div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="footer"><span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span></div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-2143319095%2FFunctions%2F964082189" anchor-label="equals" id="-2143319095%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/equals.html"><span><span>equals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2143319095%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1080588547%2FFunctions%2F964082189" anchor-label="hashCode" id="-1080588547%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/hash-code.html"><span>hash</span><wbr></wbr><span><span>Code</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1080588547%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-167669813%2FFunctions%2F964082189" anchor-label="leave" id="-167669813%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/leave.html"><span><span>leave</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-167669813%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/leave.html"><span class="token function">leave</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Roomから退室します。</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="367000858%2FFunctions%2F964082189" anchor-label="publish" id="367000858%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="publish.html"><span><span>publish</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="367000858%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="publish.html"><span class="token function">publish</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">localStream<span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.content.local/LocalStream///PointingToDeclaration/">LocalStream</span><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/-options/index.html">RoomPublication.Options</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph"><span data-unresolved-link="com.ntt.skyway.core.content.local/LocalStream///PointingToDeclaration/">LocalStream</span>をpublishします。 <a href="../../com.ntt.skyway.room/-room/on-stream-published-handler.html">Room.onStreamPublishedHandler</a>が発火します。</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1231002093%2FFunctions%2F964082189" anchor-label="subscribe" id="-1231002093%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html"><span><span>subscribe</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1231002093%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html"><span class="token function">subscribe</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/-options/index.html">RoomSubscription.Options</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph"><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html">publication</a>をsubscribeします。 <a href="../../com.ntt.skyway.room/-room/on-publication-subscribed-handler.html">Room.onPublicationSubscribedHandler</a>が発火します。</p></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/subscribe.html"><span class="token function">subscribe</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">publicationId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/-options/index.html">RoomSubscription.Options</a><span class="token operator">?</span><span class="token operator"> = </span>null</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-subscription/index.html">RoomSubscription</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1868877708%2FFunctions%2F964082189" anchor-label="unpublish" id="-1868877708%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="unpublish.html"><span><span>unpublish</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1868877708%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">suspend override </span><span class="token keyword">fun </span><a href="unpublish.html"><span class="token function">unpublish</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">publication<span class="token operator">: </span><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph"><span data-unresolved-link="com.ntt.skyway.core.content.local/LocalStream///PointingToDeclaration/">LocalStream</span>をunpublishします。 <a href="../../com.ntt.skyway.room/-room/on-stream-unpublished-handler.html">Room.onStreamUnpublishedHandler</a>が発火します。</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1199357876%2FFunctions%2F964082189" anchor-label="unsubscribe" id="1199357876%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-local-room-member/unsubscribe.html"><span><span>unsubscribe</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1199357876%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/unsubscribe.html"><span class="token function">unsubscribe</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">subscription<span class="token operator">: </span><span data-unresolved-link="com.ntt.skyway.core.channel/Subscription///PointingToDeclaration/">Subscription</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph"><a href="../../com.ntt.skyway.room/-room-publication/index.html">RoomPublication</a>をsubscribeします。 <a href="../../com.ntt.skyway.room/-room/on-publication-unsubscribed-handler.html">Room.onPublicationUnsubscribedHandler</a>が発火します。</p></div><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-local-room-member/unsubscribe.html"><span class="token function">unsubscribe</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">subscriptionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-218432860%2FFunctions%2F964082189" anchor-label="updateMetadata" id="-218432860%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="../../com.ntt.skyway.room.member/-room-member/update-metadata.html"><span>update</span><wbr></wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-218432860%2FFunctions%2F964082189"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="../../com.ntt.skyway.room.member/-room-member/update-metadata.html"><span class="token function">updateMetadata</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">metadata<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">Metadataを更新します。</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  </body>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2024 Copyright</span><span
+                class="pull-right"><span>Generated by </span><a
+                href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
-

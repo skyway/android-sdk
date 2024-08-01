@@ -9,8 +9,8 @@ import com.ntt.skyway.room.RoomSubscription
 import kotlinx.coroutines.*
 import java.util.*
 
-class SFURoomCodecVP8ManualTask(listener: Listener, params: Params):
-    SFURoomTaskBase(listener,params) {
+class SFURoomCodecVP8ManualTask(listener: Listener, params: Params) :
+    SFURoomTaskBase(listener, params) {
 
     override val TAG = this.javaClass.simpleName
     val SUCCESS_SUBSCRIPTION_CODEC = "video/vp8"
@@ -25,33 +25,39 @@ class SFURoomCodecVP8ManualTask(listener: Listener, params: Params):
 
             joinTask()
             if (localSFURoomMember == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"join failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "join failed")
                 return@launch
             }
 
-            localSFURoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            sfuRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            sfuRoom?.publications?.forEach {
-                subscribe(it)
+            sfuRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
             }
 
-            val options = RoomPublication.Options(codecCapabilities = mutableListOf(Codec(Codec.MimeType.VP8)))
-            val publicationLocalVideoStream = localSFURoomMember?.publish(getCameraStream(),options)
+            val options =
+                RoomPublication.Options(codecCapabilities = mutableListOf(Codec(Codec.MimeType.VP8)))
+            val publicationLocalVideoStream =
+                localSFURoomMember?.publish(getCameraStream(), options)
             if (publicationLocalVideoStream == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"publish video failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "publish video failed")
                 return@launch
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            checkCodec(it,SUCCESS_SUBSCRIPTION_CODEC)
-            listener.onSubscribeHandler?.invoke(it)
         }
     }
 }

@@ -4,7 +4,6 @@
 #include <modules/utility/include/jvm_android.h>
 #include <rtc_base/logging.h>
 #include <rtc_base/ssl_adapter.h>
-#include <sdk/android/native_api/base/init.h>
 
 #include <core/context/context_bridge.hpp>
 #include <core/network/http_client.hpp>
@@ -22,13 +21,24 @@
 
 JavaVM* jvm;
 
+std::string getCurrentDateTime() {
+    auto now = std::chrono::system_clock::now();
+    auto now_time_t = std::chrono::system_clock::to_time_t(now);
+    auto now_localtime = *std::localtime(&now_time_t);
+
+    std::ostringstream oss;
+    oss << std::put_time(&now_localtime, "%Y-%m-%d %H:%M:%S");
+    return oss.str();
+}
+
+
 extern "C" jint JNIEXPORT JNICALL JNI_OnLoad(JavaVM* vm, void* reserved) {
     jvm = vm;
     return JNI_VERSION_1_6;
 }
 
 extern "C" JNIEXPORT int JNICALL
-Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
+Java_com_ntt_skyway_libskywaytest_SkywayTest_startTestNative(JNIEnv* env,
                                                jobject j_this,
                                                jobject context,
                                                jobject j_http,
@@ -36,7 +46,6 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
                                                jobject j_logger) {
     __android_log_write(ANDROID_LOG_INFO, "SkyWayTest", "startTest init");
     rtc::LogMessage::LogToDebug(rtc::LS_NONE);
-    webrtc::InitAndroid(jvm);
     webrtc::JVM::Initialize(jvm, context);
     mediasoupclient::Initialize();
 
@@ -54,9 +63,11 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
     testing::InitGoogleTest();
 
     // select test case
-    // testing::GTEST_FLAG(filter) = "SfuIntegrationTest.*";
+//     testing::GTEST_FLAG(filter) = "PublicationIntegrationTest.*";
 
     const auto OUTPUT_PATH = "/data/data/com.ntt.skyway.libskywaytest/out.txt";
+    __android_log_print(ANDROID_LOG_INFO, "skyway_test", "TESTS OUTPUT_PATH: %s", OUTPUT_PATH);
+    
     freopen(OUTPUT_PATH, "w", stdout);
     freopen(OUTPUT_PATH, "w", stderr);
 
@@ -72,6 +83,10 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
     fclose(stdout);
     fclose(stderr);
 
+    std::ofstream ofs(OUTPUT_PATH, std::ios_base::out | std::ios_base::app);
+    ofs << "Test ended at: " << getCurrentDateTime() << "\n";
+    ofs.close();
+
     std::ifstream ifs(OUTPUT_PATH);
     std::string str = "output...\n";
 
@@ -80,11 +95,29 @@ Java_com_ntt_skyway_libskywaytest_MainActivity_startTest(JNIEnv* env,
         return -1;
     }
 
-    std::string temp;
-    while (std::getline(ifs, temp)) {
-        str += temp + "\n";
+    std::string line;
+    int lineCount = 0;
+    std::string chunk;
+
+    while (std::getline(ifs, line)) {
+        chunk += line + "\n";
+        lineCount++;
+
+        if (lineCount == 50) {
+            __android_log_write(ANDROID_LOG_INFO, "skyway_test", chunk.c_str());
+            chunk.clear();
+            lineCount = 0;
+        }
     }
 
-    __android_log_write(ANDROID_LOG_INFO, "skyway_test", str.c_str());
+// log any remaining lines (if less than 50)
+    if (!chunk.empty()) {
+        __android_log_write(ANDROID_LOG_INFO, "skyway_test", chunk.c_str());
+    }
+
+    ifs.close();
+
+    __android_log_write(ANDROID_LOG_INFO, "skyway_test", "Test completed");
+    
     return test_result;
 }

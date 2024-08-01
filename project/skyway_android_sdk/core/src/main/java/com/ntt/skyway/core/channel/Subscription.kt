@@ -95,6 +95,17 @@ interface Subscription {
     /**
      *  subscribeがキャンセルされた際に発火するハンドラ。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました。" +
+                "代わりに LocalPerson.onPublicationUnsubscribedHandler " +
+                "もしくは Channel.onPublicationUnsubscribedHandler を利用してください。",
+        replaceWith = ReplaceWith(
+            expression = "LocalPerson.onPublicationUnsubscribedHandler",
+            imports = [
+                "com.ntt.skyway.core.channel.member.LocalPerson"
+            ]
+        )
+    )
     var onCanceledHandler: (() -> Unit)?
 
     /**
@@ -113,5 +124,16 @@ interface Subscription {
     /**
      *  subscribeを中止します。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました。" +
+                "代わりに LocalPerson.unsubscribe もしくは " +
+                "RemotePerson.unsubscribe を利用してください。",
+        replaceWith = ReplaceWith(
+            expression = "LocalPerson.unsubscribe",
+            imports = [
+                "com.ntt.skyway.core.channel.member.LocalPerson"
+            ]
+        )
+    )
     suspend fun cancel(): Boolean
 }

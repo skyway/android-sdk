@@ -43,12 +43,13 @@ abstract class SFURoomTaskBase(listener: Listener, params: Params) :
     fun subscribe(
         it: RoomPublication,
         options: RoomSubscription.Options = RoomSubscription.Options()
-    ) {
+    ): RoomSubscription? {
         if (it.publisher?.id != localSFURoomMember?.id) {
-            runBlocking {
-                localSFURoomMember?.subscribe(it.id, options)
+            return runBlocking {
+                return@runBlocking localSFURoomMember?.subscribe(it.id, options)
             }
         }
+        return null
     }
 
     override fun closeTask() {

@@ -17,9 +17,9 @@ import java.util.*
 class P2PRoomReplaceStreamAutoTask(listener: Listener, params: Params) :
     P2PRoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -33,14 +33,25 @@ class P2PRoomReplaceStreamAutoTask(listener: Listener, params: Params) :
                 return@launch
             }
 
-            localP2PRoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            p2PRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            p2PRoom?.publications?.forEach {
-                subscribe(it)
+            p2PRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkBitrate(100_000, 150_000, it)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkBitrate(100_000, 150_000, it)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
             }
 
             val publicationLocalVideoStream = localP2PRoomMember?.publish(getLowRateVideoStream())
@@ -75,12 +86,5 @@ class P2PRoomReplaceStreamAutoTask(listener: Listener, params: Params) :
             }
         })
         return videoSource.createStream()
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            checkBitrate(100_000, 150_000, it)
-            listener.onSubscribeHandler?.invoke(it)
-        }
     }
 }
