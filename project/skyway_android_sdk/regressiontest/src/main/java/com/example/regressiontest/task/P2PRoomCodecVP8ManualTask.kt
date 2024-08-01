@@ -5,17 +5,18 @@ import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.room.RoomPublication
-import com.ntt.skyway.room.RoomSubscription
-import kotlinx.coroutines.*
-import java.util.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class P2PRoomCodecVP8ManualTask(listener: Listener, params: Params) :
     P2PRoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
     val SUCCESS_SUBSCRIPTION_CODEC = "video/vp8"
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -29,14 +30,25 @@ class P2PRoomCodecVP8ManualTask(listener: Listener, params: Params) :
                 return@launch
             }
 
-            localP2PRoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            p2PRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            p2PRoom?.publications?.forEach {
-                subscribe(it)
+            p2PRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
             }
 
             val options =
@@ -47,13 +59,6 @@ class P2PRoomCodecVP8ManualTask(listener: Listener, params: Params) :
                 listener.onTaskFailedHandler?.invoke(params.requestId, "publish video failed")
                 return@launch
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
-            listener.onSubscribeHandler?.invoke(it)
         }
     }
 }

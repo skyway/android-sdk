@@ -23,6 +23,7 @@ android {
             cmake {
                 cppFlags '-std=c++17 -fPIC'
                 arguments '-DANDROID_TOOLCHAIN=clang'
+                abiFilters project.hasProperty('targetAbi') ? project.targetAbi.split(',') : []
             }
         }
     }

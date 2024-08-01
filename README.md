@@ -1,5 +1,9 @@
 # SkyWay Android SDK
 
+| Platform | SDK Test | 
+| :------: | :-------: |
+| Android    | [![Android SDK test](https://github.com/skyway-internal/android-sdk/actions/workflows/android_sdk_test.yml/badge.svg)](https://github.com/skyway-internal/android-sdk/actions/workflows/android_sdk_test.yml) | 
+
 このリポジトリは、2023年1月31日にリリースされたSkyWayの Android SDK です。  
 旧SkyWayの Android SDK とは互換性がありません。
 

@@ -68,6 +68,8 @@ class PublicationImpl internal constructor(
 
     override var onMetadataUpdatedHandler: ((metadata: String) -> Unit)? = null
 
+
+    @Deprecated("v2.1.5から非推奨になりました。")
     override var onUnpublishedHandler: (() -> Unit)? = null
 
     override var onSubscribedHandler: ((subscription: Subscription) -> Unit)? = null
@@ -100,6 +102,8 @@ class PublicationImpl internal constructor(
             return@withContext nativeUpdateMetadata(nativePointer, metadata)
         }
 
+
+    @Deprecated("v2.1.5から非推奨になりました。")
     override suspend fun cancel(): Boolean = withContext(channel._threadContext) {
         if (!SkyWayContext.isSetup) {
             Logger.logE("SkyWayContext is disposed.")

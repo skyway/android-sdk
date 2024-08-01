@@ -5,16 +5,17 @@ import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.room.RoomPublication
-import com.ntt.skyway.room.RoomSubscription
-import kotlinx.coroutines.*
-import java.util.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
-class SFURoomEncodingAutoTask(listener: Listener, params: Params):
-    SFURoomTaskBase(listener,params) {
+class SFURoomEncodingAutoTask(listener: Listener, params: Params) :
+    SFURoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -25,38 +26,52 @@ class SFURoomEncodingAutoTask(listener: Listener, params: Params):
             joinTask()
 
             if (localSFURoomMember == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"join failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "join failed")
                 return@launch
             }
 
-            localSFURoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            sfuRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            sfuRoom?.publications?.forEach {
-                subscribe(it)
+            sfuRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkBitrate(100_000, 150_000, it)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkBitrate(100_000, 150_000, it)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
             }
 
-            val options = RoomPublication.Options(encodings = mutableListOf(Encoding(null,50_000, null)))
-            var publicationLocalVideoStream = localSFURoomMember?.publish(getCameraStream(), options)
+            val options =
+                RoomPublication.Options(encodings = mutableListOf(Encoding(null, 50_000, null)))
+            val publicationLocalVideoStream =
+                localSFURoomMember?.publish(getCameraStream(), options)
             if (publicationLocalVideoStream == null) {
-                listener.onTaskFailedHandler?.invoke(params.requestId,"publish failed")
+                listener.onTaskFailedHandler?.invoke(params.requestId, "publish failed")
                 return@launch
             }
             listener.onPhaseUpdateHandler = {
-                if(phase == HIGHRATE_PHASE_NUMBER){
-                    publicationLocalVideoStream.updateEncodings(mutableListOf(Encoding(null, 300_000, null)))
+                if (phase == HIGHRATE_PHASE_NUMBER) {
+                    publicationLocalVideoStream.updateEncodings(
+                        mutableListOf(
+                            Encoding(
+                                null,
+                                300_000,
+                                null
+                            )
+                        )
+                    )
                 }
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            checkBitrate(100_000,150_000, it)
-            listener.onSubscribeHandler?.invoke(it)
         }
     }
 }

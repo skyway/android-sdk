@@ -3,15 +3,17 @@ package com.example.regressiontest.task
 import com.ntt.skyway.core.SkyWayContext
 import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.Stream
-import com.ntt.skyway.room.RoomSubscription
-import kotlinx.coroutines.*
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class P2PRoomDataAutoTask(listener: Listener, params: Params) :
     P2PRoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -25,14 +27,23 @@ class P2PRoomDataAutoTask(listener: Listener, params: Params) :
                 return@launch
             }
 
-            localP2PRoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            p2PRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            p2PRoom?.publications?.forEach {
-                subscribe(it)
+            p2PRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.DATA) {
+                            checkMessage(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.DATA) {
+                            checkMessage(it)
+                        }
+                    }
+                }
             }
 
             val publicationLocalDataStream = localP2PRoomMember?.publish(getDataTaskStream())
@@ -40,12 +51,6 @@ class P2PRoomDataAutoTask(listener: Listener, params: Params) :
                 listener.onTaskFailedHandler?.invoke(params.requestId, "publish failed")
                 return@launch
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(subscription: RoomSubscription) {
-        if (subscription.contentType == Stream.ContentType.DATA) {
-            checkMessage(subscription)
         }
     }
 }

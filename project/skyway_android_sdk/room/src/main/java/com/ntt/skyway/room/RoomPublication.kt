@@ -142,6 +142,17 @@ class RoomPublication internal constructor(
     /**
      * このRoomPublicationがUnpublishされた時に発火するハンドラ。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました。"+
+                "LocalRoomMember.onStreamUnpublishedHandler もしくは " +
+                "Room.onStreamUnpublishedHandler を使用してください。",
+        replaceWith = ReplaceWith(
+            expression = "LocalRoomMember.onStreamUnpublishedHandler",
+            imports = [
+                "com.ntt.skyway.room.member.LocalRoomMember"
+            ]
+        )
+    )
     var onUnpublishedHandler: (() -> Unit)? = null
         set(value) {
             field = value
@@ -252,6 +263,15 @@ class RoomPublication internal constructor(
      *  publishを中止します。
      *  [onUnpublishedHandler]が発火します。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました",
+        replaceWith = ReplaceWith(
+            expression = "LocalRoomMember.unpublish",
+            imports = [
+                "com.ntt.skyway.room.member.LocalRoomMember"
+            ]
+        )
+    )
     suspend fun cancel(): Boolean {
         if (publication.origin == null) {
             return publication.cancel()

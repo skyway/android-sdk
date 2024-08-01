@@ -104,6 +104,10 @@ class SessionManager (private val sessionListener: Listener, private val control
                 }
                 else {
                     successTasks[dataResponse.requestId]?.clear()
+                    tasks[dataResponse.taskId]?.let {
+                        Log.i(TAG, "close task : $dataResponse.taskId")
+                        closeTask(dataResponse.taskId)
+                    }
                     val task = initializeTask(
                         dataResponse.requestId,
                         dataResponse.taskId,
@@ -174,6 +178,7 @@ class SessionManager (private val sessionListener: Listener, private val control
 
     private fun closeTask(taskId: String) {
         tasks[taskId]?.closeTask()
+        tasks.remove(taskId)
         sessionListener.onCloseTaskHandler?.invoke(taskId)
     }
 

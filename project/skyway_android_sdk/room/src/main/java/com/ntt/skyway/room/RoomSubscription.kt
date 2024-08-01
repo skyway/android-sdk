@@ -83,6 +83,15 @@ class RoomSubscription internal constructor(
     /**
      *  subscribeがキャンセルされた際に発火するハンドラ。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました。" +
+                "代わりに LocalRoomMember.onPublicationUnsubscribedHandler もしくは " +
+                "Room.onPublicationUnsubscribedHandler を使用してください。",
+        replaceWith = ReplaceWith(
+            "LocalRoomMember.onPublicationUnsubscribedHandler",
+            "com.ntt.skyway.room.member.LocalRoomMember"
+        )
+    )
     var onCanceledHandler: (() -> Unit)? = null
         set(value) {
             field = value
@@ -125,6 +134,15 @@ class RoomSubscription internal constructor(
      *  publishを中止します。
      *  [onCanceledHandler]が発火します。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました。" +
+                "代わりに LocalRoomMember.unsubscribe もしくは " +
+                "RemoteRoomMember.unsubscribe を使用してください。",
+        replaceWith = ReplaceWith(
+            "LocalRoomMember.unsubscribe",
+            "com.ntt.skyway.room.member.LocalRoomMember"
+        )
+    )
     suspend fun cancel(): Boolean {
         return subscription.cancel()
     }

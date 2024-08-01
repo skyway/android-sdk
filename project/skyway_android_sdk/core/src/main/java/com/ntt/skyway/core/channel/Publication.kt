@@ -133,6 +133,17 @@ interface Publication {
     /**
      * このPublicationがUnpublishされた時に発火するハンドラ。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました。" +
+                "代わりに LocalPerson.onStreamUnpublishedHandler もしくは " +
+                "Channel.onStreamUnpublishedHandler を使用してください。",
+        replaceWith = ReplaceWith(
+            expression = "LocalPerson.onStreamUnpublishedHandler",
+            imports = [
+                "com.ntt.skyway.core.channel.member.LocalPerson"
+            ]
+        )
+    )
     var onUnpublishedHandler: (() -> Unit)?
 
     /**
@@ -178,6 +189,15 @@ interface Publication {
      *  publishを中止します。
      *  [onUnpublishedHandler]が発火します。
      */
+    @Deprecated(
+        message = "v2.1.5から非推奨になりました",
+        replaceWith = ReplaceWith(
+            expression = "LocalPerson.unpublish",
+            imports = [
+                "com.ntt.skyway.core.channel.member.LocalPerson"
+            ]
+        )
+    )
     suspend fun cancel(): Boolean
 
     /**

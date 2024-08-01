@@ -12,10 +12,10 @@ import java.util.*
 class P2PRoomCodecH264ManualTask(listener: Listener, params: Params) :
     P2PRoomTaskBase(listener, params) {
 
-    override val TAG = this.javaClass.simpleName
+    override val TAG: String = this.javaClass.simpleName
     val SUCCESS_SUBSCRIPTION_CODEC = "video/h264"
 
-    @OptIn(SkyWayOptIn::class)
+    @OptIn(SkyWayOptIn::class, DelicateCoroutinesApi::class)
     override fun run() {
         GlobalScope.launch(Dispatchers.Default) {
             initTimeout()
@@ -29,14 +29,25 @@ class P2PRoomCodecH264ManualTask(listener: Listener, params: Params) :
                 return@launch
             }
 
-            localP2PRoomMember?.onPublicationSubscribedHandler = {
-                onPublicationSubscribedHandler(it)
-            }
-            p2PRoom?.onStreamPublishedHandler = {
-                subscribe(it)
-            }
-            p2PRoom?.publications?.forEach {
-                subscribe(it)
+            p2PRoom?.apply {
+                onStreamPublishedHandler = { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
+                publications.forEach { pub ->
+                    val subscription = subscribe(pub)
+                    subscription?.let {
+                        if (it.contentType == Stream.ContentType.VIDEO) {
+                            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
+                            listener.onSubscribeHandler?.invoke(it)
+                        }
+                    }
+                }
             }
 
             val options =
@@ -47,13 +58,6 @@ class P2PRoomCodecH264ManualTask(listener: Listener, params: Params) :
                 listener.onTaskFailedHandler?.invoke(params.requestId, "publish video failed")
                 return@launch
             }
-        }
-    }
-
-    fun onPublicationSubscribedHandler(it: RoomSubscription) {
-        if (it.contentType == Stream.ContentType.VIDEO) {
-            checkCodec(it, SUCCESS_SUBSCRIPTION_CODEC)
-            listener.onSubscribeHandler?.invoke(it)
         }
     }
 }
