@@ -25,6 +25,8 @@ using Listener = skyway::network::interface::WebSocketClient::Listener;
 
 class WebSocketClient : public skyway::network::interface::WebSocketClient {
 public:
+    enum State { kNew, kConnecting, kConnected, kClosing, kClosed, kDestroyed };
+
     static bool RegisterMethods(JNIEnv* env);
     static void OnConnect(JNIEnv *env, jobject j_this, jlong j_ws);
     static void OnMessage(JNIEnv* env, jobject j_this, jlong j_ws, jstring j_message);
@@ -48,20 +50,23 @@ public:
     void _OnClose(int code);
     void _OnError(int code);
 
-    Listener* _listener;
-
 private:
-    jobjectArray _CreateJSubprotocols(JNIEnv* env, const std::vector<std::string>& sub_protocols);
-    jobjectArray _CreateJHeaders(JNIEnv* env, const std::unordered_map<std::string, std::string>& headers);
-    jobject _j_ws;
-    bool _is_connecting;
-    std::promise<bool> _connect_promise;
-    std::mutex _connect_mtx;
-    bool _is_closing;
-    bool _is_closed;
-    std::promise<bool> _close_promise;
-    std::mutex _close_mtx;
-    std::atomic<bool> _is_destroyed = false;
+    void JavaConnect(const std::string& url,
+                     const std::vector<std::string>& sub_protocols,
+                     const std::unordered_map<std::string, std::string>& headers);
+    void JavaSend(const std::string& message);
+    void JavaClose(const int code, const std::string& reason);
+    jobjectArray CreateJSubprotocols(JNIEnv* env, const std::vector<std::string>& sub_protocols);
+    jobjectArray CreateJHeaders(JNIEnv* env, const std::unordered_map<std::string, std::string>& headers);
+    std::future<bool> GetFutureWithTrue();
+    std::future<bool> GetFutureWithFalse();
+
+    jobject j_ws_;
+    std::mutex clean_promise_mtx_;
+    std::promise<bool> connect_promise_;
+    std::promise<bool> close_promise_;
+    std::atomic<State> state_ = State::kNew;
+    Listener* listener_;
 };
 
 }  // namespace network

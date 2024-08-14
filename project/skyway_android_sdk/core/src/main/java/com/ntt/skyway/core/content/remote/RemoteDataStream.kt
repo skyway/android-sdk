@@ -5,8 +5,10 @@
 package com.ntt.skyway.core.content.remote
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.newSingleThreadContext
 
 class RemoteDataStream internal constructor(dto: Dto) : RemoteStream(dto) {
     override val contentType = ContentType.DATA
@@ -21,7 +23,8 @@ class RemoteDataStream internal constructor(dto: Dto) : RemoteStream(dto) {
      */
     var onDataBufferHandler: ((data: ByteArray) -> Unit)? = null
     private var remoteDataStreamGlobalRef: Long
-    private val scope = CoroutineScope(Dispatchers.Default)
+    @OptIn(DelicateCoroutinesApi::class)
+    private val scope = CoroutineScope(newSingleThreadContext("skyway-data-stream"))
 
     init {
         remoteDataStreamGlobalRef = nativeAddListener(nativePointer)
