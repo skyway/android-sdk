@@ -72,178 +72,136 @@ void WebSocketClient::OnError(JNIEnv *env, jobject j_this, jlong j_ws, jint code
     ws->_OnError(code);
 }
 
-WebSocketClient::WebSocketClient(jobject j_ws): _listener(nullptr), _is_connecting(false), _is_closed(false), _is_closing(false) {
+WebSocketClient::WebSocketClient(jobject j_ws): listener_(nullptr) {
     auto env = core::ContextBridge::AttachCurrentThread();
-    _j_ws = env->NewGlobalRef(j_ws);
+    j_ws_ = env->NewGlobalRef(j_ws);
 }
 
 WebSocketClient::~WebSocketClient() {
     auto env = core::ContextBridge::AttachCurrentThread();
-    env->DeleteGlobalRef(_j_ws);
+    env->DeleteGlobalRef(j_ws_);
 }
 
 void WebSocketClient::RegisterListener(Listener* listener) {
-    _listener = listener;
+    listener_ = listener;
 }
 
 std::future<bool> WebSocketClient::Connect(const std::string& url,
                           const std::vector<std::string>& sub_protocols,
                           const std::unordered_map<std::string, std::string>& headers) {
-    std::unique_lock<std::mutex> lk(_connect_mtx);
-    if (_is_destroyed) {
-        SKW_WARN("Websocket is already destroyed.");
-        std::promise<bool> p;
-        p.set_value(false);
-        return p.get_future();
+    if (state_ != State::kNew && state_ != kClosed) {
+        return this->GetFutureWithFalse();
     }
-    if (_is_connecting) {
-        std::promise<bool> p;
-        p.set_value(false);
-        return p.get_future();
-    }
-    _is_connecting = true;
-    _is_closed = false;
-
-    std::promise<bool> p;
-    _connect_promise = std::move(p);
-
-    auto env = core::ContextBridge::AttachCurrentThread();
-    auto j_url = env->NewStringUTF(url.c_str());
-    auto j_sub_protocols = _CreateJSubprotocols(env, sub_protocols);
-    auto j_headers = _CreateJHeaders(env, headers);
-    auto signature = "(Ljava/lang/String;[Ljava/lang/String;[Lcom/ntt/skyway/core/network/WebSocketHeader;J)V";
-    jlong ptr = NativeToJlong(this);
-    CallJavaMethod(env, this->_j_ws, "connect", signature, j_url, j_sub_protocols, j_headers, ptr);
-    env->DeleteLocalRef(j_sub_protocols);
-    env->DeleteLocalRef(j_headers);
-    return _connect_promise.get_future();
-
+    state_ = State::kConnecting;
+    connect_promise_ = std::promise<bool>();
+    this->JavaConnect(url, sub_protocols, headers);
+    return connect_promise_.get_future();
 }
 
 std::future<bool> WebSocketClient::Send(const std::string& message) {
-    auto env = core::ContextBridge::AttachCurrentThread();
-    auto j_message = env->NewStringUTF(message.c_str());
-    CallJavaMethod(env, this->_j_ws, "send", "(Ljava/lang/String;)V", j_message);
-    env->DeleteLocalRef(j_message);
-
-    std::promise<bool> p;
-    p.set_value(true);
-    return p.get_future();
+    if (state_ != kConnected) {
+        return this->GetFutureWithFalse();
+    }
+    this->JavaSend(message);
+    return this->GetFutureWithTrue();
 }
 
 std::future<bool> WebSocketClient::Close(const int code, const std::string& reason) {
-    std::unique_lock<std::mutex> lk(_close_mtx);
-    _is_closing = true;
-
-    std::promise<bool> p;
-    _close_promise = std::move(p);
-
-    if(_is_closed) {
-        _close_promise.set_value(true);
-        return _close_promise.get_future();
+    if (state_ != State::kConnected) {
+        return this->GetFutureWithTrue();
     }
-
-    auto env = core::ContextBridge::AttachCurrentThread();
-    auto j_class = env->GetObjectClass(this->_j_ws);
-    auto j_method_id = env->GetMethodID(j_class, "close", "(ILjava/lang/String;)Z");
-    auto j_reason = env->NewStringUTF(reason.c_str());
-    env->CallBooleanMethod(this->_j_ws, j_method_id, code, j_reason);
-    env->DeleteLocalRef(j_class);
-    env->DeleteLocalRef(j_reason);
-    return _close_promise.get_future();
+    state_ = State::kClosing;
+    close_promise_ = std::promise<bool>();
+    this->JavaClose(code, reason);
+    return close_promise_.get_future();
 }
 
 std::future<bool> WebSocketClient::Destroy() {
-    _is_destroyed = true;
-    std::unique_lock<std::mutex> lk(_close_mtx);
-    _is_closing = true;
-
-    if (_is_connecting) {
-        _connect_promise.set_value(false);
+    {
+        std::lock_guard<std::mutex> lg(clean_promise_mtx_);
+        if (state_ == State::kConnecting) {
+            connect_promise_.set_value(false);
+        }
+        if (state_ == State::kClosing) {
+            close_promise_.set_value(false);
+        }
+        state_ = State::kDestroyed;
     }
-
-    std::promise<bool> p;
-    auto env = core::ContextBridge::AttachCurrentThread();
-    auto j_class = env->GetObjectClass(this->_j_ws);
-    auto j_method_id = env->GetMethodID(j_class, "close", "(ILjava/lang/String;)Z");
-    auto code = 1000;
-    auto j_reason = env->NewStringUTF("destroy");
-    auto result = env->CallBooleanMethod(this->_j_ws, j_method_id, code, j_reason);
-    env->DeleteLocalRef(j_class);
-    env->DeleteLocalRef(j_reason);
-
-    if(!result) {
-        p.set_value(false);
-        return p.get_future();
-    }
-    _is_closed = true;
-    _listener = nullptr;
-    p.set_value(true);
-    return p.get_future();
+    listener_ = nullptr;
+    this->JavaClose(1000, "destroy");
+    return this->GetFutureWithTrue();
 }
 
 void WebSocketClient::_OnConnect() {
-    if (_is_destroyed) {
-        return;
-    }
-    std::unique_lock<std::mutex> lk(_connect_mtx);
-    if (_is_connecting) {
-        _connect_promise.set_value(true);
-        _is_connecting = false;
-    }
+    if (state_ != State::kConnecting) return;
+    state_ = State::kConnected;
+    connect_promise_.set_value(true);
 }
 
 void WebSocketClient::_OnMessage(const std::string& message ) {
-    if (_is_destroyed) {
-        return;
-    }
-    if (!_listener) return;
-    _listener->OnMessage(message);
+    if (state_ != State::kConnected) return;
+
+    if (!listener_) return;
+    listener_->OnMessage(message);
 }
 
 void WebSocketClient::_OnClose(int code) {
-    if (_is_destroyed) {
-        return;
-    }
-    std::unique_lock<std::mutex> lk(_close_mtx);
-    _is_closed = true;
+    if (state_ != State::kClosing) return;
+    state_ = State::kClosed;
+    close_promise_.set_value(true);
 
-    if (_listener) {
-        _listener->OnClose(code);
-    }
-
-    if (_is_closing) {
-        _close_promise.set_value(true);
-        _is_closing = false;
-    }
+    if (!listener_) return;
+    listener_->OnClose(code);
 }
 
 void WebSocketClient::_OnError(int code) {
-    if (_is_destroyed) {
-        return;
-    }
-    if (_is_closing && !_is_closed) {
-        _close_promise.set_value(false);
-        SKW_ERROR("Websocket error occurred when closing.");
-    }
-    _is_closed = true;
-    if (_is_connecting) {
-        _connect_promise.set_value(false);
-        SKW_ERROR("Websocket error occurred when connecting.");
+    {
+        std::lock_guard<std::mutex> lg(clean_promise_mtx_);
+        if (state_ == State::kConnecting) {
+            connect_promise_.set_value(false);
+        }
+        if (state_ == State::kClosing) {
+            close_promise_.set_value(false);
+        }
+        state_ = State::kClosed;
     }
 
-    if (_is_closing || _is_connecting){
-        _is_closing = false;
-        _is_connecting = false;
-        return;
-    }
-
-    if (!_listener) return;
-    _listener->OnError(code);
+    if (!listener_) return;
+    listener_->OnError(code);
 }
 
+void WebSocketClient::JavaConnect(const std::string& url,
+                 const std::vector<std::string>& sub_protocols,
+                 const std::unordered_map<std::string, std::string>& headers) {
+    auto env = core::ContextBridge::AttachCurrentThread();
+    auto j_url = env->NewStringUTF(url.c_str());
+    auto j_sub_protocols = this->CreateJSubprotocols(env, sub_protocols);
+    auto j_headers = this->CreateJHeaders(env, headers);
+    auto signature = "(Ljava/lang/String;[Ljava/lang/String;[Lcom/ntt/skyway/core/network/WebSocketHeader;J)V";
+    jlong ptr = NativeToJlong(this);
+    CallJavaMethod(env, this->j_ws_, "connect", signature, j_url, j_sub_protocols, j_headers, ptr);
+    env->DeleteLocalRef(j_sub_protocols);
+    env->DeleteLocalRef(j_headers);
+}
 
-jobjectArray WebSocketClient::_CreateJSubprotocols(JNIEnv* env, const std::vector<std::string>& sub_protocols) {
+void WebSocketClient::JavaSend(const std::string& message) {
+    auto env = core::ContextBridge::AttachCurrentThread();
+    auto j_message = env->NewStringUTF(message.c_str());
+    CallJavaMethod(env, this->j_ws_, "send", "(Ljava/lang/String;)V", j_message);
+    env->DeleteLocalRef(j_message);
+}
+
+void WebSocketClient::JavaClose(const int code, const std::string& reason) {
+    auto env = core::ContextBridge::AttachCurrentThread();
+    auto j_class = env->GetObjectClass(this->j_ws_);
+    auto j_method_id = env->GetMethodID(j_class, "close", "(ILjava/lang/String;)Z");
+    auto j_reason = env->NewStringUTF(reason.c_str());
+    env->CallBooleanMethod(this->j_ws_, j_method_id, code, j_reason);
+    env->DeleteLocalRef(j_class);
+    env->DeleteLocalRef(j_reason);
+}
+
+jobjectArray WebSocketClient::CreateJSubprotocols(JNIEnv* env, const std::vector<std::string>& sub_protocols) {
     auto j_str_class = env->FindClass("java/lang/String");
     auto j_sub_protocols = env->NewObjectArray(sub_protocols.size(), j_str_class, env->NewStringUTF(""));
     for (int i = 0; i < sub_protocols.size(); i++) {
@@ -253,22 +211,34 @@ jobjectArray WebSocketClient::_CreateJSubprotocols(JNIEnv* env, const std::vecto
     return j_sub_protocols;
 }
 
-jobjectArray WebSocketClient::_CreateJHeaders(JNIEnv* env, const std::unordered_map<std::string, std::string>& headers){
+jobjectArray WebSocketClient::CreateJHeaders(JNIEnv* env, const std::unordered_map<std::string, std::string>& headers){
     auto header_array_signature = "(I)[Lcom/ntt/skyway/core/network/WebSocketHeader;";
-    auto j_ws_class = env->GetObjectClass(_j_ws);
+    auto j_ws_class = env->GetObjectClass(j_ws_);
     auto j_create_header_array = env->GetMethodID(j_ws_class, "createHeaderArray", header_array_signature);
-    jobjectArray j_headers = (jobjectArray)(env->CallObjectMethod(_j_ws, j_create_header_array, headers.size()));
+    jobjectArray j_headers = (jobjectArray)(env->CallObjectMethod(j_ws_, j_create_header_array, headers.size()));
     auto header_signature = "(Ljava/lang/String;Ljava/lang/String;)Lcom/ntt/skyway/core/network/WebSocketHeader;";
     auto j_create_header = env->GetMethodID(j_ws_class, "createHeader", header_signature);
     int index = 0;
     for (auto itr = headers.begin(); itr != headers.end(); itr++) {
         auto j_header_key = env->NewStringUTF(itr->first.c_str());
         auto j_header_val = env->NewStringUTF(itr->second.c_str());
-        auto j_header = env->CallObjectMethod(_j_ws, j_create_header, j_header_key, j_header_val);
+        auto j_header = env->CallObjectMethod(j_ws_, j_create_header, j_header_key, j_header_val);
         env->SetObjectArrayElement((jobjectArray)j_headers, index, j_header);
         index++;
     }
     return j_headers;
+}
+
+std::future<bool> WebSocketClient::GetFutureWithTrue() {
+    std::promise<bool> p;
+    p.set_value(true);
+    return p.get_future();
+}
+
+std::future<bool> WebSocketClient::GetFutureWithFalse() {
+    std::promise<bool> p;
+    p.set_value(false);
+    return p.get_future();
 }
 
 }  // namespace network

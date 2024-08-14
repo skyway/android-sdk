@@ -93,7 +93,6 @@ class RegressionTestDetailsActivity : AppCompatActivity() {
 
         listener.onNewTaskHandler = {
             runOnUiThread {
-                recyclerViewAdapterSubscription?.clearData()
                 binding.tvTaskName.text = "Task: $it"
             }
         }
