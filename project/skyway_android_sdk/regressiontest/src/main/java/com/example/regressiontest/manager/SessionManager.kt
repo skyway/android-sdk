@@ -6,7 +6,6 @@ import com.example.regressiontest.model.SessionDataRequest
 import com.example.regressiontest.model.SessionDataResponse
 import com.example.regressiontest.task.*
 import com.google.gson.Gson
-import com.ntt.skyway.core.SkyWayOptIn
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalDataStream
 import com.ntt.skyway.core.content.local.source.DataSource
@@ -67,7 +66,7 @@ class SessionManager (private val sessionListener: Listener, private val control
                 successTasks[requestId]!!.add(memberId)
 
                 // Subtract 1, since "client" is a number that includes yourself.
-                if(successTasks[requestId]!!.count() == tasks[taskId]!!.params.clients - 1){
+                if(successTasks[requestId]!!.count() == tasks[taskId]?.params?.clients?.minus(1)){
                     val sessionDataRequest = SessionDataRequest(requestId, Result(true))
                     sendResponse(sessionDataRequest)
                 }

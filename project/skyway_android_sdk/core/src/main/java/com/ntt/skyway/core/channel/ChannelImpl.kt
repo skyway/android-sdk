@@ -172,7 +172,8 @@ class ChannelImpl internal constructor(
                 memberInit.metadata ?: "",
                 memberInit.type.toString(),
                 memberInit.subtype,
-                memberInit.keepAliveIntervalSec
+                memberInit.keepAliveIntervalSec,
+                memberInit.keepaliveIntervalGapSec
             ) ?: return@withContext null
             return@withContext repository.addMemberIfNeeded(localPersonJson) as LocalPerson
         }
@@ -355,7 +356,8 @@ class ChannelImpl internal constructor(
         metadata: String,
         type: String,
         subtype: String,
-        keepAliveIntervalSec: Int
+        keepAliveIntervalSec: Int,
+        keepAliveIntervalGapSec: Int
     ): String?
 
     private external fun nativeLeave(ptr: Long, memberPointer: Long): Boolean

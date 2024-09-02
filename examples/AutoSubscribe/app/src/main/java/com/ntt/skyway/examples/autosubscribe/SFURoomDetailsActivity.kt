@@ -3,8 +3,8 @@ package com.ntt.skyway.examples.autosubscribe
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ntt.skyway.core.content.Codec
 import com.ntt.skyway.core.content.Encoding
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalDataStream
@@ -17,7 +17,6 @@ import com.ntt.skyway.examples.autosubscribe.adapter.RecyclerViewAdapterRoomPubl
 import com.ntt.skyway.examples.autosubscribe.adapter.RecyclerViewAdapterSubscription
 import com.ntt.skyway.examples.autosubscribe.databinding.ActivitySfuRoomDetailsBinding
 import com.ntt.skyway.examples.autosubscribe.listener.RoomPublicationAdapterListener
-import com.ntt.skyway.examples.autosubscribe.manager.P2PRoomManager
 import com.ntt.skyway.examples.autosubscribe.manager.SFURoomManager
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.RoomSubscription
@@ -65,7 +64,7 @@ class SFURoomDetailsActivity : AppCompatActivity() {
         binding.rvUserList.adapter = recyclerViewAdapterRoomMember
 
         recyclerViewAdapterSubscription = RecyclerViewAdapterSubscription()
-        binding.rvSubscriptionList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSubscriptionList.layoutManager = GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false)
         binding.rvSubscriptionList.adapter = recyclerViewAdapterSubscription
 
         SFURoomManager.localPerson?.onPublicationListChangedHandler = {
@@ -155,7 +154,7 @@ class SFURoomDetailsActivity : AppCompatActivity() {
 
             onSubscriptionListChangedHandler = {
                 var videoSubs =  SFURoomManager.localPerson?.subscriptions?.filter { it.contentType ==  Stream.ContentType.VIDEO}
-                Log.d(tag, "Room onSubscriptionListChangedHandler sub size: ${P2PRoomManager.localPerson?.subscriptions?.size} videoSubs size: ${videoSubs?.size}")
+                Log.d(tag, "Room onSubscriptionListChangedHandler sub size: ${SFURoomManager.localPerson?.subscriptions?.size} videoSubs size: ${videoSubs?.size}")
                 runOnUiThread {
                     recyclerViewAdapterSubscription?.setData(videoSubs as MutableList<RoomSubscription>)
                 }

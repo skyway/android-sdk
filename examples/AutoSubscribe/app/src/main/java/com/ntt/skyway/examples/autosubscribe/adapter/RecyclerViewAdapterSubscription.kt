@@ -11,6 +11,10 @@ import com.ntt.skyway.core.content.remote.RemoteVideoStream
 import com.ntt.skyway.core.content.sink.SurfaceViewRenderer
 import com.ntt.skyway.examples.autosubscribe.R
 import com.ntt.skyway.room.RoomSubscription
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 
 class RecyclerViewAdapterSubscription() : RecyclerView.Adapter<RecyclerViewAdapterSubscription.ViewHolder>() {
@@ -30,19 +34,26 @@ class RecyclerViewAdapterSubscription() : RecyclerView.Adapter<RecyclerViewAdapt
     // binds the list items to a view
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = subscriptions[position]
-
         holder.textViewPublisherId.text = item.publication?.publisher?.name
 
-        if(item.contentType == Stream.ContentType.VIDEO) {
+        if (item.contentType == Stream.ContentType.VIDEO) {
             holder.surfaveViewRemote_renderer.setup()
-            if(item.stream != null){
-                (item.stream as RemoteVideoStream).addRenderer(holder.surfaveViewRemote_renderer)
-            } else {
-                Log.e(TAG, " RemoteVideoStream is NULL")
+            CoroutineScope(Dispatchers.Main).launch {
+                bindStreamWithRetry(holder, item, 15)
             }
-
         }
+    }
 
+    private suspend fun bindStreamWithRetry(holder: ViewHolder, item: RoomSubscription, maxRetries: Int, currentAttempt: Int = 1) {
+        if (item.stream != null) {
+            (item.stream as RemoteVideoStream).addRenderer(holder.surfaveViewRemote_renderer)
+        } else if (currentAttempt <= maxRetries) {
+            Log.w(TAG, "RemoteVideoStream is NULL, retrying... Attempt: $currentAttempt/$maxRetries")
+            delay(1000)
+            bindStreamWithRetry(holder, item, maxRetries, currentAttempt + 1)
+        } else {
+            Log.e(TAG, "RemoteVideoStream is still NULL after $maxRetries attempts")
+        }
     }
 
     override fun getItemCount(): Int {
@@ -55,21 +66,24 @@ class RecyclerViewAdapterSubscription() : RecyclerView.Adapter<RecyclerViewAdapt
         val surfaveViewRemote_renderer: SurfaceViewRenderer = itemView.findViewById(R.id.remote_renderer_item)
     }
 
-    fun addSubscription(sub: RoomSubscription) {
+    private fun addSubscription(sub: RoomSubscription) {
         subscriptions.add(sub)
-        notifyDataSetChanged()
+        notifyItemInserted(subscriptions.size - 1)
     }
 
-    fun removeSubscription(sub: RoomSubscription) {
-        subscriptions.remove(sub)
-        notifyDataSetChanged()
+    private fun removeSubscription(sub: RoomSubscription) {
+        val index = subscriptions.indexOf(sub)
+        if (index != -1) {
+            subscriptions.removeAt(index)
+            notifyItemRemoved(index)
+        }
     }
+    fun setData(newSubscriptions: List<RoomSubscription>) {
+        val removedSubscriptions = subscriptions.filter { it !in newSubscriptions }
+        val addedSubscriptions = newSubscriptions.filter { it !in subscriptions }
 
-    fun setData(newData: MutableList<RoomSubscription>) {
-        Log.e(TAG, "SurfaceView addData:")
-        subscriptions.clear()
-        subscriptions.addAll(newData)
-        notifyDataSetChanged()
+        removedSubscriptions.forEach { removeSubscription(it) }
+        addedSubscriptions.forEach { addSubscription(it) }
     }
 
     fun clearData(){

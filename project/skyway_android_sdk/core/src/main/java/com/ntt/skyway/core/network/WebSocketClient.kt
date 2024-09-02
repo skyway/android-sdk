@@ -1,14 +1,9 @@
 package com.ntt.skyway.core.network
 
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.newSingleThreadContext
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import okhttp3.*
 
 
@@ -16,40 +11,18 @@ class WebSocketClient {
     private val client = OkHttpClient()
     private var ws: WebSocket? = null
     private var nativePointer: Long = 0L
-    private var isDestroyed = false
-    @OptIn(DelicateCoroutinesApi::class)
-    private val coroutineContext = newSingleThreadContext("skyway-websocket")
-    private val scope = CoroutineScope(coroutineContext)
-    private val destroyMutex = Mutex()
-    private val jobsScope = CoroutineScope(Dispatchers.IO)
-    private val jobs = mutableListOf<Job>()
+    private val jobManager = JobManager(CoroutineScope(Dispatchers.IO + SupervisorJob()))
 
     private val webSocketListener: WebSocketListener = object : WebSocketListener() {
         override fun onOpen(webSocket: WebSocket, response: Response) {
-            jobsScope.launch {
-                destroyMutex.withLock {
-                    if (isDestroyed) {
-                        return@launch
-                    }
-                    val job = scope.launch {
-                        nativeOnConnect(nativePointer)
-                    }
-                    addJob(job)
-                }
+            jobManager.launchJob {
+                nativeOnConnect(nativePointer)
             }
         }
 
         override fun onMessage(webSocket: WebSocket, text: String) {
-            jobsScope.launch {
-                destroyMutex.withLock {
-                    if (isDestroyed) {
-                        return@launch
-                    }
-                    val job = scope.launch {
-                        nativeOnMessage(nativePointer, text)
-                    }
-                    addJob(job)
-                }
+            jobManager.launchJob {
+                nativeOnMessage(nativePointer, text)
             }
         }
 
@@ -58,36 +31,16 @@ class WebSocketClient {
         }
 
         override fun onClosed(webSocket: WebSocket, code: Int, reason: String) {
-            jobsScope.launch {
-                destroyMutex.withLock {
-                    if (isDestroyed) {
-                        return@launch
-                    }
-                    val job = scope.launch {
-                        nativeOnClose(nativePointer, code)
-                    }
-                    addJob(job)
-                }
+            jobManager.launchJob {
+                nativeOnClose(nativePointer, code)
             }
         }
 
         override fun onFailure(webSocket: WebSocket, t: Throwable, response: Response?) {
-            jobsScope.launch {
-                destroyMutex.withLock {
-                    if (isDestroyed) {
-                        return@launch
-                    }
-                    val job = scope.launch {
-                        nativeOnError(nativePointer, response?.code ?: 0)
-                    }
-                    addJob(job)
-                }
+            jobManager.launchJob {
+                nativeOnError(nativePointer, response?.code ?: 0)
             }
         }
-    }
-
-    private fun addJob(job: Job) {
-        jobs.add(job)
     }
 
     private fun connect(url: String, subProtocols: Array<String>, headers: Array<WebSocketHeader>, nativePointer: Long) {
@@ -108,12 +61,7 @@ class WebSocketClient {
     private fun close(code: Int, reason: String): Boolean {
         return runBlocking {
             if(reason == "destroy") {
-                destroyMutex.withLock {
-                    isDestroyed = true
-                    jobs.forEach {
-                        it.join()
-                    }
-                }
+                jobManager.terminateAllJobs()
             }
             return@runBlocking ws?.close(code, reason) ?: false
         }

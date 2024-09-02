@@ -13,6 +13,8 @@ import com.ntt.skyway.core.content.local.source.CustomVideoFrameSource
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.RoomMember
 import com.ntt.skyway.room.util.TestUtil
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -179,6 +181,28 @@ class LocalP2PRoomMemberTest {
         val subscription = alice?.subscribe(publication.id)
         assertNull(subscription)
     }
+
+    @Test
+    fun subscribe_AnotherPublicationAfterPublisherIsDisconnected() = runBlocking {
+        val charlieRoom = P2PRoom.find(id = aliceRoom?.id)
+        val charlieMemberInit = RoomMember.Init(UUID.randomUUID().toString())
+        val charlie = charlieRoom?.join(charlieMemberInit)
+        val alicePub = alice?.publish(aliceLocalVideoStream)
+        assertNotNull(alicePub)
+
+        val bobPub = bob?.publish(bobLocalVideoStream)
+        assertNotNull(bobPub)
+        aliceRoom?.dispose()
+        launch {
+            charlie?.subscribe(alicePub!!)
+        }
+        delay(100)
+        val sub = charlie?.subscribe(bobPub!!)
+        charlieRoom?.dispose()
+        assertNotNull(sub)
+    }
+
+
 
 //    @Test  //TODO impl on core getPreferredEncodingId
 //    fun subscribe_WithPreferredEncodingId() = runBlocking {

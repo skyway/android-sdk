@@ -14,8 +14,6 @@ import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.sync.Mutex
-import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 
 class LocalPersonImpl internal constructor(
@@ -75,8 +73,6 @@ class LocalPersonImpl internal constructor(
         const val SUBSCRIBE_TIMEOUT_SEC = 10000L
     }
 
-    private val publishMutex = Mutex()
-    private val subscribeMutex = Mutex()
     private val scope = CoroutineScope(Dispatchers.Default)
 
     constructor(dto: Member.Dto, repository: Repository) : this(
@@ -111,16 +107,11 @@ class LocalPersonImpl internal constructor(
             Logger.logE("SkyWayContext is disposed.")
             return@withContext null
         }
-
-        publishMutex.withLock {
-            val optionsJson = options?.toJson() ?: "{}"
-            val publicationJson =
-                nativePublish(nativePointer, localStream.nativePointer, optionsJson)
-                    ?: return@withContext null
-            return@withContext repository.addPublicationIfNeeded(
-                publicationJson, localStream
-            )
-        }
+        val optionsJson = options?.toJson() ?: "{}"
+        val publicationJson =
+            nativePublish(nativePointer, localStream.nativePointer, optionsJson)
+                ?: return@withContext null
+        return@withContext repository.addPublicationIfNeeded(publicationJson, localStream)
     }
 
     override suspend fun unpublish(publicationId: String): Boolean =
@@ -144,12 +135,10 @@ class LocalPersonImpl internal constructor(
             return@withContext null
         }
 
-        subscribeMutex.withLock {
-            val optionsJson = options?.toJson() ?: "{}"
-            val subscriptionJson = nativeSubscribe(nativePointer, publicationId, optionsJson)
-                ?: return@withContext null
-            return@withContext repository.addSubscriptionIfNeeded(subscriptionJson)
-        }
+        val optionsJson = options?.toJson() ?: "{}"
+        val subscriptionJson = nativeSubscribe(nativePointer, publicationId, optionsJson)
+            ?: return@withContext null
+        return@withContext repository.addSubscriptionIfNeeded(subscriptionJson)
     }
 
     override suspend fun subscribe(
@@ -185,16 +174,11 @@ class LocalPersonImpl internal constructor(
         }
     }
 
-    private fun onStreamPublished(publicationId: String) {
+    private fun onStreamPublished(publicationJson: String) {
         scope.launch {
-            publishMutex.withLock {
-                Logger.logI("🔔onStreamPublished")
-                val publication = repository.findPublication(publicationId) ?: run {
-                    Logger.logW("onStreamPublished: The publication($publicationId) is not found")
-                    return@launch
-                }
-                onStreamPublishedHandler?.invoke(publication)
-            }
+            Logger.logI("🔔onStreamPublished")
+            val publication = repository.addPublicationIfNeeded(publicationJson, null)
+            onStreamPublishedHandler?.invoke(publication)
         }
     }
 
@@ -216,17 +200,11 @@ class LocalPersonImpl internal constructor(
         }
     }
 
-    private fun onPublicationSubscribed(subscriptionId: String) {
+    private fun onPublicationSubscribed(subscriptionJson: String) {
         scope.launch {
-            subscribeMutex.withLock {
-                Logger.logI("🔔onPublicationSubscribed")
-                val subscription =
-                    repository.findSubscription(subscriptionId) ?: run {
-                        Logger.logW("onPublicationSubscribed: The subscription($subscriptionId) is not found")
-                        return@launch
-                    }
-                onPublicationSubscribedHandler?.invoke(subscription)
-            }
+            Logger.logI("🔔onPublicationSubscribed")
+            val subscription = repository.addSubscriptionIfNeeded(subscriptionJson)
+            onPublicationSubscribedHandler?.invoke(subscription)
         }
     }
 

@@ -3,6 +3,7 @@ package com.ntt.skyway.examples.autosubscribe
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ntt.skyway.core.content.Stream
 import com.ntt.skyway.core.content.local.LocalDataStream
@@ -62,7 +63,7 @@ class P2PRoomDetailsActivity : AppCompatActivity() {
         binding.rvUserList.adapter = recyclerViewAdapterRoomMember
 
         recyclerViewAdapterSubscription = RecyclerViewAdapterSubscription()
-        binding.rvSubscriptionList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSubscriptionList.layoutManager = GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false)
         binding.rvSubscriptionList.adapter = recyclerViewAdapterSubscription
 
         recyclerViewAdapterRoomPublication =

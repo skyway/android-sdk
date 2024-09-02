@@ -47,5 +47,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
 
     // skyway
-    implementation 'com.ntt.skyway:room:1.0.0'
+    implementation 'com.ntt.skyway:libwebrtc:1.1.1'
+    implementation 'com.ntt.skyway:room:2.1.6'
 }
