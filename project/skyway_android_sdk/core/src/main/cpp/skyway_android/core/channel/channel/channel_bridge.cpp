@@ -70,7 +70,7 @@ bool ChannelBridge::RegisterMethods(JNIEnv* env) {
         },
         {
             "nativeJoin",
-            "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;I)Ljava/lang/String;",
+            "(JLjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;II)Ljava/lang/String;",
             (void*) ChannelBridge::Join
         },
         {
@@ -187,7 +187,7 @@ bool ChannelBridge::UpdateMetadata(JNIEnv* env, jobject j_this, jlong channel, j
     return ((Channel*)channel)->UpdateMetadata(metadata);
 }
 
-jstring ChannelBridge::Join(JNIEnv* env, jobject j_this, jlong channel, jstring j_name, jstring j_metadata, jstring j_type, jstring j_subtype, jint keepalive_interval_sec) {
+jstring ChannelBridge::Join(JNIEnv* env, jobject j_this, jlong channel, jstring j_name, jstring j_metadata, jstring j_type, jstring j_subtype, jint keepalive_interval_sec, jint keepalive_interval_gap_sec) {
     MemberInit member_init;
     auto type = JStringToStdString(env, j_type);
     if (type == "PERSON") {
@@ -215,6 +215,12 @@ jstring ChannelBridge::Join(JNIEnv* env, jobject j_this, jlong channel, jstring 
         member_init.keepalive_interval_sec = boost::none;
     } else {
         member_init.keepalive_interval_sec = keepalive_interval_sec;
+    }
+
+    if (keepalive_interval_gap_sec == 0) {
+        member_init.keepalive_interval_gap_sec = boost::none;
+    } else {
+        member_init.keepalive_interval_gap_sec = keepalive_interval_gap_sec;
     }
 
     auto local_person = ((Channel*)channel)->Join(member_init);

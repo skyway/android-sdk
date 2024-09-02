@@ -105,13 +105,16 @@ class MainActivity : AppCompatActivity() {
 
             btnJoinP2PRoom.setOnClickListener {
                 scope.launch(Dispatchers.Main) {
-                    P2PRoomManager.room = P2PRoom.findOrCreate(roomName.text.toString())
+                    P2PRoomManager.room = P2PRoom.find(id = roomName.text.toString())
                     if(P2PRoomManager.room == null) {
-                        Toast.makeText(this@MainActivity,"Room findOrCreate failed",Toast.LENGTH_SHORT).show()
-                        return@launch
+                        P2PRoomManager.room = P2PRoom.findOrCreate(roomName.text.toString())
+                        if(P2PRoomManager.room == null) {
+                            Toast.makeText(this@MainActivity, "Room find or findOrCreate failed", Toast.LENGTH_SHORT).show()
+                            return@launch
+                        }
                     }
-                    Log.d(tag, "findOrCreate Room id: " + P2PRoomManager.room?.id)
-                    Toast.makeText(this@MainActivity,"Room findOrCreate OK",Toast.LENGTH_SHORT).show()
+                    Log.d(tag, "Room id: " + P2PRoomManager.room?.id)
+                    Toast.makeText(this@MainActivity,"Room OK",Toast.LENGTH_SHORT).show()
 
                     P2PRoomManager.localPerson = P2PRoomManager.room!!.join(memberInit)
                     if (P2PRoomManager.localPerson != null) {
@@ -126,13 +129,16 @@ class MainActivity : AppCompatActivity() {
 
             btnJoinSFURoom.setOnClickListener {
                 scope.launch(Dispatchers.Main) {
-                    SFURoomManager.sfuRoom = SFURoom.findOrCreate(roomName.text.toString())
+                    SFURoomManager.sfuRoom = SFURoom.find(id = roomName.text.toString())
                     if(SFURoomManager.sfuRoom == null) {
-                        Toast.makeText(this@MainActivity,"Room findOrCreate failed",Toast.LENGTH_SHORT).show()
-                        return@launch
+                        SFURoomManager.sfuRoom = SFURoom.findOrCreate(roomName.text.toString())
+                        if(SFURoomManager.sfuRoom == null) {
+                            Toast.makeText(this@MainActivity, "Room find or findOrCreate failed", Toast.LENGTH_SHORT).show()
+                            return@launch
+                        }
                     }
-                    Log.d(tag, "findOrCreate Room id: " + SFURoomManager.sfuRoom?.id)
-                    Toast.makeText(this@MainActivity,"Room findOrCreate OK",Toast.LENGTH_SHORT).show()
+                    Log.d(tag, "Room id: " + SFURoomManager.sfuRoom?.id)
+                    Toast.makeText(this@MainActivity,"Room OK",Toast.LENGTH_SHORT).show()
 
                     SFURoomManager.localPerson = SFURoomManager.sfuRoom!!.join(memberInit)
                     if (SFURoomManager.localPerson != null) {

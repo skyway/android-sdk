@@ -61,6 +61,7 @@ class P2PRoom internal constructor(private val channel: Channel) : Room(channel)
             memberInit.name,
             memberInit.metadata,
             memberInit.keepAliveIntervalSec,
+            memberInit.keepaliveIntervalGapSec,
             Member.Type.PERSON,
             "",
         )

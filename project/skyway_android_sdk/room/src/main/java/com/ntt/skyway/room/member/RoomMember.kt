@@ -34,7 +34,11 @@ abstract class RoomMember internal constructor(
         /**
          * 生存確認の間隔。
          */
-        val keepAliveIntervalSec: Int = 30
+        val keepAliveIntervalSec: Int = 30,
+        /**
+         * 生存確認の間隔を超えてChannelからMemberが削除されるまでの時間。
+         */
+        val keepaliveIntervalGapSec: Int = 30,
     )
 
     /**

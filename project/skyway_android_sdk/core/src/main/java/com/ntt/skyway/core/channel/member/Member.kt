@@ -30,6 +30,10 @@ interface Member {
          */
         val keepAliveIntervalSec: Int = 30,
         /**
+         * 生存確認の間隔を超えてChannelからMemberが削除されるまでの時間。
+         */
+        val keepaliveIntervalGapSec: Int = 30,
+        /**
          * 種別。
          */
         val type: Type = Type.PERSON,

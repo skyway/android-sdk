@@ -24,13 +24,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Room Name: " />
+                android:text="Room ID/Name: " />
 
             <EditText
                 android:id="@+id/room_name"
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:hint="room name"
+                android:hint="room id or name"
                 android:text=""/>
 
         </LinearLayout>

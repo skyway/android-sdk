@@ -23,13 +23,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="9sp"
                 android:text="Member Name: " />
 
             <TextView
                 android:id="@+id/member_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
+                android:textSize="9sp"
                 android:text="member1"/>
 
     </LinearLayout>
@@ -44,15 +45,23 @@
 
             <com.ntt.skyway.core.content.sink.SurfaceViewRenderer
                 android:id="@+id/local_renderer"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:background="@color/purple_200"/>
 
             <Button
                 android:id="@+id/btnLeaveRoom"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:insetLeft="0dp"
+                android:insetRight="0dp"
+                android:textSize="12sp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:text="Leave"/>
         </LinearLayout>
 
@@ -63,15 +72,12 @@
             android:orientation="vertical"
             android:layout_marginStart="5dp"
             android:layout_marginEnd="5dp"
-            android:layout_marginTop="10dp">
-
-
-
+            android:layout_marginTop="5dp">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_subscription_list"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="220dp"
                     android:orientation="horizontal"
                     android:scrollbars="horizontal"
                     tools:listitem="@layout/list_item_surface_view_renderer" />

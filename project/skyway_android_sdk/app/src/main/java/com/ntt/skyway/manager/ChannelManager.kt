@@ -26,7 +26,7 @@ class ChannelManager : Manager() {
     }
 
     override suspend fun join(name: String, metadata: String?): Boolean {
-        val memberInit = Member.Init(name, metadata)
+        val memberInit = Member.Init(name, metadata/* , keepaliveIntervalGapSec = 120 */)
         localPerson = channel?.join(memberInit)?:return false
         return true
     }
