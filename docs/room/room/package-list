@@ -18,8 +18,9 @@ $dokka.location:com.ntt.skyway.room.member/RemoteRoomMember/side/#/PointingToDec
 $dokka.location:com.ntt.skyway.room.member/RemoteRoomMember/subscribe/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room.member/-remote-room-member/subscribe.html
 $dokka.location:com.ntt.skyway.room.member/RemoteRoomMember/unsubscribe/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room.member/-remote-room-member/unsubscribe.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember.Init///PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/index.html
-$dokka.location:com.ntt.skyway.room.member/RoomMember.Init/Init/#kotlin.String?#kotlin.String?#kotlin.Int/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/-init.html
+$dokka.location:com.ntt.skyway.room.member/RoomMember.Init/Init/#kotlin.String?#kotlin.String?#kotlin.Int#kotlin.Int/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/-init.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember.Init/keepAliveIntervalSec/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/keep-alive-interval-sec.html
+$dokka.location:com.ntt.skyway.room.member/RoomMember.Init/keepaliveIntervalGapSec/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/keepalive-interval-gap-sec.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember.Init/metadata/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/metadata.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember.Init/name/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/name.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember///PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/index.html
