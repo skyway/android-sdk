@@ -6,13 +6,15 @@ plugins {
 }
 
 def SkyWayVer = rootProject.ext.SkyWayVer
+def roomDescription = 'SkyWay Android SDK Room library'
 
 android {
-    compileSdk 33
+    namespace 'com.ntt.skyway.room'
+    compileSdk 35
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -55,8 +57,6 @@ android {
             withSourcesJar()
         }
     }
-    namespace 'com.ntt.skyway.room'
-
 
     libraryVariants.all { variant ->
         variant.outputs.all {
@@ -84,12 +84,10 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.1'
 
     // skyway-core
-//    api "com.ntt.skyway:core:${SkyWayVer}"
-    implementation project(":core")
+    api project(":core")
 
     // sfu-bot
-//    api "com.ntt.skyway:sfubot:${SkyWayVer}"
-    implementation project(":sfubot")
+    api project(":sfubot")
 }
 
 tasks.dokkaHtml.configure {
@@ -99,36 +97,40 @@ tasks.dokkaHtml.configure {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = 'https://maven.pkg.github.com/skyway/android-sdk'
-
-            credentials {
-                def localProperties = new Properties()
-                localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
-                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
-            }
+            name = 'MavenCentral'
+            url = rootProject.layout.buildDirectory.dir('maven-central-staging-deploy')
         }
     }
 
     publications {
-        GitHubPackages(MavenPublication) {
-            groupId "com.ntt.skyway"
-            artifactId "room"
-            version SkyWayVer
+        MavenCentral(MavenPublication) {
+            groupId = 'com.ntt.skyway'
+            artifactId = 'room'
+            version = SkyWayVer
 
             afterEvaluate {
                 from components.release
             }
 
             pom {
-                url = 'https://github.com/skyway/android-sdk'
-
+                name = 'room'
+                // the pom description is necessary for uploading aar to maven central.
+                description = roomDescription
+                url = 'https://github.com/skyway/android-sdk/'
                 licenses {
                     license {
                         name = 'MIT'
                     }
+                }
+                developers {
+                    developer {
+                        name = 'skyway'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/skyway/android-sdk.git'
+                    developerConnection = 'scm:git:ssh://github.com:skyway/android-sdk.git'
+                    url = 'https://github.com/skyway/android-sdk/'
                 }
             }
         }

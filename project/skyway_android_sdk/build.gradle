@@ -1,20 +1,66 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.4.0'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10'
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:1.9.20"
-        classpath 'com.github.kezong:fat-aar:1.3.8'
-    }
+plugins {
+    id 'com.android.application' version '8.6.0' apply false
+    id 'com.android.library' version '8.6.0' apply false
+    id 'org.jetbrains.kotlin.android' version '2.0.20' apply false
+    // https://central.sonatype.org/publish/publish-portal-gradle/#jreleaser
+    // use jreleaser immediately, so apply false is not needed here
+    id 'org.jreleaser' version '1.14.0'
+    id 'org.jetbrains.dokka' version '1.9.20' apply false
 }
 
-ext.SkyWayVer = "2.2.0"
-ext.libwebrtcVer = "1.1.1"
-ext.output_aar_dir = "outputs-aar"
+ext {
+    SkyWayVer = "2.2.1"
+    // libwebrtc version rule: major.webrtc_milestone_number.patch
+    libwebrtcVer = "1.120.1"
+    output_aar_dir = "outputs-aar"
+}
 
-task clean(type: Delete) {
-    delete rootProject.buildDir
+tasks.register('clean', Delete) {
+    delete "${rootProject.projectDir}/build"
+}
+
+// run ./gradlew :jreleaserDeploy in root directory
+// notice that ":" means we only run the root build.gradle's jreleaserDeploy task
+// otherwise you would get a "outputDirectory in the gradle task does not exist" error
+// ref. https://github.com/jreleaser/jreleaser/issues/1656
+// (for jreleaser, only one outputDirectory would be created.)
+jreleaser {
+    project {
+        // version, description, and copyright is necessary to pass
+        // the jreleaser/maven central verification.
+        // notice that the version here is different from the library version.
+        version = SkyWayVer
+        description = 'SkyWay Android SDK'
+        copyright = 'Copyright (c) 2024 NTT Communications. All rights reserved.'
+    }
+    // workaround for jreleaser validation error:
+    // "release.github.token must not be blank."
+    release {
+        github {
+            token = 'dummy'
+        }
+    }
+
+    gitRootSearch = true
+
+    // NOTICE: GPG key pair would expires on 2027-09-04.
+    signing {
+        active = 'ALWAYS'
+        armored = true
+    }
+    deploy {
+        maven {
+            mavenCentral {
+                sonatype {
+                    namespace = 'com.ntt.skyway'
+                    active = 'ALWAYS'
+                    url = 'https://central.sonatype.com/api/v1/publisher'
+                    stagingRepository('build/maven-central-staging-deploy')
+                    // to avoid "Unknown packaging: aar error", we need to shut down the maven central rules.
+                    applyMavenCentralRules = false
+                    sign = true
+                }
+            }
+        }
+    }
 }

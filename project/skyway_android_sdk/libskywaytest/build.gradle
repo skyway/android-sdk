@@ -5,13 +5,13 @@ plugins {
 
 android {
     namespace 'com.ntt.skyway.libskywaytest'
-    compileSdk 33
-    ndkVersion "23.0.7599858"
+    compileSdk 35
+    ndkVersion "25.2.9519653"
 
     defaultConfig {
         applicationId "com.ntt.skyway.libskywaytest"
         minSdk 23
-        targetSdk 33
+        targetSdk 35
         versionCode 1
         versionName "1.0"
 

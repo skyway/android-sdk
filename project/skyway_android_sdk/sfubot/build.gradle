@@ -6,13 +6,14 @@ plugins {
 }
 
 def SkyWayVer = rootProject.ext.SkyWayVer
+def sfubotDescription = 'SkyWay Android SDK SFU Bot library'
 
 android {
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -94,36 +95,40 @@ tasks.dokkaHtml.configure {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = 'https://maven.pkg.github.com/skyway/android-sdk'
-
-            credentials {
-                def localProperties = new Properties()
-                localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
-                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
-            }
+            name = 'MavenCentral'
+            url = rootProject.layout.buildDirectory.dir('maven-central-staging-deploy')
         }
     }
 
     publications {
-        GitHubPackages(MavenPublication) {
-            groupId "com.ntt.skyway"
-            artifactId "sfubot"
-            version SkyWayVer
+        MavenCentral(MavenPublication) {
+            groupId = 'com.ntt.skyway'
+            artifactId = 'sfubot'
+            version = SkyWayVer
 
             afterEvaluate {
                 from components.release
             }
 
             pom {
-                url = 'https://github.com/skyway/android-sdk'
-
+                name = 'sfubot'
+                // the pom description is necessary for uploading aar to maven central.
+                description = sfubotDescription
+                url = 'https://github.com/skyway/android-sdk/'
                 licenses {
                     license {
                         name = 'MIT'
                     }
+                }
+                developers {
+                    developer {
+                        name = 'skyway'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/skyway/android-sdk.git'
+                    developerConnection = 'scm:git:ssh://github.com:skyway/android-sdk.git'
+                    url = 'https://github.com/skyway/android-sdk/'
                 }
             }
         }

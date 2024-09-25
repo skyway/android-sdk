@@ -3,41 +3,51 @@ plugins {
 }
 
 def libwebrtcVer = rootProject.ext.libwebrtcVer
+def libwebrtcDeprecation = 'SkyWay Android SDK libwebrtc library'
 
 configurations.maybeCreate("default")
 artifacts.add("default", file("libwebrtc.aar"))
 
+tasks.register('clean') {
+    // workaround for error:
+    // Task with name 'clean' not found in project ':libwebrtc'
+}
+
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = 'https://maven.pkg.github.com/skyway/android-sdk'
-
-            credentials {
-                def localProperties = new Properties()
-                localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
-                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
-            }
+            name = 'MavenCentral'
+            url = rootProject.layout.buildDirectory.dir('maven-central-staging-deploy')
         }
     }
 
     publications {
-        GitHubPackages(MavenPublication) {
-            groupId "com.ntt.skyway"
-            artifactId "libwebrtc"
-            version libwebrtcVer
+        MavenCentral(MavenPublication) {
+            groupId = 'com.ntt.skyway'
+            artifactId = 'libwebrtc'
+            version = libwebrtcVer
 
             artifact("libwebrtc.aar")
 
             pom {
-                url = 'https://github.com/skyway/android-sdk'
-
+                name = 'libwebrtc'
+                // the pom description is necessary for uploading aar to maven central.
+                description = libwebrtcDeprecation
+                url = 'https://github.com/skyway/android-sdk/'
                 licenses {
                     license {
                         name = 'MIT'
                     }
+                }
+                developers {
+                    developer {
+                        name = 'skyway'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/skyway/android-sdk.git'
+                    developerConnection = 'scm:git:ssh://github.com:skyway/android-sdk.git'
+                    url = 'https://github.com/skyway/android-sdk/'
                 }
             }
         }

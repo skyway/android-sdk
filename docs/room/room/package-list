@@ -64,6 +64,7 @@ $dokka.location:com.ntt.skyway.room////PointingToDeclaration/room/com.ntt.skywa
 $dokka.location:com.ntt.skyway.room/Room.Type.P2P///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}room/com.ntt.skyway.room/-room/-type/-p2-p/index.html
 $dokka.location:com.ntt.skyway.room/Room.Type.SFU///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}room/com.ntt.skyway.room/-room/-type/-s-f-u/index.html
 $dokka.location:com.ntt.skyway.room/Room.Type///PointingToDeclaration/room/com.ntt.skyway.room/-room/-type/index.html
+$dokka.location:com.ntt.skyway.room/Room.Type/entries/#/PointingToDeclaration/room/com.ntt.skyway.room/-room/-type/entries.html
 $dokka.location:com.ntt.skyway.room/Room.Type/valueOf/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room/-room/-type/value-of.html
 $dokka.location:com.ntt.skyway.room/Room.Type/values/#/PointingToDeclaration/room/com.ntt.skyway.room/-room/-type/values.html
 $dokka.location:com.ntt.skyway.room/Room///PointingToDeclaration/room/com.ntt.skyway.room/-room/index.html

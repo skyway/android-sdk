@@ -54,7 +54,7 @@ class RecyclerViewAdapterSubscription :
             @SuppressLint("SetTextI18n")
             override fun run() {
                 val codec =
-                    item.getStats()?.reports?.filter { it.id.contains("RTCCodec") }
+                    item.getStats()?.reports?.filter { it.id.contains("RTCCodec") || it.id.contains("CIT01") }
                 if (codec != null && codec.isNotEmpty()) {
                     holder.textViewCodec.text = "codec: " + codec[0].params
                 }
