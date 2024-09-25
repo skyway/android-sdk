@@ -43,6 +43,9 @@ target_compile_definitions( libskyway PRIVATE
     WEBRTC_AUDIO_DEVICE_INCLUDE_ANDROID_AAUDIO=1
 )
 
+if("${ANDROID_ABI}" STREQUAL "arm64-v8a" OR "${ANDROID_ABI}" STREQUAL "x86_64")
+    target_link_options( libskyway PRIVATE "-Wl,-z,max-page-size=16384" )
+endif()
 target_link_libraries( libskyway mediasoupclient libwebrtc OpenSLES log -Wl,--allow-multiple-definition )
 
 # Bridges
@@ -61,4 +64,7 @@ target_include_directories( skyway_android PRIVATE
 )
 
 # Linking
+if("${ANDROID_ABI}" STREQUAL "arm64-v8a" OR "${ANDROID_ABI}" STREQUAL "x86_64")
+    target_link_options( skyway_android PRIVATE "-Wl,-z,max-page-size=16384" )
+endif()
 target_link_libraries( skyway_android libskyway )

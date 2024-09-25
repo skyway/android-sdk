@@ -50,6 +50,9 @@ target_compile_definitions( libskyway_ PRIVATE
         WEBRTC_AUDIO_DEVICE_INCLUDE_ANDROID_AAUDIO=1
         )
 
+if("${ANDROID_ABI}" STREQUAL "arm64-v8a" OR "${ANDROID_ABI}" STREQUAL "x86_64")
+    target_link_options( libskyway_ PRIVATE "-Wl,-z,max-page-size=16384" )
+endif()
 target_link_libraries( libskyway_ mediasoupclient libwebrtc OpenSLES log -Wl,--allow-multiple-definition )
 
 #gtest
@@ -95,6 +98,7 @@ target_compile_options(nativetest PRIVATE -Wno-unknown-attributes)
 target_compile_definitions( nativetest PRIVATE WEBRTC_ANDROID=1)
 target_include_directories( nativetest PRIVATE
         ${LIBSKYWAY_DIR}/deps/boost
+        ${LIBSKYWAY_DIR}/test/faker/webrtc/
         ${LIBSKYWAY_DIR}/include
         ${LIBSKYWAY_DIR}
         ${LIBMEDIASOUPCLIENT_DIR}/include
@@ -104,7 +108,9 @@ target_include_directories( nativetest PRIVATE
         ${LIBWEBRTC_INCLUDE_PATH}/third_party/boringssl/src/include
         ../../../../core/src/main/cpp/skyway_android/
         ./)
-
+if("${ANDROID_ABI}" STREQUAL "arm64-v8a" OR "${ANDROID_ABI}" STREQUAL "x86_64")
+    target_link_options( nativetest PRIVATE "-Wl,-z,max-page-size=16384" )
+endif()
 target_link_libraries( nativetest
         libskyway_
         gmock

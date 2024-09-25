@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.ntt.skyway.authtoken'
-    compileSdk 33
+    compileSdk 35
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 35
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"

@@ -6,15 +6,17 @@ plugins {
 }
 
 def SkyWayVer = rootProject.ext.SkyWayVer
-def libwebrtcVer = rootProject.ext.libwebrtcVer
+def coreDescription = 'SkyWay Android SDK Core library'
 
 android {
-    compileSdk 33
-    ndkVersion "23.0.7599858"
+    namespace 'com.ntt.skyway'
+    compileSdk 35
+    // equal to libwebrtc ndk version
+    ndkVersion "25.2.9519653"
 
     defaultConfig {
         minSdk 23
-        targetSdk 33
+        targetSdk 35
         buildConfigField("String", "SkyWayVer", "\"${SkyWayVer}\"")
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -82,10 +84,7 @@ android {
             outputFileName = "skyway-${archivesBaseName}.aar"
         }
     }
-
-    namespace 'com.ntt.skyway'
 }
-
 
 dependencies {
     // test
@@ -120,39 +119,44 @@ tasks.dokkaHtml.configure {
     outputDirectory.set(file("../../../docs/core"))
 }
 
+
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = 'https://maven.pkg.github.com/skyway/android-sdk'
-
-            credentials {
-                def localProperties = new Properties()
-                localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-                username = localProperties.containsKey("com.github.user") ? localProperties.getProperty('com.github.user') : ''
-                password = localProperties.containsKey("com.github.token") ? localProperties.getProperty('com.github.token') : ''
-            }
+            name = 'MavenCentral'
+            url = rootProject.layout.buildDirectory.dir('maven-central-staging-deploy')
         }
     }
 
     publications {
-        GitHubPackages(MavenPublication) {
-            groupId "com.ntt.skyway"
-            artifactId "core"
-            version SkyWayVer
+        MavenCentral(MavenPublication) {
+            groupId = 'com.ntt.skyway'
+            artifactId = 'core'
+            version = SkyWayVer
 
             afterEvaluate {
                 from components.release
             }
 
             pom {
-                url = 'https://github.com/skyway/android-sdk'
-
+                name = 'core'
+                // the pom description is necessary for uploading aar to maven central.
+                description = coreDescription
+                url = 'https://github.com/skyway/android-sdk/'
                 licenses {
                     license {
                         name = 'MIT'
                     }
+                }
+                developers {
+                    developer {
+                        name = 'skyway'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:https://github.com/skyway/android-sdk.git'
+                    developerConnection = 'scm:git:ssh://github.com:skyway/android-sdk.git'
+                    url = 'https://github.com/skyway/android-sdk/'
                 }
             }
         }

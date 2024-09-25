@@ -70,7 +70,7 @@ abstract class TaskBase(protected val listener: Listener, val params: Params) {
     @OptIn(SkyWayOptIn::class)
     fun getCodec(subscription: RoomSubscription): String? {
         val getStats = subscription.getStats()
-        val report = getStats?.reports?.filter { it.id.contains("RTCCodec") }
+        val report = getStats?.reports?.filter { it.id.contains("RTCCodec") || it.id.contains("CIT01") }
         if (report?.size == 0) {
             return ""
         }

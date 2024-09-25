@@ -64,18 +64,21 @@ $dokka.location:com.ntt.skyway.core.channel.member/Member.Init/type/#/PointingTo
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Side.LOCAL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-side/-l-o-c-a-l/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Side.REMOTE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-side/-r-e-m-o-t-e/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Side///PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-side/index.html
+$dokka.location:com.ntt.skyway.core.channel.member/Member.Side/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-side/entries.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Side/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-side/value-of.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Side/values/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-side/values.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.State.Companion///PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-state/-companion/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.State.JOINED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-state/-j-o-i-n-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.State.LEFT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-state/-l-e-f-t/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.State///PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-state/index.html
+$dokka.location:com.ntt.skyway.core.channel.member/Member.State/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-state/entries.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.State/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-state/value-of.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.State/values/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-state/values.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Type.BOT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-type/-b-o-t/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Type.PERSON///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-type/-p-e-r-s-o-n/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Type.UNKNOWN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel.member/-member/-type/-u-n-k-n-o-w-n/index.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Type///PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-type/index.html
+$dokka.location:com.ntt.skyway.core.channel.member/Member.Type/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-type/entries.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Type/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-type/value-of.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member.Type/values/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/-type/values.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member///PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/index.html
@@ -125,6 +128,7 @@ $dokka.location:com.ntt.skyway.core.channel/Channel.State.CLOSED///PointingToDec
 $dokka.location:com.ntt.skyway.core.channel/Channel.State.Companion///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/-companion/index.html
 $dokka.location:com.ntt.skyway.core.channel/Channel.State.OPENED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel/-channel/-state/-o-p-e-n-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel/Channel.State///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/index.html
+$dokka.location:com.ntt.skyway.core.channel/Channel.State/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/entries.html
 $dokka.location:com.ntt.skyway.core.channel/Channel.State/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/value-of.html
 $dokka.location:com.ntt.skyway.core.channel/Channel.State/values/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/-state/values.html
 $dokka.location:com.ntt.skyway.core.channel/Channel///PointingToDeclaration/core/com.ntt.skyway.core.channel/-channel/index.html
@@ -208,6 +212,7 @@ $dokka.location:com.ntt.skyway.core.channel/Publication.State.Companion///Pointi
 $dokka.location:com.ntt.skyway.core.channel/Publication.State.DISABLED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel/-publication/-state/-d-i-s-a-b-l-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel/Publication.State.ENABLED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel/-publication/-state/-e-n-a-b-l-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel/Publication.State///PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/-state/index.html
+$dokka.location:com.ntt.skyway.core.channel/Publication.State/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/-state/entries.html
 $dokka.location:com.ntt.skyway.core.channel/Publication.State/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/-state/value-of.html
 $dokka.location:com.ntt.skyway.core.channel/Publication.State/values/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/-state/values.html
 $dokka.location:com.ntt.skyway.core.channel/Publication///PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/index.html
@@ -283,6 +288,7 @@ $dokka.location:com.ntt.skyway.core.channel/Subscription.State.Companion///Point
 $dokka.location:com.ntt.skyway.core.channel/Subscription.State.DISABLED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel/-subscription/-state/-d-i-s-a-b-l-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription.State.ENABLED///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.channel/-subscription/-state/-e-n-a-b-l-e-d/index.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription.State///PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/-state/index.html
+$dokka.location:com.ntt.skyway.core.channel/Subscription.State/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/-state/entries.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription.State/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/-state/value-of.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription.State/values/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/-state/values.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription///PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/index.html
@@ -423,6 +429,7 @@ $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam.MATCH_PARENT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/-m-a-t-c-h_-p-a-r-e-n-t/index.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam.WRAP_CONTENT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/-w-r-a-p_-c-o-n-t-e-n-t/index.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/index.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/entries.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam/value/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/value.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/value-of.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.LayoutParam/values/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-layout-param/values.html
@@ -431,6 +438,7 @@ $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType.SCALE_ASPECT_FILL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-scaling-type/-s-c-a-l-e_-a-s-p-e-c-t_-f-i-l-l/index.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType.SCALE_ASPECT_FIT///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-scaling-type/-s-c-a-l-e_-a-s-p-e-c-t_-f-i-t/index.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-scaling-type/index.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-scaling-type/entries.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-scaling-type/value-of.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType/values/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-scaling-type/values.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/index.html
@@ -452,6 +460,7 @@ $dokka.location:com.ntt.skyway.core.content/Codec.MimeType.RED///PointingToDecla
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType.VP8///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content/-codec/-mime-type/-v-p8/index.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType.VP9///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content/-codec/-mime-type/-v-p9/index.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType///PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/index.html
+$dokka.location:com.ntt.skyway.core.content/Codec.MimeType/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/entries.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType/literal/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/literal.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/value-of.html
 $dokka.location:com.ntt.skyway.core.content/Codec.MimeType/values/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-mime-type/values.html
@@ -476,11 +485,13 @@ $dokka.location:com.ntt.skyway.core.content/Stream.ContentType.Companion///Point
 $dokka.location:com.ntt.skyway.core.content/Stream.ContentType.DATA///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content/-stream/-content-type/-d-a-t-a/index.html
 $dokka.location:com.ntt.skyway.core.content/Stream.ContentType.VIDEO///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content/-stream/-content-type/-v-i-d-e-o/index.html
 $dokka.location:com.ntt.skyway.core.content/Stream.ContentType///PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-content-type/index.html
+$dokka.location:com.ntt.skyway.core.content/Stream.ContentType/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-content-type/entries.html
 $dokka.location:com.ntt.skyway.core.content/Stream.ContentType/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-content-type/value-of.html
 $dokka.location:com.ntt.skyway.core.content/Stream.ContentType/values/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-content-type/values.html
 $dokka.location:com.ntt.skyway.core.content/Stream.Side.LOCAL///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content/-stream/-side/-l-o-c-a-l/index.html
 $dokka.location:com.ntt.skyway.core.content/Stream.Side.REMOTE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.content/-stream/-side/-r-e-m-o-t-e/index.html
 $dokka.location:com.ntt.skyway.core.content/Stream.Side///PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-side/index.html
+$dokka.location:com.ntt.skyway.core.content/Stream.Side/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-side/entries.html
 $dokka.location:com.ntt.skyway.core.content/Stream.Side/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-side/value-of.html
 $dokka.location:com.ntt.skyway.core.content/Stream.Side/values/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/-side/values.html
 $dokka.location:com.ntt.skyway.core.content/Stream///PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/index.html
@@ -520,6 +531,7 @@ $dokka.location:com.ntt.skyway.core.util/Logger.LogLevel.NONE///PointingToDeclar
 $dokka.location:com.ntt.skyway.core.util/Logger.LogLevel.VERBOSE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.util/-logger/-log-level/-v-e-r-b-o-s-e/index.html
 $dokka.location:com.ntt.skyway.core.util/Logger.LogLevel.WARN///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core.util/-logger/-log-level/-w-a-r-n/index.html
 $dokka.location:com.ntt.skyway.core.util/Logger.LogLevel///PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/-log-level/index.html
+$dokka.location:com.ntt.skyway.core.util/Logger.LogLevel/entries/#/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/-log-level/entries.html
 $dokka.location:com.ntt.skyway.core.util/Logger.LogLevel/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/-log-level/value-of.html
 $dokka.location:com.ntt.skyway.core.util/Logger.LogLevel/values/#/PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/-log-level/values.html
 $dokka.location:com.ntt.skyway.core.util/Logger///PointingToDeclaration/core/com.ntt.skyway.core.util/-logger/index.html
@@ -585,6 +597,7 @@ $dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy.DISABLE///PointingT
 $dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy.ENABLE///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core/-sky-way-context/-turn-policy/-e-n-a-b-l-e/index.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy.TURN_ONLY///PointingToDeclaration/{"org.jetbrains.dokka.links.EnumEntryDRIExtra":{"key":"org.jetbrains.dokka.links.EnumEntryDRIExtra"}}core/com.ntt.skyway.core/-sky-way-context/-turn-policy/-t-u-r-n_-o-n-l-y/index.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-turn-policy/index.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy/entries/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-turn-policy/entries.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy/valueOf/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-turn-policy/value-of.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.TurnPolicy/values/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-turn-policy/values.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/index.html
