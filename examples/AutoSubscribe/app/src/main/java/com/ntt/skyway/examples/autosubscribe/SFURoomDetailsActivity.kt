@@ -22,7 +22,9 @@ import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.RoomSubscription
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withTimeoutOrNull
 
 class SFURoomDetailsActivity : AppCompatActivity() {
     private val tag = this.javaClass.simpleName
@@ -114,9 +116,12 @@ class SFURoomDetailsActivity : AppCompatActivity() {
     }
 
     private fun subscribeToCurrentPublication() {
-        SFURoomManager.sfuRoom?.publications?.forEach {
-            subscribeToPublication(it)
+        scope.launch {
+            SFURoomManager.sfuRoom?.publications?.forEach {
+                subscribeToPublication(it)
+            }
         }
+
     }
 
     private fun initButtons() {
@@ -149,7 +154,10 @@ class SFURoomDetailsActivity : AppCompatActivity() {
 
             onStreamPublishedHandler = {
                 Log.d(tag, "$tag onStreamPublished: ${it.id}")
-                subscribeToPublication(it)
+                scope.launch {
+                    subscribeToPublication(it)
+                }
+
             }
 
             onSubscriptionListChangedHandler = {
@@ -164,23 +172,19 @@ class SFURoomDetailsActivity : AppCompatActivity() {
         }
     }
 
-    private fun subscribeToPublication(publication: RoomPublication) {
+    private suspend fun subscribeToPublication(publication: RoomPublication) {
         if(publication.publisher?.id == SFURoomManager.localPerson?.id) return
+        subscription = SFURoomManager.localPerson?.subscribe(publication.id, RoomSubscription.Options(preferredEncodingId = "low"))
+        when (subscription?.contentType) {
+            Stream.ContentType.VIDEO -> {
 
-        scope.launch(Dispatchers.Main) {
-            subscription = SFURoomManager.localPerson?.subscribe(publication.id, RoomSubscription.Options(preferredEncodingId = "low"))
-            when (subscription?.contentType) {
-                Stream.ContentType.VIDEO -> {
-
-                }
-                Stream.ContentType.AUDIO -> {
-                    (subscription?.stream as RemoteAudioStream)
-                }
-                null -> {}
-                else -> {}
             }
+            Stream.ContentType.AUDIO -> {
+                (subscription?.stream as RemoteAudioStream)
+            }
+            null -> {}
+            else -> {}
         }
-
     }
 
     private fun publishCameraVideoStream() {

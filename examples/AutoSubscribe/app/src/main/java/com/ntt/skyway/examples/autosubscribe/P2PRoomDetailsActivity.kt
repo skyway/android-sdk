@@ -104,9 +104,12 @@ class P2PRoomDetailsActivity : AppCompatActivity() {
     }
 
     private fun subscribeToCurrentPublication() {
-        P2PRoomManager.room?.publications?.forEach {
-            subscribeToPublication(it)
+        scope.launch {
+            P2PRoomManager.room?.publications?.forEach {
+                subscribeToPublication(it)
+            }
         }
+
     }
 
 
@@ -141,7 +144,9 @@ class P2PRoomDetailsActivity : AppCompatActivity() {
 
             onStreamPublishedHandler = {
                 Log.d(tag, "$tag onStreamPublished: ${it.id}")
-                subscribeToPublication(it)
+                scope.launch {
+                    subscribeToPublication(it)
+                }
             }
 
             onSubscriptionListChangedHandler = {
@@ -157,33 +162,31 @@ class P2PRoomDetailsActivity : AppCompatActivity() {
 
     }
 
-    private fun subscribeToPublication(publication: RoomPublication) {
+    private suspend fun subscribeToPublication(publication: RoomPublication) {
         if(publication.publisher?.id == P2PRoomManager.localPerson?.id) return
+        subscription = P2PRoomManager.localPerson?.subscribe(publication.id)
+        when (subscription?.contentType) {
+            Stream.ContentType.VIDEO -> {
 
-        scope.launch(Dispatchers.Main) {
-            subscription = P2PRoomManager.localPerson?.subscribe(publication.id)
-            when (subscription?.contentType) {
-                Stream.ContentType.VIDEO -> {
-
+            }
+            Stream.ContentType.AUDIO -> {
+                (subscription?.stream as RemoteAudioStream)
+            }
+            Stream.ContentType.DATA -> {
+                (subscription?.stream as RemoteDataStream).onDataHandler = {
+                    Log.d(tag, "data received: $it")
                 }
-                Stream.ContentType.AUDIO -> {
-                    (subscription?.stream as RemoteAudioStream)
-                }
-                Stream.ContentType.DATA -> {
-                    (subscription?.stream as RemoteDataStream).onDataHandler = {
-                        Log.d(tag, "data received: $it")
-                    }
 
-                    (subscription?.stream as RemoteDataStream).onDataBufferHandler = {
-                        Log.d(tag, "data received byte: ${it.contentToString()}")
-                        Log.d(tag, "data received string: ${String(it)}")
-                    }
-                }
-                null -> {
-
+                (subscription?.stream as RemoteDataStream).onDataBufferHandler = {
+                    Log.d(tag, "data received byte: ${it.contentToString()}")
+                    Log.d(tag, "data received string: ${String(it)}")
                 }
             }
+            null -> {
+
+            }
         }
+
     }
 
     private fun publishCameraVideoStream() {
