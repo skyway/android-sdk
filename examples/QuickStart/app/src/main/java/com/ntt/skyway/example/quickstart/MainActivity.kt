@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
 
             // publishが可能なStreamを作成します
             localAudioStream = AudioSource.createStream()
-            room = P2PRoom.findOrCreate(name = findViewById<EditText>(R.id.roomName).toString())
+            room = P2PRoom.findOrCreate(name = findViewById<EditText>(R.id.roomName).text.toString())
             val memberInit = RoomMember.Init(name = "member_" + UUID.randomUUID())
             localRoomMember = room?.join(memberInit)
 
