@@ -37,7 +37,7 @@ bool ContextBridge::RegisterMethods(JNIEnv* env) {
     JNINativeMethod native_methods[] = {
         {
             "nativeSetup",
-            "(Ljava/lang/String;Ljava/lang/String;JLcom/ntt/skyway/core/network/HttpClient;Lcom/ntt/skyway/core/network/WebSocketClientFactory;Lcom/ntt/skyway/core/util/Logger;)Z",
+            "(Ljava/lang/String;Ljava/lang/String;JLcom/ntt/skyway/core/network/HttpClient;Lcom/ntt/skyway/core/network/WebSocketClientFactory;Ljava/lang/String;Lcom/ntt/skyway/core/util/Logger;)Z",
             (void*) ContextBridge::Setup
         },
         {
@@ -66,7 +66,7 @@ bool ContextBridge::RegisterMethods(JNIEnv* env) {
 }
 
 jboolean ContextBridge::Setup(JNIEnv* env, jobject j_this, jstring j_auth_token, jstring j_options,
-                              jlong j_pc_factory, jobject j_http, jobject j_ws_factory, jobject j_logger) {
+                              jlong j_pc_factory, jobject j_http, jobject j_ws_factory, jstring j_version, jobject j_logger) {
     SetJavaVMFromEnv(env);
 
     auto peer_connection_factory = (PeerConnectionFactoryInterface*) j_pc_factory;
@@ -79,7 +79,8 @@ jboolean ContextBridge::Setup(JNIEnv* env, jobject j_this, jstring j_auth_token,
     auto http_ptr = http.get();
 
     auto ws_factory = std::make_unique<network::WebSocketClientFactory>(j_ws_factory);
-    auto platform_info = std::make_unique<platform::PlatformInfoDelegator>();
+    auto version = JStringToStdString(env, j_version);
+    auto platform_info = std::make_unique<platform::PlatformInfoDelegator>(version);
     auto logger = std::make_unique<logger_util::Logger>(j_logger);
     auto listener = new ContextEventListener(j_this);
     auto auth_token_manager_listener = new AuthTokenManagerEventListener(j_this);

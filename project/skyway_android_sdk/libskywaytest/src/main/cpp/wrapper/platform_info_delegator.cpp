@@ -21,5 +21,10 @@ std::string PlatformInfoDelegator::GetOsInfo() const {
 std::string PlatformInfoDelegator::GetModelName() const {
     return "Android Device";
 }
+
+std::string PlatformInfoDelegator::GetSdkVersion() const {
+    return "2.1.3";
+}
+
 } // namespace platform
 }  // namespace skyway

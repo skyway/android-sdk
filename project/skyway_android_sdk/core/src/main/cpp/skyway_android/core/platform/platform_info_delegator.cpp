@@ -14,6 +14,8 @@ namespace skyway_android {
 namespace core {
 namespace platform {
 
+PlatformInfoDelegator::PlatformInfoDelegator(const std::string& version) : version_(version) {}
+
 std::string PlatformInfoDelegator::GetPlatform() const {
     return "android";
 }
@@ -38,6 +40,10 @@ std::string PlatformInfoDelegator::GetModelName() const {
     env->DeleteLocalRef(model_str);
     ContextBridge::DetachCurrentThread();
     return device_name;
+}
+
+std::string PlatformInfoDelegator::GetSdkVersion() const {
+    return version_;
 }
 
 }  // namespace platform

@@ -23,7 +23,7 @@ class ContextBridge {
 public:
     static bool RegisterMethods(JNIEnv* env);
     static jboolean Setup(JNIEnv* env, jobject j_this, jstring j_authToken, jstring j_options,
-                          jlong j_pc_factory, jobject j_http, jobject j_ws_factory, jobject j_logger);
+                          jlong j_pc_factory, jobject j_http, jobject j_ws_factory, jstring j_version, jobject j_logger);
     static jboolean UpdateAuthToken(JNIEnv* env, jobject j_this, jstring j_auth_token);
     static void _UpdateRtcConfig(JNIEnv* env, jobject j_this, jstring j_rtc_config);
     static void SetJavaVMFromEnv(JNIEnv* env);
