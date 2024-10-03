@@ -1,6 +1,6 @@
 plugins {
-    id 'com.android.application' version '8.6.0' apply false
-    id 'com.android.library' version '8.6.0' apply false
+    id 'com.android.application' version '8.6.1' apply false
+    id 'com.android.library' version '8.6.1' apply false
     id 'org.jetbrains.kotlin.android' version '2.0.20' apply false
     // https://central.sonatype.org/publish/publish-portal-gradle/#jreleaser
     // use jreleaser immediately, so apply false is not needed here
@@ -9,7 +9,7 @@ plugins {
 }
 
 ext {
-    SkyWayVer = "2.2.1"
+    SkyWayVer = "2.2.2"
     // libwebrtc version rule: major.webrtc_milestone_number.patch
     libwebrtcVer = "1.120.1"
     output_aar_dir = "outputs-aar"

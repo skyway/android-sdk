@@ -16,12 +16,18 @@ namespace platform {
 
 class PlatformInfoDelegator : public skyway::platform::interface::PlatformInfoDelegator{
 public:
+    PlatformInfoDelegator(const std::string& version);
+
     std::string GetPlatform() const override;
 
     std::string GetOsInfo() const override;
 
     std::string GetModelName() const override;
-protected:
+
+    std::string GetSdkVersion() const override;
+
+private:
+    std::string version_;
 };
 
 }  // namespace platform

@@ -212,6 +212,7 @@ object SkyWayContext {
             WebRTCManager.nativePCFactory!!,
             HttpClient,
             WebSocketClientFactory,
+            version,
             Logger
         )
 
@@ -325,6 +326,7 @@ object SkyWayContext {
         pcFactory: Long,
         httpClient: HttpClient,
         webSocketClient: WebSocketClientFactory,
+        version: String,
         logger: Logger
     ): Boolean
 
