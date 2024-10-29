@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.test.rule.GrantPermissionRule
 import kotlinx.coroutines.runBlocking
 import androidx.test.platform.app.InstrumentationRegistry
+import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.libskywaytest.SkywayTest
 import org.junit.*
 import org.junit.Assert.*
@@ -40,6 +41,7 @@ class LibSkyWayTest {
     @Test
     fun libSkywayAllTest() = runBlocking {
         val appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        Logger.logLevel = Logger.LogLevel.VERBOSE
         val testResult = SkywayTest.startTest(appContext)
         Log.d(TAG, "LibSkyWayTest testResult: " + testResult)
         assertNotNull(testResult)

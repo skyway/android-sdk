@@ -146,6 +146,13 @@ jstring LocalPersonBridge::Publish(JNIEnv* env, jobject j_this, jlong local_pers
         publication_options.is_enabled = publication_options_json["isEnabled"];
     }
 
+    // TODO Remove after managing shared_ptr of local_stream
+    auto local_stream_ptr = (LocalStream*)local_stream;
+    if (local_stream_ptr->IsPublished()) {
+        SKW_ERROR("This Stream has already been published.");
+        return nullptr;
+    }
+
     std::shared_ptr<LocalStream> local_stream_shared((LocalStream*)local_stream);
     auto publication = ((LocalPerson*)local_person)->Publish(local_stream_shared, publication_options);
     if (!publication) {

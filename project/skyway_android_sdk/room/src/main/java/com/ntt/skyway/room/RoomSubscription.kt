@@ -113,6 +113,9 @@ class RoomSubscription internal constructor(
             }
         }
 
+    /**
+     *  @suppress
+     */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is RoomSubscription) return false
         return id == other.id

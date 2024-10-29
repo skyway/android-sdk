@@ -51,6 +51,9 @@ data class Codec(
     )
 
     companion object {
+        /**
+         *  @suppress
+         */
         fun fromJsonArray(jsonArr: JsonArray): List<Codec> {
             return jsonArr.map {
                 val jsonObject = it.asJsonObject

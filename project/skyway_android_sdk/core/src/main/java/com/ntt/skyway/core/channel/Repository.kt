@@ -6,6 +6,9 @@ import com.ntt.skyway.core.util.Util
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.internal.synchronized
 
+/**
+ *  @suppress
+ */
 @OptIn(InternalCoroutinesApi::class)
 class Repository(channel: ChannelImpl) {
     private val _members = mutableMapOf<String, Member>()

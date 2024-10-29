@@ -6,7 +6,9 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.runBlocking
 import okhttp3.*
 
-
+/**
+ *  @suppress
+ */
 class WebSocketClient {
     private val client = OkHttpClient()
     private var ws: WebSocket? = null

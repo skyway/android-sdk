@@ -5,8 +5,8 @@ project("skyway")
 include(env.cmake)
 add_definitions(-Wno-deprecated-declarations)
 
-set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_DIR}/src CACHE STRING "libwebrtc include path" FORCE)
-set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_DIR}/src/out/${ANDROID_ABI}/obj CACHE STRING "libwebrtc binary path" FORCE)
+set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_HEADER_DIR}/src CACHE STRING "libwebrtc include path" FORCE)
+set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_HEADER_DIR}/src/out/${ANDROID_ABI}/obj CACHE STRING "libwebrtc binary path" FORCE)
 
 # Build libmediasoupclient
 add_subdirectory( ${LIBMEDIASOUPCLIENT_DIR} ${LIBMEDIASOUPCLIENT_DIR}/${ANDROID_ABI} )
@@ -53,8 +53,8 @@ FILE( GLOB_RECURSE SKYWAY_ANDROID skyway_android/*.cpp )
 add_library( skyway_android SHARED ${SKYWAY_ANDROID} )
 
 target_include_directories( skyway_android PRIVATE
-    ${LIBWEBRTC_DIR}/src
-    ${LIBWEBRTC_DIR}/src/third_party/abseil-cpp
+    ${LIBWEBRTC_HEADER_DIR}/src
+    ${LIBWEBRTC_HEADER_DIR}/src/third_party/abseil-cpp
     ${LIBMEDIASOUPCLIENT_DIR}/include
     ${LIBMEDIASOUPCLIENT_DIR}/deps/libsdptransform/include
     ${LIBSKYWAY_DIR}/include

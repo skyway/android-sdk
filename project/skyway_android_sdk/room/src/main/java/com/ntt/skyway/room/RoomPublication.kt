@@ -241,6 +241,9 @@ class RoomPublication internal constructor(
     internal val origin: Publication?
         get() = publication.origin
 
+    /**
+     *  @suppress
+     */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is RoomPublication) return false
         return id == other.id

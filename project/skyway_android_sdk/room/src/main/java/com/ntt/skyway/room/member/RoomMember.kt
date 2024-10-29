@@ -127,6 +127,9 @@ abstract class RoomMember internal constructor(
             }
         }
 
+    /**
+     *  @suppress
+     */
     override fun equals(other: Any?): Boolean {
         if (other == null || other !is RoomMember) return false
         return id == other.id

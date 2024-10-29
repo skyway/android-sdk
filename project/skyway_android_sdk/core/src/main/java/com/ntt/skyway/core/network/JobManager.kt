@@ -9,6 +9,9 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 
+/**
+ *  @suppress
+ */
 class JobManager(private val scope: CoroutineScope) {
     // Use SupervisorJob to ensure that ChildJobs do not affect each other.
     private val jobsMutex = Mutex()

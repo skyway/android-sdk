@@ -17,7 +17,7 @@ do
             modules=("${modules_libskywaytest[@]}")
             break
             ;;
-        "android PF (core, room, sfubot)")
+        "android platform test (core, room, sfubot)")
             modules=("${modules_others[@]}")
             break
             ;;

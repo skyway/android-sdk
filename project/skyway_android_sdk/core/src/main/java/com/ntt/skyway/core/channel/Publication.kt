@@ -87,6 +87,9 @@ interface Publication {
      */
     val codecCapabilities: List<Codec>
 
+    /**
+     *  @suppress
+     */
     val nativePointer: Long
 
     /**

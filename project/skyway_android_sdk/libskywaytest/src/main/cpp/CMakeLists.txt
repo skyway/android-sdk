@@ -5,6 +5,9 @@ project("nativetest")
 include(../../../../core/src/main/cpp/env.cmake)
 add_definitions(-Wno-deprecated-declarations)
 
+set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_HEADER_DIR}/src CACHE STRING "libwebrtc include path" FORCE)
+set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_HEADER_DIR}/src/out/${ANDROID_ABI}/obj CACHE STRING "libwebrtc binary path" FORCE)
+
 # External libraries
 add_library( libwebrtc STATIC IMPORTED )
 set_target_properties( libwebrtc
@@ -12,9 +15,6 @@ set_target_properties( libwebrtc
         IMPORTED_LOCATION
         ${LIBWEBRTC_BINARY_PATH}/libwebrtc.a
         )
-
-set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_DIR}/src CACHE STRING "libwebrtc include path" FORCE)
-set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_DIR}/src/out/${ANDROID_ABI}/obj CACHE STRING "libwebrtc binary path" FORCE)
 
 # Build libmediasoupclient
 add_subdirectory( ${LIBMEDIASOUPCLIENT_DIR} ${LIBMEDIASOUPCLIENT_DIR}/${ANDROID_ABI} )
@@ -91,6 +91,7 @@ add_library(nativetest SHARED
         ${ANDROID_UTIL}
         ${ANDROID_PLATFORM}
         ${ANDROID_WRAPPER}
+        util/test_event_listener.cpp
         nativetest.cpp)
 
 target_compile_options(nativetest PRIVATE -Wno-unknown-attributes)

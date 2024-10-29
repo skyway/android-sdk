@@ -9,14 +9,10 @@ import androidx.activity.ComponentActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
-import com.ntt.skyway.core.network.HttpClient
-import com.ntt.skyway.core.network.WebSocketClientFactory
 import com.ntt.skyway.core.util.Logger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.webrtc.Logging
-import org.webrtc.PeerConnectionFactory
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +21,9 @@ class MainActivity : ComponentActivity() {
         checkPermission(this, applicationContext)
 
         Logger.logLevel = Logger.LogLevel.VERBOSE
-
         CoroutineScope(Dispatchers.Default).launch {
             SkywayTest.startTest(
-                applicationContext,
+                applicationContext
             )
             runOnUiThread {
                 val testView = findViewById<TextView>(R.id.textView)

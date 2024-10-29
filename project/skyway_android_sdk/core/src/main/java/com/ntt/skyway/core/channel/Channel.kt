@@ -181,6 +181,9 @@ interface Channel {
      */
     var onErrorHandler: ((e: Exception) -> Unit)?
 
+    /**
+     *  @suppress
+     */
     val _threadContext: CoroutineDispatcher
 
     /**

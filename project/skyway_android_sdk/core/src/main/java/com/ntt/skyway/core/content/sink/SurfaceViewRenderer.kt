@@ -42,6 +42,9 @@ class SurfaceViewRenderer : FrameLayout, Renderer {
     }
 
     override var isSetup: Boolean = false
+    /**
+     *  @suppress
+     */
     override var sink: org.webrtc.SurfaceViewRenderer? = null
 
     constructor(context: Context) : super(context)
