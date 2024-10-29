@@ -7,6 +7,9 @@ package com.ntt.skyway.core.content.sink
 import android.media.AudioTrack
 import java.nio.ByteBuffer
 
+/**
+ *  @suppress
+ */
 object AudioDestination {
     @Deprecated("This API is deprecated.", ReplaceWith("", ""))
     var onAudioBufferHandler: ((buffer: ByteBuffer) -> Unit)? = null

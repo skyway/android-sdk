@@ -28,6 +28,9 @@ data class Encoding(
     val maxFramerate: Double? = null
 ) {
     companion object {
+        /**
+         *  @suppress
+         */
         fun fromJsonArray(jsonArr: JsonArray): List<Encoding> {
             return jsonArr.map {
                 Encoding(

@@ -26,6 +26,9 @@ class CustomRenderer : Renderer {
 
     override var isSetup: Boolean = true
 
+    /**
+     *  @suppress
+     */
     override val sink = VideoSink { videoFrame ->
         videoFrame?.buffer?.toI420()?.apply {
             val buffer = VideoFrameBuffer(

@@ -18,6 +18,7 @@
 #include "wrapper/http_client.hpp"
 #include "wrapper/logger.hpp"
 #include "wrapper/websocket_client_factory.hpp"
+#include "util/test_event_listener.hpp"
 
 JavaVM* jvm;
 
@@ -62,6 +63,11 @@ Java_com_ntt_skyway_libskywaytest_SkywayTest_startTestNative(JNIEnv* env,
     testing::InitGoogleMock();
     testing::InitGoogleTest();
 
+    // register TestEventListener
+    testing::TestEventListeners& listeners = testing::UnitTest::GetInstance()->listeners();
+    listeners.Append(new util::TestEventListener);
+
+
     // select test case
 //     testing::GTEST_FLAG(filter) = "PublicationIntegrationTest.*";
 
@@ -104,7 +110,7 @@ Java_com_ntt_skyway_libskywaytest_SkywayTest_startTestNative(JNIEnv* env,
         lineCount++;
 
         if (lineCount == 50) {
-            __android_log_write(ANDROID_LOG_INFO, "skyway_test", chunk.c_str());
+            __android_log_write(ANDROID_LOG_INFO, "skyway_test_output", chunk.c_str());
             chunk.clear();
             lineCount = 0;
         }
@@ -112,7 +118,7 @@ Java_com_ntt_skyway_libskywaytest_SkywayTest_startTestNative(JNIEnv* env,
 
 // log any remaining lines (if less than 50)
     if (!chunk.empty()) {
-        __android_log_write(ANDROID_LOG_INFO, "skyway_test", chunk.c_str());
+        __android_log_write(ANDROID_LOG_INFO, "skyway_test_output", chunk.c_str());
     }
 
     ifs.close();

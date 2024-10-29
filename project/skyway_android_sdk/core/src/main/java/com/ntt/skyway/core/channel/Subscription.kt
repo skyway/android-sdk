@@ -62,6 +62,9 @@ interface Subscription {
      */
     val contentType: ContentType
 
+    /**
+     *  @suppress
+     */
     val nativePointer: Long
 
     /**

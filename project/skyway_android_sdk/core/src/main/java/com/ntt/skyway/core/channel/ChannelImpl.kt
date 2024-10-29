@@ -15,6 +15,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.newFixedThreadPoolContext
 
+/**
+ *  @suppress
+ */
 class ChannelImpl internal constructor(
     override val id: String, override val name: String?, val nativePointer: Long
 ) : Channel {

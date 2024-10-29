@@ -25,7 +25,6 @@ object SkywayTest {
                 .setInjectableLogger({ _, _, _ -> }, Logging.Severity.LS_NONE)
                 .createInitializationOptions()
             PeerConnectionFactory.initialize(options)
-
             return@withContext startTestNative(
                 applicationContext,
                 HttpClient,

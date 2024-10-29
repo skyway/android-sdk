@@ -36,6 +36,9 @@ class LocalDataStream internal constructor(dto: Dto) : LocalStream(dto) {
         nativeWriteByteArray(data, nativePointer)
     }
 
+    /**
+     *  @suppress
+     */
     override fun dispose() {
 
     }

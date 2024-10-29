@@ -77,6 +77,9 @@ interface Member {
         }
     }
 
+    /**
+     *  @suppress
+     */
     data class Dto(
         val channel: Channel,
         val id: String,

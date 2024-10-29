@@ -24,7 +24,6 @@ $dokka.location:com.ntt.skyway.room.member/RoomMember.Init/keepaliveIntervalGapS
 $dokka.location:com.ntt.skyway.room.member/RoomMember.Init/metadata/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/metadata.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember.Init/name/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/-init/name.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember///PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/index.html
-$dokka.location:com.ntt.skyway.room.member/RoomMember/equals/#kotlin.Any?/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/equals.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/hash-code.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember/id/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/id.html
 $dokka.location:com.ntt.skyway.room.member/RoomMember/leave/#/PointingToDeclaration/room/com.ntt.skyway.room.member/-room-member/leave.html
@@ -112,7 +111,6 @@ $dokka.location:com.ntt.skyway.room/RoomPublication/contentType/#/PointingToDecl
 $dokka.location:com.ntt.skyway.room/RoomPublication/disable/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/disable.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/enable/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/enable.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/encodings/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/encodings.html
-$dokka.location:com.ntt.skyway.room/RoomPublication/equals/#kotlin.Any?/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/equals.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/getStats/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/get-stats.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/hash-code.html
 $dokka.location:com.ntt.skyway.room/RoomPublication/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-publication/id.html
@@ -139,7 +137,6 @@ $dokka.location:com.ntt.skyway.room/RoomSubscription///PointingToDeclaration/ro
 $dokka.location:com.ntt.skyway.room/RoomSubscription/cancel/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/cancel.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/changePreferredEncoding/#kotlin.String/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/change-preferred-encoding.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/contentType/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/content-type.html
-$dokka.location:com.ntt.skyway.room/RoomSubscription/equals/#kotlin.Any?/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/equals.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/getStats/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/get-stats.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/hashCode/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/hash-code.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/id.html

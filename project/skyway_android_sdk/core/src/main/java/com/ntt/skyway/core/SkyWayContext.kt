@@ -58,6 +58,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     data class RtcApi(
         val domain: String? = null,
         val secure: Boolean? = null
@@ -67,6 +70,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     data class IceParams(
         val domain: String? = null,
         val version: Int? = null,
@@ -77,6 +83,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     data class Signaling(
         val domain: String? = null,
         val secure: Boolean? = null
@@ -86,6 +95,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     data class Analytics(
         val domain: String? = null,
         val secure: Boolean? = null
@@ -117,6 +129,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     data class Sfu(
         val domain: String? = null,
         val version: Int? = null,
@@ -234,10 +249,7 @@ object SkyWayContext {
     }
 
     /**
-     *  RtcConfigを更新します。
-     *  このAPIは内部向けのものであり、サポート対象外です
-     *
-     *  @param rtcConfig 更新後のRtcConfig。
+     *  @suppress
      */
     @JvmStatic
     @SkyWayOptIn
@@ -285,6 +297,9 @@ object SkyWayContext {
         isSetup = false
     }
 
+    /**
+     *  @suppress
+     */
     @JvmStatic
     fun onReconnectStart() {
         scope.launch {
@@ -292,6 +307,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     @JvmStatic
     fun onReconnectSuccess() {
         scope.launch {
@@ -299,6 +317,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     @JvmStatic
     fun onFatalError(message: String) {
         scope.launch {
@@ -306,6 +327,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     @JvmStatic
     fun onTokenRefreshingNeeded() {
         scope.launch {
@@ -313,6 +337,9 @@ object SkyWayContext {
         }
     }
 
+    /**
+     *  @suppress
+     */
     @JvmStatic
     fun onTokenExpired() {
         scope.launch {

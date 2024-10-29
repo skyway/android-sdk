@@ -16,6 +16,9 @@ abstract class Stream(
         AUDIO, VIDEO, DATA;
 
         companion object {
+            /**
+             *  @suppress
+             */
             internal fun fromString(string: String): ContentType {
                 return when (string) {
                     "Audio" -> AUDIO
