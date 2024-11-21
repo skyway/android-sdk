@@ -89,6 +89,15 @@ class LocalSFURoomMemberTest {
         Mockito.verify(localPerson, Mockito.times(1)).publish(localStream)
     }
 
+    @Test
+    fun publish_fails_when_LocalPerson_Returns_Null() = runBlocking {
+        val localStream = Mockito.mock(LocalStream::class.java)
+        Mockito.`when`(localPerson.publish(localStream, null)).thenReturn(null)
+
+        val result = localSFURoomMember.publish(localStream)
+        Assert.assertNull(result)
+    }
+
 // Can not test because SFUBot is impl class
 //    @Test
 //    fun unpublish(): Unit = runBlocking {

@@ -11,6 +11,8 @@ import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
 
+
+
 class RoomSubscriptionTest {
     private lateinit var room: Room
     private lateinit var channel: Channel
@@ -81,4 +83,31 @@ class RoomSubscriptionTest {
     fun getRoom() {
         assertEquals(room, roomSubscription.room)
     }
+
+    @Test
+    fun getPreferredEncodingId_returns_correct_value() {
+        val encodingId = "testEncodingId"
+        Mockito.`when`(subscription.preferredEncodingId).thenReturn(encodingId)
+        assertEquals(encodingId, roomSubscription.preferredEncodingId)
+    }
+
+
+    @Test
+    fun test_onConnectionStateChangedHandler() {
+        val testState = "connected"
+        var receivedState: String? = null
+        roomSubscription.onConnectionStateChangedHandler = { state -> receivedState = state }
+        roomSubscription.onConnectionStateChangedHandler?.invoke(testState)
+        assertEquals(testState, receivedState)
+    }
+
+//    Need to handle invalidEncodingId on the Subscription class
+    @Test
+    fun changePreferredEncoding_handles_invalid_encoding_id() = runBlocking {
+        val invalidEncodingId = ""
+        roomSubscription.changePreferredEncoding(invalidEncodingId)
+        Mockito.verify(subscription, Mockito.times(1)).changePreferredEncoding(invalidEncodingId)
+    }
+
+
 }
