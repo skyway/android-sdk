@@ -10,6 +10,7 @@ import com.ntt.skyway.room.p2p.P2PRoom
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -41,6 +42,18 @@ class RoomPublicationTest {
     @Test
     fun getMetadata() {
         assertEquals(publication.metadata, roomPublication.metadata)
+    }
+
+    @Test
+    fun test_getMetadata_with_and_without_origin() {
+        Mockito.`when`(publication.origin).thenReturn(null)
+        assertEquals(publication.metadata, roomPublication.metadata)
+
+        val originMetadata = "Origin Metadata"
+        val originPublication = Mockito.mock(Publication::class.java)
+        Mockito.`when`(originPublication.metadata).thenReturn(originMetadata)
+        Mockito.`when`(publication.origin).thenReturn(originPublication)
+        assertEquals(originMetadata, roomPublication.metadata)
     }
 
     @Test
@@ -121,4 +134,50 @@ class RoomPublicationTest {
     fun getRoom() {
         assertEquals(room, roomPublication.room)
     }
+
+    @Test
+    fun test_onMetadataUpdatedHandler() {
+        var updatedMetadata: String? = null
+        roomPublication.onMetadataUpdatedHandler = { metadata ->
+            updatedMetadata = metadata
+        }
+        val newMetadata = "New Metadata"
+        roomPublication.onMetadataUpdatedHandler?.invoke(newMetadata)
+        assertEquals(newMetadata, updatedMetadata)
+    }
+
+    @Test
+    fun test_onConnectionStateChangedHandler() {
+        val testState = "connected"
+        var receivedState: String? = null
+        roomPublication.onConnectionStateChangedHandler = { state -> receivedState = state }
+        roomPublication.onConnectionStateChangedHandler?.invoke(testState)
+        assertEquals(testState, receivedState)
+    }
+
+    @Test
+    fun test_onSubscribedHandler() {
+        var subscriptionHandlerCalled = false
+        roomPublication.onSubscribedHandler = { subscriptionHandlerCalled = true }
+        roomPublication.onSubscribedHandler?.invoke(RoomSubscription(room, Mockito.mock(Subscription::class.java)))
+        assertTrue(subscriptionHandlerCalled)
+    }
+
+    @Test
+    fun test_onUnsubscribedHandler() {
+        var unsubscribedHandlerCalled = false
+        roomPublication.onUnsubscribedHandler = { unsubscribedHandlerCalled = true }
+        roomPublication.onUnsubscribedHandler?.invoke(RoomSubscription(room, Mockito.mock(Subscription::class.java)))
+        assertTrue(unsubscribedHandlerCalled)
+    }
+
+    @Test
+    fun test_onSubscriptionListChangedHandler() {
+        var handlerCalled = false
+        roomPublication.onSubscriptionListChangedHandler = { handlerCalled = true }
+        roomPublication.onSubscriptionListChangedHandler?.invoke()
+        assertTrue(handlerCalled)
+    }
+
+
 }

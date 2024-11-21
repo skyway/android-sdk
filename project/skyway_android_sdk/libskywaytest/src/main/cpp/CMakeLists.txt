@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.10.2)
 
 project("nativetest")
 
-include(../../../../core/src/main/cpp/env.cmake)
+include(../../../../core/src/main/cpp/common.cmake)
 add_definitions(-Wno-deprecated-declarations)
-
-set( LIBWEBRTC_INCLUDE_PATH ${LIBWEBRTC_HEADER_DIR}/src CACHE STRING "libwebrtc include path" FORCE)
-set( LIBWEBRTC_BINARY_PATH ${LIBWEBRTC_HEADER_DIR}/src/out/${ANDROID_ABI}/obj CACHE STRING "libwebrtc binary path" FORCE)
 
 # External libraries
 add_library( libwebrtc STATIC IMPORTED )

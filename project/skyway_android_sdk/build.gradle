@@ -9,9 +9,9 @@ plugins {
 }
 
 ext {
-    SkyWayVer = "2.2.3"
+    SkyWayVer = "2.2.4"
     // libwebrtc version rule: major.webrtc_milestone_number.patch
-    libwebrtcVer = "1.120.1"
+    libwebrtcVer = "1.120.2"
     output_aar_dir = "outputs-aar"
 }
 

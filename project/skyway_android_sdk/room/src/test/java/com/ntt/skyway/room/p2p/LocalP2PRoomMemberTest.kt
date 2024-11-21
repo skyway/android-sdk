@@ -7,6 +7,7 @@ import com.ntt.skyway.core.channel.member.Member
 import com.ntt.skyway.core.content.local.LocalStream
 import com.ntt.skyway.room.RoomPublication
 import kotlinx.coroutines.runBlocking
+import org.junit.Assert
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -90,6 +91,16 @@ class LocalP2PRoomMemberTest {
         localP2PRoomMember.publish(localStream)
         Mockito.verify(localPerson, Mockito.times(1)).publish(localStream)
     }
+
+    @Test
+    fun publish_fails_when_LocalPerson_Returns_Null() = runBlocking {
+        val localStream = Mockito.mock(LocalStream::class.java)
+        Mockito.`when`(localPerson.publish(localStream, null)).thenReturn(null)
+
+        val result = localP2PRoomMember.publish(localStream)
+        Assert.assertNull(result)
+    }
+
 
     @Test
     fun unpublish(): Unit = runBlocking {
