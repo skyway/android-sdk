@@ -1,2 +1,0 @@
--keep class com.ntt.skyway.** { *; }
--keep class org.webrtc.** { *; }
