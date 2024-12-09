@@ -33,8 +33,3 @@ Android 6.0+
 
 Enterpriseプランをご契約のお客様はテクニカルサポートをご利用ください。  
 詳しくは[SkyWayサポート](https://support.skyway.ntt.com/hc/ja)をご確認ください。
-
-## 開発
-SDKコードの一部を公開していますが、現在、手元でSDKをビルドすることはできません。
-
-今後、SDKをビルドできるようiOS SDKとの共通バイナリを公開予定です。
