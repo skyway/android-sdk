@@ -51,7 +51,6 @@ $dokka.location:com.ntt.skyway.core.channel.member/Member/id/#/PointingToDeclara
 $dokka.location:com.ntt.skyway.core.channel.member/Member/leave/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/leave.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member/metadata/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/metadata.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member/name/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/name.html
-$dokka.location:com.ntt.skyway.core.channel.member/Member/nativePointer/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/native-pointer.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member/onLeftHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/on-left-handler.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member/onMetadataUpdatedHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/on-metadata-updated-handler.html
 $dokka.location:com.ntt.skyway.core.channel.member/Member/onPublicationListChangedHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.channel.member/-member/on-publication-list-changed-handler.html
@@ -148,6 +147,7 @@ $dokka.location:com.ntt.skyway.core.channel/Publication/replaceStream/#com.ntt.s
 $dokka.location:com.ntt.skyway.core.channel/Publication/state/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/state.html
 $dokka.location:com.ntt.skyway.core.channel/Publication/stream/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/stream.html
 $dokka.location:com.ntt.skyway.core.channel/Publication/subscriptions/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/subscriptions.html
+$dokka.location:com.ntt.skyway.core.channel/Publication/uniqueId/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/unique-id.html
 $dokka.location:com.ntt.skyway.core.channel/Publication/updateEncodings/#kotlin.collections.List[com.ntt.skyway.core.content.Encoding]/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/update-encodings.html
 $dokka.location:com.ntt.skyway.core.channel/Publication/updateMetadata/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core.channel/-publication/update-metadata.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription.Options///PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/-options/index.html
