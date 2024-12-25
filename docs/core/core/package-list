@@ -253,6 +253,11 @@ $dokka.location:com.ntt.skyway.core.content.remote/RemoteVideoStream/dispose/#/P
 $dokka.location:com.ntt.skyway.core.content.remote/RemoteVideoStream/removeAllRenderer/#/PointingToDeclaration/core/com.ntt.skyway.core.content.remote/-remote-video-stream/remove-all-renderer.html
 $dokka.location:com.ntt.skyway.core.content.remote/RemoteVideoStream/removeRenderer/#com.ntt.skyway.core.content.sink.Renderer/PointingToDeclaration/core/com.ntt.skyway.core.content.remote/-remote-video-stream/remove-renderer.html
 $dokka.location:com.ntt.skyway.core.content.sink////PointingToDeclaration/core/com.ntt.skyway.core.content.sink/index.html
+$dokka.location:com.ntt.skyway.core.content.sink/AudioSink.Companion///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-audio-sink/-companion/index.html
+$dokka.location:com.ntt.skyway.core.content.sink/AudioSink.Companion/disableSpeakerMode/#android.content.Context/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-audio-sink/-companion/disable-speaker-mode.html
+$dokka.location:com.ntt.skyway.core.content.sink/AudioSink.Companion/enableSpeakerMode/#android.content.Context#kotlin.Int/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-audio-sink/-companion/enable-speaker-mode.html
+$dokka.location:com.ntt.skyway.core.content.sink/AudioSink///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-audio-sink/index.html
+$dokka.location:com.ntt.skyway.core.content.sink/AudioSink/AudioSink/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-audio-sink/-audio-sink.html
 $dokka.location:com.ntt.skyway.core.content.sink/CustomRenderer.VideoFrameBuffer///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-custom-renderer/-video-frame-buffer/index.html
 $dokka.location:com.ntt.skyway.core.content.sink/CustomRenderer.VideoFrameBuffer/VideoFrameBuffer/#kotlin.Int#kotlin.Int#java.nio.ByteBuffer#java.nio.ByteBuffer#java.nio.ByteBuffer#kotlin.Int#kotlin.Int#kotlin.Int/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-custom-renderer/-video-frame-buffer/-video-frame-buffer.html
 $dokka.location:com.ntt.skyway.core.content.sink/CustomRenderer.VideoFrameBuffer/dataU/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-custom-renderer/-video-frame-buffer/data-u.html
