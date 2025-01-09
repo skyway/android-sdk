@@ -299,6 +299,7 @@ $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/SurfaceView
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/dispose/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/dispose.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/isSetup/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/is-setup.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setScalingType/#com.ntt.skyway.core.content.sink.SurfaceViewRenderer.ScalingType/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/set-scaling-type.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setup/#android.widget.FrameLayout.LayoutParams/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/setup.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setup/#com.ntt.skyway.core.content.sink.SurfaceViewRenderer.LayoutParam#com.ntt.skyway.core.content.sink.SurfaceViewRenderer.LayoutParam/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/setup.html
 $dokka.location:com.ntt.skyway.core.content////PointingToDeclaration/core/com.ntt.skyway.core.content/index.html
 $dokka.location:com.ntt.skyway.core.content/Codec.Companion///PointingToDeclaration/core/com.ntt.skyway.core.content/-codec/-companion/index.html
