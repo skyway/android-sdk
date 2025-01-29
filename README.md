@@ -16,7 +16,7 @@ https://skyway.ntt.com/ja/docs/user-guide/android-sdk/
 - [SFU Bot ライブラリ](https://android-sdk.api-reference.skyway.ntt.com/sfubot)
 
 ## 対応OS
-Android 6.0+
+Android 5.0+
 
 ## Licence
 
