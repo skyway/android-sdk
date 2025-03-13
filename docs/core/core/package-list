@@ -175,12 +175,17 @@ $dokka.location:com.ntt.skyway.core.channel/Subscription/state/#/PointingToDecla
 $dokka.location:com.ntt.skyway.core.channel/Subscription/stream/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/stream.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription/subscriber/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/subscriber.html
 $dokka.location:com.ntt.skyway.core.content.local.source////PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/index.html
+$dokka.location:com.ntt.skyway.core.content.local.source/AudioProcessor///PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-processor/index.html
+$dokka.location:com.ntt.skyway.core.content.local.source/AudioProcessor/onData/#kotlin.Int#kotlin.Int#kotlin.Int#java.nio.ByteBuffer/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-processor/on-data.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource///PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/index.html
+$dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/addAudioProcessor/#com.ntt.skyway.core.content.local.source.AudioProcessor/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/add-audio-processor.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/audioRecord/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/audio-record.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/changeRecord/#android.media.AudioRecord/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/change-record.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/createStream/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/create-stream.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/isStarted/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/is-started.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/onAudioBufferHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/on-audio-buffer-handler.html
+$dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/removeAllAudioProcessors/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/remove-all-audio-processors.html
+$dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/removeAudioProcessor/#com.ntt.skyway.core.content.local.source.AudioProcessor/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/remove-audio-processor.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/setPreferredInputDevice/#android.media.AudioDeviceInfo/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/set-preferred-input-device.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/start/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/start.html
 $dokka.location:com.ntt.skyway.core.content.local.source/AudioSource/stop/#/PointingToDeclaration/core/com.ntt.skyway.core.content.local.source/-audio-source/stop.html
