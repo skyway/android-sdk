@@ -320,9 +320,13 @@ $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer.ScalingType
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer///PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/index.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/SurfaceViewRenderer/#android.content.Context#android.util.AttributeSet/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-surface-view-renderer.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/SurfaceViewRenderer/#android.content.Context/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/-surface-view-renderer.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/clearImage/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/clear-image.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/dispose/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/dispose.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/isSetup/#/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/is-setup.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setMirror/#kotlin.Boolean/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/set-mirror.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setScalingType/#com.ntt.skyway.core.content.sink.SurfaceViewRenderer.ScalingType/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/set-scaling-type.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setZOrderMediaOverlay/#kotlin.Boolean/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/set-z-order-media-overlay.html
+$dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setZOrderOnTop/#kotlin.Boolean/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/set-z-order-on-top.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setup/#android.widget.FrameLayout.LayoutParams/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/setup.html
 $dokka.location:com.ntt.skyway.core.content.sink/SurfaceViewRenderer/setup/#com.ntt.skyway.core.content.sink.SurfaceViewRenderer.LayoutParam#com.ntt.skyway.core.content.sink.SurfaceViewRenderer.LayoutParam/PointingToDeclaration/core/com.ntt.skyway.core.content.sink/-surface-view-renderer/setup.html
 $dokka.location:com.ntt.skyway.core.content////PointingToDeclaration/core/com.ntt.skyway.core.content/index.html
@@ -374,6 +378,10 @@ $dokka.location:com.ntt.skyway.core.content/Stream/contentType/#/PointingToDecla
 $dokka.location:com.ntt.skyway.core.content/Stream/dispose/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/dispose.html
 $dokka.location:com.ntt.skyway.core.content/Stream/id/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/id.html
 $dokka.location:com.ntt.skyway.core.content/Stream/side/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-stream/side.html
+$dokka.location:com.ntt.skyway.core.content/VideoStream///PointingToDeclaration/core/com.ntt.skyway.core.content/-video-stream/index.html
+$dokka.location:com.ntt.skyway.core.content/VideoStream/addRenderer/#com.ntt.skyway.core.content.sink.Renderer/PointingToDeclaration/core/com.ntt.skyway.core.content/-video-stream/add-renderer.html
+$dokka.location:com.ntt.skyway.core.content/VideoStream/removeAllRenderer/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-video-stream/remove-all-renderer.html
+$dokka.location:com.ntt.skyway.core.content/VideoStream/removeRenderer/#com.ntt.skyway.core.content.sink.Renderer/PointingToDeclaration/core/com.ntt.skyway.core.content/-video-stream/remove-renderer.html
 $dokka.location:com.ntt.skyway.core.content/WebRTCStats///PointingToDeclaration/core/com.ntt.skyway.core.content/-web-r-t-c-stats/index.html
 $dokka.location:com.ntt.skyway.core.content/WebRTCStats/WebRTCStats/#kotlin.collections.List[com.ntt.skyway.core.content.WebRTCStatsReport]/PointingToDeclaration/core/com.ntt.skyway.core.content/-web-r-t-c-stats/-web-r-t-c-stats.html
 $dokka.location:com.ntt.skyway.core.content/WebRTCStats/reports/#/PointingToDeclaration/core/com.ntt.skyway.core.content/-web-r-t-c-stats/reports.html
@@ -402,6 +410,7 @@ $dokka.location:com.ntt.skyway.core/SkyWayContext.Error///PointingToDeclaration/
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Error/Error/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-error/-error.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Error/message/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-error/message.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Options///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-options/index.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext.Options/Options/#com.ntt.skyway.core.util.Logger.LogLevel#kotlin.Boolean#kotlin.Boolean#kotlin.Int?#com.ntt.skyway.core.SkyWayContext.RtcApi?#com.ntt.skyway.core.SkyWayContext.IceParams?#com.ntt.skyway.core.SkyWayContext.Signaling?#com.ntt.skyway.core.SkyWayContext.Analytics?#com.ntt.skyway.core.SkyWayContext.RtcConfig?#com.ntt.skyway.core.SkyWayContext.Sfu?#com.ntt.skyway.core.SkyWayContext.Token?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-options/-options.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Options/Options/#kotlin.String#com.ntt.skyway.core.util.Logger.LogLevel#kotlin.Boolean#kotlin.Boolean#kotlin.Int?#com.ntt.skyway.core.SkyWayContext.RtcApi?#com.ntt.skyway.core.SkyWayContext.IceParams?#com.ntt.skyway.core.SkyWayContext.Signaling?#com.ntt.skyway.core.SkyWayContext.Analytics?#com.ntt.skyway.core.SkyWayContext.RtcConfig?#com.ntt.skyway.core.SkyWayContext.Sfu?#com.ntt.skyway.core.SkyWayContext.Token?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-options/-options.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Options/analytics/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-options/analytics.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext.Options/audioSource/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/-options/audio-source.html
@@ -441,6 +450,8 @@ $dokka.location:com.ntt.skyway.core/SkyWayContext/onTokenRefreshingNeededHandler
 $dokka.location:com.ntt.skyway.core/SkyWayContext/plugins/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/plugins.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext/registerPlugin/#com.ntt.skyway.plugin.Plugin/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/register-plugin.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext/setup/#android.content.Context#com.ntt.skyway.core.SkyWayContext.Options#kotlin.Function1[com.ntt.skyway.core.SkyWayContext.Error,kotlin.Unit]?/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/setup.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext/setup/#android.content.Context#kotlin.String#com.ntt.skyway.core.SkyWayContext.Options/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/setup.html
+$dokka.location:com.ntt.skyway.core/SkyWayContext/setupForDev/#android.content.Context#kotlin.String#kotlin.String#com.ntt.skyway.core.SkyWayContext.Options/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/setup-for-dev.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext/updateAuthToken/#kotlin.String/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/update-auth-token.html
 $dokka.location:com.ntt.skyway.core/SkyWayContext/version/#/PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-context/version.html
 $dokka.location:com.ntt.skyway.core/SkyWayOptIn///PointingToDeclaration/core/com.ntt.skyway.core/-sky-way-opt-in/index.html
