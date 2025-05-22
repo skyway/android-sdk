@@ -169,6 +169,7 @@ $dokka.location:com.ntt.skyway.core.channel/Subscription/getStats/#/PointingToDe
 $dokka.location:com.ntt.skyway.core.channel/Subscription/id/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/id.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription/onCanceledHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/on-canceled-handler.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription/onConnectionStateChangedHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/on-connection-state-changed-handler.html
+$dokka.location:com.ntt.skyway.core.channel/Subscription/onStreamAttachedHandler/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/on-stream-attached-handler.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription/preferredEncodingId/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/preferred-encoding-id.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription/publication/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/publication.html
 $dokka.location:com.ntt.skyway.core.channel/Subscription/state/#/PointingToDeclaration/core/com.ntt.skyway.core.channel/-subscription/state.html

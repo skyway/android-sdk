@@ -31,9 +31,10 @@ import com.ntt.skyway.core.content.local.LocalVideoStream
 
 class MainActivity : AppCompatActivity() {
     private val option = SkyWayContext.Options(
-        authToken = "YOUR_TOKEN",
         logLevel = Logger.LogLevel.VERBOSE
     )
+    private val appId = TODO("replace your app id here")
+    private val secretKey = TODO("replace your secret key here")
     private val scope = CoroutineScope(Dispatchers.IO)
     private var localRoomMember     : LocalRoomMember?  = null
     private var room                : P2PRoom?          = null
@@ -80,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     private fun joinAndPublish() {
 
         scope.launch() {
-            val result = SkyWayContext.setup(applicationContext, option)
+            val result = SkyWayContext.setupForDev(applicationContext, appId, secretKey, option)
             if (result) {
                 Log.d("App", "Setup succeed")
             }

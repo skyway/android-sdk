@@ -20,7 +20,8 @@ import kotlinx.coroutines.*
 
 
 class MainActivity : AppCompatActivity() {
-    private val authToken = TODO("replace your auth token here")
+    private val appId = TODO("replace your app id here")
+    private val secretKey = TODO("replace your secret key here")
 
     private lateinit var binding: ActivityMainBinding
 
@@ -77,10 +78,9 @@ class MainActivity : AppCompatActivity() {
     private fun setupSkyWayContext(){
         scope.launch(Dispatchers.Default) {
             val option = SkyWayContext.Options(
-                authToken = authToken,
                 logLevel = Logger.LogLevel.VERBOSE
             )
-            val result =  SkyWayContext.setup(applicationContext, option)
+            val result = SkyWayContext.setupForDev(applicationContext, appId, secretKey, option)
             if (result) {
                 Log.d("App", "Setup succeed")
             }
