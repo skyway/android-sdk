@@ -35,8 +35,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val tag = this.javaClass.simpleName
     private val applicationContext = getApplication<Application>().applicationContext
     private var isSkyWayContextSetupDone = false
+    private val appId = TODO("replace your app id here")
+    private val secretKey = TODO("replace your secret key here")
     private val option = SkyWayContext.Options(
-        authToken = TODO("Please set your auth token"),
         logLevel = Logger.LogLevel.VERBOSE
     )
 
@@ -296,7 +297,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         if (isSkyWayContextSetupDone) {
             return
         }
-        val result = SkyWayContext.setup(applicationContext, option)
+        val result = SkyWayContext.setupForDev(applicationContext, appId, secretKey, option)
         if (result) {
             Log.d("App", "SkyWay Setup succeed")
         }

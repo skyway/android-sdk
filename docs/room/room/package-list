@@ -142,6 +142,7 @@ $dokka.location:com.ntt.skyway.room/RoomSubscription/hashCode/#/PointingToDeclar
 $dokka.location:com.ntt.skyway.room/RoomSubscription/id/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/id.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/onCanceledHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/on-canceled-handler.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/onConnectionStateChangedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/on-connection-state-changed-handler.html
+$dokka.location:com.ntt.skyway.room/RoomSubscription/onStreamAttachedHandler/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/on-stream-attached-handler.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/preferredEncodingId/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/preferred-encoding-id.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/publication/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/publication.html
 $dokka.location:com.ntt.skyway.room/RoomSubscription/room/#/PointingToDeclaration/room/com.ntt.skyway.room/-room-subscription/room.html

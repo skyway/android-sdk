@@ -5,7 +5,7 @@ coreKtx = "1.13.1"
 lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.04.01"
-skyway = "2.2.1"
+skyway = "+"
 navigationCompose = "2.8.1"
 navigationRuntimeKtx = "2.8.1"
 

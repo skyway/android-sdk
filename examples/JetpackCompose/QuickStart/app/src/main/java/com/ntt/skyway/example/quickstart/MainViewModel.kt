@@ -27,13 +27,13 @@ import java.util.UUID
 
 class MainViewModel(): ViewModel() {
     private val option = SkyWayContext.Options(
-        authToken = TODO("replace your auth token here"),
         logLevel = Logger.LogLevel.VERBOSE
     )
     var applicationContext: Context? = null
 
+    private val appId = TODO("replace your app id here")
+    private val secretKey = TODO("replace your secret key here")
     private var localRoomMember: LocalRoomMember? = null
-
     private var room: P2PRoom? = null
 
     var localVideoStream by mutableStateOf<LocalVideoStream?>(null)
@@ -46,7 +46,7 @@ class MainViewModel(): ViewModel() {
     fun joinAndPublish(roomName: String) {
 
         viewModelScope.launch() {
-            val result = SkyWayContext.setup(applicationContext!!, option)
+            val result = SkyWayContext.setupForDev(applicationContext!!, appId, secretKey, option)
             if (result) {
                 Log.d("App", "Setup succeed")
             }
