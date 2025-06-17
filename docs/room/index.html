@@ -12,8 +12,13 @@
                                 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
                     })(window, document, 'script', 'dataLayer', 'GTM-NN5JX4B');</script>
                 <!-- End Google Tag Manager -->
+                <link rel="preconnect" href="https://fonts.googleapis.com">
+                <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+                    rel="stylesheet">
                 <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>room</title>
+    <title>SkyWay Android SDK</title>
     <link href="images/logo-icon.svg" rel="icon" type="image/svg">
                     <script>var pathToRoot = "";</script>
                 <script>document.documentElement.classList.replace("no-js", "js");</script>
@@ -43,6 +48,8 @@
 <script type="text/javascript" src="scripts/main.js" defer="defer"></script>
 <script type="text/javascript" src="scripts/prism.js" async="async"></script>
 <script type="text/javascript" src="scripts/symbol-parameters-wrapper_deferred.js" defer="defer"></script>
+<link href="images/logo-icon.svg">
+<link href="styles/styles.css" rel="Stylesheet">
             </head>
 
             <body>
@@ -57,7 +64,7 @@
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
                     <a class="library-name--link" href="index.html">
-                            room
+                            SkyWay Android SDK
                     </a>
             </div>
             <div class="library-version">
@@ -77,33 +84,259 @@
                             <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
                                 <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list"
                                     data-role="dropdown-listbox">
-                                    <div class="dropdown--header">
-                                        <span>
-                                                room
-                                        </span>
-                                        <button class="button" data-role="dropdown-toggle"
-                                            aria-label="Close table of contents">
-                                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
-                                        </button>
-                                    </div>
                                     <div class="sidebar--inner" id="sideMenu"></div>
                                 </ul>
                                 <div class="dropdown--overlay"></div>
                             </div>
                         </div>
                         <div id="main">
-<div class="main-content" id="content" pageIds="room::////PointingToDeclaration//964082189">
+<div class="main-content" id="content" pageIds="SkyWay Android SDK::////PointingToDeclaration//964082189">
   <div class="breadcrumbs"></div>
   <div class="cover ">
-    <h1 class="cover"><span><span>room</span></span></h1>
+    <h1 class="cover"><span>Sky</span><wbr></wbr><span><span>Way</span></span> <span><span>Android</span></span> <span><span>SDK</span></span></h1>
+    <div class="platform-hinted UnderCoverText" data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><p class="paragraph">SkyWay Android SDK(以下、Android SDK)は Android デバイス用のアプリケーションから SkyWay を利用するための SDK です。<br>Android のネイティブなアプリケーションに SkyWay を組み込むことで、デバイス同士やブラウザとのリアルタイム通信を実現できます。</p><h2 class="">目次</h2><ul><li><p class="paragraph">インストール方法</p></li><li><p class="paragraph">SkyWayを用いたアプリ開発の概要</p></li><li><p class="paragraph">用語の解説</p></li><li><p class="paragraph">基本機能の解説</p></li><li><p class="paragraph">Tips</p></li><li><p class="paragraph">参考リンク</p></li></ul><h2 class="">インストール方法</h2><p class="paragraph"><code class="lang-kotlin">app/build.gradle</code> に以下の依存関係を追加するだけでSDKのインストールは完了です。</p><div class="sample-container"><pre><code class="block lang-shell" theme="idea">dependencies {<br>    implementation &quot;com.ntt.skyway:room:$skywayVersion&quot;<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">最新の SDK バージョンは<a href="https://central.sonatype.com/artifact/com.ntt.skyway/room">Maven Central Repository</a> にて確認してください。</p><h2 class="">SkyWayを用いたアプリ開発の概要</h2><p class="paragraph">SkyWayを利用するためには、通信を開始するまでに以下のステップを踏む必要があります。<br><br></p><p class="paragraph"><strong>1. SkyWay Auth Token を作成する</strong><br>SkyWayを利用するために必要な認証情報（AuthToken）を作成します。<br>詳細は<a href="https://skyway.ntt.com/ja/docs/user-guide/authentication/">SkyWay Auth Token について</a>をご覧ください。<br><br></p><p class="paragraph"><strong>2. Room を作成する</strong><br>メディア通信を行うグループの単位を Room と呼びます。<br>まずは Room を作成する必要があります。（SkyWay Auth Token にRoomを作成する権限が必要）<br><br></p><p class="paragraph"><strong>3. Room に参加してMemberを取得する</strong><br>作成したRoomに参加し、その結果としてMemberを取得します。<br>他のクライアントでは、作成済みのRoomを取得して参加します。<br><br></p><p class="paragraph"><strong>4. Room 内に Stream を 公開（Publish）する</strong><br>Member を使って Room に 映像や音声などのStream の情報を公開（Publish）します。<br>すると、 Room 上に Stream の公開情報（Publication） が作成されます。<br><br></p><p class="paragraph"><strong>5. Room 内に公開されているStreamの情報（Publication）を購読（Subscribe）する</strong><br>Room上に作成されたPublication を 他の Member から購読（Subscribe）します。<br>すると、メディア通信を開始することができ、結果として購読情報（Subscription）が作成されます。<br>そのSubscriptionから取得したStreamを利用することで、受信した映像や音声を出力することができます。<br><br></p><h2 class="">用語の解説</h2><p class="paragraph">SkyWayを利用する際に登場する用語について解説します。<br><br></p><p class="paragraph"><strong>Room</strong><br>Roomは通話を行うグループの単位であり、共通の Room に参加したユーザー同士で通話を行うことができます。<br>RoomにはP2P Room と SFU Room の 2 種類の Room があり、どちらかを選択して利用できます。<br>P2P Room は少人数(4人程度)向けで、SFU Room は多人数向けです。<br><br></p><p class="paragraph"><strong>Member</strong><br>Room に参加しているユーザーのことを Member と呼びます。<br><br></p><p class="paragraph"><strong>Stream</strong><br>Room 上で送受信できるメディアのことを Stream といいます。<br>音声、映像、データの3種類の Stream を利用できます。<br><br></p><p class="paragraph"><strong>Publish</strong><br>Member が Stream を Room に公開することを Publish といいます。<br>Stream を Publish すると Room 上に Stream に対応する Publication というリソースが作成されます。<br><br></p><p class="paragraph"><strong>Subscribe</strong><br>Member が Room 上の Publication を受信することを Subscribe といいます。<br>Subscribe をすると Room 上に Subscription というリソースが作成されます。<br>Publication を Subscribe した Member は Subscription を通じて Stream にアクセスし映像や音声を受信できます。</p><h2 class="">基本機能の解説</h2><p class="paragraph">Android SDKの基本的な機能について解説します。 動作するアプリケーションを作成したい場合は、<a href="https://skyway.ntt.com/ja/docs/user-guide/android-sdk/quickstart-compose/">クイックスタート</a>も合わせてご参照ください。</p><h3 class="">SkyWayContext</h3><p class="paragraph">SkyWay利用の開始や終了を行うためのクラスです。 ログレベルなど、アプリケーション全体に影響するオプションの設定も担っています。</p><h4 class="">SkyWay利用の開始</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// 開発環境ではappId/secretで初期化することができます。<br>val result = SkyWayContext.setupForDev(applicationContext, appId, secretKey, option)<br><br>// 本番環境ではAuthTokenを作成し、そちらを利用して初期化してください。<br>val result = SkyWayContext.setup(applicationContext, authToken)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><p class="paragraph">事前に SkyWay Auth Token の取得が必要になります。</p><h4 class="">Auth Tokenの更新</h4><p class="paragraph">Auth Tokenには期限を設定する必要があり、期限が切れるとSkyWayを利用できなくなります。<br>そのため、Auth Tokenが失効する前に更新してください。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// Auth Tokenの更新が必要なタイミングを検知<br>SkyWayContext.onTokenRefreshingNeededHandler = {<br>    // 新しいAuth Tokenに更新<br>    SkyWayContext.updateAuthToken(newToken)<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">SkyWay利用の終了</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">SkyWayContext.dispose()</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">Room</h3><p class="paragraph">通話グループである Room の作成/取得および操作を行うことができます。 Room には P2PRoom と SFURoom の 2 種類が存在し、API は基本的に共通しています。</p><h4 class="">Roomの作成・取得</h4><p class="paragraph">Roomの作成時にnameを指定することができます。 他のクライアントからは同じnameを指定してRoomを取得することができます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// Roomの作成<br>val room = P2PRoom.create(name = roomName)<br><br>// Roomの取得<br>val room = P2PRoom.find(name = roomName /* または id = roomId */)<br><br>// Roomの取得を試み、存在しなければ作成<br>val room = P2PRoom.findOrCreate(name = roomName)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Metadata の更新</h4><p class="paragraph">Room の Metadata を更新することができます</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// metadataの取得<br>val metadata = room.metadata<br><br>// metadataの更新<br>room.updateMetadata(&quot;metadata&quot;)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Member の Room への参加</h4><p class="paragraph">Room に参加すると LocalRoomMember インスタンスを取得できます。<br><code class="lang-kotlin">RoomMember.Init</code>には<code class="lang-kotlin">name</code>と<code class="lang-kotlin">metadata</code>の設定が可能です。  </p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val localRoomMember = room.join(RoomMember.Init())</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">LocalRoomMember</h3><p class="paragraph">Memberの操作を行うことができます。 具体的には、Metadataの更新、Stream の Publish/Subscribe を行うことが出来ます。</p><h4 class="">Metadata の更新</h4><p class="paragraph">Member の Metadata を更新することができます</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// metadataの取得<br>val metadata = member.metadata<br><br>// metadataの更新<br>member.updateMetadata(&quot;metadata&quot;)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Stream の Publish</h4><p class="paragraph">Room に Stream を Publish することができます。<br>また、Room 上の Stream の Publication を Unpublish することができます。<br>このとき、対象のPublicationに対する Subscription が自動的に Unsubscribe されます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// Publish<br>val publication = member.publish(stream)<br><br>// Unpublish<br>member.unpublish(publication)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Publication の Subscribe</h4><p class="paragraph">Room 上の Publication を Subscribe することができます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// Subscribe<br>val subscription = member.subscribe(publication)<br><br>// Unsubscribe<br>member.unsubscribe(subscription)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">Source/Stream</h3><p class="paragraph">Sourceは、SDKから各種メディアへアクセスするAPIを提供します。 また、Publish可能なStream を作成することが出来ます。</p><h4 class="">SourceからStreamの作成</h4><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// マイク音声のソース<br>AudioSource.start()<br>val stream = AudioSource.createStream()<br><br>// カメラ映像のソース<br>val device = CameraSource.getFrontCameras(context).first()<br>val options = CameraSource.CapturingOptions(width, height)<br>CameraSource.startCapturing(context, device, options)<br>val stream = CameraSource.createStream()<br><br>// 画面共有のソース<br>ScreenSource.setup(context, mediaProjectionPermissionResultData)<br>ScreenSource.startCapturing(width, height, frameRate)<br>val stream = ScreenSource.createStream()<br><br>// データソース<br>val stream = DataSource().createStream()</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">AudioStreamの再生</h4><p class="paragraph">ローカルの音声は再生されません。<br>受信した音声はスピーカーから自動的に再生されます。</p><h4 class="">VideoStreamの再生</h4><p class="paragraph">ローカルのカメラ映像を確認するために、再生することができます。<br>また、受信した映像を再生することができます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">renderer.setup()<br>stream.addRenderer(renderer)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">DataStreamによるデータの送受信</h4><p class="paragraph">任意のデータの送信ができます。（SFU Room は非対応です）</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// データの送信<br>stream.write(&quot;hello&quot;)<br><br>// データの受信<br>stream.onDataHandler = {<br>    Log.d(&quot;data received: $it&quot;)<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">RoomPublication</h3><p class="paragraph">Publication の情報の参照と操作ができます。</p><h4 class="">Metadata の取得・更新</h4><p class="paragraph">PublicationのMetadata を取得・更新することができます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// metadataの取得<br>val metadata = publication.metadata<br><br>// metadataの更新<br>publication.updateMetadata(&quot;metadata&quot;)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">ミュート</h4><p class="paragraph">Publication に紐ついた映像や音声などの配信を一時停止（ミュート）することができます</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">// ミュート<br>publication.disable()<br><br>// ミュートの解除<br>publication.enable()</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">RoomSubscription</h3><p class="paragraph">Subscription の情報の参照と Subscription の操作ができます</p><h4 class="">Stream の参照</h4><p class="paragraph">Subscription から映像/音声/データの Stream を参照できます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">when (subscription.contentType) {<br>    Stream.ContentType.VIDEO -&gt; {<br>        Log.d(&quot;subscribe success(Video) : ${subscription.id}&quot;)<br>        (subscription.stream as RemoteVideoStream).addRenderer(remoteRenderer)<br>    }<br>    Stream.ContentType.AUDIO -&gt; {<br>        Log.d(&quot;subscribe success(Audio) : ${subscription.id}&quot;)<br>        (subscription.stream as RemoteAudioStream)<br>    }<br>    Stream.ContentType.DATA -&gt; {<br>        Log.d(&quot;subscribe success(Data) : ${subscription.id}&quot;)<br>        (subscription.stream as RemoteDataStream).onDataHandler = {<br>            Log.d(&quot;data received: $it&quot;)<br>        }<br>        (subscription.stream as RemoteDataStream).onDataBufferHandler = {<br>            Log.d(&quot;data received byte: ${it.contentToString()}&quot;)<br>        }<br>    }<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class="">Tips</h2><h3 class="">コーデックの指定</h3><p class="paragraph">Publishを行う際に、メディア通信に優先して利用するコーデックを指定することができます。 codecCapabilities 配列の先頭のコーデックを優先して利用します。 いずれのコーデックにも対応していない場合はデバイスが対応している他のコーデックを自動的に利用します。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val videoPublication = member.publish(<br>    stream, Publication.Options(<br>        codecCapabilities = mutableListOf(<br>            Codec(Codec.MimeType.VP9)<br>        )<br>    )<br>)<br><br>val audioPublication = member.publish(<br>    stream, Publication.Options(<br>        codecCapabilities = mutableListOf(<br>            Codec(Codec.MimeType.RED)<br>        )<br>    )<br>)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">サイマルキャストの利用</h3><p class="paragraph">サイマルキャストは、受信側クライアントデバイスが通信品質に合わせて自動的に最適なエンコード設定の映像を受け取る機能です。<br>VideoStream を Publish する際に複数のエンコード設定を指定することで、サイマルキャストを利用できます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val publication = member.publish(<br>    stream, Publication.Options(<br>        encodings = mutableListOf(<br>            Encoding(<br>                id = &quot;high&quot;,<br>                maxBitrate = 2000_000<br>            ),<br>            Encoding(<br>                id = &quot;low&quot;,<br>                maxBitrate = 10_000<br>            )            <br>        )<br>    )<br>)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">受信映像の品質設定</h3><p class="paragraph">Publication に Simulcast が設定されている場合、<code class="lang-kotlin">preferredEncodingId</code>に受信する映像品質設定の ID を指定することができます。 なお、通信帯域が輻輳を起こしている場合は、高い品質の映像設定を指定しても低い品質の映像が受信されます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val subscription = member.subscribe(publication, Subscription.Options(preferredEncodingId = &quot;id&quot;))</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h3 class="">受信映像の品質設定を変更する</h3><p class="paragraph">映像の受信開始後に任意のタイミングで品質設定を変更することができます。 なお、通信帯域が輻輳を起こしている場合は、高い品質の映像設定を指定しても低い品質の映像が受信されます。</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">val subscriptionEncodings = subscription.publication.encodings<br>if (subscriptionEncodings.isEmpty()) {<br>    return<br>}<br>subscription.changePreferredEncoding(subscriptionEncodings[0].id)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h2 class="">参考リンク</h2><ul><li><p class="paragraph"><a href="https://skyway.ntt.com/ja/docs/cookbook/android-sdk/">クックブック（アプリケーション開発において役立つ様々な情報を紹介しています）</a></p></li></ul></div></div>
   </div>
   <h2 class="">Packages</h2>
-  <div class="table"><a data-name="-1957978352%2FPackages%2F964082189" anchor-label="com.ntt.skyway.room" id="-1957978352%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+  <div class="table"><a data-name="-1994907436%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core" id="-1994907436%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
     <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
-              <div><a href="room/com.ntt.skyway.room/index.html">com.ntt.skyway.room</a></div>
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core/index.html">com.ntt.skyway.core</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1994907436%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1301038167%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.channel" id="-1301038167%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.channel/index.html">com.ntt.skyway.core.channel</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1301038167%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-174129533%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.channel.member" id="-174129533%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.channel.member/index.html">com.ntt.skyway.core.channel.member</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-174129533%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1303800735%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.content" id="1303800735%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.content/index.html">com.ntt.skyway.core.content</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1303800735%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="898974620%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.content.local" id="898974620%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.content.local/index.html">com.ntt.skyway.core.content.local</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="898974620%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="111295857%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.content.local.source" id="111295857%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.content.local.source/index.html">com.ntt.skyway.core.content.local.source</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="111295857%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1095498873%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.content.remote" id="1095498873%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.content.remote/index.html">com.ntt.skyway.core.content.remote</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1095498873%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="387902662%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.content.sink" id="387902662%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.content.sink/index.html">com.ntt.skyway.core.content.sink</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="387902662%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="1425753440%2FPackages%2F964082189" anchor-label="com.ntt.skyway.core.util" id="1425753440%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.core.util/index.html">com.ntt.skyway.core.util</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1425753440%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-62531928%2FPackages%2F964082189" anchor-label="com.ntt.skyway.plugin" id="-62531928%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.plugin/index.html">com.ntt.skyway.plugin</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-62531928%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="30386693%2FPackages%2F964082189" anchor-label="com.ntt.skyway.plugin.remotePerson" id="30386693%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.plugin.remotePerson/index.html">com.ntt.skyway.plugin.remotePerson</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="30386693%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1348020689%2FPackages%2F964082189" anchor-label="com.ntt.skyway.plugin.sfuBot" id="-1348020689%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.plugin.sfuBot/index.html">com.ntt.skyway.plugin.sfuBot</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1348020689%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="970027524%2FPackages%2F964082189" anchor-label="com.ntt.skyway.plugin.unknown" id="970027524%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.plugin.unknown/index.html">com.ntt.skyway.plugin.unknown</a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="970027524%2FPackages%2F964082189"></span>
+                <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+              </span></span></div>
+          <div class="pull-right">
+            <div class="platform-tags no-gutters">
+              <div class="platform-tag jvm-like">androidJvm</div>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+    </div>
+<a data-name="-1957978352%2FPackages%2F964082189" anchor-label="com.ntt.skyway.room" id="-1957978352%2FPackages%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
+    <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
+      <div>
+        <div class="main-subrow ">
+          <div class=""><span class="inline-flex">
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.room/index.html">com.ntt.skyway.room</a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1957978352%2FPackages%2F964082189"></span>
                 <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
               </span></span></div>
@@ -121,7 +354,7 @@
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
-              <div><a href="room/com.ntt.skyway.room.member/index.html">com.ntt.skyway.room.member</a></div>
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.room.member/index.html">com.ntt.skyway.room.member</a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1128974652%2FPackages%2F964082189"></span>
                 <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
               </span></span></div>
@@ -139,7 +372,7 @@
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
-              <div><a href="room/com.ntt.skyway.room.p2p/index.html">com.ntt.skyway.room.p2p</a></div>
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.room.p2p/index.html">com.ntt.skyway.room.p2p</a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2066115600%2FPackages%2F964082189"></span>
                 <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
               </span></span></div>
@@ -157,7 +390,7 @@
       <div>
         <div class="main-subrow ">
           <div class=""><span class="inline-flex">
-              <div><a href="room/com.ntt.skyway.room.sfu/index.html">com.ntt.skyway.room.sfu</a></div>
+              <div><a href="-sky-way -android -s-d-k/com.ntt.skyway.room.sfu/index.html">com.ntt.skyway.room.sfu</a></div>
 <span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2157732%2FPackages%2F964082189"></span>
                 <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
               </span></span></div>
@@ -173,7 +406,7 @@
   </div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© NTT Communications Corporation All Rights Reserved.</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>

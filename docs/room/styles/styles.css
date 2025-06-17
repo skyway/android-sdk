@@ -1,0 +1,12 @@
+:root {
+    --color-dark: #0E293E;
+    --active-section-color: #0E367D;
+    --active-tab-border-color: #0E367D;
+    --sidemenu-section-active-color: #0E367D;
+    --default-font-color: rgb(67, 67, 67);
+    --default-font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Droid Sans, Helvetica Neue, Arial, sans-serif;
+}
+
+.theme-dark {
+    --default-font-color: hsla(0, 0%, 100%, 0.8);
+}
