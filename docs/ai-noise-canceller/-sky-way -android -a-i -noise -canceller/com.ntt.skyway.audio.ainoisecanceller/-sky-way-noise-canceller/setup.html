@@ -18,7 +18,7 @@
                     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
                     rel="stylesheet">
                 <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>dispose</title>
+    <title>setup</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
                     <script>var pathToRoot = "../../../";</script>
                 <script>document.documentElement.classList.replace("no-js", "js");</script>
@@ -64,14 +64,14 @@
             <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
             <div class="library-name">
                     <a class="library-name--link" href="../../../index.html">
-                            SkyWay Android SDK
+                            SkyWay Android AI Noise Canceller
                     </a>
             </div>
             <div class="library-version">
             </div>
         </div>
         <div class="filter-section" id="filter-section">
-                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":room:dokkaHtml/release">androidJvm</button>
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":ai-noise-canceller:dokkaHtml/release">androidJvm</button>
         </div>
     </div>
     <div class="navigation-controls">
@@ -90,15 +90,15 @@
                             </div>
                         </div>
                         <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="SkyWay Android SDK::com.ntt.skyway.core/SkyWayContext/dispose/#/PointingToDeclaration//964082189">
-  <div class="breadcrumbs"><a href="../../../index.html">SkyWay Android SDK</a><span class="delimiter">/</span><a href="../index.html">com.ntt.skyway.core</a><span class="delimiter">/</span><a href="index.html">SkyWayContext</a><span class="delimiter">/</span><span class="current">dispose</span></div>
+<div class="main-content" data-page-type="member" id="content" pageIds="SkyWay Android AI Noise Canceller::com.ntt.skyway.audio.ainoisecanceller/SkyWayNoiseCanceller/setup/#android.content.Context#com.ntt.skyway.audio.ainoisecanceller.SkyWayNoiseCanceller.Options/PointingToDeclaration//-1613737415">
+  <div class="breadcrumbs"><a href="../../../index.html">SkyWay Android AI Noise Canceller</a><span class="delimiter">/</span><a href="../index.html">com.ntt.skyway.audio.ainoisecanceller</a><span class="delimiter">/</span><a href="index.html">SkyWayNoiseCanceller</a><span class="delimiter">/</span><span class="current">setup</span></div>
   <div class="cover ">
-    <h1 class="cover"><span><span>dispose</span></span></h1>
+    <h1 class="cover"><span><span>setup</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.jvm/-jvm-static/index.html"><span class="token annotation builtin">JvmStatic</span></a></div></div><span class="token keyword">fun </span><a href="dispose.html"><span class="token function">dispose</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><p class="paragraph">SkyWayの利用を終了します。 以降全ての操作はできなくなり、各インスタンスからイベントが発火しなくなります。 再度SkyWayを利用する場合は<a href="setup.html">setup</a>を実行してください。 UIスレッドから直接呼び出すことは避けてください。</p></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":ai-noise-canceller:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="setup.html"><span class="token function">setup</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token punctuation">, </span></span><span class="parameter ">option<span class="token operator">: </span><a href="-options/index.html">SkyWayNoiseCanceller.Options</a><span class="token operator"> = </span>Options.DEFAULT</span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><p class="paragraph">SkyWayNoiseCanceller のセットアップを行います。</p><p class="paragraph">SkyWayContextが先にセットアップされている必要があります。</p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":ai-noise-canceller:dokkaHtml/release" data-filterable-set=":ai-noise-canceller:dokkaHtml/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>context</span></span></u></div></span></div><div><div class="title"><p class="paragraph">Application Context</p></div></div></div></div><div class="table-row" data-filterable-current=":ai-noise-canceller:dokkaHtml/release" data-filterable-set=":ai-noise-canceller:dokkaHtml/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>option</span></span></u></div></span></div><div><div class="title"><p class="paragraph">SkyWayNoiseCanceller の利用に関する設定。 指定しない場合 <a href="-options/-companion/-d-e-f-a-u-l-t.html">Options.DEFAULT</a> がセットされます。</p></div></div></div></div></div></div></div>
 </div>
       <div class="footer">
-        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© NTT DOCOMO BUSINESS, Inc. All rights reserved.</span><span
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© NTT DOCOMO BUSINESS, Inc. All rights Reserved.</span><span
                 class="pull-right"><span>Generated by </span><a
                 href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
       </div>
