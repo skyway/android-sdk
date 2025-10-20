@@ -94,7 +94,7 @@
   <div class="breadcrumbs"><a href="../../../index.html">SkyWay Android SDK</a><span class="delimiter">/</span><a href="../index.html">com.ntt.skyway.room</a><span class="delimiter">/</span><span class="current">RoomSubscription</span></div>
   <div class="cover ">
     <h1 class="cover"><span>Room</span><wbr></wbr><span><span>Subscription</span></span></h1>
-    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">RoomSubscription</a></div><p class="paragraph">RoomSubscriptionの操作を行うクラス。</p></div></div>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">interface </span><a href="index.html">RoomSubscription</a></div><p class="paragraph">RoomSubscriptionの操作を行うクラス。</p></div></div>
   </div>
   <div class="tabbedcontent">
     <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
@@ -130,7 +130,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="content-type.html">contentType</a><span class="token operator">: </span><a href="../../com.ntt.skyway.core.content/-stream/-content-type/index.html">Stream.ContentType</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionの<a href="../../com.ntt.skyway.core.content/-stream/-content-type/index.html">Stream.ContentType</a>。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="content-type.html">contentType</a><span class="token operator">: </span><a href="../../com.ntt.skyway.core.content/-stream/-content-type/index.html">Stream.ContentType</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionの<a href="../../com.ntt.skyway.core.content/-stream/-content-type/index.html">Stream.ContentType</a>。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -145,7 +145,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="id.html">id</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionのID。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="id.html">id</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionのID。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -160,7 +160,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="on-canceled-handler.html"><strike>onCanceledHandler</strike></a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">subscribeがキャンセルされた際に発火するハンドラ。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">var </span><a href="on-canceled-handler.html"><strike>onCanceledHandler</strike></a><span class="token operator">: </span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">subscribeがキャンセルされた際に発火するハンドラ。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -175,7 +175,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="on-connection-state-changed-handler.html">onConnectionStateChangedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>state<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">メディア通信の状態が変化した際に発火するハンドラ。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">var </span><a href="on-connection-state-changed-handler.html">onConnectionStateChangedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>state<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">メディア通信の状態が変化した際に発火するハンドラ。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -190,7 +190,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">var </span><a href="on-stream-attached-handler.html">onStreamAttachedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>stream<span class="token operator">: </span><a href="../../com.ntt.skyway.core.content.remote/-remote-stream/index.html">RemoteStream</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">RemoteStreamが付与された際に発火するハンドラ。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">var </span><a href="on-stream-attached-handler.html">onStreamAttachedHandler</a><span class="token operator">: </span><span class="token punctuation">(</span>stream<span class="token operator">: </span><a href="../../com.ntt.skyway.core.content.remote/-remote-stream/index.html">RemoteStream</a><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">RemoteStreamが付与された際に発火するハンドラ。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -205,7 +205,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="preferred-encoding-id.html">preferredEncodingId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionの優先エンコーディングID。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="preferred-encoding-id.html">preferredEncodingId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionの優先エンコーディングID。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -220,7 +220,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="publication.html">publication</a><span class="token operator">: </span><a href="../-room-publication/index.html">RoomPublication</a></div><div class="brief "><p class="paragraph">このRoomPublicationに対する<a href="../-room-publication/index.html">RoomPublication</a>。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="publication.html">publication</a><span class="token operator">: </span><a href="../-room-publication/index.html">RoomPublication</a></div><div class="brief "><p class="paragraph">このRoomPublicationに対する<a href="../-room-publication/index.html">RoomPublication</a>。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -235,7 +235,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="room.html">room</a><span class="token operator">: </span><a href="../-room/index.html">Room</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionが所属する<a href="../-room/index.html">Room</a>。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="room.html">room</a><span class="token operator">: </span><a href="../-room/index.html">Room</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionが所属する<a href="../-room/index.html">Room</a>。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -250,7 +250,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="state.html">state</a><span class="token operator">: </span><a href="../../com.ntt.skyway.core.channel/-subscription/-state/index.html">Subscription.State</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionの状態。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="state.html">state</a><span class="token operator">: </span><a href="../../com.ntt.skyway.core.channel/-subscription/-state/index.html">Subscription.State</a></div><div class="brief "><p class="paragraph">このRoomSubscriptionの状態。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -265,7 +265,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="stream.html">stream</a><span class="token operator">: </span><a href="../../com.ntt.skyway.core.content.remote/-remote-stream/index.html">RemoteStream</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomSubscriptionの<a href="../../com.ntt.skyway.core.content/-stream/index.html">Stream</a>。 <code class="lang-kotlin">LocalRoomMember.subscribe</code>の返り値でSubscriptionを入手した場合、入手時点で値がsetされています。 その他、イベントの発火によってSubscriptionを取得した場合、まだ値がsetされていない可能性があります。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="stream.html">stream</a><span class="token operator">: </span><a href="../../com.ntt.skyway.core.content.remote/-remote-stream/index.html">RemoteStream</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomSubscriptionの<a href="../../com.ntt.skyway.core.content/-stream/index.html">Stream</a>。 <code class="lang-kotlin">LocalRoomMember.subscribe</code>の返り値でSubscriptionを入手した場合、入手時点で値がsetされています。 その他、イベントの発火によってSubscriptionを取得した場合、まだ値がsetされていない可能性があります。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -280,7 +280,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="subscriber.html">subscriber</a><span class="token operator">: </span><a href="../../com.ntt.skyway.room.member/-room-member/index.html">RoomMember</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomSubscriptionのSubscriber。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">val </span><a href="subscriber.html">subscriber</a><span class="token operator">: </span><a href="../../com.ntt.skyway.room.member/-room-member/index.html">RoomMember</a><span class="token operator">?</span></div><div class="brief "><p class="paragraph">このRoomSubscriptionのSubscriber。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -299,7 +299,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="cancel.html"><span class="token function"><strike>cancel</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">publishを中止します。 <a href="on-canceled-handler.html">onCanceledHandler</a>が発火します。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="cancel.html"><span class="token function"><strike>cancel</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">publishを中止します。 <a href="on-canceled-handler.html">onCanceledHandler</a>が発火します。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -314,7 +314,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="change-preferred-encoding.html"><span class="token function">changePreferredEncoding</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preferredEncodingId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">subscribeを中止します。</p></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">suspend </span><span class="token keyword">fun </span><a href="change-preferred-encoding.html"><span class="token function">changePreferredEncoding</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">preferredEncodingId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><div class="brief "><p class="paragraph">subscribeを中止します。</p></div></div></div>
                 </div>
               </div>
             </div>
@@ -329,22 +329,7 @@
                   </span></span></div>
               <div>
                 <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-stats.html"><span class="token function"><strike>getStats</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.core.content/-web-r-t-c-stats/index.html">WebRTCStats</a><span class="token operator">?</span></div></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-<a data-name="-206638740%2FFunctions%2F964082189" anchor-label="hashCode" id="-206638740%2FFunctions%2F964082189" data-filterable-set=":room:dokkaHtml/release"></a>
-          <div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release">
-            <div class="main-subrow keyValue ">
-              <div class=""><span class="inline-flex">
-                  <div><a href="hash-code.html"><span>hash</span><wbr></wbr><span><span>Code</span></span></a></div>
-<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-206638740%2FFunctions%2F964082189"></span>
-                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
-                  </span></span></div>
-              <div>
-                <div class="title">
-                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-stats.html"><span class="token function"><strike>getStats</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../../com.ntt.skyway.core.content/-web-r-t-c-stats/index.html">WebRTCStats</a><span class="token operator">?</span></div></div></div>
                 </div>
               </div>
             </div>
