@@ -12,8 +12,6 @@ https://skyway.ntt.com/ja/docs/user-guide/android-sdk/
 ### API リファレンス
 
 - [Room ライブラリ](https://android-sdk.api-reference.skyway.ntt.com/room)
-- [Core ライブラリ](https://android-sdk.api-reference.skyway.ntt.com/core)
-- [SFU Bot ライブラリ](https://android-sdk.api-reference.skyway.ntt.com/sfubot)
 
 ## 対応OS
 Android 5.0+

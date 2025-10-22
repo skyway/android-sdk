@@ -16,7 +16,7 @@ import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.LocalRoomMember
 import com.ntt.skyway.room.member.RoomMember
-import com.ntt.skyway.room.p2p.P2PRoom
+import com.ntt.skyway.room.Room
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
     private val secretKey = TODO("replace your secret key here")
     private val scope = CoroutineScope(Dispatchers.IO)
     private var localRoomMember     : LocalRoomMember?  = null
-    private var room                : P2PRoom?          = null
+    private var room                : Room?          = null
     private var localVideoStream    : LocalVideoStream? = null
     private var localAudioStream    : LocalAudioStream? = null
 
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
 
             // publishが可能なStreamを作成します
             localAudioStream = AudioSource.createStream()
-            room = P2PRoom.findOrCreate(name = findViewById<EditText>(R.id.roomName).text.toString())
+            room = Room.findOrCreate(name = findViewById<EditText>(R.id.roomName).text.toString())
             val memberInit = RoomMember.Init(name = "member_" + UUID.randomUUID())
             localRoomMember = room?.join(memberInit)
 

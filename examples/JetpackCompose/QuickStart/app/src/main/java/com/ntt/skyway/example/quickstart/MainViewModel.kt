@@ -19,7 +19,7 @@ import com.ntt.skyway.core.util.Logger
 import com.ntt.skyway.room.RoomPublication
 import com.ntt.skyway.room.member.LocalRoomMember
 import com.ntt.skyway.room.member.RoomMember
-import com.ntt.skyway.room.p2p.P2PRoom
+import com.ntt.skyway.room.Room
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,7 +34,7 @@ class MainViewModel(): ViewModel() {
     private val appId = TODO("replace your app id here")
     private val secretKey = TODO("replace your secret key here")
     private var localRoomMember: LocalRoomMember? = null
-    private var room: P2PRoom? = null
+    private var room: Room? = null
 
     var localVideoStream by mutableStateOf<LocalVideoStream?>(null)
         private set
@@ -70,7 +70,7 @@ class MainViewModel(): ViewModel() {
             // publishが可能なStreamを作成します
             localAudioStream = AudioSource.createStream()
 
-            room = P2PRoom.findOrCreate(name = roomName)
+            room = Room.findOrCreate(name = roomName)
 
             val memberInit = RoomMember.Init(name = "member_" + UUID.randomUUID())
             localRoomMember = room?.join(memberInit)
