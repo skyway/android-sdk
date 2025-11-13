@@ -100,5 +100,18 @@ fun MainScreen(
                 Text("Join")
             }
         }
+        Row(
+            horizontalArrangement = Arrangement.Center,
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Button(
+                onClick = {
+                    mainViewModel.leaveRoom()
+                }
+            ) {
+                Text("Leave")
+            }
+        }
     }
 }
