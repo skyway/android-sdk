@@ -109,4 +109,17 @@ class MainViewModel(): ViewModel() {
             }
         }
     }
+
+    fun leaveRoom() {
+        viewModelScope.launch {
+            localRoomMember?.leave()
+            room?.dispose()
+            room = null
+            localRoomMember = null
+            localVideoStream = null
+            localAudioStream = null
+            remoteVideoStream = null
+            SkyWayContext.dispose()
+        }
+    }
 }
