@@ -572,6 +572,7 @@ $dokka.location:com.ntt.skyway.room.p2p/P2PRoom.Companion/find/#kotlin.String?#k
 $dokka.location:com.ntt.skyway.room.p2p/P2PRoom.Companion/findOrCreate/#kotlin.String?#kotlin.String?/PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.p2p/-p2-p-room/-companion/find-or-create.html
 $dokka.location:com.ntt.skyway.room.p2p/P2PRoom///PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.p2p/-p2-p-room/index.html
 $dokka.location:com.ntt.skyway.room.p2p/P2PRoom/join/#com.ntt.skyway.room.member.RoomMember.Init/PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.p2p/-p2-p-room/join.html
+$dokka.location:com.ntt.skyway.room.p2p/P2PRoom/publications/#/PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.p2p/-p2-p-room/publications.html
 $dokka.location:com.ntt.skyway.room.p2p/P2PRoom/type/#/PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.p2p/-p2-p-room/type.html
 $dokka.location:com.ntt.skyway.room.sfu////PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.sfu/index.html
 $dokka.location:com.ntt.skyway.room.sfu/LocalSFURoomMember///PointingToDeclaration/-sky-way -android -s-d-k/com.ntt.skyway.room.sfu/-local-s-f-u-room-member/index.html
