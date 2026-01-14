@@ -18,7 +18,7 @@
                     href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
                     rel="stylesheet">
                 <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
-    <title>setNoiseSuppressionEnabled</title>
+    <title>getAudioLevel</title>
     <link href="../../../images/logo-icon.svg" rel="icon" type="image/svg">
                     <script>var pathToRoot = "../../../";</script>
                 <script>document.documentElement.classList.replace("no-js", "js");</script>
@@ -92,12 +92,12 @@
                             </div>
                         </div>
                         <div id="main">
-<div class="main-content" data-page-type="member" id="content" pageIds="SkyWay Android SDK::com.ntt.skyway.core.content.local.source/AudioSource/setNoiseSuppressionEnabled/#kotlin.Boolean/PointingToDeclaration//964082189">
-  <div class="breadcrumbs"><a href="../../../index.html">SkyWay Android SDK</a><span class="delimiter">/</span><a href="../index.html">com.ntt.skyway.core.content.local.source</a><span class="delimiter">/</span><a href="index.html">AudioSource</a><span class="delimiter">/</span><span class="current">setNoiseSuppressionEnabled</span></div>
+<div class="main-content" data-page-type="member" id="content" pageIds="SkyWay Android SDK::com.ntt.skyway.core.content.local/LocalAudioStream/getAudioLevel/#/PointingToDeclaration//964082189">
+  <div class="breadcrumbs"><a href="../../../index.html">SkyWay Android SDK</a><span class="delimiter">/</span><a href="../index.html">com.ntt.skyway.core.content.local</a><span class="delimiter">/</span><a href="index.html">LocalAudioStream</a><span class="delimiter">/</span><span class="current">getAudioLevel</span></div>
   <div class="cover ">
-    <h1 class="cover"><span>set</span><wbr></wbr><span>Noise</span><wbr></wbr><span>Suppression</span><wbr></wbr><span><span>Enabled</span></span></h1>
+    <h1 class="cover"><span>get</span><wbr></wbr><span>Audio</span><wbr></wbr><span><span>Level</span></span></h1>
   </div>
-  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-noise-suppression-enabled.html"><span class="token function">setNoiseSuppressionEnabled</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">enabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div><p class="paragraph">ノイズ抑制を使用するかを切り替えます。SkyWayContext.setupの後に実行してください。</p><span class="kdoc-tag"><h4 class="">Return</h4><p class="paragraph">切り替えに成功した場合はtrueを、失敗した場合はfalseを返します。</p></span><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":room:dokkaHtml/release" data-filterable-set=":room:dokkaHtml/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>enabled</span></span></u></div></span></div><div><div class="title"><p class="paragraph">ノイズ抑制を使う場合はtrueを、そうでない場合はfalseを指定してください。</p></div></div></div></div></div></div></div>
+  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":room:dokkaHtml/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-audio-level.html"><span class="token function">getAudioLevel</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-double/index.html">Double</a></div><p class="paragraph">直近100msにおける最大音量を取得する（値の範囲：0.0-1.0）。</p><p class="paragraph">対向側にSubscribeされるまで 0.0 を返します。</p></div></div>
 </div>
       <div class="footer">
         <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© NTT DOCOMO BUSINESS, Inc. All rights reserved.</span><span
