@@ -26,6 +26,15 @@ fun MainScreen(
     ) {
         Button(
             onClick = {
+                navController.navigate("room_sample")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Launch Room Sample")
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
                 navController.navigate("p2p_room_sample")
             },
             modifier = Modifier.fillMaxWidth()

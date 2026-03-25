@@ -81,7 +81,7 @@ fun CommonRoomDetailsScreen(
             }, modifier = Modifier.width(107.dp)) {
                 Text(text = "Publish Audio")
             }
-            if (viewModel.roomType == Room.Type.P2P) {
+            if (viewModel.roomType == Room.Type.P2P || viewModel.roomType == Room.Type.DEFAULT) {
                 Button(onClick = {
                     viewModel.publishDataStream()
                 }, modifier = Modifier.width(107.dp)) {
@@ -89,7 +89,7 @@ fun CommonRoomDetailsScreen(
                 }
             }
         }
-        if (viewModel.roomType == Room.Type.P2P) {
+        if (viewModel.roomType == Room.Type.P2P || viewModel.roomType == Room.Type.DEFAULT) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

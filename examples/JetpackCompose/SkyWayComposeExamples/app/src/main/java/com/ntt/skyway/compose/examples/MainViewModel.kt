@@ -85,6 +85,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
                 room = P2PRoom.findOrCreate(roomName)
             } else if (roomType == Room.Type.SFU) {
                 room = SFURoom.findOrCreate(roomName)
+            } else if (roomType == Room.Type.DEFAULT) {
+                room = Room.findOrCreate(roomName)
             }
             if(room == null) {
                 Toast.makeText(applicationContext,"Room findOrCreate failed", Toast.LENGTH_SHORT).show()
