@@ -59,7 +59,7 @@ fun SelectRoomScreen(
             label = { Text("Member Name") },
             modifier = Modifier.fillMaxWidth()
         )
-        if (mainViewModel.sampleType != SampleType.SFU_ROOM) {
+        if (mainViewModel.sampleType == SampleType.P2P_ROOM || mainViewModel.sampleType == SampleType.AUTO_SUBSCRIBE) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
@@ -70,7 +70,7 @@ fun SelectRoomScreen(
                 Text("Join P2P Room")
             }
         }
-        if (mainViewModel.sampleType != SampleType.P2P_ROOM) {
+        if (mainViewModel.sampleType == SampleType.SFU_ROOM || mainViewModel.sampleType == SampleType.AUTO_SUBSCRIBE) {
             Spacer(modifier = Modifier.height(16.dp))
             Button(
                 onClick = {
@@ -79,6 +79,17 @@ fun SelectRoomScreen(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text("Join SFU Room")
+            }
+        }
+        if (mainViewModel.sampleType == SampleType.ROOM || mainViewModel.sampleType == SampleType.AUTO_SUBSCRIBE) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(
+                onClick = {
+                    mainViewModel.joinRoom(roomName, memberName, Room.Type.DEFAULT)
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Join Room")
             }
         }
     }

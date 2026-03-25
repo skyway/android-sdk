@@ -18,6 +18,14 @@ fun MainNavigation(
                 navController = navController
             )
         }
+        composable("room_sample") {
+            SelectRoomScreen(
+                navController = navController,
+                mainViewModel = mainViewModel.apply {
+                    sampleType = SampleType.ROOM
+                }
+            )
+        }
         composable("p2p_room_sample") {
             SelectRoomScreen(
                 navController = navController,
