@@ -6,7 +6,7 @@ lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.04.01"
 skyway = "+"
-skywayVideoProcessors = "1.0.0"
+skywayVideoProcessors = "+"
 navigationCompose = "2.8.1"
 navigationRuntimeKtx = "2.8.1"
 
