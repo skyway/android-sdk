@@ -35,8 +35,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val tag = this.javaClass.simpleName
     private val applicationContext = getApplication<Application>().applicationContext
     private var isSkyWayContextSetupDone = false
-    private val appId = TODO("replace your app id here")
-    private val secretKey = TODO("replace your secret key here")
+    private val appId = SkyWayCredentials.APP_ID
+    private val secretKey = SkyWayCredentials.SECRET_KEY
     private val option = SkyWayContext.Options(
         logLevel = Logger.LogLevel.VERBOSE
     )

@@ -6,6 +6,7 @@ lifecycleRuntimeKtx = "2.8.6"
 activityCompose = "1.9.2"
 composeBom = "2024.04.01"
 skyway = "+"
+skywayVideoProcessors = "+"
 navigationCompose = "2.8.1"
 navigationRuntimeKtx = "2.8.1"
 
@@ -21,6 +22,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 skyway-room = { module = "com.ntt.skyway:room", version.ref = "skyway" }
+skyway-video-processors = { module = "com.ntt.skyway:video-processors", version.ref = "skywayVideoProcessors" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
 
