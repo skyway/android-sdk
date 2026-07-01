@@ -1,6 +1,7 @@
 package com.ntt.skyway.compose.examples
 
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -63,6 +64,14 @@ fun MainNavigation(
             val memberName = backStackEntry.arguments?.getString("memberName") ?: ""
             AutoSubRoomDetailsScreen(
                 viewModel = mainViewModel,
+                navController = navController,
+            )
+        }
+        composable("video_processors_sample") {
+            mainViewModel.sampleType = SampleType.VIDEO_PROCESSORS
+            val videoProcessorsViewModel = viewModel<VideoProcessorsViewModel>()
+            VideoProcessorsScreen(
+                viewModel = videoProcessorsViewModel,
                 navController = navController,
             )
         }

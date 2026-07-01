@@ -59,5 +59,14 @@ fun MainScreen(
         ) {
             Text("Launch Auto Subscribe Sample")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                navController.navigate("video_processors_sample")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Launch Video Processors Sample")
+        }
     }
 }
