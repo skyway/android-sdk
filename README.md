@@ -1,7 +1,6 @@
 # SkyWay Android SDK
 
 このリポジトリは、2023年1月31日にリリースされたSkyWayの Android SDK です。  
-旧SkyWayの Android SDK とは互換性がありません。
 
 ## ドキュメント
 
