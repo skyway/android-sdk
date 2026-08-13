@@ -1,0 +1,1 @@
+sourceset_dependencies = '{":video-processors:dokkaHtmlPartial/main":[],":video-processors:dokkaHtmlPartial/release":[],":ai-noise-canceller:dokkaHtmlPartial/main":[],":ai-noise-canceller:dokkaHtmlPartial/release":[],":room:dokkaHtmlPartial/main":[],":room:dokkaHtmlPartial/release":[]}'
