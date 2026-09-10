@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.ntt.skyway.compose.examples"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ntt.skyway.compose.examples"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 

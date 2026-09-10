@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.ntt.skyway.example.quickstart"
-    compileSdk = 34
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ntt.skyway.example.quickstart"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0"
 
