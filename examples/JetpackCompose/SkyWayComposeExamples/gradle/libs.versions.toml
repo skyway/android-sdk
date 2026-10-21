@@ -1,14 +1,15 @@
 [versions]
-agp = "8.6.0"
-kotlin = "1.9.0"
+agp = "8.9.1"
+kotlin = "2.0.20"
 coreKtx = "1.13.1"
 lifecycleRuntimeKtx = "2.8.6"
-activityCompose = "1.9.2"
+activityCompose = "1.13.0"
 composeBom = "2024.04.01"
 skyway = "+"
 skywayVideoProcessors = "1.0.1"
 navigationCompose = "2.8.1"
 navigationRuntimeKtx = "2.8.1"
+corePip = "1.0.0-alpha02"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,9 +26,11 @@ skyway-room = { module = "com.ntt.skyway:room", version.ref = "skyway" }
 skyway-video-processors = { module = "com.ntt.skyway:video-processors", version.ref = "skywayVideoProcessors" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "navigationCompose" }
 androidx-navigation-runtime-ktx = { group = "androidx.navigation", name = "navigation-runtime-ktx", version.ref = "navigationRuntimeKtx" }
+androidx-core-pip = { group = "androidx.core", name = "core-pip", version.ref = "corePip" }
 
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 

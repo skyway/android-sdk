@@ -13,6 +13,7 @@ SkyWay Android SDK の Jetpack Compose サンプルアプリです。
 - **SFU Room Sample** — SFURoom を使った映像・音声の PubSub
 - **Auto Subscribe Sample** — Room 入室後に既存 Publication を自動サブスクライブする Web 会議サンプル
 - **Video Processors Sample** — 背景ぼかし（BlurProcessor）およびバーチャル背景（VirtualBackgroundProcessor）を使ったビデオプロセッササンプル
+- **PiP Sample** — Jetpack Picture-in-Picture ライブラリ（`androidx.core:core-pip`）を使った PiP サンプル
 
 ## 利用方法
 

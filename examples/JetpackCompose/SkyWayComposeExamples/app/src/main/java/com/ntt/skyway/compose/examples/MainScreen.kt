@@ -68,5 +68,14 @@ fun MainScreen(
         ) {
             Text("Launch Video Processors Sample")
         }
+        Spacer(modifier = Modifier.height(16.dp))
+        Button(
+            onClick = {
+                navController.navigate("pip_sample")
+            },
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Launch PiP Sample")
+        }
     }
 }

@@ -6,5 +6,6 @@ enum class SampleType(val displayName: String) {
     P2P_ROOM("P2P Room"),
     SFU_ROOM("SFU Room"),
     AUTO_SUBSCRIBE("Auto Subscribe"),
-    VIDEO_PROCESSORS("Video Processors")
+    VIDEO_PROCESSORS("Video Processors"),
+    PIP("PiP")
 }
