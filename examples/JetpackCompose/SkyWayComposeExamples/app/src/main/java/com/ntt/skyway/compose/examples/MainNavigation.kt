@@ -5,6 +5,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ntt.skyway.compose.examples.pip.PipScreen
+import com.ntt.skyway.compose.examples.pip.PipViewModel
 
 @Composable
 fun MainNavigation(
@@ -72,6 +74,14 @@ fun MainNavigation(
             val videoProcessorsViewModel = viewModel<VideoProcessorsViewModel>()
             VideoProcessorsScreen(
                 viewModel = videoProcessorsViewModel,
+                navController = navController,
+            )
+        }
+        composable("pip_sample") {
+            mainViewModel.sampleType = SampleType.PIP
+            val pipViewModel = viewModel<PipViewModel>()
+            PipScreen(
+                viewModel = pipViewModel,
                 navController = navController,
             )
         }
